@@ -67,16 +67,16 @@ window.RECURSOS = [
   {
     id: "mision-ninos-4t-2026",
     titulo: "Misión para niños · 4.º trimestre 2026",
-    descripcion: "Historias misioneras de Finlandia, Croacia, Polonia y Reino Unido para cada sábado. Enlace a la descarga oficial de Misión Adventista.",
+    descripcion: "Historias misioneras de Finlandia, Croacia, Polonia y Reino Unido para cada sábado. Se reparte en la iglesia cada trimestre; más información en Misión Adventista.",
     categoria: "escuela",
     formato: "PDF",
     tipo: "gratis",
     destacado: false,
     peso: "",
-    detalles: "Enlace oficial · 13 historias",
+    detalles: "13 historias · en tu iglesia",
     etiquetas: ["escuela sabática", "misionero", "misión", "niños", "polonia", "croacia"],
     portada: "assets/img/es-mision.webp",
-    archivo: "https://am.adventistmission.org/mission-quarterlies",
+    archivo: "https://www.adventistmission.org/",
     fecha: "2026-11-02"
   },
   {

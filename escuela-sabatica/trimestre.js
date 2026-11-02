@@ -12,7 +12,7 @@ window.TRIMESTRE = {
   hasta: "2026-12-26",
   descargas: {
     lecciones: { archivo: "mailto:infantil.aula7activa@gmail.com?subject=Lecciones%20Mi%20Biblia%2C%20mi%20tesoro%20%C2%B7%209-12%20a%C3%B1os%20%C2%B7%20A%C3%B1o%20C%20%C2%B7%204.%C2%BA%20trimestre", formato: "PDF", peso: "", detalles: "Pídelo a tu iglesia o a Aula7activa", fuente: "Aula7activa", portada: "../assets/img/es-lecciones.webp" },
-    mision:    { archivo: "https://am.adventistmission.org/mission-quarterlies", formato: "PDF", peso: "", detalles: "Descarga oficial en Misión Adventista", fuente: "Misión Adventista", portada: "../assets/img/es-mision.webp" },
+    mision:    { archivo: "https://www.adventistmission.org/", formato: "PDF", peso: "", detalles: "Se reparte en tu iglesia cada trimestre", fuente: "Misión Adventista", portada: "../assets/img/es-mision.webp" },
     presentacion: { archivo: "misioneros/Aventura_Misionera_en_Croacia.pptx", formato: "PPTX", peso: "25 MB", detalles: "15 diapositivas", portada: "../assets/img/es-croacia.webp" }
   }
 };

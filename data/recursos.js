@@ -46,7 +46,7 @@ window.RECURSOS = [
     detalles: "26 juegos · 9–12 años",
     etiquetas: ["escuela sabática", "juegos", "niños", "detectives", "misión", "hechos", "pablo"],
     portada: "",
-    archivo: "escuela-sabatica/juegos/",
+    archivo: "https://joseomarcabanillasleon.github.io/escuela-sabatica/",
     fecha: "2026-11-02"
   },
   {

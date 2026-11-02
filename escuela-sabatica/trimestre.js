@@ -11,7 +11,7 @@ window.TRIMESTRE = {
   desde: "2026-10-03",
   hasta: "2026-12-26",
   descargas: {
-    lecciones: { archivo: "https://aula7activa.adventista.es/category/seccion/infantil/mi-biblia-mi-tesoro/", formato: "PDF", peso: "", detalles: "Descarga oficial en Aula7activa", fuente: "Aula7activa (AEGUAE · UAE)", portada: "../assets/img/es-lecciones.webp" },
+    lecciones: { archivo: "https://issuu.com/aula7activa/docs/mbmt_9a12_c_4t_bn", formato: "PDF", peso: "", detalles: "Edición oficial de Aula7activa en Issuu", fuente: "Issuu (Aula7activa)", portada: "../assets/img/es-lecciones.webp" },
     mision:    { archivo: "https://am.adventistmission.org/mission-quarterlies", formato: "PDF", peso: "", detalles: "Descarga oficial en Misión Adventista", fuente: "Misión Adventista", portada: "../assets/img/es-mision.webp" },
     presentacion: { archivo: "misioneros/Aventura_Misionera_en_Croacia.pptx", formato: "PPTX", peso: "25 MB", detalles: "15 diapositivas", portada: "../assets/img/es-croacia.webp" }
   }

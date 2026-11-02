@@ -2,6 +2,7 @@
 
 Web personal de recursos para descargar y compartir: Escuela Sabática, estudio bíblico, familias y educadores.
 Dominio: **https://recursosadventistas.es**
+
 Es una web estática: HTML + CSS + JavaScript, sin servidor ni base de datos. Se publica gratis con **GitHub Pages**.
 
 ## Estructura
@@ -45,6 +46,20 @@ Haz commit y push: GitHub Pages actualiza la web en ~1 minuto.
 2. Sube los juegos nuevos a `escuela-sabatica/juegos/`.
 3. Edita `escuela-sabatica/trimestre.js`: título, fechas, descargas y la lista de semanas.
 4. Actualiza las fichas correspondientes en `data/recursos.js`.
+
+## Estadísticas de visitas y descargas (GoatCounter)
+
+Anónimas y sin cookies: no hace falta aviso de cookies. Gratis para sitios no comerciales.
+
+1. Crea una cuenta en https://www.goatcounter.com/signup y elige un código (p. ej. `recursosadventistas`).
+2. En `assets/js/stats.js`, escribe ese código en `const GOATCOUNTER = "";` y haz commit y push.
+3. Mira los datos en `https://TU-CODIGO.goatcounter.com`.
+
+Qué verás:
+- **Visitas** por página: portada, Escuela Sabática y cada juego (`/escuela-sabatica/juegos/leccion-6/`).
+- **Eventos**: `descarga/<archivo>`, `abrir/<recurso>` y `compartir/<recurso>`.
+
+Con el código vacío no se envía nada. Tampoco se cuentan las visitas desde `localhost`.
 
 ## Funcionalidades
 

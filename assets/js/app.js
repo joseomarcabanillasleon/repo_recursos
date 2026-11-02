@@ -168,6 +168,7 @@
     const share = e.target.closest("[data-share]");
     if (share) {
       const url = `${location.origin}${location.pathname}?r=${encodeURIComponent(share.dataset.share)}`;
+      window.track?.(`compartir/${share.dataset.share}`, "Compartir enlace");
       try { await navigator.clipboard.writeText(url); toast("Enlace copiado"); }
       catch { prompt("Copia este enlace:", url); }
       return;
@@ -175,6 +176,7 @@
     const link = e.target.closest("a[data-id]");
     if (!link) return;
     const r = ALL.find((x) => x.id === link.dataset.id);
+    if (r && (r.formato === "Enlace" || r.tipo === "premium")) window.track?.(`abrir/${r.id}`, `Abrir: ${r.titulo}`);
     if (!r || r.tipo === "premium" || r.formato === "Enlace") return;
     const cap = CFG.captura || {};
     if (cap.activo && !(cap.recordar && store.get("lead"))) {

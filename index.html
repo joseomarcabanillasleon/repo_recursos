@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recursos · Jose Omar</title>
+  <meta name="description" content="Biblioteca de recursos gratuitos de Jose Omar: materiales bíblicos, educación para niños, inteligencia artificial, datos y huerto.">
+  <meta property="og:title" content="Recursos · Jose Omar">
+  <meta property="og:description" content="Materiales bíblicos, educativos, de IA y de datos para descargar y compartir.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#1f3a5f">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <a class="skip" href="#biblioteca">Ir al contenido</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="./" aria-label="Inicio">
+        <span class="brand__mark" aria-hidden="true">JO</span>
+        <span class="brand__name">Jose Omar <small>Recursos</small></span>
+      </a>
+      <nav class="topnav" aria-label="Principal">
+        <a href="#biblioteca">Biblioteca</a>
+        <a href="#como-usar">Cómo usarlos</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero__grid">
+        <div>
+          <p class="eyebrow">Biblioteca abierta</p>
+          <h1 id="hero-title">Recursos que creo y comparto</h1>
+          <p class="hero__lead" id="hero-sub"></p>
+          <a class="btn btn--primary" href="#biblioteca">Explorar la biblioteca ↓</a>
+        </div>
+        <ol class="steps" aria-label="Cómo funciona">
+          <li><span>1</span><div><strong>Elige</strong> un recurso por tema o formato.</div></li>
+          <li><span>2</span><div><strong>Descárgalo</strong> gratis, sin crear cuenta.</div></li>
+          <li><span>3</span><div><strong>Úsalo y compártelo</strong> citando la fuente.</div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="biblioteca" class="library">
+      <div class="wrap">
+        <div class="toolbar">
+          <label class="search">
+            <span class="sr-only">Buscar recursos</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="q" type="search" placeholder="Buscar recursos…" autocomplete="off">
+          </label>
+          <div class="selects">
+            <label><span class="sr-only">Formato</span>
+              <select id="f-formato"><option value="">Todos los formatos</option></select>
+            </label>
+            <label><span class="sr-only">Tipo</span>
+              <select id="f-tipo">
+                <option value="">Gratis y premium</option>
+                <option value="gratis">Gratis</option>
+                <option value="premium">Premium</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="chips" id="chips" role="group" aria-label="Categorías"></div>
+
+        <p class="count" id="count" aria-live="polite"></p>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="empty" id="empty" hidden>
+          <p><strong>No hay recursos con esos filtros.</strong></p>
+          <button class="btn btn--ghost" type="button" id="clear">Limpiar filtros</button>
+        </div>
+
+        <div class="more">
+          <button class="btn btn--ghost" type="button" id="more" hidden>Ver más recursos ↓</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-usar" class="howto">
+      <div class="wrap howto__grid">
+        <div>
+          <h2>Cómo puedes usar estos recursos</h2>
+          <p>Están pensados para familias, iglesias, educadores y profesionales. Puedes usarlos libremente en casa, en clase o en tu equipo.</p>
+        </div>
+        <ul class="rules">
+          <li class="ok">Imprimirlos y usarlos en casa, la iglesia o el aula.</li>
+          <li class="ok">Compartir el enlace a esta página.</li>
+          <li class="ok">Adaptarlos citando al autor.</li>
+          <li class="no">Venderlos o redistribuirlos como propios.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <strong>Jose Omar</strong>
+        <p class="muted" id="license"></p>
+      </div>
+      <nav class="social" id="social" aria-label="Redes"></nav>
+    </div>
+  </footer>
+
+  <!-- Modal de correo (solo si CONFIG.captura.activo = true) -->
+  <dialog class="modal" id="modal" aria-labelledby="modal-title">
+    <form method="dialog" class="modal__close"><button aria-label="Cerrar">✕</button></form>
+    <div id="modal-form-view">
+      <p class="eyebrow">Llévatelo gratis</p>
+      <h2 id="modal-title">¿A qué correo te aviso de nuevos recursos?</h2>
+      <p class="muted" id="modal-resource"></p>
+      <form id="lead-form">
+        <label class="field"><span>Correo electrónico</span>
+          <input type="email" name="email" required placeholder="tu@correo.com" autocomplete="email">
+        </label>
+        <label class="check">
+          <input type="checkbox" name="consent" required>
+          <span>Acepto recibir este recurso y novedades ocasionales. Puedo darme de baja cuando quiera.</span>
+        </label>
+        <button class="btn btn--primary btn--block" type="submit">Enviar y descargar</button>
+        <p class="form-error" id="form-error" hidden>No se pudo enviar. Puedes descargar igualmente.</p>
+      </form>
+    </div>
+    <div id="modal-ok-view" hidden>
+      <p class="eyebrow">¡Gracias!</p>
+      <h2>Tu recurso ya está listo.</h2>
+      <a class="btn btn--primary btn--block" id="modal-download" href="#" download>Descargar ahora ↓</a>
+    </div>
+  </dialog>
+
+  <script src="assets/js/config.js"></script>
+  <script src="data/recursos.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

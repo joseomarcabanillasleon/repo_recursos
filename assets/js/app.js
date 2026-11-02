@@ -36,7 +36,6 @@
   }
 
   /* ---------- Textos generales ---------- */
-  if (CFG.titulo) $("#hero-title").textContent = CFG.titulo;
   $("#hero-sub").textContent = CFG.subtitulo || "";
   if (CFG.licencia) {
     $("#license").innerHTML = `© ${new Date().getFullYear()} ${esc(CFG.autor)} · Materiales propios bajo licencia ` +

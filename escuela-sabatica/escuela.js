@@ -8,6 +8,7 @@
   const parts = (iso) => iso.split("-").map(Number);
   const corta = (iso) => { const [, m, d] = parts(iso); return { d, m: MESES[m - 1] }; };
   const larga = (iso) => { const [, m, d] = parts(iso); return `Sábado ${d} de ${MESES_L[m - 1]}`; };
+  const icono = (juego) => `juegos/${encodeURIComponent(juego)}/icon-192.png`;
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } }
@@ -33,25 +34,34 @@
   const hoy = new Date(); const pad = (n) => String(n).padStart(2, "0");
   const hoyISO = `${hoy.getFullYear()}-${pad(hoy.getMonth() + 1)}-${pad(hoy.getDate())}`;
   const actual = W.find((w) => w.fecha >= hoyISO);
-  const estado = (w) => !actual ? "is-past" : w.fecha < actual.fecha ? "is-past" : w === actual ? "is-now" : "";
+  const estado = (w) => !actual || w.fecha < actual.fecha ? "is-past" : w === actual ? "is-now" : "";
+  const marca = (w) => w === actual ? `<span class="week__now">Este sábado</span>` : "";
 
   /* Este sábado */
   if (actual) {
     $("#today").innerHTML = `
-      <h2 id="hoy-titulo">Este sábado</h2>
-      <p class="today__date">${larga(actual.fecha)} · Semana ${actual.semana}</p>
+      <div class="today__head">
+        <h2 id="hoy-titulo">Este sábado</h2>
+        <p class="today__date">${larga(actual.fecha)} · Semana ${actual.semana} de ${W.length}</p>
+      </div>
       <div class="today__grid">
-        <div class="today__item">
-          <span class="kind">🌍 Misionero · ${esc(actual.mision.pais)}</span>
-          <h3>${esc(actual.mision.titulo)}</h3>
-          <p>Juego: ${esc(actual.mision.juegoTitulo)}. ${esc(actual.mision.juegoDesc)}</p>
-          <a class="btn btn--primary" href="juegos/${esc(actual.mision.juego)}/">Jugar la misión ▶</a>
+        <div class="today__item today__item--mision">
+          <img src="${icono(actual.mision.juego)}" alt="" width="88" height="88">
+          <div>
+            <span class="kind">Misionero · ${esc(actual.mision.pais)}</span>
+            <h3>${esc(actual.mision.titulo)}</h3>
+            <p>Juego: «${esc(actual.mision.juegoTitulo)}». ${esc(actual.mision.juegoDesc)}.</p>
+            <a class="btn btn--primary" href="juegos/${esc(actual.mision.juego)}/">Jugar la misión</a>
+          </div>
         </div>
-        <div class="today__item">
-          <span class="kind">📖 Lección ${actual.leccion.numero}</span>
-          <h3>${esc(actual.leccion.titulo)}</h3>
-          <p>Juego: ${esc(actual.leccion.juegoTitulo)}. ${esc(actual.leccion.juegoDesc)}</p>
-          <a class="btn btn--primary" href="juegos/${esc(actual.leccion.juego)}/">Jugar la lección ▶</a>
+        <div class="today__item today__item--leccion">
+          <img src="${icono(actual.leccion.juego)}" alt="" width="88" height="88">
+          <div>
+            <span class="kind">Lección ${actual.leccion.numero}</span>
+            <h3>${esc(actual.leccion.titulo)}</h3>
+            <p>Juego: «${esc(actual.leccion.juegoTitulo)}». ${esc(actual.leccion.juegoDesc)}.</p>
+            <a class="btn btn--primary" href="juegos/${esc(actual.leccion.juego)}/">Jugar la lección</a>
+          </div>
         </div>
       </div>`;
   } else {
@@ -61,8 +71,8 @@
   /* Descargas */
   const dl = (d, titulo) => `
     <a class="dl" href="${esc(d.archivo)}" download>
-      <span class="dl__icon dl__icon--${d.formato.toLowerCase()}">${esc(d.formato)}</span>
-      <span><strong>${esc(titulo)}</strong><small>${esc(d.detalles)} · ${esc(d.peso)} · Descargar ↓</small></span>
+      <img src="${esc(d.portada)}" alt="" width="120" height="68" loading="lazy">
+      <span><strong>${esc(titulo)}</strong><small>${esc(d.formato)} · ${esc(d.detalles)} · ${esc(d.peso)}</small><span class="go">Descargar ↓</span></span>
     </a>`;
   $("#dl-lecciones").innerHTML = dl(T.descargas.lecciones, `Libro de lecciones «${T.titulo}»`);
   $("#dl-misioneros").innerHTML = dl(T.descargas.mision, "Misión para niños · historias del trimestre")
@@ -73,20 +83,25 @@
   $("#list-lecciones").innerHTML = W.map((w) => `
     <li class="week ${estado(w)}">
       ${fecha(w)}
-      <div class="week__main"><span class="tag">Lección ${w.leccion.numero}</span><h3>${esc(w.leccion.titulo)}</h3></div>
+      <div class="week__main"><span class="tag">Lección ${w.leccion.numero}</span>${marca(w)}<h3>${esc(w.leccion.titulo)}</h3></div>
       <a class="btn btn--ghost" href="juegos/${esc(w.leccion.juego)}/">Juego ▶</a>
     </li>`).join("");
   $("#list-misioneros").innerHTML = W.map((w) => `
     <li class="week ${estado(w)}">
       ${fecha(w)}
-      <div class="week__main"><span class="tag">${esc(w.mision.pais)}</span><h3>${esc(w.mision.titulo)}</h3></div>
+      <div class="week__main"><span class="tag">${esc(w.mision.pais)}</span>${marca(w)}<h3>${esc(w.mision.titulo)}</h3></div>
       <a class="btn btn--ghost" href="juegos/${esc(w.mision.juego)}/">Juego ▶</a>
     </li>`).join("");
+  const celda = (j, tag) => `
+      <a class="game-cell" href="juegos/${esc(j.juego)}/">
+        <img src="${icono(j.juego)}" alt="" width="52" height="52" loading="lazy">
+        <span><span class="tag">${esc(tag)}</span><strong>${esc(j.juegoTitulo)}</strong><small>${esc(j.juegoDesc)}</small></span>
+      </a>`;
   $("#list-juegos").innerHTML = W.map((w) => `
     <li class="week ${estado(w)}">
       ${fecha(w)}
-      <a class="game-cell" href="juegos/${esc(w.mision.juego)}/"><span class="tag">Misión · ${esc(w.mision.pais)}</span><strong>${esc(w.mision.juegoTitulo)}</strong><small>${esc(w.mision.juegoDesc)}</small></a>
-      <a class="game-cell" href="juegos/${esc(w.leccion.juego)}/"><span class="tag">Lección ${w.leccion.numero}</span><strong>${esc(w.leccion.juegoTitulo)}</strong><small>${esc(w.leccion.juegoDesc)}</small></a>
+      ${celda(w.mision, `Misión · ${w.mision.pais}`)}
+      ${celda(w.leccion, `Lección ${w.leccion.numero}`)}
     </li>`).join("");
 
   /* Pestañas accesibles (flechas izquierda/derecha) */
@@ -109,5 +124,5 @@
     });
   });
   const inicial = tabs.find((b) => "#" + b.id.replace("tab-", "") === location.hash);
-  if (inicial) select(inicial);
+  if (inicial) { select(inicial); document.getElementById("semanas").scrollIntoView(); }
 })();

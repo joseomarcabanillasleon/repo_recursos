@@ -10,9 +10,9 @@ window.TRIMESTRE = {
   desde: "2026-10-03",
   hasta: "2026-12-26",
   descargas: {
-    lecciones: { archivo: "lecciones/Mi_Biblia_mi_tesoro_9-12_4T_2026.pdf", formato: "PDF", peso: "45 MB", detalles: "13 lecciones · 86 páginas" },
-    mision:    { archivo: "misioneros/Mision_Ninos_4T_2026.pdf", formato: "PDF", peso: "4,1 MB", detalles: "13 historias" },
-    presentacion: { archivo: "misioneros/Aventura_Misionera_en_Croacia.pptx", formato: "PPTX", peso: "25 MB", detalles: "15 diapositivas" }
+    lecciones: { archivo: "lecciones/Mi_Biblia_mi_tesoro_9-12_4T_2026.pdf", formato: "PDF", peso: "45 MB", detalles: "13 lecciones · 86 páginas", portada: "../assets/img/es-lecciones.webp" },
+    mision:    { archivo: "misioneros/Mision_Ninos_4T_2026.pdf", formato: "PDF", peso: "4,1 MB", detalles: "13 historias", portada: "../assets/img/es-mision.webp" },
+    presentacion: { archivo: "misioneros/Aventura_Misionera_en_Croacia.pptx", formato: "PPTX", peso: "25 MB", detalles: "15 diapositivas", portada: "../assets/img/es-croacia.webp" }
   }
 };
 

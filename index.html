@@ -9,12 +9,13 @@
   <meta property="og:description" content="Lecciones, historias misioneras, juegos y materiales bíblicos para descargar y compartir.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://recursosadventistas.es/">
+  <meta property="og:image" content="https://recursosadventistas.es/assets/img/es-juegos.webp">
   <link rel="canonical" href="https://recursosadventistas.es/">
-  <meta name="theme-color" content="#1f3a5f">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <meta name="theme-color" content="#243247">
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -22,27 +23,37 @@
 
   <header class="topbar">
     <div class="wrap topbar__inner">
-      <a class="brand" href="./" aria-label="Inicio">
-        <span class="brand__mark" aria-hidden="true">RA</span>
-        <span class="brand__name">Recursos <small>Adventistas</small></span>
+      <a class="brand" href="./" aria-label="Recursos Adventistas, inicio">
+        <img class="brand__logo" src="assets/img/logo.svg" alt="">
+        <span class="brand__name">Recursos<small>Adventistas</small></span>
       </a>
       <nav class="topnav" aria-label="Principal">
         <a href="escuela-sabatica/">Escuela Sabática</a>
         <a href="#biblioteca">Biblioteca</a>
         <a href="#como-usar">Cómo usarlos</a>
-        <button class="theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema">◐</button>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="hero">
+      <div class="hero__deco" aria-hidden="true">
+          <svg class="leaf leaf--1" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3C10 3 4 9 4 17c0 1.4.3 2.6.7 3.6C7 13 12 9 17 7c-4 3-8 7-10 14 9 1 13-6 13-18z" fill="#ffa974"/></svg>
+          <svg class="leaf leaf--2" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3C10 3 4 9 4 17c0 1.4.3 2.6.7 3.6C7 13 12 9 17 7c-4 3-8 7-10 14 9 1 13-6 13-18z" fill="#5bb0e3"/></svg>
+          <svg class="leaf leaf--3" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3C10 3 4 9 4 17c0 1.4.3 2.6.7 3.6C7 13 12 9 17 7c-4 3-8 7-10 14 9 1 13-6 13-18z" fill="#ffffff"/></svg>
+          <svg class="leaf leaf--4" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3C10 3 4 9 4 17c0 1.4.3 2.6.7 3.6C7 13 12 9 17 7c-4 3-8 7-10 14 9 1 13-6 13-18z" fill="#f3793b"/></svg>
+          <svg class="leaf leaf--5" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3C10 3 4 9 4 17c0 1.4.3 2.6.7 3.6C7 13 12 9 17 7c-4 3-8 7-10 14 9 1 13-6 13-18z" fill="#ffffff"/></svg>
+      </div>
       <div class="wrap hero__grid">
         <div>
-          <p class="eyebrow">Biblioteca abierta</p>
-          <h1 id="hero-title">Recursos que creo y comparto</h1>
+          <p class="eyebrow">Biblioteca abierta y gratuita</p>
+          <h1 id="hero-title">Recursos para enseñar y <em>crecer en la fe</em></h1>
           <p class="hero__lead" id="hero-sub"></p>
-          <a class="btn btn--primary" href="#biblioteca">Explorar la biblioteca ↓</a>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="escuela-sabatica/">Escuela Sabática</a>
+            <a class="btn btn--outline-light btn--plain" href="#biblioteca">Ver la biblioteca ↓</a>
+          </div>
         </div>
         <ol class="steps" aria-label="Cómo funciona">
           <li><span>1</span><div><strong>Elige</strong> un recurso por tema o formato.</div></li>
@@ -50,22 +61,41 @@
           <li><span>3</span><div><strong>Úsalo y compártelo</strong> citando la fuente.</div></li>
         </ol>
       </div>
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path class="w-band" d="M0,78 C360,18 900,8 1440,52 L1440,120 L0,120 Z"/>
+        <path class="w-base" d="M0,104 C380,48 920,38 1440,84 L1440,120 L0,120 Z"/>
+      </svg>
     </section>
 
-    <section class="wrap" aria-label="Destacado">
-      <a class="feature" href="escuela-sabatica/">
-        <span class="feature__icon" aria-hidden="true">⛪</span>
-        <span class="feature__text">
-          <span class="eyebrow">Escuela Sabática · 4.º trimestre 2026</span>
-          <strong>Mi Biblia, mi tesoro · Menores 9–12 años</strong>
-          <span class="muted">Lecciones, historias misioneras y 26 juegos de detectives, semana a semana.</span>
-        </span>
-        <span class="btn btn--primary">Entrar →</span>
-      </a>
+    <section class="wrap tiles" aria-labelledby="tiles-label">
+      <p class="tiles__label" id="tiles-label">Escuela Sabática · 4.º trimestre 2026</p>
+      <div class="tiles__grid">
+        <a class="tile" href="escuela-sabatica/">
+          <span class="tile__img t-peach"><img src="escuela-sabatica/juegos/leccion-6/icon-512.png" alt=""></span>
+          <span class="tile__body"><strong>Este sábado</strong><span>Lección y misión de la semana</span></span>
+        </a>
+        <a class="tile" href="escuela-sabatica/#lecciones">
+          <span class="tile__img t-sand"><img src="escuela-sabatica/juegos/leccion-1/icon-512.png" alt=""></span>
+          <span class="tile__body"><strong>Lecciones</strong><span>13 semanas · 9–12 años</span></span>
+        </a>
+        <a class="tile" href="escuela-sabatica/#misioneros">
+          <span class="tile__img t-sky"><img src="escuela-sabatica/juegos/mision-kompas/icon-512.png" alt=""></span>
+          <span class="tile__body"><strong>Misioneros</strong><span>Historias de 4 países</span></span>
+        </a>
+        <a class="tile" href="escuela-sabatica/juegos/">
+          <span class="tile__img t-mint"><img src="escuela-sabatica/juegos/mision-19-dic/icon-512.png" alt=""></span>
+          <span class="tile__body"><strong>Juegos</strong><span>26 casos de detectives</span></span>
+        </a>
+      </div>
     </section>
 
     <section id="biblioteca" class="library">
       <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Biblioteca</p>
+          <h2>Todo lo que puedes descargar</h2>
+          <p>Busca por tema, formato o palabra clave.</p>
+        </div>
         <div class="toolbar">
           <label class="search">
             <span class="sr-only">Buscar recursos</span>
@@ -87,32 +117,32 @@
         </div>
 
         <div class="chips" id="chips" role="group" aria-label="Categorías"></div>
-
         <p class="count" id="count" aria-live="polite"></p>
-
         <div class="grid" id="grid"></div>
 
         <div class="empty" id="empty" hidden>
           <p><strong>No hay recursos con esos filtros.</strong></p>
           <button class="btn btn--ghost" type="button" id="clear">Limpiar filtros</button>
         </div>
-
         <div class="more">
           <button class="btn btn--ghost" type="button" id="more" hidden>Ver más recursos ↓</button>
         </div>
       </div>
     </section>
 
-    <section id="como-usar" class="howto">
-      <div class="wrap howto__grid">
-        <div>
+    <section id="como-usar" class="band-sky">
+      <span class="cloud cloud--1" aria-hidden="true"></span>
+      <span class="cloud cloud--2" aria-hidden="true"></span>
+      <span class="cloud cloud--3" aria-hidden="true"></span>
+      <div class="wrap">
+        <div class="section-head">
           <h2>Cómo puedes usar estos recursos</h2>
-          <p>Están pensados para familias, iglesias, educadores y profesionales. Puedes usarlos libremente en casa, en clase o en tu equipo.</p>
+          <p>Pensados para familias, iglesias y educadores. Úsalos con libertad en casa, en clase o en tu grupo.</p>
         </div>
         <ul class="rules">
           <li class="ok">Imprimirlos y usarlos en casa, la iglesia o el aula.</li>
           <li class="ok">Compartir el enlace a esta página.</li>
-          <li class="ok">Adaptarlos citando al autor.</li>
+          <li class="ok">Adaptar los materiales propios citando al autor.</li>
           <li class="no">Venderlos o redistribuirlos como propios.</li>
         </ul>
       </div>
@@ -123,8 +153,8 @@
     <div class="wrap footer__inner">
       <div>
         <strong>Recursos Adventistas</strong> · por Jose Omar
-        <p class="muted" id="license"></p>
-        <p class="muted">Sitio personal, sin relación oficial con la Iglesia Adventista del Séptimo Día.</p>
+        <p id="license"></p>
+        <p>Sitio personal, sin relación oficial con la Iglesia Adventista del Séptimo Día.</p>
       </div>
       <nav class="social" id="social" aria-label="Redes"></nav>
     </div>
@@ -152,7 +182,7 @@
     <div id="modal-ok-view" hidden>
       <p class="eyebrow">¡Gracias!</p>
       <h2>Tu recurso ya está listo.</h2>
-      <a class="btn btn--primary btn--block" id="modal-download" href="#" download>Descargar ahora ↓</a>
+      <a class="btn btn--primary btn--block" id="modal-download" href="#" download>Descargar ahora</a>
     </div>
   </dialog>
 

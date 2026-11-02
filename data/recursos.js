@@ -45,7 +45,7 @@ window.RECURSOS = [
     peso: "",
     detalles: "26 juegos · 9–12 años",
     etiquetas: ["escuela sabática", "juegos", "niños", "detectives", "misión", "hechos", "pablo"],
-    portada: "",
+    portada: "assets/img/es-juegos.webp",
     archivo: "escuela-sabatica/juegos/",
     fecha: "2026-11-02"
   },
@@ -60,7 +60,7 @@ window.RECURSOS = [
     peso: "45 MB",
     detalles: "13 lecciones · 86 páginas",
     etiquetas: ["escuela sabática", "lecciones", "niños", "hechos", "pablo", "trimestre"],
-    portada: "",
+    portada: "assets/img/es-lecciones.webp",
     archivo: "escuela-sabatica/lecciones/Mi_Biblia_mi_tesoro_9-12_4T_2026.pdf",
     fecha: "2026-11-02"
   },
@@ -75,7 +75,7 @@ window.RECURSOS = [
     peso: "4,1 MB",
     detalles: "13 historias",
     etiquetas: ["escuela sabática", "misionero", "misión", "niños", "polonia", "croacia"],
-    portada: "",
+    portada: "assets/img/es-mision.webp",
     archivo: "escuela-sabatica/misioneros/Mision_Ninos_4T_2026.pdf",
     fecha: "2026-11-02"
   },
@@ -90,7 +90,7 @@ window.RECURSOS = [
     peso: "25 MB",
     detalles: "15 diapositivas",
     etiquetas: ["escuela sabática", "misionero", "croacia", "presentación"],
-    portada: "",
+    portada: "assets/img/es-croacia.webp",
     archivo: "escuela-sabatica/misioneros/Aventura_Misionera_en_Croacia.pptx",
     fecha: "2026-11-02"
   }

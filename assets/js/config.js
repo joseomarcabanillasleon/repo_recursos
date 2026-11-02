@@ -5,9 +5,9 @@
  */
 window.CONFIG = {
   autor: "Jose Omar",
-  titulo: "Recursos que creo y comparto",
+  titulo: "Recursos para enseñar y crecer en la fe",
   subtitulo:
-    "Materiales bíblicos, educativos, de IA y de datos. Descárgalos, úsalos y compártelos.",
+    "Materiales para Escuela Sabática, estudio bíblico y familias. Descárgalos, úsalos y compártelos.",
 
   // Licencia que se muestra en el pie. Cambia si prefieres otra.
   licencia: {

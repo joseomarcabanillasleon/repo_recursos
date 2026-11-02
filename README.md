@@ -1,6 +1,7 @@
-# Recursos · Jose Omar
+# Recursos Adventistas
 
-Biblioteca web de recursos para descargar y compartir (materiales bíblicos, niños y familia, IA, datos y huerto).
+Web personal de recursos para descargar y compartir: Escuela Sabática, estudio bíblico, familias y educadores.
+Dominio: **https://recursosadventistas.es**
 Es una web estática: HTML + CSS + JavaScript, sin servidor ni base de datos. Se publica gratis con **GitHub Pages**.
 
 ## Estructura
@@ -12,6 +13,9 @@ assets/js/config.js   → textos generales, redes, licencia, captura de correo
 assets/js/app.js      → buscador, filtros, tarjetas, modal (no hace falta tocarlo)
 data/recursos.js      → ⭐ EL CATÁLOGO: aquí añades tus recursos
 archivos/             → los PDF/ZIP que se descargan
+escuela-sabatica/     → apartado Escuela Sabática (página propia, lecciones, misioneros y juegos)
+  trimestre.js        → ⭐ datos semana a semana del trimestre
+CNAME                 → dominio propio para GitHub Pages
 assets/img/           → portadas de los recursos (opcional)
 ```
 
@@ -25,15 +29,22 @@ assets/img/           → portadas de los recursos (opcional)
 
 Haz commit y push: GitHub Pages actualiza la web en ~1 minuto.
 
-## Publicar con GitHub Pages
+## Publicar con GitHub Pages y el dominio recursosadventistas.es
 
-1. En GitHub: **Settings → Pages**.
-2. *Source*: **Deploy from a branch** → rama `main`, carpeta `/ (root)` → **Save**.
-3. La web quedará en `https://joseomarcabanillasleon.github.io/repo_recursos/`.
-   Consejo: renombra el repositorio (p. ej. `recursos`) para tener una URL más limpia,
-   o conecta un dominio propio en la misma pantalla.
+1. **GitHub → Settings → Pages**: *Deploy from a branch* → `main` / `(root)` → **Save**.
+   En *Custom domain* debe aparecer `recursosadventistas.es` (lo lee del archivo `CNAME`).
+2. **Hostinger → Dominios → recursosadventistas.es → DNS / Nameservers**:
+   - Borra los registros `A` y `CNAME` de aparcamiento que haya para `@` y `www`.
+   - Añade 4 registros `A` para `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
+   - Añade un `CNAME` para `www` → `joseomarcabanillasleon.github.io`.
+3. Espera a que propague (de minutos a unas horas) y en GitHub Pages marca **Enforce HTTPS**.
 
-> Si el repositorio es privado, GitHub Pages requiere un plan de pago. Con repositorio público es gratis.
+## Nuevo trimestre de Escuela Sabática
+
+1. Sube el PDF de lecciones a `escuela-sabatica/lecciones/` y el de misión a `escuela-sabatica/misioneros/`.
+2. Sube los juegos nuevos a `escuela-sabatica/juegos/`.
+3. Edita `escuela-sabatica/trimestre.js`: título, fechas, descargas y la lista de semanas.
+4. Actualiza las fichas correspondientes en `data/recursos.js`.
 
 ## Funcionalidades
 

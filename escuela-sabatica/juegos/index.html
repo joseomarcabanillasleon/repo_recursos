@@ -99,7 +99,7 @@ if(standalone())$("#fsBtn").style.display="none";
 function showInstall(){const o=$("#ov");o.innerHTML=`<div class="ovcard"><div style="font-family:var(--type);font-size:36px;text-align:center;margin-bottom:10px">Pantalla completa</div>${isIOS?`Instálalo como app:<br><b>1.</b> Ábrelo en <b>Safari</b>.<br><b>2.</b> Toca <b>Compartir</b> → <b>Añadir a pantalla de inicio</b>.<br><b>3.</b> Abre el icono <b>Mi Biblia, mi tesoro</b>.`:`Instálalo como app:<br><b>1.</b> En Chrome, toca el menú <b>⋮</b>.<br><b>2.</b> Elige <b>Instalar aplicación</b> o <b>Añadir a pantalla de inicio</b>.<br><b>3.</b> Abre el icono <b>Mi Biblia, mi tesoro</b>.`}<div style="text-align:center;margin-top:16px"><button class="btn" id="ovOk">¡Entendido!</button></div></div>`;o.classList.add("on");$("#ovOk").onclick=()=>o.classList.remove("on");}
 $("#fsBtn").onclick=()=>{const d=document,e=d.documentElement;if(d.fullscreenElement){d.exitFullscreen().catch(()=>{});return;}const r=e.requestFullscreen||e.webkitRequestFullscreen;if(!r){showInstall();return;}try{const p=r.call(e,{navigationUI:"hide"});if(p&&p.then)p.then(()=>{try{screen.orientation.lock("landscape").catch(()=>{});}catch(_){}}).catch(showInstall);}catch(_){showInstall();}};
 document.addEventListener("fullscreenchange",()=>setTimeout(fit,100));
-if("serviceWorker" in navigator&&location.protocol==="https:"&&location.hostname.endsWith("github.io")){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 fit();
 </script>
 </body>

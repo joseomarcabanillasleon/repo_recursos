@@ -558,7 +558,7 @@ document.addEventListener("keydown",e=>{if(e.ctrlKey||e.metaKey||e.altKey)return
  const root=$("#ov.on")||$(".screen.on");if(!root)return;const idx="abcdefgh".indexOf(k)>=0&&k.length===1?"abcdefgh".indexOf(k):"12345678".indexOf(k);
  if(idx>=0&&k.length===1){const o=[...root.querySelectorAll(".opt")].filter(vis);if(o[idx]){e.preventDefault();o[idx].click();}return;}
  if(["enter","arrowright","pagedown"," "].includes(k)){if((e.target.tagName||"").toLowerCase()==="button"&&(k==="enter"||k===" "))return;const m=[...root.querySelectorAll(".btn.main")].filter(vis).pop();if(m){e.preventDefault();m.click();}}});
-if("serviceWorker" in navigator&&location.protocol==="https:"&&location.hostname.endsWith("github.io")){navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(()=>{});}
+if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(()=>{});}
 </script>
 <script>
 /* ===== Misión · Polonia · 14 nov · CASO Nº 13: Las monedas que se multiplicaron ===== */

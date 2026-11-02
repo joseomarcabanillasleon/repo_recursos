@@ -6608,7 +6608,7 @@ SC.pres = (a = {}) => {
   const f = document.fonts && document.fonts.load ? Promise.all([document.fonts.load('700 40px Cinzel'), document.fonts.load('400 20px "Atkinson Hyperlegible"'), document.fonts.load('700 20px "Atkinson Hyperlegible"')]) : Promise.resolve();
   Promise.race([f, new Promise(r => setTimeout(r, 1500))]).then(start, start);
   document.addEventListener('pointerdown', () => Snd.unlock(), { once: true });
-  if ('serviceWorker' in navigator && location.protocol === 'https:' && location.hostname.endsWith('github.io')) { navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => { }); }
+  if ('serviceWorker' in navigator && location.protocol === 'https:') { navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => { }); }
 })();
 </script>
 </body>

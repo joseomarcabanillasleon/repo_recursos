@@ -382,7 +382,7 @@ function goFS(){const d=document,e=d.documentElement;
 $$(".fsBtn").forEach(b=>b.addEventListener("click",goFS));
 if(standalone())$$(".fsBtn").forEach(b=>b.style.display="none");
 document.addEventListener("fullscreenchange",()=>setTimeout(fit,100));
-if("serviceWorker" in navigator&&location.protocol==="https:"&&location.hostname.endsWith("github.io")){navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(()=>{});}
+if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(()=>{});}
 
 /* ---------- screens / overlay ---------- */
 function show(id,hud){const t=document.getElementById("toast");if(t)t.style.display="none";$$(".screen").forEach(s=>s.classList.toggle("on",s.id===id));$("#hud").style.display=hud?"flex":"none";resetTimers();}

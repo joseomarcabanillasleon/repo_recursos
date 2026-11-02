@@ -39,7 +39,7 @@
   if (CFG.titulo) $("#hero-title").textContent = CFG.titulo;
   $("#hero-sub").textContent = CFG.subtitulo || "";
   if (CFG.licencia) {
-    $("#license").innerHTML = `© ${new Date().getFullYear()} ${esc(CFG.autor)} · Recursos bajo licencia ` +
+    $("#license").innerHTML = `© ${new Date().getFullYear()} ${esc(CFG.autor)} · Materiales propios bajo licencia ` +
       `<a href="${esc(CFG.licencia.url)}" target="_blank" rel="noopener">${esc(CFG.licencia.nombre)}</a>`;
   }
   const redesNombres = { instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok", linkedin: "LinkedIn", github: "GitHub", email: "Correo" };
@@ -113,7 +113,10 @@
          </div>`;
     const meta = [r.formato, r.peso, r.detalles].filter(Boolean).map((m) => `<span>${esc(m)}</span>`).join("");
     const premium = r.tipo === "premium";
-    const label = premium ? "Ver recurso ↗" : isExternal(r.archivo) ? "Abrir ↗" : "Descargar ↓";
+    const ext = isExternal(r.archivo);
+    const enlace = r.formato === "Enlace" || /\/$/.test(r.archivo || "");
+    const label = premium ? "Ver recurso ↗" : ext ? "Abrir ↗" : enlace ? "Abrir ▶" : "Descargar ↓";
+    const attrs = premium || ext ? 'target="_blank" rel="noopener"' : enlace ? "" : "download";
     return `
       <article class="card" id="r-${esc(r.id)}">
         ${cover}
@@ -124,7 +127,7 @@
           <div class="meta">${meta}</div>
           <div class="card__actions">
             <a class="btn btn--primary" href="${esc(r.archivo)}" data-id="${esc(r.id)}"
-               ${premium || isExternal(r.archivo) ? 'target="_blank" rel="noopener"' : "download"}>${label}</a>
+               ${attrs}>${label}</a>
             <button class="btn btn--ghost btn--icon" type="button" data-share="${esc(r.id)}" aria-label="Copiar enlace a ${esc(r.titulo)}" title="Copiar enlace">🔗</button>
           </div>
         </div>
@@ -173,7 +176,7 @@
     const link = e.target.closest("a[data-id]");
     if (!link) return;
     const r = ALL.find((x) => x.id === link.dataset.id);
-    if (!r || r.tipo === "premium") return;
+    if (!r || r.tipo === "premium" || r.formato === "Enlace") return;
     const cap = CFG.captura || {};
     if (cap.activo && !(cap.recordar && store.get("lead"))) {
       e.preventDefault();

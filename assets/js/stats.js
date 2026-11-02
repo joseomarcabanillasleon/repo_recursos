@@ -16,7 +16,7 @@
  */
 (() => {
   "use strict";
-  const GOATCOUNTER = "";
+  const GOATCOUNTER = "recursosadventistas";
 
   const queue = [];
   const send = (e) => window.goatcounter && window.goatcounter.count ? window.goatcounter.count(e) : queue.push(e);

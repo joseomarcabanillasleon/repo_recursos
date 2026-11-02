@@ -70,3 +70,5 @@
 .tips { padding-left: 18px; color: var(--muted); margin: 10px 0 20px; }
 .tips li { margin-bottom: 6px; }
 @media (max-width: 760px) { .games-intro { grid-template-columns: 1fr; } }
+
+.source-note { font-size: 13px; color: var(--muted); margin: -12px 0 22px; max-width: 760px; }

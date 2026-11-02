@@ -38,8 +38,8 @@
   /* ---------- Textos generales ---------- */
   $("#hero-sub").textContent = CFG.subtitulo || "";
   if (CFG.licencia) {
-    $("#license").innerHTML = `© ${new Date().getFullYear()} ${esc(CFG.autor)} · Materiales propios bajo licencia ` +
-      `<a href="${esc(CFG.licencia.url)}" target="_blank" rel="noopener">${esc(CFG.licencia.nombre)}</a>`;
+    $("#license").innerHTML = `© ${new Date().getFullYear()} ${esc(CFG.autor)} · Juegos y diseños originales bajo licencia ` +
+      `<a href="${esc(CFG.licencia.url)}" target="_blank" rel="noopener">${esc(CFG.licencia.nombre)}</a>. Las historias, lecciones y textos bíblicos citados pertenecen a sus editores.`;
   }
   const redesNombres = { instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok", linkedin: "LinkedIn", github: "GitHub", email: "Correo" };
   $("#social").innerHTML = Object.entries(CFG.redes || {})

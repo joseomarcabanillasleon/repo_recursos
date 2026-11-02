@@ -37,7 +37,7 @@ window.RECURSOS = [
   {
     id: "juegos-escuela-sabatica-4t-2026",
     titulo: "Mi Biblia, mi tesoro: 26 juegos de detectives para Escuela Sabática",
-    descripcion: "Un juego por lección y otro por historia misionera del 4.º trimestre 2026, para proyectar en clase desde el móvil y que participen todos los niños.",
+    descripcion: "Un juego por lección y otro por historia misionera del 4.º trimestre 2026, para proyectar en clase desde el móvil y que participen todos los niños. Basados en las historias de Misión Adventista y en «Mi Biblia, mi tesoro».",
     categoria: "escuela",
     formato: "Enlace",
     tipo: "gratis",
@@ -82,7 +82,7 @@ window.RECURSOS = [
   {
     id: "aventura-misionera-croacia",
     titulo: "Aventura misionera en Croacia (presentación)",
-    descripcion: "Presentación para contar en clase la historia misionera de Croacia, el país de los guardianes.",
+    descripcion: "Presentación para contar en clase la historia misionera de Croacia. Basada en Misión Adventista: Niños (4.º trim. 2026) © AG / ACES; imágenes generadas con IA.",
     categoria: "escuela",
     formato: "PPTX",
     tipo: "gratis",

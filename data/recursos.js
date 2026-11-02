@@ -61,7 +61,7 @@ window.RECURSOS = [
     detalles: "Enlace oficial · 13 lecciones",
     etiquetas: ["escuela sabática", "lecciones", "niños", "hechos", "pablo", "trimestre"],
     portada: "assets/img/es-lecciones.webp",
-    archivo: "https://issuu.com/aula7activa/docs/mbmt_9a12_c_4t_bn",
+    archivo: "http://aula7activa.adventista.es/category/seccion/infantil/mi-biblia-mi-tesoro/",
     fecha: "2026-11-02"
   },
   {

@@ -69,11 +69,15 @@
   }
 
   /* Descargas */
-  const dl = (d, titulo) => `
-    <a class="dl" href="${esc(d.archivo)}" download>
+  const dl = (d, titulo) => {
+    const ext = /^https?:\/\//i.test(d.archivo);
+    const meta = [d.formato, d.detalles, d.peso].filter(Boolean).map(esc).join(" · ");
+    return `
+    <a class="dl" href="${esc(d.archivo)}" ${ext ? 'target="_blank" rel="noopener"' : "download"}>
       <img src="${esc(d.portada)}" alt="" width="120" height="68" loading="lazy">
-      <span><strong>${esc(titulo)}</strong><small>${esc(d.formato)} · ${esc(d.detalles)} · ${esc(d.peso)}</small><span class="go">Descargar ↓</span></span>
+      <span><strong>${esc(titulo)}</strong><small>${meta}</small><span class="go">${ext ? `Ir a ${esc(d.fuente || "la web oficial")} ↗` : "Descargar ↓"}</span></span>
     </a>`;
+  };
   $("#dl-lecciones").innerHTML = dl(T.descargas.lecciones, `Libro de lecciones «${T.titulo}»`);
   $("#dl-misioneros").innerHTML = dl(T.descargas.mision, "Misión para niños · historias del trimestre")
     + dl(T.descargas.presentacion, "Aventura misionera en Croacia (presentación)");

@@ -5,10 +5,15 @@ Materiales para la clase de 9–12 años (Año C), del 3 de octubre al 26 de dic
 ## Contenido
 
 ```
-lecciones/   → libro de lecciones del alumno (PDF, versión comprimida para la web)
-misioneros/  → historias misioneras para niños del trimestre (PDF) y presentación de Croacia (PPTX)
+misioneros/  → presentación de Croacia (PPTX)
 juegos/      → los 26 juegos de detectives (una lección y una misión por sábado)
 ```
+
+## Lecciones y misión: solo enlaces oficiales
+
+El libro de lecciones (© Aula7activa/AEGUAE, «No está autorizada la difusión digital») y la revista
+Misión para niños (© Asociación General / ACES, «Todos los derechos reservados») **no se alojan aquí**:
+la web enlaza a sus descargas oficiales (ver `trimestre.js`).
 
 ## Juegos
 

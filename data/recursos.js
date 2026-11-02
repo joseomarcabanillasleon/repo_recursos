@@ -52,16 +52,16 @@ window.RECURSOS = [
   {
     id: "lecciones-mi-biblia-mi-tesoro-4t-2026",
     titulo: "Lecciones «Mi Biblia, mi tesoro» · 4.º trimestre 2026",
-    descripcion: "Libro de lecciones del alumno de 9–12 años (Año C), de Aula7activa y la Unión Adventista Española. Enlace a su descarga oficial.",
+    descripcion: "Libro de lecciones del alumno de 9–12 años (Año C), de Aula7activa y la Unión Adventista Española. No se puede difundir en internet: pídelo a tu iglesia o a Aula7activa.",
     categoria: "escuela",
     formato: "PDF",
     tipo: "gratis",
     destacado: false,
     peso: "",
-    detalles: "Enlace oficial · 13 lecciones",
+    detalles: "13 lecciones · se pide por correo",
     etiquetas: ["escuela sabática", "lecciones", "niños", "hechos", "pablo", "trimestre"],
     portada: "assets/img/es-lecciones.webp",
-    archivo: "http://aula7activa.adventista.es/category/seccion/infantil/mi-biblia-mi-tesoro/",
+    archivo: "mailto:infantil.aula7activa@gmail.com?subject=Lecciones%20Mi%20Biblia%2C%20mi%20tesoro%20%C2%B7%209-12%20a%C3%B1os%20%C2%B7%20A%C3%B1o%20C%20%C2%B7%204.%C2%BA%20trimestre",
     fecha: "2026-11-02"
   },
   {

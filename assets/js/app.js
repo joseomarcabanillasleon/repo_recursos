@@ -112,10 +112,11 @@
          </div>`;
     const meta = [r.formato, r.peso, r.detalles].filter(Boolean).map((m) => `<span>${esc(m)}</span>`).join("");
     const premium = r.tipo === "premium";
+    const mail = /^mailto:/i.test(r.archivo || "");
     const ext = isExternal(r.archivo);
     const enlace = r.formato === "Enlace" || /\/$/.test(r.archivo || "");
-    const label = premium ? "Ver recurso ↗" : ext ? "Abrir ↗" : enlace ? "Abrir ▶" : "Descargar ↓";
-    const attrs = premium || ext ? 'target="_blank" rel="noopener"' : enlace ? "" : "download";
+    const label = mail ? "Pedir por correo ✉" : premium ? "Ver recurso ↗" : ext ? "Abrir ↗" : enlace ? "Abrir ▶" : "Descargar ↓";
+    const attrs = mail ? "" : premium || ext ? 'target="_blank" rel="noopener"' : enlace ? "" : "download";
     return `
       <article class="card" id="r-${esc(r.id)}">
         ${cover}

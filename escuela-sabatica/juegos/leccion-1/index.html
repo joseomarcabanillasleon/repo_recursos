@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Debate en Jerusalén · Lección 1</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2E2018">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lección 1">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@600;700&family=Andika:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3A2E26;--sepia:#6B5444;--paper:#F3EAD6;--card:#FCF9F1;--kraft:#CDB58E;--red:#A9472F;--red-d:#6E2A1A;--blue:#2F4C7A;--green-d:#2F5E2A;--gold:#F2C98A;--acc:#B88A2E;
+--type:'Special Elite','Courier New',monospace;--hand:'Caveat','Comic Sans MS',cursive;--body:'Andika','Trebuchet MS',sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#2E2018}
+body{font-family:var(--body);color:var(--ink)}
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;border-radius:10px;background:#4A3426;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.paper{position:relative;width:100%;height:100%;border-radius:6px;overflow:hidden;background-color:var(--paper);
+ background-image:radial-gradient(circle at 10% 8%,rgba(176,128,64,.18),rgba(176,128,64,0) 30%),radial-gradient(circle at 92% 92%,rgba(150,104,52,.18),rgba(150,104,52,0) 32%),linear-gradient(rgba(110,130,150,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(110,130,150,.09) 1px,transparent 1px);
+ background-size:auto,auto,24px 24px,24px 24px;box-shadow:inset 0 0 80px rgba(120,80,30,.28)}
+.tape{position:absolute;width:130px;height:32px;background:rgba(178,198,180,.8);box-shadow:0 1px 2px rgba(0,0,0,.12);z-index:1;pointer-events:none}
+h1,h2,h3{font-family:var(--type);font-weight:400;margin:0}
+.hand{font-family:var(--hand)}
+.screen{position:absolute;inset:24px 34px;display:none}
+.screen.case{top:92px}
+.screen.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+button{font:inherit;color:inherit}
+.btn{font-family:var(--type);font-size:26px;min-height:68px;padding:0 30px;border-radius:8px;border:3px solid var(--ink);background:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:12px;transition:transform .1s;white-space:nowrap}
+.btn:active{transform:translateY(3px)}
+.btn.main{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 5px 0 var(--red-d)}
+.btn.big{font-size:34px;min-height:86px;padding:0 40px}
+.btn.pulse{animation:btnpulse 1.6s ease-in-out infinite}
+@keyframes btnpulse{50%{transform:scale(1.05)}}
+.label{display:inline-block;padding:8px 16px;background:var(--kraft);font-family:var(--type);font-size:20px;letter-spacing:2px;transform:rotate(-2deg);box-shadow:0 2px 4px rgba(0,0,0,.18)}
+.bubble{position:relative;background:#FDFBF5;border:3px solid var(--ink);border-radius:22px;padding:18px 24px;font-family:var(--hand);font-size:38px;line-height:1.1;box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.bubble:after{content:"";position:absolute;left:-22px;top:34px;border:12px solid transparent;border-right:20px solid var(--ink)}
+.avatar{width:120px;height:120px;border-radius:50%;border:5px solid var(--card);box-shadow:0 6px 14px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-family:var(--type);font-size:56px;overflow:hidden;flex:none}
+.row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.hud{position:absolute;left:28px;right:28px;top:16px;height:64px;display:flex;align-items:center;gap:8px;z-index:5}
+.hud .ib{width:50px;height:50px}.hud .st{min-width:44px;height:46px;font-size:13px;padding:0 5px}.hud .turn{font-size:18px;padding:8px 14px}.hud .casebadge{font-size:14px;padding:5px 9px}
+.stops{display:flex;gap:6px}
+.st{min-width:52px;height:52px;padding:0 6px;border-radius:26px;border:3px dashed rgba(107,84,68,.55);display:flex;align-items:center;justify-content:center;font-family:var(--type);font-size:15px;color:rgba(107,84,68,.75)}
+.st.got{border:3px solid var(--acc);background:#FDFBF5;color:var(--ink);transform:rotate(-5deg)}
+.st.got:nth-child(even){transform:rotate(5deg)}
+.st.cur{border-style:solid;border-color:var(--red);color:var(--red)}
+.st.pop{animation:thud .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes thud{0%{transform:scale(2.4) rotate(-20deg);opacity:0}100%{opacity:1}}
+.turn{display:none;padding:10px 18px;border-radius:30px;color:#fff;font-family:var(--type);font-size:22px;white-space:nowrap}
+.turn.on{display:inline-flex;align-items:center;gap:10px}
+.col{white-space:nowrap;flex:none;display:flex;align-items:center;gap:6px;padding:4px 12px;background:#FDFBF5;border:2px solid var(--sepia);border-radius:30px;font-family:var(--type);font-size:22px}
+.tools{display:flex;gap:8px;margin-left:auto}
+.ib{width:56px;height:56px;border-radius:50%;border:3px solid var(--ink);background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none}
+.spacer{flex:1}
+.mapbox{position:relative;border:4px solid #5B4636;border-radius:6px;overflow:hidden;background:#CFE0E3;box-shadow:0 8px 18px rgba(0,0,0,.22)}
+.mapbox svg{display:block;width:100%;height:100%;touch-action:none;user-select:none;-webkit-user-select:none}
+.c{stroke:#5B4636;stroke-width:.9;stroke-linejoin:round;vector-effect:non-scaling-stroke;transition:fill .25s}
+.tapmap .c{cursor:pointer}
+.c.ok{fill:#6E9E5B!important}.c.bad{fill:#C4553F!important}
+.mk{cursor:pointer}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.opt{min-height:88px;padding:10px 16px;border:3px solid var(--ink);border-radius:10px;background:#E9D9B5;font-family:var(--type);font-size:26px;cursor:pointer;display:flex;align-items:center;gap:14px;text-align:left;box-shadow:0 4px 0 #9E8458;transition:transform .1s;line-height:1.15}
+.opt:active{transform:translateY(3px)}
+.opt .let{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}
+.opt.ok{background:#8FC07F;border-color:var(--green-d)}
+.opt.bad{background:#E8B7A8;border-color:#9E2F28;opacity:.6}
+.opt:disabled{cursor:default}
+.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.clue{background:#FDFBF5;border:3px solid var(--ink);border-radius:12px;padding:14px 18px;display:flex;gap:16px;align-items:center;box-shadow:0 5px 12px rgba(0,0,0,.15)}
+.clue .t{font-family:var(--hand);font-size:34px;line-height:1.05}
+.ref{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:var(--blue);color:#F5F0E4;font-family:var(--type);font-size:20px}
+#ov{position:absolute;inset:0;background:rgba(46,32,24,.55);display:none;align-items:center;justify-content:center;z-index:20}
+#ov.on{display:flex;animation:fade .25s}
+.ovcard{background:var(--paper);border-radius:10px;padding:30px 44px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;gap:16px;max-width:980px;position:relative}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:21}
+.confetti i{position:absolute;top:-20px;width:14px;height:22px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(780px) rotate(540deg)}}
+.tiles{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.tile{min-height:76px;padding:8px 20px;border:3px solid var(--ink);border-radius:10px;background:#FDFBF5;font-family:var(--type);font-size:28px;cursor:pointer;box-shadow:0 4px 0 #9E8458;display:inline-flex;align-items:center;gap:10px}
+.tile.sel{background:var(--gold)}
+.tile.done{background:#8FC07F;border-color:var(--green-d);cursor:default}
+.tile.used{visibility:hidden}
+.evt{width:100%;height:230px;border:3px solid var(--ink);border-radius:12px;background:#FDFBF5;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px;box-shadow:0 5px 0 #9E8458;position:relative}
+.evt .cap{font-family:var(--hand);font-size:30px;line-height:1;text-align:center}
+.evt .num{position:absolute;top:-18px;left:-18px;width:52px;height:52px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--type);font-size:30px;display:none;align-items:center;justify-content:center;border:3px solid #FDFBF5}
+.evt.placed{background:#EAF2E2;border-color:var(--green-d)}
+.evt.placed .num{display:flex}
+.line{min-height:96px;border:3px dashed var(--sepia);border-radius:12px;background:#FDFBF5;padding:12px 18px;font-family:var(--hand);font-size:44px;line-height:1.1;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.teams{display:flex;gap:10px}
+.tm{white-space:nowrap;min-height:64px;padding:0 18px;border:3px solid var(--ink);border-radius:32px;background:#FDFBF5;font-family:var(--type);font-size:22px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.tm.sel{background:var(--ink);color:var(--paper)}
+.dot{width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #FDFBF5}
+.panel{position:absolute;width:370px;background:var(--card);padding:12px 12px 16px;box-shadow:0 10px 22px rgba(0,0,0,.28);transition:opacity .5s,transform .5s}
+.panel.hidden{opacity:0;transform:translateY(30px)!important}
+.panel .art{height:300px;background:#E9DCC0;display:flex;align-items:center;justify-content:center}
+.panel .cap{font-family:var(--hand);font-size:34px;text-align:center;margin-top:8px;line-height:1.05}
+.timer{min-height:64px;padding:0 20px;border-radius:8px;border:3px solid var(--blue);background:#E6ECF5;color:var(--blue);font-family:var(--type);font-size:24px;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+.timer.run{background:var(--blue);color:#fff}.timer.end{background:var(--gold);color:var(--ink)}
+#rot{position:fixed;inset:0;background:#2E2018;color:#F3EAD6;display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;z-index:50;font-family:var(--type);padding:30px}
+#rot.on{display:flex}
+.tfcard{background:#FDFBF5;border:4px solid var(--ink);border-radius:16px;padding:30px 40px;font-family:var(--hand);font-size:50px;line-height:1.1;text-align:center;box-shadow:0 8px 18px rgba(0,0,0,.18);min-height:200px;display:flex;align-items:center;justify-content:center}
+.tfb{min-height:100px;min-width:280px;border-radius:14px;border:4px solid var(--ink);font-family:var(--type);font-size:34px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+/* ---------- detective 3D ---------- */
+#wrap{background:#2a1c14 repeating-linear-gradient(92deg,rgba(255,255,255,.025) 0 3px,rgba(0,0,0,.04) 3px 9px),radial-gradient(circle at 50% 40%,#5a3d2b,#24170f 75%)}
+.paper{perspective:1600px}
+.screen.on{animation:fileIn .55s cubic-bezier(.2,.9,.3,1.1);transform-origin:50% 0}
+@keyframes fileIn{0%{opacity:0;transform:perspective(1400px) rotateX(-18deg) translateY(40px) translateZ(-120px)}100%{opacity:1;transform:none}}
+.opts,.tiles,#rb,.clue,.evt{perspective:900px}
+.opt,.tile,.evt,.tm,.btn{transform-style:preserve-3d;transition:transform .15s,box-shadow .15s}
+.opt:hover,.tile:hover,.evt:hover{transform:translateY(-3px) rotateX(6deg) translateZ(8px);box-shadow:0 10px 0 #9E8458,0 16px 22px rgba(0,0,0,.22)}
+.opt:active,.tile:active,.evt:active{transform:translateY(3px) rotateX(-4deg) translateZ(-6px)}
+.ovcard{animation:cardDrop .6s cubic-bezier(.2,1.4,.4,1);transform-style:preserve-3d}
+@keyframes cardDrop{0%{opacity:0;transform:perspective(1200px) rotateX(55deg) translateY(-120px) translateZ(200px) rotateZ(-6deg)}100%{opacity:1;transform:none}}
+.stamp3d{white-space:nowrap;position:absolute;z-index:40;pointer-events:none;font-family:var(--type);color:#B5352A;border:8px double #B5352A;border-radius:14px;padding:10px 28px;background:rgba(253,251,245,.15);letter-spacing:4px;text-align:center;animation:slam .7s cubic-bezier(.3,1.6,.5,1) forwards;mix-blend-mode:multiply}
+@keyframes slam{0%{opacity:0;transform:perspective(900px) translateZ(600px) rotate(-30deg) scale(1.6)}60%{opacity:1}100%{opacity:.92;transform:perspective(900px) translateZ(0) rotate(-12deg) scale(1)}}
+.casebadge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:#2E2018;color:#F2C98A;font-family:var(--type);font-size:16px;letter-spacing:2px;border-radius:4px;transform:rotate(-2deg);box-shadow:0 3px 6px rgba(0,0,0,.3);white-space:nowrap}
+.folder3d{position:absolute;inset:0;z-index:35;display:flex;align-items:center;justify-content:center;pointer-events:none;perspective:1500px}
+.folder3d .back,.folder3d .front{position:absolute;width:760px;height:500px;border-radius:10px 10px 6px 6px}
+.folder3d .back{background:#C9A86A;box-shadow:0 30px 60px rgba(0,0,0,.45)}
+.folder3d .front{background:linear-gradient(#E3C792,#D9B46A);transform-origin:50% 0;animation:folderOpen 1.1s 1s cubic-bezier(.5,.1,.3,1) forwards;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;backface-visibility:hidden;border:3px solid #9E7B4F}
+.folder3d .tab{position:absolute;top:-34px;left:40px;width:220px;height:40px;background:#C9A86A;border-radius:10px 10px 0 0}
+@keyframes folderOpen{0%{transform:rotateX(0)}100%{transform:rotateX(-178deg)}}
+.folder3d.out{animation:folderAway .5s ease-in forwards}
+@keyframes folderAway{to{opacity:0;transform:scale(1.15)}}
+.mag{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='16' cy='16' r='11' fill='rgba(255,255,255,.25)' stroke='%233A2E26' stroke-width='3'/%3E%3Cpath d='M24 24l12 12' stroke='%233A2E26' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") 16 16,pointer}
+</style>
+</head>
+<body>
+<div id="wrap" class="mag" style="position:fixed;inset:0;overflow:hidden"><div id="stage"><div class="paper" id="paper">
+<div class="tape" style="top:-6px;left:-30px;transform:rotate(-32deg)"></div>
+<div class="tape" style="top:-6px;right:-30px;transform:rotate(32deg)"></div>
+<div class="hud" id="hud" style="display:none">
+ <div class="casebadge" id="caseBadge"></div><div class="stops" id="stops"></div><div class="spacer"></div><div class="turn" id="turn"></div><div class="spacer"></div>
+ <div class="col" id="col"></div>
+ <div class="tools"><button class="ib" id="diceBtn" aria-label="¿Quién responde?" style="background:#F2C98A"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="8" width="48" height="48" rx="9" fill="#FDFBF5" stroke="#3A2E26" stroke-width="4"/><g fill="#3A2E26"><circle cx="21" cy="21" r="5"/><circle cx="43" cy="21" r="5"/><circle cx="32" cy="32" r="5"/><circle cx="21" cy="43" r="5"/><circle cx="43" cy="43" r="5"/></g></svg></button><button class="ib" id="homeBtn" aria-label="Volver al inicio"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg></button><button class="ib fsBtn" aria-label="Pantalla completa"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button class="ib sndBtn" aria-label="Sonido"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg></button></div>
+</div>
+<section class="screen on" id="s-inicio"></section>
+<section class="screen" id="s-intro"></section>
+<section class="screen case" id="s-arrive"></section>
+<section class="screen case" id="s-reto"></section>
+<section class="screen case" id="s-next"></section>
+<section class="screen case" id="s-travel"><div class="mapbox" style="position:absolute;inset:0"><svg id="vMap" aria-label="Viaje"></svg></div><div id="vStamp" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:none"></div></section>
+<section class="screen" id="s-final"></section>
+<div id="ov"></div>
+</div></div></div>
+<div id="rot"><svg width="110" height="110" viewBox="0 0 64 64" fill="none" stroke="#F3EAD6" stroke-width="3" stroke-linecap="round" aria-hidden="true"><rect x="20" y="6" width="24" height="44" rx="4"/><path d="M29 44h6"/></svg>
+<div style="font-size:30px">Gira el móvil</div><div style="font-family:var(--body);font-size:20px;opacity:.85">El juego se ve en horizontal, como en la tele.</div>
+<button class="btn" id="rotOk" style="font-size:20px;min-height:54px;color:#3A2E26">Seguir así</button></div>
+
+<script>
+const ARROW="<svg width=\"30\" height=\"30\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>",HOUR="<svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3h12M6 21h12M7 3c0 5 10 5 10 9s-10 4-10 9M17 3c0 5-10 5-10 9\"/></svg>",PLAY="<svg width=\"34\" height=\"34\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 4v16l13-8z\" fill=\"currentColor\"/></svg>";
+const UI={"home": "<svg width=\"30\" height=\"30\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3A2E26\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 11 12 4l9 7\"/><path d=\"M5 10v10h14V10\"/></svg>", "fs": "<svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3A2E26\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5\"/></svg>", "snd": "<svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3A2E26\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 9v6h4l5 4V5L8 9z\"/><path d=\"M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11\"/></svg>", "book": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 6c-3-2-6-2-9-1v14c3-1 6-1 9 1 3-2 6-2 9-1V5c-3-1-6-1-9 1zM12 6v14\"/></svg>"};
+const DATA={"names":{"ALB":"Albania","AND":"Andorra","DEU":"Alemania","AUT":"Austria","BEL":"Bélgica","BLR":"Bielorrusia","BIH":"Bosnia y Herzegovina","BGR":"Bulgaria","CYP":"Chipre","HRV":"Croacia","DNK":"Dinamarca","SVK":"Eslovaquia","SVN":"Eslovenia","ESP":"España","EST":"Estonia","FIN":"Finlandia","FRA":"Francia","GRC":"Grecia","HUN":"Hungría","IRL":"Irlanda","ISL":"Islandia","ITA":"Italia","LVA":"Letonia","LIE":"Liechtenstein","LTU":"Lituania","LUX":"Luxemburgo","MKD":"Macedonia del Norte","MLT":"Malta","MDA":"Moldavia","MCO":"Mónaco","MNE":"Montenegro","NOR":"Noruega","NLD":"Países Bajos","POL":"Polonia","PRT":"Portugal","GBR":"Reino Unido","CZE":"Chequia","ROU":"Rumanía","RUS":"Rusia","SMR":"San Marino","SRB":"Serbia","SWE":"Suecia","CHE":"Suiza","UKR":"Ucrania","VAT":"Ciudad del Vaticano"},"map":{"W":1000,"H":860,"land":"M598,381L550.2,415.6L546.9,425.8L549.2,432.7L556,441.3L557.6,443.4L560.4,449.9L549.7,451.9L539.3,452.6L533.3,451.8L527.6,452L510.6,470.7L501.3,477L490.2,480.8L479.2,482.9L473.5,483.1L468.4,485.4L465.1,489.7L465.1,494.1L463.4,497.4L457.3,496.6L454.7,489.9L450.3,486.9L439.6,488.4L434.2,488.2L416.9,481.6L411.5,479L408.3,473.4L399.4,453.5L398.3,438.7L406.6,442.6L414.3,438.1L422,430.7L431,427.9L436.3,429.3L442,430.5L452,428.2L456.4,417.2L457.8,404.4L474.4,408.2L491.6,410L505.6,410.8L519.2,408.6L561,394.9L572.9,386.8L580.5,383.9L593,377.1L606.2,373.3ZM-50,864.2L-40.1,864.6L-27.4,876.4L25.4,884.4L53.1,898L68.8,908.5L73,910L-50,910ZM93.6,910L98.6,908.6L113.6,902.3L129.7,893.5L163.4,870.1L175.1,866.2L182.7,867.6L192.2,867.5L196.2,861.1L201.2,856.8L204.2,851.5L209.6,845.6L226.3,844.3L260.7,834.6L256.8,839.4L225.5,850.6L238.7,852.5L252.4,848.8L268.1,846.6L271,841.5L273.3,831.9L276.5,830.8L286.8,832.8L318.5,848.1L326.5,848.6L349.3,840.9L353.8,839.2L361.1,843.8L377.6,862.4L371.6,861.9L354.1,845.9L352.6,853.8L342.3,867.4L354.7,873.5L365.2,875.8L370.7,883.5L374.1,890.5L384.2,887.7L391.7,878.5L387.9,873.1L385.2,867.8L388.7,867.6L395.6,872.2L415.7,890L422.6,893.8L430.3,893.2L447.2,888.2L451.7,889L473.7,882.6L476.5,887.5L480,892.3L497.8,887L525.8,886.9L548.8,881.1L575.3,867L577.4,864.8L595.3,846.5L603.9,834.8L604.6,834L622.9,799.4L634.5,765.2L645.2,717.6L652.7,693.5L659.3,677.5L662.2,664.3L666.4,655.6L670.7,644.3L674.8,629.1L682.8,616.3L698.5,573.4L707.6,556.1L710.4,531.4L724.4,509.7L735.3,503.1L740.2,496.9L739.9,487.7L731.9,462.5L730.7,451.8L730.7,439L735.2,420.4L732.7,412L732.2,406.1L730.7,398.3L717.6,381.5L723.8,349.9L728.6,342.1L734,332.8L727.2,314.7L719.9,297.9L726.2,286.8L739.3,273.3L753.3,257.4L753,247.9L751.8,240.7L747.8,235.9L739.8,229.4L726.9,236.8L717.7,244.9L711.8,246.6L705.1,251.3L702,259.4L694.3,265.9L681.2,268.7L661.5,262.2L640.1,252.3L627.9,244.3L618.1,242.4L609,246.1L581.7,266.8L556.7,296.9L550.5,302L526.9,314.9L511.1,319.3L503.9,318.3L472.6,323.9L456.8,324.7L444.6,331.3L420.9,323.8L406.5,314.3L398.1,304.7L384.6,283.9L374.5,274.2L352.7,265L314.2,243.1L304.2,240.5L278.2,236.8L250.5,234.1L244.4,241.8L241.6,272.4L236.4,280.7L234,296.5L230.6,301.1L224.9,303.9L216.8,298.6L211,296.2L197.3,302.3L170.1,310.5L160.8,311.6L130.4,298.8L119.2,290.9L112.3,282.3L110.3,268.3L106.1,260.2L105.7,254.7L104.3,248.5L98.2,245.7L91.1,250.1L84,249.6L75.3,246.2L54.6,233.6L38.4,231.8L27.9,245.6L19.8,249.7L11.6,250.7L11.1,246.5L18.1,237.7L-7.4,238L-21.2,244.1L-31.5,242.6L-39.2,238.9L-38,235.1L-29.7,234.2L-22.7,231.4L4.8,230.4L11.5,228.2L18.8,218.6L32.3,210.6L34.1,207L24,206.5L-18,206.7L-46.9,203.6L-50,207.2L-50,191.3L-50,191.3L-44.2,192.2L-29,188.4L-29.7,178.7L-40,171.4L-42.1,167.5L-49.8,166L-50,165.9L-50,108.9L-50,108.9L-49.3,105.6L-50,99.3L-50,-50L1050,-50L1050,910ZM-8.9,329.5L-15.9,331.4L-17.9,330.9L-20.6,325.7L-15.9,313.1L-19,304.9L-19.2,301.3L-13.3,296.9L-9.3,290.1L0,282.7L24,275L29.7,274.3L29,281.5L20.1,299.2L12.8,307.8L14.3,315.2L3,316.7ZM-3.6,258.9L-5.7,260.6L-10,255.2L-9.8,252.5L-5.1,249.6L-2.8,249.1L-2.2,251.1L-2.5,255.6ZM-50,219.2L-47.6,220.7L-50,221.7L-50,219.2Z","grat":"M-26,910L25.9,-50M169,910L201.7,-50M363.7,910L377.2,-50M558.4,910L552.6,-50M753.1,910L728.1,-50M948,910L903.7,-50M-50,772.4L173.3,782.8L413.5,788L653.8,787.2L893.9,780.3L1050,772M-50,545.7L181,556.5L415.6,561.5L650.1,560.7L884.6,554L1050,545.2M-50,318.9L-39.9,319.6L188.7,330.3L417.6,335.2L646.5,334.4L875.3,327.9L1050,318.5M-50,91.9L-26.6,93.5L196.4,103.9L419.6,108.7L642.9,108L866,101.6L1050,91.7","c":{"DER":{"n":"Derbe","x":496.4,"y":182.7},"LIS":{"n":"Listra","x":410.2,"y":156.2},"ICO":{"n":"Iconio","x":417.7,"y":123.5},"APS":{"n":"Antioquía de Pisidia","x":303.4,"y":72.9},"PER":{"n":"Perge","x":269.3,"y":224},"ATA":{"n":"Atalía","x":255.5,"y":231.5},"TAR":{"n":"Tarso","x":634.9,"y":230.4},"ANT":{"n":"Antioquía de Siria","x":752.1,"y":309.5},"SEL":{"n":"Seleucia","x":731.3,"y":319.1},"CHI":{"n":"Chipre","x":500,"y":437.4},"TIR":{"n":"Tiro","x":670.4,"y":643},"SID":{"n":"Sidón","x":685.8,"y":609.9},"DAM":{"n":"Damasco","x":772.7,"y":613.4},"SMR":{"n":"Samaria","x":671.4,"y":755.1},"CES":{"n":"Cesarea","x":642.3,"y":730.7},"JER":{"n":"Jerusalén","x":676.3,"y":811.7}},"kind":"med"}};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const L="ABCDEFGH";
+
+/* ---------- icons ---------- */
+const S=`fill="none" stroke="#3A2E26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"`;
+const ICON={
+ ship:`<g ${S}><path d="M8 40h48l-6 12H14z" fill="#B5764A"/><path d="M32 8v32" /><path d="M32 10l18 24H32z" fill="#FDFBF5"/><path d="M30 14 16 34h14z" fill="#E9DCC0"/></g><g ${S} stroke="#2F4C7A" stroke-width="2.5"><path d="M4 58c5-3 8-3 12 0s8 3 12 0 8-3 12 0 8 3 12 0 8-3 8 0"/></g>`,
+ walk:`<g ${S}><circle cx="34" cy="10" r="5" fill="#E9DCC0"/><path d="M33 16l-4 18 8 8v14M29 34l-8 22M31 22l-10 8M33 22l10 6"/><path d="M46 14v44" stroke-width="2.5"/></g>`,
+ bag:`<g ${S}><path d="M22 18c-8 8-14 18-14 26 0 8 8 12 24 12s24-4 24-12c0-8-6-18-14-26z" fill="#D9B46A"/><path d="M22 18l-4-8h28l-4 8zM22 18h20"/><path d="M32 30v16M27 34c0-3 10-3 10 1s-10 3-10 7 10 4 10 1" stroke-width="2.5"/></g>`,
+ window:`<g ${S}><rect x="12" y="6" width="40" height="52" fill="#3E5A80"/><path d="M12 32h40M32 6v52"/><circle cx="42" cy="16" r="4" fill="#F2C98A" stroke="none"/></g><g fill="#F2C98A" stroke="#3A2E26" stroke-width="2"><path d="M20 36c4-4 10-2 10 2v8h-12c0-4 0-7 2-10z"/><circle cx="24" cy="32" r="4"/></g><path d="M18 44c-2 6-6 10-10 12" ${S} stroke-dasharray="3 4"/>`,
+ belt:`<g ${S}><path d="M6 26c10-6 42-6 52 0v12c-10-6-42-6-52 0z" fill="#B5764A"/><rect x="26" y="24" width="12" height="16" rx="2" fill="#E3C792"/><path d="M32 28v8"/></g>`,
+ chain:`<g ${S}><ellipse cx="14" cy="32" rx="9" ry="6"/><ellipse cx="28" cy="32" rx="9" ry="6" transform="rotate(90 28 32)"/><ellipse cx="42" cy="32" rx="9" ry="6"/><ellipse cx="54" cy="32" rx="6" ry="9"/></g>`,
+ rope:`<g ${S}><path d="M10 50c10-30 34-30 44-10s-26 18-24 0 22-20 24-8" fill="none" stroke="#B5764A" stroke-width="5"/></g>`,
+ cloak:`<g ${S}><path d="M24 8h16l14 48H10z" fill="#8E3B2B"/><path d="M24 8c2 6 14 6 16 0"/></g>`,
+ scroll:`<g ${S}><rect x="12" y="10" width="40" height="44" rx="4" fill="#F7E9C8"/><path d="M20 22h24M20 30h24M20 38h16"/></g>`,
+ book:`<g ${S}><path d="M32 16c-8-6-18-6-24-4v38c6-2 16-2 24 4 8-6 18-6 24-4V12c-6-2-16-2-24 4zM32 16v38" fill="#FDFBF5"/></g>`,
+ pray:`<g ${S}><path d="M30 56V30c0-6-2-12-6-18-2-3-6-1-5 2l3 14-8 10v18M34 56V30c0-6 2-12 6-18 2-3 6-1 5 2l-3 14 8 10v18" fill="#E9C9A6"/></g>`,
+ heart:`<g ${S}><path d="M32 54S8 40 8 24a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 16-24 30-24 30z" fill="#E86A5A"/></g>`,
+ church:`<g ${S}><path d="M32 4v12M27 9h10M18 30l14-14 14 14M20 28v30h24V28M28 58V46a4 4 0 0 1 8 0v12" fill="none"/></g>`,
+ school:`<g ${S}><path d="M6 28 32 12l26 16" /><path d="M10 28v28h44V28" fill="#E9DCC0"/><rect x="27" y="40" width="10" height="16" fill="#B5764A"/><rect x="15" y="34" width="8" height="8" fill="#BFD7EA"/><rect x="41" y="34" width="8" height="8" fill="#BFD7EA"/><path d="M32 4v8M32 4h8v5h-8" /></g>`,
+ ball:`<g ${S}><circle cx="32" cy="32" r="22" fill="#FDFBF5"/><path d="M32 22l9 6-3 10H26l-3-10z" fill="#3A2E26"/><path d="M32 10v12M41 28l12-4M38 38l7 10M26 38l-7 10M23 28l-12-4"/></g>`,
+ calendar:`<g ${S}><rect x="8" y="12" width="48" height="44" rx="4" fill="#FDFBF5"/><path d="M8 24h48M20 6v12M44 6v12"/><path d="M18 34h6M30 34h6M42 34h6M18 44h6M30 44h6" stroke-width="4"/></g>`,
+ car:`<g ${S}><path d="M8 40v-8l8-12h30l10 12v8z" fill="#D9534F"/><path d="M18 22l-4 10h34l-6-10z" fill="#BFD7EA"/><circle cx="18" cy="42" r="6" fill="#3A2E26"/><circle cx="46" cy="42" r="6" fill="#3A2E26"/></g>`,
+ thermo:`<g ${S}><path d="M26 40V10a6 6 0 0 1 12 0v30a10 10 0 1 1-12 0z" fill="#FDFBF5"/><circle cx="32" cy="48" r="6" fill="#D9534F" stroke="none"/><path d="M32 46V18" stroke="#D9534F" stroke-width="5"/></g>`,
+ lake:`<g ${S}><path d="M8 40c0-12 16-20 28-18s22 8 20 18-18 14-30 12S8 50 8 40z" fill="#9CC3D5"/></g><g ${S} stroke="#2F4C7A" stroke-width="2"><path d="M18 40c4-2 6-2 10 0s6 2 10 0M26 46c4-2 6-2 10 0"/></g>`,
+ coin:`<g ${S}><circle cx="32" cy="32" r="22" fill="#E9C46A"/><circle cx="32" cy="32" r="16"/><text x="32" y="39" text-anchor="middle" font-family="Special Elite, monospace" font-size="18" fill="#3A2E26" stroke="none">zł</text></g>`,
+ family:`<g ${S}><circle cx="18" cy="16" r="6" fill="#E9C9A6"/><circle cx="46" cy="16" r="6" fill="#E9C9A6"/><circle cx="32" cy="30" r="5" fill="#E9C9A6"/><path d="M10 56V32c0-6 16-6 16 0v24M38 56V32c0-6 16-6 16 0v24M26 58V44c0-5 12-5 12 0v14" fill="#B9C6A1"/></g>`,
+ brick:`<g ${S}><rect x="6" y="20" width="52" height="26" rx="2" fill="#C2674A"/><path d="M6 33h52M24 20v13M42 33v13M16 33v13M48 20v13"/></g>`,
+ compass:`<g ${S}><circle cx="32" cy="32" r="24" fill="#FDFBF5"/><path d="M32 10l5 22-5 22-5-22z" fill="#D9534F"/><path d="M10 32h44" stroke-width="2"/></g><text x="32" y="8" text-anchor="middle" font-family="Special Elite, monospace" font-size="9" fill="#3A2E26">N</text>`,
+ mountains:`<g ${S}><path d="M4 54 22 22l10 14 10-20 18 38z" fill="#E9DCC0"/><path d="M38 24l4-8 4 8-4-2z" fill="#fff"/></g>`,
+ wave:`<g ${S} stroke="#2F4C7A"><path d="M6 24c6-6 10-6 13 0s7 6 13 0 10-6 13 0 7 6 13 0"/><path d="M6 36c6-6 10-6 13 0s7 6 13 0 10-6 13 0 7 6 13 0"/><path d="M6 48c6-6 10-6 13 0s7 6 13 0 10-6 13 0 7 6 13 0"/></g>`,
+ city:`<g ${S}><path d="M6 56V30h12v26M18 56V18h14v38M32 56V26h12v30M44 56V36h14v20" fill="#E9DCC0"/><path d="M24 4v14M20 8h8"/></g>`,
+ star:`<g ${S}><path d="M32 6l7 16 18 2-13 12 4 18-16-9-16 9 4-18L7 24l18-2z" fill="#F2C98A"/></g>`,
+ stand:`<g ${S}><circle cx="32" cy="10" r="6" fill="#E9C9A6"/><path d="M32 16v22M32 38l-8 20M32 38l8 20M32 22l-14-12M32 22l14-12"/></g>`,
+ sit:`<g ${S}><circle cx="26" cy="12" r="6" fill="#E9C9A6"/><path d="M26 18v18h16v20M26 26l12 4"/><path d="M14 36v22M14 36h12" stroke-width="2.5"/><path d="M46 36h6v22" stroke-width="2.5"/></g>`,
+ hand:`<g ${S}><path d="M22 58V30l-6-8c-2-3 2-6 4-3l6 7V10c0-4 6-4 6 0v16-20c0-4 6-4 6 0v20-16c0-4 6-4 6 0v20-12c0-4 6-4 6 0v24c0 10-6 16-16 16h-4" fill="#E9C9A6"/></g>`,
+ clap:`<g ${S}><path d="M18 50 8 30c-2-4 3-6 5-3l7 10-6-14c-2-4 3-6 5-2l8 16" fill="#E9C9A6"/><path d="M46 50l10-20c2-4-3-6-5-3l-7 10 6-14c2-4-3-6-5-2l-8 16" fill="#E9C9A6"/><path d="M30 8v6M22 12l3 5M42 12l-3 5" stroke="#F2B04C"/></g>`,
+ dice:`<g ${S}><rect x="10" y="10" width="44" height="44" rx="8" fill="#FDFBF5"/></g><g fill="#3A2E26"><circle cx="22" cy="22" r="4"/><circle cx="42" cy="22" r="4"/><circle cx="32" cy="32" r="4"/><circle cx="22" cy="42" r="4"/><circle cx="42" cy="42" r="4"/></g>`,
+ mask:`<g ${S}><path d="M10 14c14 6 30 6 44 0v14c0 16-10 26-22 26S10 44 10 28z" fill="#F2C98A"/><path d="M20 28c3-3 7-3 10 0M34 28c3-3 7-3 10 0M24 40c5 5 11 5 16 0"/></g>`,
+ chain2:`<g ${S}><rect x="4" y="22" width="26" height="20" rx="10" fill="none"/><rect x="34" y="22" width="26" height="20" rx="10" fill="none"/><path d="M22 32h20" stroke-width="4"/></g>`,
+ lamp:`<g ${S}><path d="M14 40c0-6 10-10 22-10h14l6-6v10c0 8-10 14-24 14S14 46 14 40z" fill="#C9A86A"/><path d="M48 24c2-6-4-10-2-16 4 4 8 8 4 14" fill="#F2B04C"/></g>`
+};
+const icon=(k,w=80)=>`<svg viewBox="0 0 64 64" width="${w}" height="${w}" aria-hidden="true">${ICON[k]||""}</svg>`;
+
+/* ---------- scale / rotate ---------- */
+let rotDismissed=false;
+function fit(){const W=document.documentElement.clientWidth||innerWidth,H=document.documentElement.clientHeight||innerHeight,s=Math.min(W/1280,H/720);
+ const st=$("#stage");st.style.transform=`scale(${s})`;st.style.left=((W-1280*s)/2)+"px";st.style.top=((H-720*s)/2)+"px";
+ $("#rot").classList.toggle("on",!rotDismissed&&H>W*1.15&&W<900);}
+addEventListener("resize",fit);addEventListener("orientationchange",()=>setTimeout(fit,200));
+$("#rotOk").onclick=()=>{rotDismissed=true;fit();};
+
+/* ---------- sound ---------- */
+let actx=null,muted=false;
+function tone(kind){if(muted)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();
+ const N={ok:[523.25,659.25,783.99],bad:[311.13,261.63],tick:[880],stamp:[180,120],win:[523.25,659.25,783.99,1046.5]}[kind]||[440];
+ N.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type=kind==="stamp"?"square":kind==="bad"?"sine":"triangle";o.frequency.value=f;const t=actx.currentTime+i*(kind==="win"?.13:.1);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(kind==="stamp"?.08:.16,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+.32);});}catch(e){}}
+function bindTools(root){(root||document).querySelectorAll(".sndBtn").forEach(b=>{if(b._b)return;b._b=1;b.addEventListener("click",()=>{muted=!muted;$$(".sndBtn").forEach(x=>x.style.opacity=muted?.45:1);});});
+ (root||document).querySelectorAll(".fsBtn").forEach(b=>{if(b._b)return;b._b=1;b.addEventListener("click",goFS);if(standalone())b.style.display="none";});}
+const isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const standalone=()=>matchMedia("(display-mode: fullscreen)").matches||matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+function showInstall(){overlay(`<div class="ovcard" style="text-align:left;align-items:stretch"><h2 style="font-size:40px;text-align:center">Pantalla completa</h2><div style="font-size:26px;line-height:1.35">${isIOS?`Este navegador no deja ocultar sus barras. Instálalo como app:<br><b>1.</b> Ábrelo en <b>Safari</b>.<br><b>2.</b> Toca <b>Compartir</b> → <b>Añadir a pantalla de inicio</b>.<br><b>3.</b> Abre el icono: se verá sin barras.`:`Instálalo como app y se abrirá a pantalla completa:<br><b>1.</b> En Chrome, toca el menú <b>⋮</b>.<br><b>2.</b> Elige <b>Instalar aplicación</b> o <b>Añadir a pantalla de inicio</b>.<br><b>3.</b> Abre el icono nuevo.`}</div><div style="text-align:center"><button class="btn main" id="ovOk">¡Entendido!</button></div></div>`);$("#ovOk").onclick=closeOv;}
+function goFS(){const d=document,e=d.documentElement;if(d.fullscreenElement||d.webkitFullscreenElement){try{(d.exitFullscreen||d.webkitExitFullscreen).call(d);}catch(_){}return;}
+ const r=e.requestFullscreen||e.webkitRequestFullscreen;if(!r){showInstall();return;}
+ const lock=()=>{try{const p=screen.orientation&&screen.orientation.lock&&screen.orientation.lock("landscape");if(p&&p.catch)p.catch(()=>{});}catch(_){}};
+ try{const p=r.call(e,{navigationUI:"hide"});if(p&&p.then)p.then(lock).catch(showInstall);else setTimeout(()=>{if(!d.fullscreenElement&&!d.webkitFullscreenElement)showInstall();else lock();},600);}catch(_){showInstall();}}
+document.addEventListener("fullscreenchange",()=>setTimeout(fit,100));
+
+/* ---------- overlay / feedback ---------- */
+function show(id,hud){$$(".screen").forEach(s=>s.classList.toggle("on",s.id===id));$("#hud").style.display=hud?"flex":"none";resetTimers();const t=$("#toast");if(t)t.style.display="none";}
+function overlay(html,conf){const o=$("#ov");o.innerHTML=html+(conf?confettiHTML():"");o.classList.add("on");}
+function closeOv(){$("#ov").classList.remove("on");$("#ov").innerHTML="";}
+function confettiHTML(){const c=["#B5352A","#2F4C7A","#F2C98A","#6E9E5B","#E3C792"];let h='<div class="confetti">';for(let i=0;i<46;i++)h+=`<i style="left:${Math.random()*100}%;background:${c[i%5]};animation-delay:${Math.random()*.6}s"></i>`;return h+"</div>";}
+function confetti(){const d=document.createElement("div");d.innerHTML=confettiHTML();const el=d.firstChild;$("#paper").appendChild(el);setTimeout(()=>el.remove(),2600);}
+let toastT;function toast(msg,ok){let t=$("#toast");if(!t){t=document.createElement("div");t.id="toast";t.style.cssText="pointer-events:none;position:absolute;left:50%;bottom:22px;transform:translateX(-50%);background:#FDFBF5;border:3px solid #9E2F28;border-radius:40px;padding:10px 28px;font-family:var(--hand);font-size:34px;z-index:15;box-shadow:0 8px 18px rgba(0,0,0,.25);white-space:nowrap";$("#paper").appendChild(t);}
+ t.style.borderColor=ok?"#2F5E2A":"#9E2F28";t.textContent=msg;t.style.display="block";clearTimeout(toastT);toastT=setTimeout(()=>t.style.display="none",2300);}
+function bad(el,msg){tone("bad");if(el){el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");}if(msg)toast(msg);}
+
+/* ---------- detective 3D helpers ---------- */
+function stamp3d(text,opts={}){const d=document.createElement("div");d.className="stamp3d";d.style.left=(opts.x||50)+"%";d.style.top=(opts.y||45)+"%";d.style.fontSize=(opts.size||64)+"px";d.style.marginLeft=`-${opts.w||300}px`;d.style.width=(opts.w?opts.w*2:600)+"px";d.style.marginTop="-60px";if(opts.color){d.style.color=opts.color;d.style.borderColor=opts.color;}
+ d.innerHTML=text;$("#paper").appendChild(d);tone("stamp");if(opts.keep)return d;setTimeout(()=>{d.style.transition="opacity .5s";d.style.opacity=0;setTimeout(()=>d.remove(),500);},opts.ms||1600);return d;}
+function folderOpen(title,sub){return new Promise(res=>{const f=document.createElement("div");f.className="folder3d";
+ f.innerHTML=`<div class="back"><div class="tab"></div></div><div class="front"><div style="font-family:var(--type);font-size:22px;letter-spacing:4px;color:#6E2A1A">CONFIDENCIAL · EXPEDIENTE</div><div style="font-family:var(--type);font-size:58px;color:#3A2E26;text-align:center;line-height:1.05;padding:0 30px">${esc(title)}</div>${sub?`<div style="font-family:var(--hand);font-size:36px;color:#6B5444">${esc(sub)}</div>`:""}<div style="margin-top:10px;width:120px;height:120px;border-radius:50%;border:6px double #B5352A;color:#B5352A;display:flex;align-items:center;justify-content:center;font-family:var(--type);font-size:22px;transform:rotate(-14deg)">ABIERTO</div></div>`;
+ $("#paper").appendChild(f);tone("stamp");setTimeout(()=>tone("tick"),500);setTimeout(()=>{f.classList.add("out");setTimeout(()=>{f.remove();res();},450);},2300);});}
+
+/* ---------- timer ---------- */
+let timerId=null;
+function timerBtn(){return `<button class="timer" data-s="20">${HOUR} 20 s</button>`;}
+function resetTimers(){clearInterval(timerId);timerId=null;$$(".timer").forEach(b=>{b.classList.remove("run","end");b.innerHTML=`${HOUR} ${b.dataset.s} s`;});}
+document.addEventListener("click",e=>{const b=e.target.closest(".timer");if(!b)return;if(b.classList.contains("run")){resetTimers();return;}
+ resetTimers();let left=+b.dataset.s;b.classList.add("run");b.innerHTML=`${HOUR} ${left}`;
+ timerId=setInterval(()=>{left--;if(left>0){b.innerHTML=`${HOUR} ${left}`;if(left<=3)tone("tick");}else{clearInterval(timerId);timerId=null;b.classList.remove("run");b.classList.add("end");b.innerHTML="¡Tiempo!";tone("win");}},1000);});
+
+/* ---------- teams ---------- */
+const TEAMS_ALL=[{n:"Leones",c:"#C8892B"},{n:"Águilas",c:"#2F4C7A"},{n:"Corderos",c:"#5E7A4C"},{n:"Palomas",c:"#9E2F28"}];
+let nTeams=0,TEAMS=[],turnI=-1;
+function nextTurn(){if(!TEAMS.length){$("#turn").classList.remove("on");return;}turnI=(turnI+1)%TEAMS.length;const t=TEAMS[turnI];const el=$("#turn");el.classList.add("on");el.style.background=t.c;el.innerHTML=`<span class="dot" style="background:#fff"></span>Turno: ${esc(t.n)}`;}
+
+/* ---------- maps ---------- */
+function arOf(svg){const r=svg.getBoundingClientRect();return r.width&&r.height?r.height/r.width:0.62;}
+function setVB(svg,v){const ar=arOf(svg);const B=svg._bounds;v.w=Math.max(svg._minW||20,Math.min(B.w*1.1,v.w));v.h=v.w*ar;
+ v.x=Math.max(B.x-B.w*.05,Math.min(B.x+B.w*1.05-v.w,v.x));v.y=Math.max(B.y-B.h*.05,Math.min(B.y+B.h*1.05-v.h,v.y));
+ svg._vb=v;svg.setAttribute("viewBox",`${v.x} ${v.y} ${v.w} ${v.h}`);}
+function fitPts(svg,pts,pad){const ar=arOf(svg);let x0=Math.min(...pts.map(p=>p[0]))-pad,x1=Math.max(...pts.map(p=>p[0]))+pad,y0=Math.min(...pts.map(p=>p[1]))-pad,y1=Math.max(...pts.map(p=>p[1]))+pad;
+ let w=x1-x0,h=y1-y0;if(h/w>ar)w=h/ar;return{x:(x0+x1)/2-w/2,y:(y0+y1)/2-w*ar/2,w};}
+function buildMap(svg){
+ const M=DATA.map;let h="";
+ if(M.kind==="med"){svg._bounds={x:0,y:0,w:M.W,h:M.H};svg._minW=60;
+  h=`<rect x="-200" y="-200" width="${M.W+400}" height="${M.H+400}" fill="#CFE0E3"/><path d="${M.grat}" fill="none" stroke="#A9C3C8" stroke-width=".8" stroke-dasharray="4 5" vector-effect="non-scaling-stroke"/><path d="${M.land}" fill="#EDE0C2" stroke="#7A6248" stroke-width="1.2" vector-effect="non-scaling-stroke"/>`;}
+ else{svg._bounds={x:0,y:0,w:1000,h:900};svg._minW=8;const PAL=["#D9A58C","#B9C6A1","#E3C792","#D3B2A6","#C2BC8E","#E6D2A9"];
+  h=`<rect x="-500" y="-500" width="2000" height="1900" fill="#DCE5DE"/><path d="${M.grat}" fill="none" stroke="#9FB3AE" stroke-width=".8" stroke-dasharray="4 5" vector-effect="non-scaling-stroke"/>`;
+  for(const d of M.bg)h+=`<path d="${d}" fill="#EDE3CC" stroke="#B8A888" stroke-width=".8" vector-effect="non-scaling-stroke"/>`;
+  for(const [k,c] of Object.entries(M.countries))h+=`<path class="c" data-k="${k}" d="${c.d}" fill="${PAL[M.colors[k]||0]}"/>`;}
+ svg.innerHTML=h+`<g class="ov"></g>`;svg.setAttribute("preserveAspectRatio","xMidYMid slice");setVB(svg,{x:0,y:0,w:svg._bounds.w});}
+function pin(x,y,s,label,color="#B5352A"){const fs=s*1.4;return `<g pointer-events="none"><path d="M${x} ${y}c${-s*.9} ${-s} ${-s*.9} ${-s*2.5} 0 ${-s*2.9}c${s*.9} ${s*.4} ${s*.9} ${s*1.9} 0 ${s*2.9}z" fill="${color}" stroke="#5E1A14" stroke-width="1.5" vector-effect="non-scaling-stroke"/><circle cx="${x}" cy="${y-s*2.05}" r="${s*.32}" fill="#FDFBF5"/>`+(label?`<text x="${x+s*.9}" y="${y-s*1.2}" font-family="Caveat, cursive" font-weight="700" font-size="${fs}" fill="#3A2E26" stroke="#FDFBF5" stroke-width="${fs*.22}" paint-order="stroke">${esc(label)}</text>`:"")+`</g>`;}
+function cityXY(k){const c=DATA.map.c[k];return[c.x,c.y];}
+function tapMap(svg,cb){let st=null,dk=null,moved=false;
+ svg.addEventListener("pointerdown",e=>{st={x:e.clientX,y:e.clientY};moved=false;const c=e.target.closest&&e.target.closest(".c,.mk");dk=c?(c.dataset.k):null;});
+ svg.addEventListener("pointermove",e=>{if(st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>10)moved=true;});
+ svg.addEventListener("pointerup",()=>{if(st&&!moved&&dk)cb(dk);st=null;dk=null;});}
+
+/* ---------- game flow ---------- */
+let G={i:0,r:0,got:0,stamps:[]};
+function hud(pop){const cb=$("#caseBadge");if(cb)cb.textContent=GAME.caseNo?`CASO Nº ${GAME.caseNo}`:"EXPEDIENTE";
+ $("#stops").innerHTML=GAME.steps.map((s,i)=>`<div class="st ${G.stamps.includes(i)?"got":""} ${i===G.i&&!G.stamps.includes(i)?"cur":""} ${pop===i?"pop":""}">${G.stamps.includes(i)||i===G.i?esc(s.short):"?"}</div>`).join("");
+ $("#col").innerHTML=`${icon(GAME.collect.icon,40)}<span>${G.got} / ${GAME.steps.length}</span>`;
+}
+function renderInicio(){
+ const s=$("#s-inicio");s.innerHTML=GAME.cover();
+ s.insertAdjacentHTML("beforeend",`<div style="position:absolute;right:0;top:0;display:flex;gap:8px;z-index:3"><a class="ib" href="../" aria-label="Todos los juegos" style="text-decoration:none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></a><button class="ib fsBtn" aria-label="Pantalla completa">${UI.fs}</button><button class="ib sndBtn" aria-label="Sonido">${UI.snd}</button></div>`);
+ bindTools(s);
+ $$("#teamPick .tm").forEach(b=>b.onclick=()=>{$$("#teamPick .tm").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");nTeams=+b.dataset.n;tone("tick");});
+ const kset=d=>{nKids=Math.max(3,Math.min(40,nKids+d));$("#kN").textContent=nKids;try{localStorage.setItem("es-kids",nKids);}catch(e){}tone("tick");};
+ if($("#kMinus")){$("#kMinus").onclick=()=>kset(-1);$("#kPlus").onclick=()=>kset(1);}
+ $("#play").onclick=()=>{TEAMS=TEAMS_ALL.slice(0,nTeams);turnI=-1;G={i:0,r:0,got:0,stamps:[]};$("#turn").classList.remove("on");intro();};
+}
+let nKids=12;try{nKids=+localStorage.getItem("es-kids")||12;}catch(e){}
+function kidsCtl(){return `<div class="row" style="gap:10px;margin-top:10px"><span style="font-family:var(--type);font-size:20px">Niños en clase:</span><button class="tm" id="kMinus" aria-label="Menos niños" style="min-height:52px;font-size:26px">−</button><span id="kN" style="font-family:var(--type);font-size:30px;min-width:44px;text-align:center">${nKids}</span><button class="tm" id="kPlus" aria-label="Más niños" style="min-height:52px;font-size:26px">+</button></div>`;}
+const teamPickHTML=`<div><div style="font-family:var(--type);font-size:20px;margin-bottom:10px">¿Cómo jugáis?</div><div class="teams" id="teamPick">
+ <button class="tm sel" data-n="0">Toda la clase</button>
+ <button class="tm" data-n="2"><span class="dot" style="background:#C8892B"></span><span class="dot" style="background:#2F4C7A"></span>2</button>
+ <button class="tm" data-n="3"><span class="dot" style="background:#C8892B"></span><span class="dot" style="background:#2F4C7A"></span><span class="dot" style="background:#5E7A4C"></span>3</button>
+ <button class="tm" data-n="4"><span class="dot" style="background:#C8892B"></span><span class="dot" style="background:#2F4C7A"></span><span class="dot" style="background:#5E7A4C"></span><span class="dot" style="background:#9E2F28"></span>4</button></div>${kidsCtl()}</div>`;
+let introStep=0;
+async function intro(){if(!G._opened){G._opened=1;await folderOpen(GAME.caseTitle||document.title.split("·")[0].trim(),GAME.caseNo?`Caso nº ${GAME.caseNo}`:"");}introStep=0;const s=$("#s-intro");
+ s.innerHTML=GAME.intro.map((p,i)=>`<div class="panel ${i?"hidden":""}" id="ip${i}" style="left:${i*400}px;top:${[20,50,10][i]}px;transform:rotate(${[-3,2,-2][i]}deg)"><div class="art">${p.art}</div><div class="cap">${esc(p.cap)}</div></div>`).join("")+
+  `<div style="position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center"><button class="btn main big pulse" id="introNext">Seguir ${ARROW}</button></div>`;
+ show("s-intro",false);tone("tick");
+ $("#introNext").onclick=()=>{introStep++;if(introStep<GAME.intro.length){$("#ip"+introStep).classList.remove("hidden");tone("tick");}else{const st=GAME.steps[0];if(st.travelFrom)travel(st.travelFrom,0,st.mode);else arrive();}};
+}
+function arrive(){
+ const st=GAME.steps[G.i];G.r=0;
+ if(!st.arrive){runReto();return;}
+ show("s-arrive",true);hud();const a=st.arrive;
+ $("#s-arrive").innerHTML=`
+  <div style="position:absolute;left:0;top:10px;width:500px;height:520px;background:#FDFBF5;box-shadow:0 12px 26px rgba(0,0,0,.25);transform:rotate(-3deg);padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;border:2px solid #E2D6BC">
+   <div style="position:absolute;top:-14px;left:180px;width:140px;height:34px;background:rgba(178,198,180,.8)"></div>
+   ${a.art}<div style="font-family:var(--type);font-size:${st.place.length>12?42:54}px;text-align:center;line-height:1.05">${esc(st.place)}</div>${a.sub?`<div class="hand" style="font-size:30px;color:var(--sepia)">${esc(a.sub)}</div>`:""}
+  </div>
+  <div style="position:absolute;left:560px;right:0;top:30px;display:flex;flex-direction:column;gap:24px">
+   <div class="row" style="gap:30px;align-items:flex-start;flex-wrap:nowrap"><div class="avatar" style="background:${a.color||"#E3C792"}">${a.face||""}</div><div class="bubble">${esc(a.say)}</div></div>
+   <div style="font-family:var(--type);font-size:22px;color:var(--sepia);margin-left:4px">${esc(a.who||"")}</div>
+   ${a.ref?`<div><span class="ref">${UI.book} ${esc(a.ref)}</span></div>`:""}
+  </div>
+  <div style="position:absolute;right:0;bottom:10px"><button class="btn main big pulse" id="toReto">¡Al reto! ${ARROW}</button></div>`;
+ $("#toReto").onclick=runReto;
+}
+function runReto(){
+ const st=GAME.steps[G.i],r=st.retos[G.r];nextTurn();show("s-reto",true);hud();
+ $("#s-reto").innerHTML=`<div class="row" style="justify-content:space-between;flex-wrap:nowrap;gap:20px"><h2 style="font-size:${r.title.length>40?32:38}px;line-height:1.1">${esc(r.title)}</h2><div class="row" style="flex-wrap:nowrap;gap:10px">${r.ref?`<span class="ref">${UI.book} ${esc(r.ref)}</span>`:""}${st.retos.length>1?`<span style="font-family:var(--type);font-size:20px;color:var(--sepia)">${G.r+1}/${st.retos.length}</span>`:""}<button class="ib" id="hintBtn" aria-label="Pedir pista" style="width:64px;height:64px;font-family:var(--type);font-size:32px">?</button></div></div><div id="rb" style="position:absolute;left:0;right:0;top:84px;bottom:0"></div>`;
+ $("#hintBtn").onclick=()=>hint(r.hint);
+ let _done=false;RET[r.type](r,()=>{if(_done)return;_done=true;retoOK();});
+}
+function hint(t){tone("tick");overlay(`<div class="ovcard"><div class="row" style="flex-wrap:nowrap;gap:24px"><div class="avatar" style="background:#E3C792">${icon("book",80)}</div><div class="bubble" style="max-width:600px">${esc(t)}</div></div><button class="btn main" id="ovOk">¡Vale!</button></div>`);$("#ovOk").onclick=closeOv;}
+function retoOK(){
+ resetTimers();const st=GAME.steps[G.i];
+ if(G.r<st.retos.length-1){tone("ok");toast("¡Correcto! Siguiente reto…",true);setTimeout(()=>{G.r++;runReto();},1200);return;}
+ G.got++;G.stamps.push(G.i);hud(G.i);tone("win");
+ const last=G.i===GAME.steps.length-1;
+ setTimeout(()=>stamp3d(`PRUEBA Nº ${G.got}`,{x:80,y:80,size:30,w:200,ms:2200}),450);
+ overlay(`<div class="ovcard"><h2 style="font-size:44px">${esc(GAME.collect.won(G.got))}</h2><div style="animation:thud .7s cubic-bezier(.2,1.6,.4,1)">${GAME.collect.art(G.got)}</div>${st.lesson?`<div class="hand" style="font-size:34px;max-width:760px;line-height:1.1">${esc(st.lesson)}</div>`:""}<button class="btn main big" id="ovOk">${last?"¡Final!":"Seguir"} ${ARROW}</button></div>`,true);
+ $("#ovOk").onclick=async()=>{closeOv();if(last){if(GAME.finalTrip){show("s-travel",true);const f=GAME.finalTrip;await animateTrip(st.city,f.via||[],f.city,f.mode,f.place,GAME.steps.map(s=>cityXY(s.city)));}finale();}else if(st.next)nextPick();else{G.i++;arrive();}};
+}
+
+/* ---------- next destination (map pick) ---------- */
+function nextPick(){
+ const st=GAME.steps[G.i],n=st.next,OP=shuffle(n.options);nextTurn();show("s-next",true);hud();
+ $("#s-next").innerHTML=`<div class="mapbox" style="position:absolute;left:0;top:0;width:640px;bottom:0"><svg id="nMap" aria-label="Mapa con opciones"></svg></div>
+  <div style="position:absolute;left:670px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:14px">
+   <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h2 style="font-size:32px">${esc(n.title||"¿Adónde vamos ahora?")}</h2><button class="ib" id="hintBtn" aria-label="Pedir pista" style="width:60px;height:60px;font-family:var(--type);font-size:30px">?</button></div>
+   <div class="clue">${icon(n.icon||"scroll",80)}<div class="t">${esc(n.q)}</div></div>
+   ${n.ref?`<div><span class="ref">${UI.book} ${esc(n.ref)}</span></div>`:""}
+   <div class="opts">${OP.map((k,i)=>`<button class="opt" data-k="${k}"><span class="let">${L[i]}</span>${esc(DATA.map.c[k].n)}</button>`).join("")}</div>
+   <div class="row" style="margin-top:auto">${timerBtn()}</div></div>`;
+ $("#hintBtn").onclick=()=>hint(n.hint);
+ const svg=$("#nMap");buildMap(svg);
+ requestAnimationFrame(()=>{const cur=cityXY(GAME.steps[G.i].city);setVB(svg,fitPts(svg,[cur,...OP.map(cityXY)],60));
+  const u=svg._vb.w/26;let h=pin(cur[0],cur[1],u*.5,DATA.map.c[GAME.steps[G.i].city].n);
+  OP.forEach((k,i)=>{const p=cityXY(k);h+=`<g class="mk" data-k="${k}"><circle cx="${p[0]}" cy="${p[1]}" r="${u*.8}" fill="#3A2E26" stroke="#FDFBF5" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="${p[0]}" y="${p[1]+u*.32}" text-anchor="middle" font-family="Special Elite, monospace" font-size="${u*.9}" fill="#F3EAD6">${L[i]}</text></g>`;});
+  svg.querySelector(".ov").innerHTML=h;tapMap(svg,k=>pick(k));});
+ let done=false;
+ const pick=k=>{if(done)return;const b=$(`#s-next .opt[data-k="${k}"]`);if(!b||b.disabled)return;
+  if(k===n.answer){done=true;resetTimers();b.classList.add("ok");$$("#s-next .opt").forEach(x=>x.disabled=true);tone("ok");
+   setTimeout(()=>{const from=GAME.steps[G.i].city;G.i++;travel(from,G.i,GAME.steps[G.i].mode);},1000);}
+  else{b.classList.add("bad");b.disabled=true;bad(b,`${DATA.map.c[k].n} no encaja: ¡lee el texto!`);}};
+ $$("#s-next .opt").forEach(b=>b.onclick=()=>pick(b.dataset.k));
+}
+async function travel(fromKey,toIdx,mode){
+ show("s-travel",true);G.i=toIdx;hud();const st=GAME.steps[toIdx];
+ await animateTrip(fromKey,st.via||[],st.city,mode,st.place,GAME.steps.slice(0,toIdx).map(s=>cityXY(s.city)));arrive();}
+async function animateTrip(fromKey,via,toKey,mode,place,visited){
+ const svg=$("#vMap");if(!svg._built){buildMap(svg);svg._built=1;}
+ const st={city:toKey,place};
+ const pts=[fromKey,...via,toKey].map(cityXY);
+ await wait(30);setVB(svg,fitPts(svg,[...pts,...visited.slice(-2)],50));
+ const u=svg._vb.w/40,ov=svg.querySelector(".ov");
+ const base=(visited.length>1?`<polyline points="${visited.map(p=>p.join(",")).join(" ")}" fill="none" stroke="#3A2E26" stroke-width="3" stroke-dasharray="9 7" vector-effect="non-scaling-stroke"/>`:"")+visited.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="${u*.35}" fill="#3A2E26"/>`).join("");
+ const seg=[];let tot=0;for(let i=1;i<pts.length;i++){const d=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);seg.push(d);tot+=d;}
+ const at=k=>{let d=k*tot;for(let i=0;i<seg.length;i++){if(d<=seg[i]||i===seg.length-1){const f=seg[i]?Math.min(1,d/seg[i]):1;return[pts[i][0]+(pts[i+1][0]-pts[i][0])*f,pts[i][1]+(pts[i+1][1]-pts[i][1])*f];}d-=seg[i];}};
+ const ico=mode==="walk"?"walk":"ship";const D=Math.min(2600,1200+tot*4);const t0=performance.now();
+ await new Promise(res=>{const step=n=>{const k=Math.min(1,(n-t0)/D),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2,p=at(e);
+  const trail=`<polyline points="${pts.slice(0,1).concat(Array.from({length:30},(_,j)=>at(e*(j+1)/30))).map(q=>q.join(",")).join(" ")}" fill="none" stroke="#B5352A" stroke-width="3" stroke-dasharray="8 6" vector-effect="non-scaling-stroke"/>`;
+  ov.innerHTML=base+trail+pin(pts[pts.length-1][0],pts[pts.length-1][1],u*.6,k>.9?DATA.map.c[st.city].n:"")+`<g transform="translate(${p[0]-u*1.5} ${p[1]-u*2.6}) scale(${u*3/64})"><circle cx="32" cy="34" r="30" fill="#FDFBF5" stroke="#3A2E26" stroke-width="2"/>${ICON[ico]}</g>`;
+  if(k<1)requestAnimationFrame(step);else res();};requestAnimationFrame(step);});
+ tone("stamp");
+ const vs=$("#vStamp");vs.innerHTML=`<div style="width:300px;height:300px;border-radius:50%;border:8px double var(--acc);background:rgba(253,251,245,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transform:rotate(-10deg);animation:thud .6s cubic-bezier(.2,1.6,.4,1)">${icon(ico,90)}<div style="font-family:var(--type);font-size:${st.place.length>9?36:46}px;color:var(--ink)">${esc(st.place.toUpperCase())}</div></div>`;vs.style.display="block";
+ await wait(1400);vs.style.display="none";
+}
+
+/* ---------- retos ---------- */
+const RET={
+ quiz(r,ok){let qi=0;
+  const draw=()=>{resetTimers();const q=r.qs[qi];const n=q.o.length;
+   $("#rb").innerHTML=`<div style="display:flex;gap:36px;align-items:flex-start">
+    <div style="width:230px;display:flex;flex-direction:column;align-items:center;gap:20px">${icon(q.i||"scroll",190)}${r.qs.length>1?`<div class="row" style="gap:10px;justify-content:center">${r.qs.map((_,i)=>`<div style="width:50px;height:50px;border-radius:50%;border:4px solid ${i<qi?"#2F5E2A":"#6B5444"};background:${i<qi?"#8FC07F":"#FDFBF5"};display:flex;align-items:center;justify-content:center;font-family:var(--type);font-size:22px">${i<qi?"✓":i+1}</div>`).join("")}</div>`:""}</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:14px"><div class="hand" style="font-size:${q.q.length>70?38:44}px;line-height:1.05">${esc(q.q)}</div>
+     <div class="opts" style="grid-template-columns:${n>2?"1fr 1fr":"1fr"}">${shuffle(q.o.map((o,i)=>[o,i])).map(([o,i],k)=>{const t=typeof o==="string"?o:o.t,ic=typeof o==="string"?"":icon(o.i,54);return `<button class="opt" data-i="${i}" style="min-height:${q.o.some(x=>typeof x!=="string")?110:96}px;font-size:${t.length>30?20:24}px"><span class="let">${L[k]}</span>${ic}<span>${esc(t)}</span></button>`;}).join("")}</div>
+     <div class="row">${timerBtn()}${q.ref?`<span class="ref">${UI.book} ${esc(q.ref)}</span>`:""}</div></div></div>`;
+   $$("#rb .opt").forEach(b=>b.onclick=()=>{if(+b.dataset.i===q.a){b.classList.add("ok");$$("#rb .opt").forEach(x=>x.disabled=true);tone("ok");qi++;setTimeout(()=>qi<r.qs.length?draw():ok(),q.why?1900:900);if(q.why)toast(q.why,true);}
+    else{b.classList.add("bad");b.disabled=true;bad(b,q.miss||"¡Casi! Piensa otra vez");}});};
+  draw();},
+ many(r,ok){const need=r.items.filter(x=>x.ok).length;let found=0;
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:22px"><div class="row" style="justify-content:space-between"><div class="hand" style="font-size:40px">${esc(r.prompt)}</div><div style="font-family:var(--type);font-size:28px" id="mcount">0 / ${need}</div></div>
+   <div class="tiles" style="justify-content:flex-start">${shuffle(r.items.map((x,i)=>[x,i])).map(([x,i])=>`<button class="tile" data-i="${i}" style="${r.wide?"width:calc(50% - 8px);font-family:var(--hand);font-size:32px;line-height:1.05;text-align:left;min-height:96px":""}">${x.i?icon(x.i,48):""}${esc(x.t)}</button>`).join("")}</div></div>`;
+  $$("#rb .tile").forEach(b=>b.onclick=()=>{if(b.classList.contains("done"))return;const x=r.items[+b.dataset.i];
+   if(x.ok){b.classList.add("done");found++;$("#mcount").textContent=`${found} / ${need}`;tone("ok");if(x.why)toast(x.why,true);if(found===need)setTimeout(ok,x.why?1800:700);}
+   else{bad(b,x.why||"¡Ese no!");}});},
+ order(r,ok){const ord=shuffle(r.items.map((e,i)=>[e,i]));const n=r.items.length;
+  $("#rb").innerHTML=`${r.note?`<div class="hand" style="font-size:34px;margin-bottom:6px">${esc(r.note)}</div>`:""}<div style="display:grid;grid-template-columns:repeat(${n},minmax(0,1fr));gap:${n>4?14:22}px;padding:24px 10px 0">${ord.map(([e,i])=>`<button class="evt" data-i="${i}" style="height:${n>4?260:240}px"><span class="num"></span>${icon(e.i,n>4?90:110)}<div class="cap" style="font-size:${n>4?26:30}px">${esc(e.t)}</div></button>`).join("")}</div>
+   <div style="position:absolute;left:0;right:0;bottom:4px;text-align:center" class="hand"><span style="font-size:34px;color:var(--sepia)">Toca las tarjetas en orden: 1, 2, 3…</span></div>`;
+  let seq=0;$$("#rb .evt").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(b.classList.contains("placed"))return;
+   if(i===seq){seq++;b.classList.add("placed");b.querySelector(".num").textContent=seq;tone("ok");if(seq===n)setTimeout(ok,600);}else bad(b,seq===0?"¿Qué pasó primero?":"¿Y después?");});},
+ match(r,ok){const left=shuffle(r.pairs.map(p=>p[0])),right=shuffle(r.pairs.map(p=>p[1]));let sel=null,done=0;
+  $("#rb").innerHTML=`<div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:10px;align-items:start;max-width:1000px;margin:0 auto">
+   <div style="display:grid;gap:10px"><div class="hand" style="font-size:30px;text-align:center">${esc(r.lh)}</div>${left.map(x=>`<button class="tile" data-l="${esc(x)}" style="justify-content:center;min-height:${r.pairs.length>5?60:76}px;font-size:${r.pairs.length>5?24:28}px">${esc(x)}</button>`).join("")}</div><div></div>
+   <div style="display:grid;gap:10px"><div class="hand" style="font-size:30px;text-align:center">${esc(r.rh)}</div>${right.map(x=>`<button class="tile" data-r="${esc(x)}" style="justify-content:center;min-height:${r.pairs.length>5?60:76}px;font-size:${r.pairs.length>5?24:28}px">${esc(x)}</button>`).join("")}</div></div>`;
+  $$("[data-l]").forEach(b=>b.onclick=()=>{if(b.classList.contains("done"))return;$$("[data-l]").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");sel=b;tone("tick");});
+  $$("[data-r]").forEach(b=>b.onclick=()=>{if(b.classList.contains("done"))return;if(!sel){bad(b,"Primero toca uno de la izquierda");return;}
+   if(r.pairs.some(p=>p[0]===sel.dataset.l&&p[1]===b.dataset.r)){sel.classList.add("done");b.classList.add("done");sel.classList.remove("sel");sel=null;done++;tone("ok");if(done===r.pairs.length)setTimeout(ok,600);}
+   else bad(b,"¡No es su pareja!");});},
+ verse(r,ok){const ch=shuffle(r.chunks.map((c,i)=>[c,i]));let pos=0;
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:26px"><div class="line" id="vline"><span style="color:#B8A888">…</span></div>
+   <div class="tiles">${ch.map(([c,i])=>`<button class="tile" data-i="${i}">${esc(c)}</button>`).join("")}</div><div style="text-align:center"><span class="ref">${UI.book} ${esc(r.vref)}</span></div></div>`;
+  $$("#rb .tile").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(i===pos){pos++;b.classList.add("used");const l=$("#vline");if(pos===1)l.innerHTML="";l.insertAdjacentHTML("beforeend",`<span>${esc(r.chunks[i])}</span>`);tone("tick");if(pos===r.chunks.length){tone("ok");setTimeout(ok,900);}}else bad(b,"¿Qué palabra va ahora?");});},
+ tf(r,ok){let qi=0;
+  const draw=()=>{const q=r.items[qi];
+   $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:30px;align-items:stretch;padding:0 40px">
+    <div style="font-family:var(--type);font-size:22px;text-align:center">${qi+1} / ${r.items.length}</div>
+    <div class="tfcard">${esc(q.t)}</div>
+    <div class="row" style="justify-content:center;gap:40px"><button class="tfb" data-v="1" style="background:#DCEBD3">✓ VERDADERO</button><button class="tfb" data-v="0" style="background:#F2D5CC">✗ FALSO</button></div>
+    <div id="why" class="hand" style="font-size:34px;text-align:center;min-height:44px"></div></div>`;
+   $$("#rb .tfb").forEach(b=>b.onclick=()=>{if(b.disabled)return;const right=(b.dataset.v==="1")===q.v;
+    if(right){$$("#rb .tfb").forEach(x=>x.disabled=true);b.style.outline="6px solid #2F5E2A";tone("ok");$("#why").textContent=q.why||"¡Correcto!";qi++;setTimeout(()=>qi<r.items.length?draw():ok(),2200);}
+    else{bad(b,"¡Piénsalo otra vez!");}});};
+  draw();},
+ mapcountry(r,ok){
+  $("#rb").innerHTML=`<div class="mapbox" style="position:absolute;left:0;top:0;width:800px;bottom:0"><svg id="rMap" class="tapmap" aria-label="Mapa"></svg></div>
+   <div style="position:absolute;left:830px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:18px"><div class="hand" style="font-size:44px;line-height:1.05">${esc(r.prompt)}</div>${r.clues?r.clues.map(c=>`<div class="clue" style="padding:10px 14px">${icon(c.i,56)}<div class="t" style="font-size:28px">${esc(c.t)}</div></div>`).join(""):""}<div class="row" style="margin-top:auto">${timerBtn()}</div></div>`;
+  const svg=$("#rMap");buildMap(svg);
+  requestAnimationFrame(()=>{const C=DATA.map.countries;const pts=[];r.view.forEach(k=>{const b=C[k].b;pts.push(b[0],b[1]);});setVB(svg,fitPts(svg,pts,10));});
+  let done=false;tapMap(svg,k=>{if(done||!k)return;const p=svg.querySelector(`.c[data-k="${k}"]`);
+   if(k===r.target){done=true;p.classList.add("ok");tone("ok");setTimeout(ok,900);}else{p.classList.add("bad");setTimeout(()=>p.classList.remove("bad"),900);bad(null,`Ese país es ${DATA.names[k]||"otro"}`);}});},
+ mappick(r,ok){
+  $("#rb").innerHTML=`<div class="mapbox" style="position:absolute;left:0;top:0;width:700px;bottom:0"><svg id="rMap" aria-label="Mapa"></svg><div style="position:absolute;right:12px;top:12px">${icon("compass",110)}</div></div>
+   <div style="position:absolute;left:730px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:16px"><div class="clue">${icon(r.icon||"school",70)}<div class="t" style="font-size:32px">${esc(r.prompt)}</div></div>
+   <div class="opts">${r.points.map((p,i)=>`<button class="opt" data-k="${p.k}"><span class="let">${L[i]}</span>${esc(p.label||"")}</button>`).join("")}</div><div class="row" style="margin-top:auto">${timerBtn()}</div></div>`;
+  const svg=$("#rMap");buildMap(svg);
+  requestAnimationFrame(()=>{const all=[r.center.xy,...r.points.map(p=>p.xy)];setVB(svg,fitPts(svg,all,r.pad||3));
+   const u=svg._vb.w/22;let h=pin(r.center.xy[0],r.center.xy[1],u*.55,r.center.n);
+   r.points.forEach((p,i)=>{h+=`<g class="mk" data-k="${p.k}"><circle cx="${p.xy[0]}" cy="${p.xy[1]}" r="${u*.7}" fill="#3A2E26" stroke="#FDFBF5" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="${p.xy[0]}" y="${p.xy[1]+u*.28}" text-anchor="middle" font-family="Special Elite, monospace" font-size="${u*.8}" fill="#F3EAD6">${L[i]}</text></g>`;});
+   if(r.scale)h+=`<g><path d="M${svg._vb.x+u} ${svg._vb.y+svg._vb.h-u}h${r.scale.len}" stroke="#3A2E26" stroke-width="4" vector-effect="non-scaling-stroke"/><text x="${svg._vb.x+u}" y="${svg._vb.y+svg._vb.h-u*1.4}" font-family="Special Elite, monospace" font-size="${u*.7}" fill="#3A2E26">${esc(r.scale.label)}</text></g>`;
+   svg.querySelector(".ov").innerHTML=h;tapMap(svg,k=>pick(k));});
+  let done=false;const pick=k=>{if(done)return;const b=$(`#rb .opt[data-k="${k}"]`);if(!b||b.disabled)return;
+   if(k===r.answer){done=true;b.classList.add("ok");$$("#rb .opt").forEach(x=>x.disabled=true);tone("ok");setTimeout(ok,900);}else{b.classList.add("bad");b.disabled=true;bad(b,r.miss||"Mira la brújula otra vez");}};
+  $$("#rb .opt").forEach(b=>b.onclick=()=>pick(b.dataset.k));}
+};
+
+Object.assign(RET,{
+ body(r,ok){let qi=0;
+  const draw=()=>{const q=r.items[qi];
+   $("#rb").innerHTML=`<div style="display:grid;grid-template-columns:220px 1fr 220px;gap:24px;align-items:center;height:100%;padding-bottom:20px">
+    <div id="bUp" style="text-align:center;border-radius:20px;padding:10px;transition:all .3s">${icon("stand",190)}<div style="font-family:var(--type);font-size:24px">DE PIE<br><b style="font-size:30px;color:#2F5E2A">VERDADERO</b></div></div>
+    <div style="display:flex;flex-direction:column;gap:20px;align-items:center"><div style="font-family:var(--type);font-size:20px">${qi+1} / ${r.items.length}</div><div class="tfcard" style="font-size:44px;min-height:220px">${esc(q.t)}</div>
+     <div id="bCount" style="font-family:var(--type);font-size:80px;line-height:1;min-height:80px;color:var(--red)"></div><div id="why" class="hand" style="font-size:32px;text-align:center;min-height:40px"></div>
+     <button class="btn main big" id="bGo">¡3, 2, 1… decidid!</button></div>
+    <div id="bDown" style="text-align:center;border-radius:20px;padding:10px;transition:all .3s">${icon("sit",190)}<div style="font-family:var(--type);font-size:24px">SENTADOS<br><b style="font-size:30px;color:#9E2F28">FALSO</b></div></div></div>`;
+   let phase=0;$("#bGo").onclick=async()=>{if(phase===0){phase=1;$("#bGo").style.visibility="hidden";for(const n of ["3","2","1"]){$("#bCount").textContent=n;tone("tick");await wait(800);}$("#bCount").textContent="¡YA!";tone("stamp");await wait(900);$("#bCount").textContent="";$("#bGo").textContent="Ver la respuesta";$("#bGo").style.visibility="visible";phase=2;}
+    else if(phase===2){phase=3;const w=q.v?$("#bUp"):$("#bDown"),o=q.v?$("#bDown"):$("#bUp");w.style.background="#DCEBD3";w.style.transform="scale(1.1)";o.style.opacity=.3;tone("win");$("#why").textContent=q.why||"";$("#bGo").textContent=qi<r.items.length-1?"Siguiente":"¡Terminado!";}
+    else{qi++;qi<r.items.length?draw():ok();}};};
+  draw();},
+ mime(r,ok){let qi=0;
+  const draw=()=>{const c=r.cards[qi];
+   $("#rb").innerHTML=`<div style="display:flex;gap:40px;align-items:center;height:100%;padding-bottom:30px">
+    <div style="width:320px;height:320px;border-radius:50%;background:#FDFBF5;border:5px solid var(--ink);display:flex;align-items:center;justify-content:center;flex:none" id="mArt">${icon(c.i,240)}</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:20px"><div style="font-family:var(--type);font-size:22px">${esc(r.who||"¡Toda la clase!")} · Escena ${qi+1} de ${r.cards.length}</div>
+     <div class="hand" style="font-size:54px;line-height:1.05">${esc(c.t)}</div>
+     <div id="mCount" style="font-family:var(--type);font-size:90px;line-height:1;min-height:90px;color:var(--red)"></div>
+     <div class="row"><button class="btn main big" id="mGo">${icon("mask",50)} ¡Acción!</button></div></div></div>`;
+   let ph=0;$("#mGo").onclick=async()=>{if(ph===0){ph=1;$("#mGo").style.visibility="hidden";for(let n=r.secs||5;n>0;n--){$("#mCount").textContent=n;tone("tick");await wait(1000);}
+     $("#mCount").textContent="¡CONGELADOS!";tone("stamp");const f=document.createElement("div");f.style.cssText="position:absolute;inset:0;background:#fff;z-index:30;animation:fade .5s reverse forwards";$("#paper").appendChild(f);setTimeout(()=>f.remove(),500);
+     await wait(1200);$("#mGo").innerHTML=(qi<r.cards.length-1?"Siguiente escena ":"¡Bravo! ")+ARROW;$("#mGo").style.visibility="visible";ph=2;}
+    else{qi++;qi<r.cards.length?draw():ok();}};};
+  draw();},
+ row(r,ok){const need=r.need||25,T=r.secs||20;let n=0,t0=null,tid=null,done=false;
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:20px;height:100%">
+   <div class="row" style="justify-content:space-between"><div class="hand" style="font-size:40px">${esc(r.prompt)}</div><div style="font-family:var(--type);font-size:40px" id="rT">${T} s</div></div>
+   <div style="position:relative;height:200px;background:#CFE0E3;border:4px solid #5B4636;border-radius:12px;overflow:hidden">
+    <svg viewBox="0 0 1000 200" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;inset:0"><path d="M0 150 Q50 135 100 150 T200 150 T300 150 T400 150 T500 150 T600 150 T700 150 T800 150 T900 150 T1000 150 V200 H0z" fill="#8FB8C8"/></svg>
+    <div style="position:absolute;right:20px;top:40px;text-align:center">${icon("city",110)}<div style="font-family:var(--type);font-size:22px">${esc(r.goal)}</div></div>
+    <div id="boat" style="position:absolute;left:10px;top:30px;transition:left .25s">${icon("ship",140)}</div></div>
+   <div style="height:26px;background:#E9DCC0;border:3px solid var(--ink);border-radius:14px;overflow:hidden"><div id="rBar" style="height:100%;width:0;background:#2F6F8F;transition:width .2s"></div></div>
+   <div class="row" style="justify-content:center;gap:30px"><button class="btn main big" id="rowB" style="min-width:420px;font-size:44px;min-height:110px">${icon("clap",70)} ¡REMA!</button><div class="hand" style="font-size:30px;max-width:360px">Cada palmada de la clase = un golpe de remo</div></div></div>`;
+  const reset=()=>{n=0;t0=null;clearInterval(tid);$("#rT").textContent=T+" s";$("#rBar").style.width="0";$("#boat").style.left="10px";};
+  $("#rowB").onclick=()=>{if(done)return;if(!t0){t0=Date.now();tid=setInterval(()=>{const left=Math.max(0,T-Math.floor((Date.now()-t0)/1000));$("#rT").textContent=left+" s";if(left<=0&&!done){clearInterval(tid);bad($("#rowB"),"¡El viento os frenó! Otra vez, más fuerte");setTimeout(reset,1500);}},250);}
+   n++;tone("tick");const f=Math.min(1,n/need);$("#rBar").style.width=(f*100)+"%";$("#boat").style.left=`calc(${f*78}% + 10px)`;
+   if(n>=need){done=true;clearInterval(tid);tone("win");confetti();setTimeout(ok,1200);}};},
+ chorus(r,ok){const words=r.text.split(" ");const hidden=new Set();
+  const paint=()=>{$("#chV").innerHTML=words.map((w,i)=>hidden.has(i)?`<span style="display:inline-block;min-width:${w.length*0.55}em;border-bottom:4px solid var(--ink);color:transparent">${esc(w)}</span>`:`<span>${esc(w)}</span>`).join(" ");};
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:24px;align-items:center;padding-top:6px">
+   <div class="hand" style="font-size:34px">${esc(r.prompt||"¡Leedlo todos juntos en voz alta!")}</div>
+   <div id="chV" style="font-family:var(--hand);font-size:60px;line-height:1.25;text-align:center;background:#FDFBF5;border:4px double #9E7B4F;padding:24px 34px;border-radius:12px;max-width:1100px"></div>
+   <span class="ref">${UI.book} ${esc(r.vref)}</span>
+   <button class="btn main big" id="chB">Ocultar palabras ${ARROW}</button></div>`;paint();
+  $("#chB").onclick=()=>{const vis=words.map((_,i)=>i).filter(i=>!hidden.has(i));if(!vis.length){ok();return;}
+   shuffle(vis).slice(0,Math.max(2,Math.ceil(words.length/5))).forEach(i=>hidden.add(i));paint();tone("tick");
+   if(hidden.size===words.length){$("#chB").innerHTML=`¡De memoria! ${ARROW}`;tone("win");}};},
+ poll(r,ok){let qi=0;const res=[];
+  const draw=()=>{const q=r.qs[qi];let v=0;
+   $("#rb").innerHTML=`<div style="display:flex;gap:40px;align-items:center;height:100%;padding-bottom:20px">
+    <div style="flex:none">${icon(q.i||"hand",230)}</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:18px"><div style="font-family:var(--type);font-size:22px">${qi+1} / ${r.qs.length} · ¡Levantad la mano!</div><div class="hand" style="font-size:50px;line-height:1.05">${esc(q.q)}</div>
+     <div class="row" style="gap:20px"><button class="tm" id="pM" aria-label="Menos" style="min-height:80px;min-width:80px;font-size:40px;justify-content:center">−</button><div id="pV" style="font-family:var(--type);font-size:90px;min-width:120px;text-align:center">0</div><button class="tm" id="pP" aria-label="Más" style="min-height:80px;min-width:80px;font-size:40px;justify-content:center">+</button><span style="font-family:var(--type);font-size:28px;color:var(--sepia)">de ${nKids}</span></div>
+     <div class="row"><button class="btn main" id="pOk">Anotar ${ARROW}</button></div></div></div>`;
+   const set=d=>{v=Math.max(0,Math.min(nKids,v+d));$("#pV").textContent=v;tone("tick");};
+   $("#pM").onclick=()=>set(-1);$("#pP").onclick=()=>set(1);
+   $("#pOk").onclick=()=>{res.push(v);qi++;if(qi<r.qs.length)draw();else chart();};};
+  const chart=()=>{tone("win");
+   $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:14px"><div class="hand" style="font-size:40px">${esc(r.chartTitle||"¡Así es nuestra clase!")}</div>
+    ${r.qs.map((q,i)=>{const pct=Math.round(res[i]/nKids*100);return `<div style="display:grid;grid-template-columns:420px 1fr 90px;gap:16px;align-items:center"><div style="font-size:24px;line-height:1.15">${esc(q.short||q.q)}</div><div style="height:46px;background:#E9DCC0;border:3px solid var(--ink);border-radius:8px;overflow:hidden"><div class="pbar" data-w="${pct}" style="height:100%;width:0;background:${["#2F4C7A","#C8892B","#5E7A4C","#9E2F28"][i%4]};transition:width 1.2s ease"></div></div><div style="font-family:var(--type);font-size:30px">${pct}%</div></div>`;}).join("")}
+    <div class="hand" style="font-size:32px;margin-top:8px">${esc(r.after||"")}</div><div class="row"><button class="btn main" id="pDone">¡Genial! ${ARROW}</button></div></div>`;
+   requestAnimationFrame(()=>requestAnimationFrame(()=>$$(".pbar").forEach(b=>b.style.width=b.dataset.w+"%")));$("#pDone").onclick=ok;};
+  draw();},
+ guess(r,ok){let v=r.start;
+  $("#rb").innerHTML=`<div style="display:flex;gap:40px;align-items:center;height:100%;padding-bottom:20px">
+   <div style="flex:none;position:relative">${icon(r.i||"lake",240)}<div id="gArrow" style="position:absolute;left:0;right:0;top:-10px;text-align:center;font-family:var(--type);font-size:40px"></div></div>
+   <div style="flex:1;display:flex;flex-direction:column;gap:18px"><div class="hand" style="font-size:46px;line-height:1.05">${esc(r.q)}</div>
+    <div class="row" style="gap:12px">${[-10,-1].map(d=>`<button class="tm gd" data-d="${d}" style="min-height:76px;min-width:90px;font-size:30px;justify-content:center">${d}</button>`).join("")}<div style="font-family:var(--type);font-size:84px;min-width:200px;text-align:center"><span id="gV">${v}</span><span style="font-size:36px"> ${esc(r.unit)}</span></div>${[1,10].map(d=>`<button class="tm gd" data-d="${d}" style="min-height:76px;min-width:90px;font-size:30px;justify-content:center">+${d}</button>`).join("")}</div>
+    <div id="gFb" class="hand" style="font-size:40px;min-height:48px"></div>
+    <div class="row"><button class="btn main" id="gOk">¿Es este? ${ARROW}</button>${timerBtn()}</div></div></div>`;
+  $$("#rb .gd").forEach(b=>b.onclick=()=>{v=Math.max(r.min||0,Math.min(r.max||9999,v+ +b.dataset.d));$("#gV").textContent=v;tone("tick");});
+  let tries=0;$("#gOk").onclick=()=>{tries++;const d=r.answer-v;
+   if(Math.abs(d)<=(r.tol||0)){$("#gFb").textContent=`¡Sí! ${r.answer} ${r.unit}. ${r.why||""}`;tone("win");confetti();$("#gOk").style.display="none";setTimeout(ok,2600);}
+   else{tone("bad");$("#gFb").textContent=(d>0?r.more:r.less)+(tries>=4?` (pista: entre ${r.answer-15} y ${r.answer+15})`:"");$("#gArrow").textContent=d>0?"▲":"▼";}};}
+});
+
+/* ---------- final ---------- */
+function finale(){show("s-final",false);const f=$("#s-final");f.innerHTML=GAME.final();
+ f.insertAdjacentHTML("beforeend",`<div style="position:absolute;right:0;top:0;display:flex;gap:8px;z-index:3"><a class="ib" href="../" aria-label="Todos los juegos" style="text-decoration:none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></a><button class="ib fsBtn" aria-label="Pantalla completa">${UI.fs}</button><button class="ib sndBtn" aria-label="Sonido">${UI.snd}</button></div>`);
+ bindTools(f);confetti();tone("win");setTimeout(()=>stamp3d("¡CASO RESUELTO!",{x:50,y:46,size:72,w:330,ms:2600}),300);if(GAME.afterFinal)GAME.afterFinal();
+ const a=$("#again");if(a)a.onclick=()=>{show("s-inicio",false);};}
+
+$("#homeBtn").onclick=()=>{overlay(`<div class="ovcard"><h2 style="font-size:40px">¿Volver al inicio?</h2><div class="row"><button class="btn" id="ovNo">No</button><button class="btn main" id="ovYes">Sí</button></div></div>`);$("#ovNo").onclick=closeOv;$("#ovYes").onclick=()=>{closeOv();show("s-inicio",false);};};
+
+/* ---------- ¿quién responde? ---------- */
+function picker(){const pool=TEAMS.length?TEAMS.map(t=>({t:t.n,c:t.c})):Array.from({length:nKids},(_,i)=>({t:"Nº "+(i+1),c:"#3A2E26"}));
+ overlay(`<div class="ovcard" style="min-width:560px"><div style="font-family:var(--type);font-size:30px">¿Quién responde?</div><div id="pk" style="font-family:var(--type);font-size:110px;line-height:1.1;min-height:130px"></div><div class="hand" id="pkSub" style="font-size:34px;min-height:40px"></div><button class="btn main" id="ovOk" style="visibility:hidden">¡Vamos!</button></div>`);
+ let n=0,last=-1;const total=18+Math.floor(Math.random()*6);
+ const step=()=>{let k;do{k=Math.floor(Math.random()*pool.length);}while(pool.length>1&&k===last);last=k;const el=$("#pk");if(!el)return;el.textContent=pool[k].t;el.style.color=pool[k].c;tone("tick");n++;
+  if(n<total)setTimeout(step,40+n*n*0.9);else{tone("win");$("#pkSub").textContent=TEAMS.length?"¡Le toca a este equipo!":"¡Que conteste este número de lista!";$("#ovOk").style.visibility="visible";$("#ovOk").onclick=closeOv;}};step();}
+$("#diceBtn").onclick=picker;
+
+/* ---------- keyboard ---------- */
+document.addEventListener("keydown",e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();const vis=el=>el&&el.offsetParent!==null&&!el.disabled;
+ const root=$("#ov.on")||$(".screen.on");if(!root)return;const idx="abcdefgh".indexOf(k)>=0&&k.length===1?"abcdefgh".indexOf(k):"12345678".indexOf(k);
+ if(idx>=0&&k.length===1){const o=[...root.querySelectorAll(".opt")].filter(vis);if(o[idx]){e.preventDefault();o[idx].click();}return;}
+ if(["enter","arrowright","pagedown"," "].includes(k)){if((e.target.tagName||"").toLowerCase()==="button"&&(k==="enter"||k===" "))return;const m=[...root.querySelectorAll(".btn.main")].filter(vis).pop();if(m){e.preventDefault();m.click();}}});
+if("serviceWorker" in navigator&&location.protocol==="https:"&&location.hostname.endsWith("github.io")){navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(()=>{});}
+</script>
+<script>
+/* ===== Lección 1 · Debate en Jerusalén · CASO Nº 2 · mecánica estrella: la balanza del concilio ===== */
+Object.assign(ICON,{
+ l1scale:`<g ${S}><path d="M32 12v40M20 56h24" stroke-width="4"/><path d="M10 18h44" stroke-width="4"/><circle cx="32" cy="12" r="4" fill="#E9C46A"/><path d="M10 18 4 36M10 18l6 18M54 18l-6 18M54 18l6 18" stroke-width="2"/><path d="M2 36h16c0 5-4 8-8 8s-8-3-8-8zM46 36h16c0 5-4 8-8 8s-8-3-8-8z" fill="#E9C46A"/></g>`,
+ l1letter:`<g ${S}><path d="M14 10h34c4 0 6 3 6 6v32c0 4-2 6-6 6H16c-4 0-6-2-6-6V16" fill="#F7E9C8"/><path d="M10 16c0-4 2-6 4-6s4 2 4 6v4h-8z" fill="#E3C792"/><path d="M24 22h22M24 30h22M24 38h12"/><circle cx="42" cy="46" r="8" fill="#B5352A" stroke="#6E2A1A"/><path d="M38 46h8M42 42v8" stroke="#F2C98A" stroke-width="2"/></g>`,
+ gift:`<g ${S}><rect x="10" y="28" width="44" height="28" rx="3" fill="#E86A5A"/><rect x="6" y="19" width="52" height="11" rx="2" fill="#F08A7A"/><path d="M32 19v37" stroke="#F2C98A" stroke-width="7"/><path d="M32 19c-6-11-19-11-17-2 1 4 11 3 17 2zM32 19c6-11 19-11 17-2-1 4-11 3-17 2z" fill="#F2C98A"/></g>`,
+ l1load:`<g ${S}><path d="M18 22c-8 6-12 16-12 24 0 8 10 12 26 12s26-4 26-12c0-8-4-18-12-24z" fill="#9C8B74"/><path d="M18 22l6-10h16l6 10z" fill="#B5A27E"/><path d="M14 40h36M12 48h40" stroke="#6B5444"/><path d="M26 30h12" stroke-width="5"/></g>`,
+ l1man:`<g ${S}><circle cx="32" cy="15" r="8" fill="#E9C9A6"/><path d="M23 12c2-6 16-6 18 0" fill="#FDFBF5"/><path d="M18 58l3-26c1-6 21-6 22 0l3 26z" fill="#6E8FB5"/><path d="M28 32v26M36 32v26" stroke-width="2"/></g>`,
+ l1woman:`<g ${S}><circle cx="32" cy="15" r="8" fill="#D9A58C"/><path d="M24 12c0-8 16-8 16 0v8" fill="none" stroke="#5A3A26" stroke-width="4"/><path d="M16 58l6-26c2-6 18-6 20 0l6 26z" fill="#C2674A"/><path d="M24 40h16" stroke="#F2C98A" stroke-width="3"/></g>`,
+ l1feather:`<g ${S}><path d="M50 8C30 10 16 26 14 50l8-6c8-2 18-8 24-18-6 2-10 2-14 0 8-2 14-6 18-12z" fill="#FDFBF5"/><path d="M10 56 34 26"/></g>`,
+ l1pesa:`<g ${S}><path d="M26 14a6 6 0 1 1 12 0" fill="none" stroke-width="4"/><path d="M20 18h24l8 36H12z" fill="#E9C46A"/><path d="M20 30h24" stroke="#B88A2E"/></g>`,
+ l1talk:`<g ${S}><path d="M6 12h30v20H18l-8 8v-8H6z" fill="#FDFBF5"/><path d="M28 30h30v18h-4v8l-8-8H28z" fill="#F2C98A"/></g>`,
+ l1dove:`<g ${S}><path d="M8 34c8-2 14-8 18-16 2 8 8 12 16 12l12-6-4 10c-4 10-16 16-28 14l-8 6 2-8c-4-2-6-6-8-12z" fill="#FDFBF5"/><circle cx="46" cy="28" r="1.6" fill="#3A2E26"/></g>`,
+ l1young:`<g ${S}><circle cx="32" cy="15" r="8" fill="#E9C9A6"/><path d="M24 12c2-7 14-8 16 0" fill="#7A4E2D"/><path d="M20 58l3-24c1-6 17-6 18 0l3 24z" fill="#5E7A4C"/><path d="M42 36l8-8" /><rect x="44" y="18" width="14" height="10" rx="2" fill="#F7E9C8" transform="rotate(-30 51 23)"/></g>`,
+ l1bandage:`<g ${S}><rect x="8" y="24" width="48" height="16" rx="8" fill="#F2D5B8" transform="rotate(-30 32 32)"/><rect x="24" y="24" width="16" height="16" fill="#FDFBF5" transform="rotate(-30 32 32)"/><g fill="#C9A86A" stroke="none"><circle cx="30" cy="31" r="1.5"/><circle cx="34" cy="33" r="1.5"/></g></g>`
+});
+
+/* ---------- estilos ---------- */
+(()=>{const st=document.createElement("style");st.textContent=`
+.bz-stage{position:absolute;left:0;top:0;width:748px;height:500px;perspective:1300px;perspective-origin:50% 20%}
+.bz-rig{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(9deg) rotateY(-6deg);transform-origin:50% 90%}
+.bz-floor{position:absolute;left:-10px;right:-10px;bottom:-8px;height:120px;border-radius:50%;background:radial-gradient(ellipse at 50% 40%,rgba(120,80,30,.25),rgba(120,80,30,0) 70%);transform:rotateX(70deg);pointer-events:none}
+.bz-post{position:absolute;left:356px;top:126px;width:30px;height:318px;background:linear-gradient(90deg,#7A4E2D,#B5764A 40%,#8E5A3A);border:3px solid #3A2E26;border-radius:6px;transform-style:preserve-3d}
+.bz-post:after{content:"";position:absolute;left:100%;top:-3px;width:16px;height:calc(100% + 6px);background:#5E3D22;border:3px solid #3A2E26;transform-origin:0 50%;transform:rotateY(70deg)}
+.bz-base{position:absolute;left:256px;top:430px;width:230px;height:40px;background:linear-gradient(#B5764A,#7A4E2D);border:3px solid #3A2E26;border-radius:8px;transform-style:preserve-3d}
+.bz-base:before{content:"";position:absolute;left:-3px;right:-3px;bottom:100%;height:56px;background:#C9925C;border:3px solid #3A2E26;border-radius:8px 8px 0 0;transform-origin:50% 100%;transform:rotateX(78deg)}
+.bz-arc{position:absolute;left:311px;top:60px;width:120px;height:66px;pointer-events:none}
+.bz-beam{position:absolute;left:105px;top:112px;width:532px;height:20px;transform-origin:50% 50%;transform-style:preserve-3d}
+.bz-beam .fr{position:absolute;inset:0;background:linear-gradient(#E9C46A,#B88A2E);border:3px solid #3A2E26;border-radius:10px}
+.bz-beam .tp{position:absolute;left:0;right:0;bottom:100%;height:16px;background:#F2D58A;border:3px solid #3A2E26;border-radius:8px;transform-origin:50% 100%;transform:rotateX(80deg)}
+.bz-beam .nd{position:absolute;left:263px;bottom:12px;width:7px;height:58px;background:#3A2E26;border-radius:4px 4px 0 0}
+.bz-beam .nd:after{content:"";position:absolute;left:-6px;top:-8px;width:19px;height:19px;border-radius:50%;background:#B5352A;border:3px solid #3A2E26}
+.bz-beam .ball{position:absolute;top:-6px;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFF2C2,#C9A040);border:3px solid #3A2E26}
+.bz-hub{position:absolute;left:355px;top:106px;width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFF2C2,#B88A2E);border:3px solid #3A2E26;z-index:3}
+.bz-pan{position:absolute;width:250px;height:260px;margin-left:-125px;cursor:pointer;transform-style:preserve-3d;-webkit-user-select:none;user-select:none}
+.bz-pan svg.str{position:absolute;left:0;top:0;width:250px;height:160px;pointer-events:none;overflow:visible}
+.bz-dish{position:absolute;left:5px;top:30px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 45% 40%,#FFF2C2,#E9C46A 45%,#A87B26);border:4px solid #3A2E26;transform:rotateX(76deg);transform-origin:50% 50%;box-shadow:0 0 0 6px rgba(58,46,38,.15)}
+.bz-rim{position:absolute;left:5px;top:148px;width:240px;height:34px;pointer-events:none}
+.bz-load{position:absolute;left:20px;width:210px;bottom:100px;display:flex;flex-wrap:wrap-reverse;justify-content:center;align-content:flex-start;gap:4px 6px;pointer-events:none}
+.bz-plab{position:absolute;left:-6px;right:-6px;top:192px;min-height:48px;padding:4px 10px;border:3px solid #3A2E26;border-radius:10px;background:#FDFBF5;font-family:var(--hand);font-size:27px;line-height:.98;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 0 #9E8458}
+.bz-plab b{font-family:var(--type);font-weight:400;font-size:22px;width:34px;height:34px;flex:none;border-radius:50%;background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;justify-content:center}
+.bz-pan.hot .bz-plab{background:#F2C98A}
+.bz-pan.win .bz-plab{background:#DCEBD3;border-color:#2F5E2A}
+.bz-shadow{position:absolute;top:466px;width:210px;height:26px;margin-left:-105px;border-radius:50%;background:rgba(58,46,38,.28);filter:blur(3px);pointer-events:none}
+.bz-w{position:relative;display:flex;align-items:center;justify-content:center;border:3px solid #3A2E26;border-radius:8px 8px 5px 5px;background:linear-gradient(#FDFBF5,#E9DCC0);box-shadow:inset 0 -6px 0 rgba(0,0,0,.08);animation:bzland .5s cubic-bezier(.3,1.6,.5,1)}
+.bz-w:before{content:"";position:absolute;left:4px;right:4px;bottom:100%;height:9px;background:#F7EFDD;border:3px solid #3A2E26;border-bottom:0;border-radius:6px 6px 0 0;transform:skewX(-18deg)}
+.bz-w.g{background:linear-gradient(#FFF2C2,#E9C46A)}
+.bz-w.r{background:linear-gradient(#EADFCB,#B9A98F)}
+@keyframes bzland{0%{transform:translateY(-60px) scale(1.3)}100%{transform:none}}
+.bz-w.float{animation:bzfloat 1.8s ease-in forwards}
+@keyframes bzfloat{0%{transform:none;opacity:1}100%{transform:translate(40px,-260px) rotate(60deg);opacity:0}}
+.bz-side{position:absolute;left:770px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:12px}
+.bz-card{position:relative;background:#FDFBF5;border:4px solid #3A2E26;border-radius:14px;padding:12px 16px 14px;box-shadow:0 10px 20px rgba(0,0,0,.2);min-height:196px;display:flex;flex-direction:column;gap:6px;animation:bzin .7s cubic-bezier(.2,1.3,.4,1)}
+@keyframes bzin{0%{opacity:0;transform:perspective(900px) rotateY(-80deg) translateZ(60px)}100%{opacity:1;transform:none}}
+.bz-card .who{font-family:var(--type);font-size:19px;letter-spacing:1px;color:#8E3B2B;display:flex;align-items:center;gap:8px}
+.bz-card .tx{font-family:var(--hand);font-size:33px;line-height:1.02}
+.bz-card .wt{position:absolute;right:12px;bottom:8px;display:flex;gap:3px}
+.bz-card .wt i{width:15px;height:15px;border-radius:50%;background:#B88A2E;border:2px solid #3A2E26}
+.bz-card.go{transition:transform .65s cubic-bezier(.5,0,.6,1),opacity .65s;opacity:.15}
+.bz-fly{position:absolute;z-index:30;pointer-events:none;transition:transform .7s cubic-bezier(.45,0,.55,1),opacity .7s}
+.clue svg,.bz-side svg,.bz-plab svg,.bz-tray svg,.bz-fly svg{flex:none}
+.bz-tray{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bz-tray .opt{min-height:96px;font-size:21px;padding:6px 10px;gap:8px}
+.bz-tray .opt .let{width:36px;height:36px;font-size:20px}
+.bz-verdict{position:absolute;left:0;right:0;top:-8px;text-align:center;font-family:var(--type);font-size:26px;letter-spacing:3px;color:var(--sepia);pointer-events:none}
+.l1-lt{position:absolute;inset:0;z-index:12;display:flex;align-items:center;justify-content:center;gap:36px;perspective:1400px}
+.l1-parch{position:relative;width:640px;min-height:400px;padding:24px 36px 26px;background:linear-gradient(#FBF1D9,#F1DFB4);border:3px solid #9E7B4F;border-radius:6px;box-shadow:0 20px 40px rgba(0,0,0,.3);transform-origin:50% 0;animation:l1rise 1.1s cubic-bezier(.2,1.2,.4,1)}
+@keyframes l1rise{0%{opacity:0;transform:translateY(240px) rotateX(70deg) scale(.4)}100%{opacity:1;transform:none}}
+.l1-parch:before,.l1-parch:after{content:"";position:absolute;left:-14px;right:-14px;height:22px;border-radius:11px;background:linear-gradient(#E3C792,#B5915A);border:3px solid #7A5A2E}
+.l1-parch:before{top:-14px}.l1-parch:after{bottom:-14px}
+.l1-parch .ln{font-family:var(--hand);font-size:31px;line-height:1.02;margin:8px 0;max-width:430px;opacity:0;transform:translateX(-14px);transition:all .6s}
+.l1-parch .ln.on{opacity:1;transform:none}
+.l1-parch .hd{font-family:var(--type);font-size:18px;letter-spacing:2px;color:#8E3B2B}
+.l1-parch.roll{animation:l1roll 1.3s cubic-bezier(.6,0,.4,1) forwards}
+@keyframes l1roll{0%{transform:none}60%{transform:scaleY(.08) rotateX(40deg)}100%{transform:scaleY(.08) rotateX(40deg) translateY(-600px) scale(.5);opacity:0}}
+.l1-seal{position:absolute;right:34px;bottom:26px;width:128px;height:128px;border-radius:50%;border:4px dashed #B5352A;display:flex;align-items:center;justify-content:center}
+.l1-wax{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#E0533E,#9E2F28 60%,#6E1F18);box-shadow:0 4px 0 #5E1A14,inset 0 0 12px rgba(0,0,0,.35);transform:scale(0);transition:transform .35s cubic-bezier(.3,1.7,.5,1);display:flex;align-items:center;justify-content:center;clip-path:polygon(50% 0,62% 6%,76% 4%,84% 15%,96% 22%,96% 36%,100% 50%,96% 64%,96% 78%,84% 85%,76% 96%,62% 94%,50% 100%,38% 94%,24% 96%,16% 85%,4% 78%,4% 64%,0 50%,4% 36%,4% 22%,16% 15%,24% 4%,38% 6%)}
+.l1-wax svg{opacity:0;transition:opacity .3s}
+.l1-wax.full svg{opacity:1}
+.l1-stamper{position:absolute;right:42px;bottom:150px;width:112px;height:150px;pointer-events:none;transition:transform .22s cubic-bezier(.5,0,.7,1)}
+.l1-stamper.down{transform:translateY(120px) scale(.92)}
+.l1-pw{display:inline-flex;flex-direction:column;align-items:center;gap:2px;margin:0 2px}
+.l1-pw .lb{font-family:var(--type);font-size:12px;letter-spacing:1px;color:#3A2E26;max-width:92px;text-align:center;line-height:1.05}
+.l1-cov{position:absolute;left:660px;top:0;width:560px;height:600px;perspective:1200px}
+.l1-covrig{position:absolute;left:30px;top:70px;width:480px;height:360px;transform-style:preserve-3d;transform:rotateX(10deg) rotateY(-14deg)}
+.l1-covbeam{position:absolute;left:30px;top:70px;width:420px;height:16px;background:linear-gradient(#E9C46A,#B88A2E);border:3px solid #3A2E26;border-radius:8px;transform-origin:50% 50%;animation:l1rock 3.4s ease-in-out infinite alternate}
+@keyframes l1rock{from{transform:rotate(-9deg)}to{transform:rotate(6deg)}}
+`;document.head.appendChild(st);})();
+
+/* ---------- la balanza del concilio ---------- */
+const BZ={};
+window.addEventListener("keydown",e=>{if(!BZ.on||!document.getElementById("bzStage"))return;const k=e.key;
+ if(k==="ArrowLeft"||k==="ArrowRight"){e.preventDefault();e.stopPropagation();if(BZ.key)BZ.key(k==="ArrowLeft"?0:1);}},true);
+function bzPanSVG(){return `<svg class="str" viewBox="0 0 250 160" aria-hidden="true"><path d="M125 4 12 150M125 4l113 146M125 4v140" stroke="#3A2E26" stroke-width="3" fill="none" stroke-dasharray="7 4"/><circle cx="125" cy="6" r="7" fill="#E9C46A" stroke="#3A2E26" stroke-width="3"/></svg>`;}
+function bzRim(){return `<svg class="bz-rim" viewBox="0 0 240 34" aria-hidden="true"><path d="M2 2c10 24 60 30 118 30S228 26 238 2" fill="#B88A2E" stroke="#3A2E26" stroke-width="4"/></svg>`;}
+function bzWeight(x){const w=x.w||0;const sz=w>=3?[78,60,42]:w===2?[68,52,36]:w===1?[60,46,32]:[56,44,30];
+ return `<div class="bz-w ${x.g?"g":x.s===1?"r":""}" style="width:${sz[0]}px;height:${sz[1]}px" title="${esc(x.c||x.t||"")}">${icon(w===0?"l1feather":(x.i||"l1pesa"),sz[2])}</div>`;}
+Object.assign(RET,{
+ balanza(r,ok){
+  const mode=r.mode||"sort",K=r.k||3.2,MAX=17;
+  const W=[0,0];let th=0,vel=0,target=0,raf=null,done=false,busy=false;
+  const deck=mode==="sort"?(r.shuffle?shuffle(r.cards):r.cards.slice()):[];let di=0;
+  const panHTML=(i)=>{const p=r.pans[i];return `<div class="bz-pan" id="bzP${i}" data-p="${i}">${bzPanSVG()}<div class="bz-dish"></div><div class="bz-load" id="bzL${i}"></div>${bzRim()}<div class="bz-plab">${mode==="sort"?`<b>${L[i]}</b>`:""}${p.i?icon(p.i,40):""}<span>${esc(p.t)}</span></div></div>`;};
+  $("#rb").innerHTML=`<div class="bz-stage" id="bzStage"><div class="bz-rig">
+    <div class="bz-floor"></div><div class="bz-shadow" id="bzS0"></div><div class="bz-shadow" id="bzS1"></div>
+    <svg class="bz-arc" viewBox="0 0 120 66" aria-hidden="true"><path d="M8 62a52 52 0 0 1 104 0" fill="#FDFBF5" stroke="#3A2E26" stroke-width="3"/>${[-50,-25,0,25,50].map(a=>{const R=Math.PI/180*(a-90);return `<path d="M${60+Math.cos(R)*40} ${62+Math.sin(R)*40}L${60+Math.cos(R)*50} ${62+Math.sin(R)*50}" stroke="${a?"#3A2E26":"#2F5E2A"}" stroke-width="${a?3:5}"/>`;}).join("")}</svg>
+    <div class="bz-base"></div><div class="bz-post"></div>
+    <div class="bz-beam" id="bzBeam"><div class="tp"></div><div class="fr"></div><div class="nd"></div><div class="ball" style="left:-12px"></div><div class="ball" style="right:-12px"></div></div>
+    <div class="bz-hub"></div>${panHTML(0)}${panHTML(1)}
+   </div><div class="bz-verdict" id="bzV"></div></div>
+   <div class="bz-side" id="bzSide"></div>`;
+  const beam=$("#bzBeam"),P=[$("#bzP0"),$("#bzP1")],SH=[$("#bzS0"),$("#bzS1")],CX=371,CY=122,LEN=255;
+  const place=()=>{const a=th*Math.PI/180,c=Math.cos(a),s=Math.sin(a);beam.style.transform=`rotate(${th}deg)`;
+   [-1,1].forEach((d,i)=>{const x=CX+d*LEN*c,y=CY+d*LEN*s;P[i].style.left=x+"px";P[i].style.top=(y-6)+"px";SH[i].style.left=x+"px";const k=(y-CY+80)/160;SH[i].style.transform=`scale(${.7+k*.5})`;SH[i].style.opacity=.5+k*.5;});};
+  const loop=()=>{raf=null;vel+=(target-th)*0.055;vel*=0.86;th+=vel;place();if(Math.abs(vel)>0.004||Math.abs(target-th)>0.01){if(document.getElementById("bzStage"))raf=requestAnimationFrame(loop);}else{th=target;place();}};
+  const kick=()=>{if(!raf)raf=requestAnimationFrame(loop);};
+  const settle=()=>{target=Math.max(-MAX,Math.min(MAX,(W[1]-W[0])*K));kick();};
+  const wobble=d=>{vel+=d*2.4;kick();};
+  BZ.on=true;BZ.state=()=>({W:W.slice(),th,target,mode,di,n:deck.length});
+  place();
+  const toPaper=el=>{const pr=$("#paper").getBoundingClientRect(),sc=pr.width/1260,b=el.getBoundingClientRect();return{x:(b.left-pr.left)/sc,y:(b.top-pr.top)/sc,w:b.width/sc,h:b.height/sc};};
+  const fly=(fromEl,i,html)=>new Promise(res=>{const a=toPaper(fromEl),b=toPaper($("#bzL"+i));const f=document.createElement("div");f.className="bz-fly";f.innerHTML=html;
+   f.style.left=a.x+"px";f.style.top=a.y+"px";f.style.width=a.w+"px";$("#paper").appendChild(f);
+   requestAnimationFrame(()=>requestAnimationFrame(()=>{const sx=Math.min(1,150/a.w);f.style.transform=`translate(${b.x+b.w/2-a.x-a.w*sx/2}px,${b.y+b.h-60-a.y}px) scale(${sx}) rotate(${i?8:-8}deg)`;f.style.opacity=".35";}));
+   setTimeout(()=>{f.remove();res();},720);});
+  const addW=(i,x)=>{$("#bzL"+i).insertAdjacentHTML("beforeend",bzWeight({...x,g:i===0&&mode!=="level"&&r.pans[0].good}));const el=$("#bzL"+i).lastElementChild;return el;};
+  (r.start||[[],[]]).forEach((arr,i)=>arr.forEach(x=>{addW(i,{...x,g:1});W[i]+=x.w||0;}));
+  th=target=Math.max(-MAX,Math.min(MAX,(W[1]-W[0])*K));place();
+  const side=$("#bzSide");
+  const finish=async()=>{done=true;BZ.key=null;$$(".bz-pan").forEach(p=>p.classList.remove("hot"));side.innerHTML=`<div class="clue" style="margin-top:40px">${icon("l1scale",80)}<div class="t">${esc(r.verdict||"¡La balanza ya ha hablado!")}</div></div>`;await wait(1300);
+   const lvl=W[0]===W[1];
+   if(lvl){stamp3d(r.stamp||"¡EQUILIBRIO!",{x:30,y:28,size:44,w:250,ms:2400,color:"#2F5E2A"});$("#bzV").textContent="";tone("win");confetti();if(r.done)toast(r.done,true);await wait(r.after?2800:2600);
+    if(r.after){const a=r.after;side.innerHTML=`<div class="clue" style="flex-direction:column;align-items:flex-start;gap:8px"><div style="font-family:var(--type);font-size:20px;color:#8E3B2B;letter-spacing:2px">${esc(a.when||"AÑOS DESPUÉS…")}</div><div class="row" style="flex-wrap:nowrap;gap:12px">${icon(a.i||"scroll",70)}<div class="t" style="font-size:32px">${esc(a.t)}</div></div>${a.ref?`<span class="ref">${UI.book} ${esc(a.ref)}</span>`:""}</div><div class="hand" style="font-size:30px;line-height:1.05" id="bzAfter"></div>`;
+     await wait(1600);addW(a.s,a);W[a.s]+=a.w||1;settle();tone("stamp");P[a.s].classList.add("win");await wait(1500);$("#bzAfter").textContent=a.why||"";tone("ok");await wait(3200);}
+    ok();return;}
+   const win=W[0]>W[1]?0:1;P[win].classList.add("win");tone("win");
+   stamp3d(r.stamp||"¡DECIDIDO!",{x:win?51:20,y:62,size:42,w:200,ms:2200});if(r.done)toast(r.done,true);await wait(2700);
+   if(r.letter)await letter(r.letter);ok();};
+  /* --- la carta sellada --- */
+  const letter=Lt=>new Promise(res=>{const box=document.createElement("div");box.className="l1-lt";box.id="l1Lt";
+   box.innerHTML=`<div class="l1-parch" id="l1Parch"><div class="hd">${esc(Lt.head||"CARTA DEL CONCILIO")}</div>${Lt.lines.map((l,i)=>`<div class="ln" id="l1ln${i}">${esc(l)}</div>`).join("")}<div style="margin-top:6px"><span class="ref">${UI.book} ${esc(Lt.ref)}</span></div>
+    <div class="l1-seal"><div class="l1-wax" id="l1Wax"><svg viewBox="0 0 64 64" width="78" height="78" aria-hidden="true"><g transform="translate(0 2)" opacity=".85">${ICON.l1dove.replace(/#FDFBF5/g,"#F2A08F").replace(/#3A2E26/g,"#5E1A14")}</g></svg></div></div>
+    <svg class="l1-stamper" id="l1St" viewBox="0 0 112 150" aria-hidden="true"><rect x="38" y="4" width="36" height="78" rx="14" fill="#8E5A3A" stroke="#3A2E26" stroke-width="4"/><path d="M20 82h72l-8 30H28z" fill="#E9C46A" stroke="#3A2E26" stroke-width="4"/><rect x="16" y="110" width="80" height="20" rx="6" fill="#B88A2E" stroke="#3A2E26" stroke-width="4"/></svg></div>
+    <div style="width:380px;display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center" id="l1Cmd"><div class="hand" style="font-size:36px;line-height:1.05">Escribiendo la decisión…</div></div>`;
+   $("#bzStage").style.visibility="hidden";side.style.visibility="hidden";$("#rb").appendChild(box);tone("tick");
+   let k=0;const nextLine=()=>{const el=$("#l1ln"+k);if(!el){ask();return;}el.classList.add("on");tone("tick");k++;setTimeout(nextLine,850);};setTimeout(nextLine,1200);
+   const ask=()=>{let n=0;const N=Lt.knocks||3;
+    $("#l1Cmd").innerHTML=`${icon("hand",110)}<div class="hand" style="font-size:36px;line-height:1.05">¡Sellad la carta! Toda la clase: golpead la mesa ${N} veces… ¡a la vez!</div><button class="btn main big pulse" id="l1Toc">¡TOC!</button><div id="l1N" style="font-family:var(--type);font-size:30px">0 / ${N}</div>`;
+    $("#l1Toc").onclick=async()=>{if(n>=N)return;n++;$("#l1N").textContent=`${n} / ${N}`;const st=$("#l1St"),wx=$("#l1Wax");st.classList.add("down");tone("stamp");
+     setTimeout(()=>{st.classList.remove("down");wx.style.transform=`scale(${.35+.65*n/N})`;if(n===N)wx.classList.add("full");},220);
+     if(n===N){$("#l1Toc").classList.remove("pulse");$("#l1Toc").style.visibility="hidden";await wait(900);tone("win");stamp3d("¡SELLADA!",{x:30,y:40,size:52,w:200,ms:1500});await wait(1300);
+      $("#l1Cmd").innerHTML=`${icon("l1letter",150)}<div class="hand" style="font-size:38px;line-height:1.05">${esc(Lt.bye||"¡Lista para viajar!")}</div>`;$("#l1Parch").classList.add("roll");await wait(2200);box.remove();res();}};};});
+  /* --- modo «sort»: cada tarjeta a su platillo --- */
+  const drawCard=()=>{if(di>=deck.length){finish();return;}const c=deck[di];
+   side.innerHTML=`<div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div style="font-family:var(--type);font-size:20px">${esc(r.prompt||"¿En qué platillo va?")}</div><div style="font-family:var(--type);font-size:20px;color:var(--sepia)">${di+1} / ${deck.length}</div></div>
+    <div class="bz-card" id="bzCard">${c.who?`<div class="who">${icon(c.wi||"l1talk",34)}${esc(c.who)}</div>`:""}<div class="row" style="flex-wrap:nowrap;gap:12px;align-items:flex-start">${icon(c.i||"scroll",64)}<div class="tx">${esc(c.t)}</div></div>${c.ref?`<div><span class="ref" style="font-size:16px;padding:4px 10px">${UI.book} ${esc(c.ref)}</span></div>`:""}<div class="wt" aria-label="Peso">${Array.from({length:c.w||1},()=>"<i></i>").join("")}</div></div>
+    <div style="display:grid;gap:10px">${[0,1].map(i=>`<button class="opt" data-p="${i}" style="min-height:70px;font-size:22px;padding:6px 12px"><span class="let">${L[i]}</span>${i?"":"◀ "}${esc(r.pans[i].short||r.pans[i].t)}${i?" ▶":""}</button>`).join("")}</div>`;
+   $$("#bzSide .opt").forEach(b=>b.onclick=()=>choose(+b.dataset.p));busy=false;};
+  const choose=async i=>{if(done||busy||mode!=="sort")return;const c=deck[di];const card=$("#bzCard");if(!card)return;
+   if(i!==c.s){bad(card,c.miss||"Mmm… ¿esa idea apoya ese platillo?");wobble(i?1:-1);P[i].classList.add("hot");setTimeout(()=>P[i].classList.remove("hot"),500);return;}
+   busy=true;$$("#bzSide .opt").forEach(x=>x.disabled=true);P[i].classList.add("hot");tone("ok");
+   const html=`<div class="bz-card" style="animation:none;min-height:0;width:380px">${c.who?`<div class="who">${esc(c.who)}</div>`:""}<div class="tx" style="font-size:28px">${esc(c.t)}</div></div>`;
+   card.style.visibility="hidden";await fly(card,i,html);P[i].classList.remove("hot");addW(i,c);W[i]+=c.w||1;settle();tone("stamp");
+   if(TEAMS.length)nextTurn();
+   const say=c.why||(r.mid&&r.mid(W));if(say)toast(say,true);
+   await wait(say?1900:900);di++;drawCard();};
+  /* --- modo «level»: equilibrar --- */
+  const drawTray=()=>{side.innerHTML=`<div class="hand" style="font-size:31px;line-height:1.02">${esc(r.prompt)}</div><div class="bz-tray">${r.cards.map((c,i)=>`<button class="opt" data-i="${i}"><span class="let">${L[i]}</span>${icon(c.i||"scroll",42)}<span>${esc(c.t)}</span></button>`).join("")}</div>`;
+   $$("#bzSide .opt").forEach(b=>b.onclick=()=>drop(+b.dataset.i));};
+  const drop=async k=>{if(done||busy)return;const c=r.cards[k],b=$(`#bzSide .opt[data-i="${k}"]`);if(!b||b.disabled)return;busy=true;const to=r.to==null?1:r.to;
+   b.disabled=true;await fly(b,to,`<div class="opt" style="min-height:80px;width:260px;font-size:22px">${icon(c.i||"scroll",40)}${esc(c.t)}</div>`);
+   const el=addW(to,c);
+   if(!c.w){el.classList.add("float");bad(null,c.why||"¡No pesa nada!");wobble(to?.4:-.4);b.classList.add("bad");setTimeout(()=>el.remove(),1800);busy=false;return;}
+   W[to]+=c.w;settle();tone("ok");b.classList.add("ok");if(c.why)toast(c.why,true);if(TEAMS.length)nextTurn();
+   busy=false;if(W[0]===W[1]){finish();}};
+  BZ.key=i=>{if(mode==="sort")choose(i);};
+  P.forEach((p,i)=>p.addEventListener("click",()=>{if(mode==="sort")choose(i);else if(i===(r.to==null?1:r.to))toast("Elige una tarjeta de la derecha",false);}));
+  if(mode==="sort"){settle();drawCard();}else drawTray();
+  window._bz={choose,drop,deck,cards:r.cards,mode};
+ }
+});
+
+/* ---------- viaje de la carta: el icono del viaje es la carta ---------- */
+const _l1Trip=animateTrip;
+animateTrip=async function(f,v,t,m,p,vis){if(m!=="carta")return _l1Trip(f,v,t,m,p,vis);const s=ICON.ship;ICON.ship=ICON.l1letter;try{return await _l1Trip(f,v,t,"ship",p,vis);}finally{ICON.ship=s;}};
+
+/* ---------- pesas (coleccionable) ---------- */
+const L1W=["ÁNIMO","RESPETO","IGUALES","GRACIA","OTRA VEZ","SERVIR"];
+function l1Pesas(n,big){return `<div class="row" style="gap:6px;justify-content:center;flex-wrap:nowrap">${L1W.map((w,i)=>`<div class="l1-pw" style="opacity:${i<n?1:.2}"><svg viewBox="0 0 64 64" width="${i===n-1&&big?96:66}" height="${i===n-1&&big?96:66}" aria-hidden="true">${ICON.l1pesa}</svg><div class="lb">${i<n?w:"?"}</div></div>`).join("")}</div>`;}
+
+/* ---------- el juego ---------- */
+const GAME={caseNo:2,caseTitle:"Debate en Jerusalén",
+ cover:()=>`
+  <div style="position:absolute;left:0;top:10px;width:640px;display:flex;flex-direction:column;gap:14px">
+   <div class="row" style="gap:10px"><span class="casebadge" style="font-size:20px">CASO Nº 2</span><span class="label">LECCIÓN 1 · HECHOS 14–16</span></div>
+   <h1 style="font-size:66px;line-height:1.02">Debate en Jerusalén</h1>
+   <div class="clue" style="padding:10px 16px">${icon("l1scale",64)}<div class="t" style="font-size:31px">Una gran pregunta en la iglesia: ¿cómo nos salva Dios? ¡Pesad los argumentos!</div></div>
+   <div>${teamPickHTML}</div>
+   <div class="row" style="margin-top:4px"><button class="btn main big pulse" id="play">${PLAY} Abrir el caso</button><span class="ref">${UI.book} Ten tu Biblia a mano</span></div>
+  </div>
+  <div class="l1-cov">
+   <div style="position:absolute;left:40px;top:20px;width:470px;height:520px;background:#FDFBF5;box-shadow:0 14px 30px rgba(0,0,0,.3);transform:rotate(3deg);border:2px solid #E2D6BC"><div class="tape" style="top:-14px;left:170px;transform:rotate(-3deg)"></div></div>
+   <div class="l1-covrig">
+    <div style="position:absolute;left:224px;top:76px;width:26px;height:250px;background:linear-gradient(90deg,#7A4E2D,#B5764A 40%,#8E5A3A);border:3px solid #3A2E26;border-radius:5px"></div>
+    <div style="position:absolute;left:150px;top:316px;width:176px;height:34px;background:linear-gradient(#B5764A,#7A4E2D);border:3px solid #3A2E26;border-radius:8px"></div>
+    <div class="l1-covbeam"><svg viewBox="0 0 420 200" width="420" height="200" style="position:absolute;left:-3px;top:4px;overflow:visible" aria-hidden="true">
+     <g><path d="M8 4 -40 120M8 4l48 116M412 4l-48 116M412 4l48 116" stroke="#3A2E26" stroke-width="3" stroke-dasharray="6 4" fill="none"/>
+     <path d="M-50 120h116c0 14-24 22-58 22s-58-8-58-22zM354 120h116c0 14-24 22-58 22s-58-8-58-22z" fill="#E9C46A" stroke="#3A2E26" stroke-width="4"/>
+     <g transform="translate(-22 66) scale(.9)">${ICON.gift}</g><g transform="translate(26 74) scale(.75)">${ICON.l1pesa}</g><g transform="translate(386 76) scale(.7)">${ICON.l1load}</g></g></svg></div>
+    <div style="position:absolute;left:222px;top:64px;width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFF2C2,#B88A2E);border:3px solid #3A2E26"></div>
+   </div>
+   <div style="position:absolute;left:84px;top:470px;width:420px;text-align:center" class="hand"><span style="font-size:36px">«…por la gracia del Señor Jesús seremos salvos…»</span></div>
+   <div style="position:absolute;left:-30px;top:330px;width:170px;height:170px;border-radius:50%;background:#FDFBF5;border:4px solid #3A2E26;display:flex;align-items:center;justify-content:center;transform:rotate(-8deg);box-shadow:0 8px 18px rgba(0,0,0,.3)">${icon("l1letter",128)}</div>
+  </div>`,
+ intro:[
+  {art:icon("l1bandage",220),cap:"Pablo y Bernabé vuelven de un viaje muy difícil…"},
+  {art:icon("l1talk",220),cap:"…y en la iglesia surge una gran discusión."},
+  {art:icon("l1scale",220),cap:"¿Qué decidirá el concilio de Jerusalén? ¡Pesad las ideas!"}],
+ collect:{icon:"l1pesa",won:n=>`¡Pesa ${n} de 6: ${L1W[n-1]}!`,art:n=>l1Pesas(n,true)},
+ steps:[
+  {city:"DER",place:"Derbe",short:"Derbe",travelFrom:"LIS",mode:"walk",
+   arrive:{art:icon("l1bandage",200),sub:"Lejos de los enemigos",face:"P",color:"#E3C792",who:"Pablo",say:"En Derbe curé mis heridas y muchos creyeron en Jesús. Pero… ¿cómo estarán los hermanos que dejamos atrás?",ref:"Hechos 14:20-21"},
+   retos:[
+    {type:"quiz",title:"Valientes para animar",hint:"Lee Hechos 14:21-23. Volvieron a las mismas ciudades… ¡aunque allí los habían perseguido!",qs:[
+     {q:"Desde Derbe, ¿qué hicieron Pablo y Bernabé?",i:"walk",o:["Volvieron a Listra, Iconio y Antioquía para animar a los creyentes","Huyeron a Jerusalén por el camino más corto","Se quedaron escondidos en Derbe","Se fueron a vivir a una isla"],a:0,ref:"Hechos 14:21-22",why:"¡Volvieron sin miedo! Así los creyentes también se animaron."},
+     {q:"¿Qué hicieron en cada iglesia antes de irse?",i:"church",o:["Nombraron ancianos y oraron","Construyeron un gran templo","Eligieron a un rey","Escribieron un libro nuevo"],a:0,ref:"Hechos 14:23"}]},
+    {type:"many",title:"Lo que hacemos los hermanos",prompt:"Toca las 6 cosas que hacemos unos por otros en la iglesia",hint:"Piensa en lo que hicieron Pablo y Bernabé con los creyentes asustados. ¡Tres palabras son lo contrario!",
+     items:[{t:"Animar",i:"heart",ok:1},{t:"Consolar",i:"family",ok:1},{t:"Ayudar",i:"hand",ok:1},{t:"Acompañar",i:"walk",ok:1},{t:"Proteger",i:"church",ok:1},{t:"Fortalecer",i:"star",ok:1},
+      {t:"Criticar",i:"l1talk",why:"Criticar desanima. ¡Busca lo contrario!"},{t:"Ignorar",i:"mask",why:"Ignorar a un hermano no le ayuda"},{t:"Abandonar",i:"bag",why:"Los hermanos no se abandonan"}]}],
+   lesson:"Cuando leemos que otros fueron valientes, nosotros también nos animamos: Jesús está con nosotros.",
+   next:{title:"Rumbo a casa",icon:"ship",q:"Pasaron por Listra, Iconio y Antioquía de Pisidia. En Atalía tomaron un barco y volvieron a su iglesia. ¿A qué ciudad?",ref:"Hechos 14:26",options:["ANT","APS","TAR","JER"],answer:"ANT",hint:"¡Cuidado, hay dos Antioquías! Su iglesia de casa estaba en Siria, junto al mar."}},
+  {city:"ANT",place:"Antioquía",short:"Antioq.",mode:"ship",via:["LIS","ICO","APS","PER","ATA"],
+   arrive:{art:icon("church",200),sub:"Antioquía de Siria",face:icon("family",90),color:"#B9C6A1",who:"La iglesia de Antioquía",say:"¡Bienvenidos a casa! Contadnos el viaje… Por cierto, han llegado unos hermanos de Judea con una enseñanza nueva.",ref:"Hechos 14:27"},
+   retos:[
+    {type:"quiz",title:"Buenas noticias… y un problema",hint:"Hechos 14:27 cuenta las buenas noticias. Los de Judea querían añadir algo más para salvarse.",qs:[
+     {q:"¿Qué contaron Pablo y Bernabé a la iglesia?",i:"church",o:["Que Dios había abierto la puerta de la fe a los no judíos","Que el viaje había sido un fracaso","Que querían irse a vivir a Derbe","Que habían encontrado un tesoro"],a:0,ref:"Hechos 14:27"},
+     {q:"Los hermanos de Judea enseñaban algo que no era verdad. ¿Qué?",i:"l1load",o:["Que, además de creer en Jesús, había que cumplir unas normas antiguas para salvarse","Que había que dejar de orar","Que Jesús no había resucitado","Que los niños no podían ir a la iglesia"],a:0,why:"Pablo y Bernabé no estaban de acuerdo… ¡y hubo un gran debate!"}]},
+    {type:"body",title:"¿Cómo se debate bien?",hint:"Un debate sirve para pensar y aprender, siempre con respeto. Si ayuda: ¡de pie! Si lo estropea: ¡sentados!",items:[
+     {t:"En un buen debate… hablamos tranquilos.",v:true,why:"¡Sí! Hablar tranquilos ayuda a entendernos."},
+     {t:"En un buen debate… nos burlamos del otro.",v:false,why:"Burlarse hace daño y no ayuda a pensar."},
+     {t:"En un buen debate… investigamos y aprendemos.",v:true,why:"¡Sí! Por eso fueron a preguntar a Jerusalén."},
+     {t:"En un buen debate… insultamos si no pensamos igual.",v:false,why:"Nunca: se respeta la opinión de los demás."},
+     {t:"En un buen debate… damos argumentos y respetamos.",v:true,why:"¡Eso es debatir bien!"}]}],
+   lesson:"Debatir puede ser bueno: para pensar, aprender y argumentar… siempre con respeto.",
+   next:{title:"Un viaje para resolverlo",icon:"walk",q:"La iglesia envió a Pablo y Bernabé a hablar con los apóstoles y los ancianos. ¿Adónde fueron?",ref:"Hechos 15:2-3",options:["JER","DAM","TAR","CES"],answer:"JER",hint:"Hechos 15:2: «…que subiesen Pablo y Bernabé a ____, y algunos otros de ellos, a los apóstoles y a los ancianos»."}},
+  {city:"JER",place:"Jerusalén",short:"Pedro",mode:"walk",via:["TIR","SMR"],
+   arrive:{art:icon("l1scale",200),sub:"Reunión de apóstoles y ancianos",face:"Pe",color:"#D3B2A6",who:"Pedro",say:"Dios conoce los corazones. Dio el Espíritu Santo a los no judíos igual que a nosotros.",ref:"Hechos 15:7-8"},
+   retos:[
+    {type:"balanza",mode:"level",title:"La balanza de Pedro: ¿quién vale más?",ref:"Hechos 15:9",to:1,
+     pans:[{t:"Un creyente judío",i:"l1man"},{t:"Una creyente no judía",i:"l1woman"}],
+     start:[[{t:"La gracia de Jesús",i:"gift",w:1},{t:"Fe en Jesús",i:"heart",w:1}],[]],
+     prompt:"El platillo de ella está vacío. ¿Qué necesita para quedar IGUAL? ¡Tocad las tarjetas!",
+     cards:[{t:"La gracia de Jesús",i:"gift",w:1,why:"¡La gracia es un regalo para todos!"},{t:"Fe en Jesús",i:"heart",w:1,why:"¡Creer en Jesús y aceptar su regalo!"},
+      {t:"Cumplir normas antiguas",i:"l1load",w:0,why:"¡Ni se mueve! Las normas antiguas no nos salvan."},{t:"Haber nacido judío",i:"l1man",w:0,why:"Dios no hace diferencia de pueblos (Hechos 15:9)."},
+      {t:"Ser el más bueno de todos",i:"star",w:0,why:"Nadie se gana la salvación: es un regalo."},{t:"Ser hombre y no mujer",i:"family",w:0,why:"Ante Dios, hombres y mujeres valen lo mismo."}],
+     stamp:"¡IGUALES ANTE DIOS!",verdict:"¡Equilibrio! La misma gracia para los dos.",done:"«Ninguna diferencia hizo entre nosotros y ellos» (Hechos 15:9)",
+     hint:"Mirad lo que hay en el platillo de la izquierda: ella necesita lo mismo. Lo demás… ¡no pesa nada ante Dios!"},
+    {type:"verse",title:"El versículo de Pedro",vref:"Hechos 15:11 · RVR1960",chunks:["Antes creemos","que por la gracia","del Señor Jesús","seremos salvos,","de igual modo","que ellos."],hint:"Empieza: «Antes creemos que por la gracia…». ¡Es el versículo para memorizar!"}],
+   lesson:"Dios salva a todos por igual: judíos y no judíos, niños y niñas."},
+  {city:"JER",place:"El concilio",short:"Concilio",
+   arrive:{art:icon("l1talk",200),sub:"La gran decisión",face:"S",color:"#C2BC8E",who:"Santiago, hermano de Jesús",say:"Escuchemos a todos con respeto. Después decidiremos juntos.",ref:"Hechos 15:13"},
+   retos:[
+    {type:"balanza",mode:"sort",title:"¡La balanza del concilio!",ref:"Hechos 15:5-21",prompt:"¿Qué idea apoya?",k:1.6,
+     pans:[{t:"Salvos por la gracia de Jesús",short:"Por la gracia",i:"gift",good:1},{t:"Gracia + normas antiguas",short:"Gracia + normas",i:"l1load"}],
+     cards:[
+      {who:"Algunos creyentes de Jerusalén",t:"Los no judíos también deben cumplir nuestras normas antiguas.",i:"l1load",s:1,w:1,ref:"Hechos 15:5",why:"¡Uy! La balanza se inclina hacia las normas…"},
+      {who:"Algunos creyentes de Jerusalén",t:"Si no cumplen esas normas, no pueden ser salvos.",i:"l1load",s:1,w:1,why:"Parece que ganan las normas… ¡Escuchad a los demás!"},
+      {who:"Pedro",t:"«Ninguna diferencia hizo entre nosotros y ellos.»",i:"heart",s:0,w:3,ref:"Hechos 15:9",why:"¡Pedro habla y la balanza cambia!"},
+      {who:"Pedro",t:"«Por la gracia del Señor Jesús seremos salvos, de igual modo que ellos.»",i:"gift",s:0,w:3,ref:"Hechos 15:11"},
+      {who:"Bernabé y Pablo",t:"Contaron las señales y maravillas que Dios hizo entre los no judíos.",i:"star",s:0,w:3,ref:"Hechos 15:12"},
+      {who:"Santiago",t:"No hay que poner cargas a los no judíos que se convierten a Dios.",i:"l1feather",s:0,w:3,ref:"Hechos 15:19"}],
+     stamp:"¡DECIDIDO!",verdict:"¡Ganan los argumentos de la Biblia!",done:"¡Los argumentos de la Biblia pesan más!",
+     letter:{head:"DE LOS APÓSTOLES Y LOS ANCIANOS · JERUSALÉN",ref:"Basado en Hechos 15:23-28",bye:"¡Lista para viajar a Antioquía!",
+      lines:["A los hermanos no judíos de Antioquía, Siria y Cilicia:","Dios nos salva a todos por la gracia de Jesús.","No os pondremos la carga de las normas antiguas.","Os enviamos hermanos para explicároslo."]},
+     hint:"Las ideas de Pedro, Pablo, Bernabé y Santiago apoyan la gracia. Las de quienes querían imponer normas antiguas van al otro platillo. ¡Las flechas ← → también funcionan!"},
+    {type:"quiz",title:"¿Quién lleva la carta?",hint:"Hechos 15:22 y 15:27 dan los dos nombres. ¡Uno de ellos será muy importante en los viajes de Pablo!",qs:[
+     {q:"¿A quiénes enviaron con la carta para explicarla?",i:"l1letter",o:["A Judas y a Silas","A Pedro y a Santiago","A Timoteo y a Lucas","A Juan y a Tomás"],a:0,ref:"Hechos 15:27",why:"Judas, llamado Barsabás, y Silas."}]}],
+   lesson:"«Ha parecido bien al Espíritu Santo, y a nosotros…» (Hechos 15:28). ¡Decidieron juntos y con la Biblia!",
+   next:{title:"¡La carta sale de viaje!",icon:"l1letter",q:"Judas y Silas llevan la carta sellada. ¿A qué ciudad de Siria la llevan?",ref:"Hechos 15:30",options:["ANT","APS","DAM","TAR"],answer:"ANT",hint:"Hechos 15:30: «Así, pues, los que fueron enviados descendieron a ____…». ¡La ciudad de Siria!"}},
+  {city:"ANT",place:"Antioquía",short:"Marcos",mode:"carta",
+   arrive:{art:icon("l1letter",200),sub:"¡Ha llegado la carta!",face:icon("family",90),color:"#B9C6A1",who:"La iglesia de Antioquía",say:"¡Qué alegría! La carta nos consuela. Y ahora Pablo quiere visitar otra vez a los hermanos…",ref:"Hechos 15:31, 36"},
+   retos:[
+    {type:"balanza",mode:"sort",shuffle:1,title:"¿Marcos viene o no?",ref:"Hechos 15:36-40",prompt:"¿Quién lo pensaba?",k:3,
+     pans:[{t:"Pablo: Marcos NO viene",short:"Pablo",i:"walk"},{t:"Bernabé: Marcos SÍ viene",short:"Bernabé",i:"heart"}],
+     cards:[
+      {t:"Marcos nos dejó a mitad del viaje anterior.",i:"walk",s:0,w:2,ref:"Hechos 15:38"},
+      {t:"Viajar es peligroso: necesitamos un equipo en el que confiar.",i:"mountains",s:0,w:2},
+      {t:"Marcos ha aprendido mucho y ahora es más maduro.",i:"l1young",s:1,w:2},
+      {t:"Hay que darle una segunda oportunidad.",i:"heart",s:1,w:2}],
+     stamp:"¡EMPATE!",verdict:"Ni uno ni otro… ¡empate!",done:"No se pusieron de acuerdo… ¡y decidieron hacer DOS viajes!",
+     after:{when:"AÑOS MÁS TARDE…",t:"Pablo escribió: «Toma a Marcos y tráele contigo, porque me es útil para el ministerio».",i:"l1letter",ref:"2 Timoteo 4:11",s:1,w:1,
+      why:"Marcos fue un gran misionero ¡y escribió el Evangelio de Marcos! Pablo reconoció que se había equivocado."},
+     hint:"Pablo no se fiaba de Marcos porque los había dejado. Bernabé creía en las segundas oportunidades."},
+    {type:"quiz",title:"Dos viajes en vez de uno",hint:"Hechos 15:39-40.",qs:[
+     {q:"¿Con quién viajó Bernabé y adónde?",i:"ship",o:["Con Marcos, a Chipre","Con Silas, a Roma","Con Timoteo, a Listra","Solo, a Jerusalén"],a:0,ref:"Hechos 15:39"},
+     {q:"¿A quién escogió Pablo como compañero?",i:"walk",o:["A Silas","A Lucas","A Pedro","A Marcos"],a:0,ref:"Hechos 15:40",why:"¡Así visitaron más iglesias!"}]}],
+   lesson:"Todos merecemos una segunda oportunidad. ¡Marcos la aprovechó!",
+   next:{title:"Visitar a los hermanos",icon:"walk",q:"Pablo y Silas pasaron por Siria y Cilicia. Llegaron a la ciudad donde vivía un joven llamado Timoteo. ¿Cuál?",ref:"Hechos 16:1",options:["LIS","TAR","PER","ATA"],answer:"LIS",hint:"Hechos 16:1: «Después llegó a Derbe y a ____; y he aquí, había allí cierto discípulo llamado Timoteo»."}},
+  {city:"LIS",place:"Listra",short:"Timoteo",mode:"walk",via:["TAR","DER"],
+   arrive:{art:icon("l1young",200),sub:"Un joven muy especial",face:"T",color:"#B9C6A1",who:"Timoteo",say:"Mi madre y mi abuela me enseñaron las Escrituras desde pequeño. ¡Quiero ser misionero como Pablo!",ref:"2 Timoteo 1:5"},
+   retos:[
+    {type:"match",title:"La ficha de Timoteo",lh:"Persona",rh:"¿Quién era?",hint:"2 Timoteo 1:5 nombra a la abuela y a la madre. Hechos 16:1-2 habla del padre y de los hermanos.",
+     pairs:[["Loida","Su abuela"],["Eunice","Su madre"],["Su padre","Era griego"],["Los hermanos","Hablaban bien de él"]]},
+    {type:"poll",title:"¿Cómo te gustaría ayudar en la iglesia?",chartTitle:"¡Así quiere servir nuestra clase!",after:"Como Timoteo, ¡ya puedes ayudar en tu iglesia aunque seas niño!",hint:"Levantad la mano y contadlas con + y −.",qs:[
+     {q:"¿A quién le gustaría cantar en la iglesia?",short:"Cantar",i:"clap"},
+     {q:"¿Y saludar a las visitas en la puerta?",short:"Saludar a las visitas",i:"hand"},
+     {q:"¿Y visitar a los enfermos?",short:"Visitar a los enfermos",i:"heart"}]}],
+   lesson:"Timoteo era responsable, valiente y amaba a Jesús. ¡Pablo lo llevó en su viaje!"}
+ ],
+ final:()=>`<div style="position:absolute;left:0;top:0;width:560px;bottom:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center">
+   <span class="label">¡CASO RESUELTO!</span>${icon("l1letter",170)}
+   <div style="background:var(--blue);color:#F5F0E4;padding:18px 24px;border-radius:6px;text-align:center"><div class="hand" style="font-size:42px;line-height:1.05">«Antes creemos que por la gracia del Señor Jesús seremos salvos, de igual modo que ellos.»</div><div style="font-family:var(--type);font-size:18px;color:var(--gold);margin-top:6px">HECHOS 15:11 · RVR1960</div></div>
+  </div>
+  <div style="position:absolute;left:600px;right:0;top:56px;bottom:0;background:#FDFBF5;border:4px double #9E7B4F;padding:20px 24px;box-shadow:0 10px 22px rgba(0,0,0,.2);display:flex;flex-direction:column;gap:12px">
+   <div style="font-family:var(--type);letter-spacing:3px;color:#8E3B2B;font-size:18px">ACTA DEL CONCILIO</div>
+   <h2 style="font-size:36px;line-height:1.05">Lo que más pesó</h2>
+   <div id="l1FinW">${l1Pesas(6)}</div>
+   <div class="row" style="gap:6px">${["Derbe","Antioquía","Jerusalén","Antioquía","Listra"].map(t=>`<div class="st got" style="min-width:70px;font-size:14px">${t}</div>`).join("")}</div>
+   <div class="hand" style="font-size:30px;line-height:1.08" id="l1FinT">Tocad cada pesa para recordarla.</div>
+   <div class="hand" style="font-size:30px;color:var(--blue)" id="l1Crew"></div>
+   <div class="row" style="margin-top:auto"><button class="btn main" id="again">Otra vez</button></div>
+  </div>`,
+ afterFinal:()=>{$("#l1Crew").textContent="Firmado: "+(TEAMS.length?TEAMS.map(t=>t.n).join(", "):"¡toda la clase!");
+  const T=["Pablo y Bernabé volvieron para animar a los creyentes.","Se puede debatir con respeto: pensar, aprender, argumentar.","Ante Dios, todos somos iguales.","Nos salva la gracia de Jesús, no las normas antiguas.","Marcos tuvo otra oportunidad… ¡y la aprovechó!","Como Timoteo, tú también puedes servir en la iglesia."];
+  $$("#l1FinW .l1-pw").forEach((el,i)=>{el.style.cursor="pointer";el.onclick=()=>{tone("ok");$("#l1FinT").textContent=T[i];$$("#l1FinW .l1-pw").forEach(x=>x.style.transform="");el.style.transform="translateY(-10px)";};});}
+};
+
+</script>
+<script>
+bindTools(document);renderInicio();fit();
+</script>
+</body>
+</html>

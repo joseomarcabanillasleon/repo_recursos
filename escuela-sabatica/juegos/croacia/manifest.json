@@ -1,0 +1,30 @@
+{
+  "name": "Detectives del Diario: el misterio de los planos perdidos",
+  "short_name": "Croacia",
+  "description": "El misterio de los planos perdidos: un juego de detectives por Europa hasta Croacia, el país de los guardianes.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": [
+    "fullscreen",
+    "standalone"
+  ],
+  "orientation": "landscape",
+  "background_color": "#2E2018",
+  "theme_color": "#2E2018",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>El preso inocente · Lección 8</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2E2018">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Caso 6">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@600;700&family=Andika:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3A2E26;--sepia:#6B5444;--paper:#F3EAD6;--card:#FCF9F1;--kraft:#CDB58E;--red:#A9472F;--red-d:#6E2A1A;--blue:#2F4C7A;--green-d:#2F5E2A;--gold:#F2C98A;--acc:#7A3B2E;
+--type:'Special Elite','Courier New',monospace;--hand:'Caveat','Comic Sans MS',cursive;--body:'Andika','Trebuchet MS',sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#2E2018}
+body{font-family:var(--body);color:var(--ink)}
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;border-radius:10px;background:#4A3426;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.paper{position:relative;width:100%;height:100%;border-radius:6px;overflow:hidden;background-color:var(--paper);
+ background-image:radial-gradient(circle at 10% 8%,rgba(176,128,64,.18),rgba(176,128,64,0) 30%),radial-gradient(circle at 92% 92%,rgba(150,104,52,.18),rgba(150,104,52,0) 32%),linear-gradient(rgba(110,130,150,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(110,130,150,.09) 1px,transparent 1px);
+ background-size:auto,auto,24px 24px,24px 24px;box-shadow:inset 0 0 80px rgba(120,80,30,.28)}
+.tape{position:absolute;width:130px;height:32px;background:rgba(178,198,180,.8);box-shadow:0 1px 2px rgba(0,0,0,.12);z-index:1;pointer-events:none}
+h1,h2,h3{font-family:var(--type);font-weight:400;margin:0}
+.hand{font-family:var(--hand)}
+.screen{position:absolute;inset:24px 34px;display:none}
+.screen.case{top:92px}
+.screen.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+button{font:inherit;color:inherit}
+.btn{font-family:var(--type);font-size:26px;min-height:68px;padding:0 30px;border-radius:8px;border:3px solid var(--ink);background:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:12px;transition:transform .1s;white-space:nowrap}
+.btn:active{transform:translateY(3px)}
+.btn.main{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 5px 0 var(--red-d)}
+.btn.big{font-size:34px;min-height:86px;padding:0 40px}
+.btn.pulse{animation:btnpulse 1.6s ease-in-out infinite}
+@keyframes btnpulse{50%{transform:scale(1.05)}}
+.label{display:inline-block;padding:8px 16px;background:var(--kraft);font-family:var(--type);font-size:20px;letter-spacing:2px;transform:rotate(-2deg);box-shadow:0 2px 4px rgba(0,0,0,.18)}
+.bubble{position:relative;background:#FDFBF5;border:3px solid var(--ink);border-radius:22px;padding:18px 24px;font-family:var(--hand);font-size:38px;line-height:1.1;box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.bubble:after{content:"";position:absolute;left:-22px;top:34px;border:12px solid transparent;border-right:20px solid var(--ink)}
+.avatar{width:120px;height:120px;border-radius:50%;border:5px solid var(--card);box-shadow:0 6px 14px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-family:var(--type);font-size:56px;overflow:hidden;flex:none}
+.row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.hud{position:absolute;left:28px;right:28px;top:16px;height:64px;display:flex;align-items:center;gap:8px;z-index:5}
+.hud .ib{width:50px;height:50px}.hud .st{min-width:44px;height:46px;font-size:13px;padding:0 5px}.hud .turn{font-size:18px;padding:8px 14px}.hud .casebadge{font-size:14px;padding:5px 9px}
+.stops{display:flex;gap:6px}
+.st{min-width:52px;height:52px;padding:0 6px;border-radius:26px;border:3px dashed rgba(107,84,68,.55);display:flex;align-items:center;justify-content:center;font-family:var(--type);font-size:15px;color:rgba(107,84,68,.75)}
+.st.got{border:3px solid var(--acc);background:#FDFBF5;color:var(--ink);transform:rotate(-5deg)}
+.st.got:nth-child(even){transform:rotate(5deg)}
+.st.cur{border-style:solid;border-color:var(--red);color:var(--red)}
+.st.pop{animation:thud .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes thud{0%{transform:scale(2.4) rotate(-20deg);opacity:0}100%{opacity:1}}
+.turn{display:none;padding:10px 18px;border-radius:30px;color:#fff;font-family:var(--type);font-size:22px;white-space:nowrap}
+.turn.on{display:inline-flex;align-items:center;gap:10px}
+.col{white-space:nowrap;flex:none;display:flex;align-items:center;gap:6px;padding:4px 12px;background:#FDFBF5;border:2px solid var(--sepia);border-radius:30px;font-family:var(--type);font-size:22px}
+.tools{display:flex;gap:8px;margin-left:auto}
+.ib{width:56px;height:56px;border-radius:50%;border:3px solid var(--ink);background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none}
+.spacer{flex:1}
+.mapbox{position:relative;border:4px solid #5B4636;border-radius:6px;overflow:hidden;background:#CFE0E3;box-shadow:0 8px 18px rgba(0,0,0,.22)}
+.mapbox svg{display:block;width:100%;height:100%;touch-action:none;user-select:none;-webkit-user-select:none}
+.c{stroke:#5B4636;stroke-width:.9;stroke-linejoin:round;vector-effect:non-scaling-stroke;transition:fill .25s}
+.tapmap .c{cursor:pointer}
+.c.ok{fill:#6E9E5B!important}.c.bad{fill:#C4553F!important}
+.mk{cursor:pointer}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.opt{min-height:88px;padding:10px 16px;border:3px solid var(--ink);border-radius:10px;background:#E9D9B5;font-family:var(--type);font-size:26px;cursor:pointer;display:flex;align-items:center;gap:14px;text-align:left;box-shadow:0 4px 0 #9E8458;transition:transform .1s;line-height:1.15}
+.opt:active{transform:translateY(3px)}
+.opt .let{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}
+.opt.ok{background:#8FC07F;border-color:var(--green-d)}
+.opt.bad{background:#E8B7A8;border-color:#9E2F28;opacity:.6}
+.opt:disabled{cursor:default}
+.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.clue{background:#FDFBF5;border:3px solid var(--ink);border-radius:12px;padding:14px 18px;display:flex;gap:16px;align-items:center;box-shadow:0 5px 12px rgba(0,0,0,.15)}
+.clue .t{font-family:var(--hand);font-size:34px;line-height:1.05}
+.ref{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:var(--blue);color:#F5F0E4;font-family:var(--type);font-size:20px}
+#ov{position:absolute;inset:0;background:rgba(46,32,24,.55);display:none;align-items:center;justify-content:center;z-index:20}
+#ov.on{display:flex;animation:fade .25s}
+.ovcard{background:var(--paper);border-radius:10px;padding:30px 44px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;gap:16px;max-width:980px;position:relative}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:21}
+.confetti i{position:absolute;top:-20px;width:14px;height:22px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(780px) rotate(540deg)}}
+.tiles{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.tile{min-height:76px;padding:8px 20px;border:3px solid var(--ink);border-radius:10px;background:#FDFBF5;font-family:var(--type);font-size:28px;cursor:pointer;box-shadow:0 4px 0 #9E8458;display:inline-flex;align-items:center;gap:10px}
+.tile.sel{background:var(--gold)}
+.tile.done{background:#8FC07F;border-color:var(--green-d);cursor:default}
+.tile.used{visibility:hidden}
+.evt{width:100%;height:230px;border:3px solid var(--ink);border-radius:12px;background:#FDFBF5;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px;box-shadow:0 5px 0 #9E8458;position:relative}
+.evt .cap{font-family:var(--hand);font-size:30px;line-height:1;text-align:center}
+.evt .num{position:absolute;top:-18px;left:-18px;width:52px;height:52px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--type);font-size:30px;display:none;align-items:center;justify-content:center;border:3px solid #FDFBF5}
+.evt.placed{background:#EAF2E2;border-color:var(--green-d)}
+.evt.placed .num{display:flex}
+.line{min-height:96px;border:3px dashed var(--sepia);border-radius:12px;background:#FDFBF5;padding:12px 18px;font-family:var(--hand);font-size:44px;line-height:1.1;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.teams{display:flex;gap:10px}
+.tm{white-space:nowrap;min-height:64px;padding:0 18px;border:3px solid var(--ink);border-radius:32px;background:#FDFBF5;font-family:var(--type);font-size:22px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.tm.sel{background:var(--ink);color:var(--paper)}
+.dot{width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #FDFBF5}
+.panel{position:absolute;width:370px;background:var(--card);padding:12px 12px 16px;box-shadow:0 10px 22px rgba(0,0,0,.28);transition:opacity .5s,transform .5s}
+.panel.hidden{opacity:0;transform:translateY(30px)!important}
+.panel .art{height:300px;background:#E9DCC0;display:flex;align-items:center;justify-content:center}
+.panel .cap{font-family:var(--hand);font-size:34px;text-align:center;margin-top:8px;line-height:1.05}
+.timer{min-height:64px;padding:0 20px;border-radius:8px;border:3px solid var(--blue);background:#E6ECF5;color:var(--blue);font-family:var(--type);font-size:24px;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+.timer.run{background:var(--blue);color:#fff}.timer.end{background:var(--gold);color:var(--ink)}
+#rot{position:fixed;inset:0;background:#2E2018;color:#F3EAD6;display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;z-index:50;font-family:var(--type);padding:30px}
+#rot.on{display:flex}
+.tfcard{background:#FDFBF5;border:4px solid var(--ink);border-radius:16px;padding:30px 40px;font-family:var(--hand);font-size:50px;line-height:1.1;text-align:center;box-shadow:0 8px 18px rgba(0,0,0,.18);min-height:200px;display:flex;align-items:center;justify-content:center}
+.tfb{min-height:100px;min-width:280px;border-radius:14px;border:4px solid var(--ink);font-family:var(--type);font-size:34px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+/* ---------- detective 3D ---------- */
+#wrap{background:#2a1c14 repeating-linear-gradient(92deg,rgba(255,255,255,.025) 0 3px,rgba(0,0,0,.04) 3px 9px),radial-gradient(circle at 50% 40%,#5a3d2b,#24170f 75%)}
+.paper{perspective:1600px}
+.screen.on{animation:fileIn .55s cubic-bezier(.2,.9,.3,1.1);transform-origin:50% 0}
+@keyframes fileIn{0%{opacity:0;transform:perspective(1400px) rotateX(-18deg) translateY(40px) translateZ(-120px)}100%{opacity:1;transform:none}}
+.opts,.tiles,#rb,.clue,.evt{perspective:900px}
+.opt,.tile,.evt,.tm,.btn{transform-style:preserve-3d;transition:transform .15s,box-shadow .15s}
+.opt:hover,.tile:hover,.evt:hover{transform:translateY(-3px) rotateX(6deg) translateZ(8px);box-shadow:0 10px 0 #9E8458,0 16px 22px rgba(0,0,0,.22)}
+.opt:active,.tile:active,.evt:active{transform:translateY(3px) rotateX(-4deg) translateZ(-6px)}
+.ovcard{animation:cardDrop .6s cubic-bezier(.2,1.4,.4,1);transform-style:preserve-3d}
+@keyframes cardDrop{0%{opacity:0;transform:perspective(1200px) rotateX(55deg) translateY(-120px) translateZ(200px) rotateZ(-6deg)}100%{opacity:1;transform:none}}
+.stamp3d{white-space:nowrap;position:absolute;z-index:40;pointer-events:none;font-family:var(--type);color:#B5352A;border:8px double #B5352A;border-radius:14px;padding:10px 28px;background:rgba(253,251,245,.15);letter-spacing:4px;text-align:center;animation:slam .7s cubic-bezier(.3,1.6,.5,1) forwards;mix-blend-mode:multiply}
+@keyframes slam{0%{opacity:0;transform:perspective(900px) translateZ(600px) rotate(-30deg) scale(1.6)}60%{opacity:1}100%{opacity:.92;transform:perspective(900px) translateZ(0) rotate(-12deg) scale(1)}}
+.casebadge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:#2E2018;color:#F2C98A;font-family:var(--type);font-size:16px;letter-spacing:2px;border-radius:4px;transform:rotate(-2deg);box-shadow:0 3px 6px rgba(0,0,0,.3);white-space:nowrap}
+.folder3d{position:absolute;inset:0;z-index:35;display:flex;align-items:center;justify-content:center;pointer-events:none;perspective:1500px}
+.folder3d .back,.folder3d .front{position:absolute;width:760px;height:500px;border-radius:10px 10px 6px 6px}
+.folder3d .back{background:#C9A86A;box-shadow:0 30px 60px rgba(0,0,0,.45)}
+.folder3d .front{background:linear-gradient(#E3C792,#D9B46A);transform-origin:50% 0;animation:folderOpen 1.1s 1s cubic-bezier(.5,.1,.3,1) forwards;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;backface-visibility:hidden;border:3px solid #9E7B4F}
+.folder3d .tab{position:absolute;top:-34px;left:40px;width:220px;height:40px;background:#C9A86A;border-radius:10px 10px 0 0}
+@keyframes folderOpen{0%{transform:rotateX(0)}100%{transform:rotateX(-178deg)}}
+.folder3d.out{animation:folderAway .5s ease-in forwards}
+@keyframes folderAway{to{opacity:0;transform:scale(1.15)}}
+.mag{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='16' cy='16' r='11' fill='rgba(255,255,255,.25)' stroke='%233A2E26' stroke-width='3'/%3E%3Cpath d='M24 24l12 12' stroke='%233A2E26' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") 16 16,pointer}
+</style>
+</head>
+<body>
+<div id="wrap" class="mag" style="position:fixed;inset:0;overflow:hidden"><div id="stage"><div class="paper" id="paper">
+<div class="tape" style="top:-6px;left:-30px;transform:rotate(-32deg)"></div>
+<div class="tape" style="top:-6px;right:-30px;transform:rotate(32deg)"></div>
+<div class="hud" id="hud" style="display:none">
+ <div class="casebadge" id="caseBadge"></div><div class="stops" id="stops"></div><div class="spacer"></div><div class="turn" id="turn"></div><div class="spacer"></div>
+ <div class="col" id="col"></div>
+ <div class="tools"><button class="ib" id="diceBtn" aria-label="¿Quién responde?" style="background:#F2C98A"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="8" width="48" height="48" rx="9" fill="#FDFBF5" stroke="#3A2E26" stroke-width="4"/><g fill="#3A2E26"><circle cx="21" cy="21" r="5"/><circle cx="43" cy="21" r="5"/><circle cx="32" cy="32" r="5"/><circle cx="21" cy="43" r="5"/><circle cx="43" cy="43" r="5"/></g></svg></button><button class="ib" id="homeBtn" aria-label="Volver al inicio"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg></button><button class="ib fsBtn" aria-label="Pantalla completa"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button class="ib sndBtn" aria-label="Sonido"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg></button></div>
+</div>
+<section class="screen on" id="s-inicio"></section>
+<section class="screen" id="s-intro"></section>
+<section class="screen case" id="s-arrive"></section>
+<section class="screen case" id="s-reto"></section>
+<section class="screen case" id="s-next"></section>
+<section class="screen case" id="s-travel"><div class="mapbox" style="position:absolute;inset:0"><svg id="vMap" aria-label="Viaje"></svg></div><div id="vStamp" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:none"></div></section>
+<section class="screen" id="s-final"></section>
+<div id="ov"></div>
+</div></div></div>
+<div id="rot"><svg width="110" height="110" viewBox="0 0 64 64" fill="none" stroke="#F3EAD6" stroke-width="3" stroke-linecap="round" aria-hidden="true"><rect x="20" y="6" width="24" height="44" rx="4"/><path d="M29 44h6"/></svg>
+<div style="font-size:30px">Gira el móvil</div><div style="font-family:var(--body);font-size:20px;opacity:.85">El juego se ve en horizontal, como en la tele.</div>
+<button class="btn" id="rotOk" style="font-size:20px;min-height:54px;color:#3A2E26">Seguir así</button></div>
+
+<script>
+const ARROW="<svg width=\"30\" height=\"30\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>",HOUR="<svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3h12M6 21h12M7 3c0 5 10 5 10 9s-10 4-10 9M17 3c0 5-10 5-10 9\"/></svg>",PLAY="<svg width=\"34\" height=\"34\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 4v16l13-8z\" fill=\"currentColor\"/></svg>";
+const UI={"home": "<svg width=\"30\" height=\"30\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3A2E26\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 11 12 4l9 7\"/><path d=\"M5 10v10h14V10\"/></svg>", "fs": "<svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3A2E26\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5\"/></svg>", "snd": "<svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3A2E26\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 9v6h4l5 4V5L8 9z\"/><path d=\"M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11\"/></svg>", "book": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 6c-3-2-6-2-9-1v14c3-1 6-1 9 1 3-2 6-2 9-1V5c-3-1-6-1-9 1zM12 6v14\"/></svg>"};
+const DATA={"names":{"ALB":"Albania","AND":"Andorra","DEU":"Alemania","AUT":"Austria","BEL":"Bélgica","BLR":"Bielorrusia","BIH":"Bosnia y Herzegovina","BGR":"Bulgaria","CYP":"Chipre","HRV":"Croacia","DNK":"Dinamarca","SVK":"Eslovaquia","SVN":"Eslovenia","ESP":"España","EST":"Estonia","FIN":"Finlandia","FRA":"Francia","GRC":"Grecia","HUN":"Hungría","IRL":"Irlanda","ISL":"Islandia","ITA":"Italia","LVA":"Letonia","LIE":"Liechtenstein","LTU":"Lituania","LUX":"Luxemburgo","MKD":"Macedonia del Norte","MLT":"Malta","MDA":"Moldavia","MCO":"Mónaco","MNE":"Montenegro","NOR":"Noruega","NLD":"Países Bajos","POL":"Polonia","PRT":"Portugal","GBR":"Reino Unido","CZE":"Chequia","ROU":"Rumanía","RUS":"Rusia","SMR":"San Marino","SRB":"Serbia","SWE":"Suecia","CHE":"Suiza","UKR":"Ucrania","VAT":"Ciudad del Vaticano"}};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const L="ABCDEFGH";
+
+/* ---------- icons ---------- */
+const S=`fill="none" stroke="#3A2E26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"`;
+const ICON={
+ ship:`<g ${S}><path d="M8 40h48l-6 12H14z" fill="#B5764A"/><path d="M32 8v32" /><path d="M32 10l18 24H32z" fill="#FDFBF5"/><path d="M30 14 16 34h14z" fill="#E9DCC0"/></g><g ${S} stroke="#2F4C7A" stroke-width="2.5"><path d="M4 58c5-3 8-3 12 0s8 3 12 0 8-3 12 0 8 3 12 0 8-3 8 0"/></g>`,
+ walk:`<g ${S}><circle cx="34" cy="10" r="5" fill="#E9DCC0"/><path d="M33 16l-4 18 8 8v14M29 34l-8 22M31 22l-10 8M33 22l10 6"/><path d="M46 14v44" stroke-width="2.5"/></g>`,
+ bag:`<g ${S}><path d="M22 18c-8 8-14 18-14 26 0 8 8 12 24 12s24-4 24-12c0-8-6-18-14-26z" fill="#D9B46A"/><path d="M22 18l-4-8h28l-4 8zM22 18h20"/><path d="M32 30v16M27 34c0-3 10-3 10 1s-10 3-10 7 10 4 10 1" stroke-width="2.5"/></g>`,
+ window:`<g ${S}><rect x="12" y="6" width="40" height="52" fill="#3E5A80"/><path d="M12 32h40M32 6v52"/><circle cx="42" cy="16" r="4" fill="#F2C98A" stroke="none"/></g><g fill="#F2C98A" stroke="#3A2E26" stroke-width="2"><path d="M20 36c4-4 10-2 10 2v8h-12c0-4 0-7 2-10z"/><circle cx="24" cy="32" r="4"/></g><path d="M18 44c-2 6-6 10-10 12" ${S} stroke-dasharray="3 4"/>`,
+ belt:`<g ${S}><path d="M6 26c10-6 42-6 52 0v12c-10-6-42-6-52 0z" fill="#B5764A"/><rect x="26" y="24" width="12" height="16" rx="2" fill="#E3C792"/><path d="M32 28v8"/></g>`,
+ chain:`<g ${S}><ellipse cx="14" cy="32" rx="9" ry="6"/><ellipse cx="28" cy="32" rx="9" ry="6" transform="rotate(90 28 32)"/><ellipse cx="42" cy="32" rx="9" ry="6"/><ellipse cx="54" cy="32" rx="6" ry="9"/></g>`,
+ rope:`<g ${S}><path d="M10 50c10-30 34-30 44-10s-26 18-24 0 22-20 24-8" fill="none" stroke="#B5764A" stroke-width="5"/></g>`,
+ cloak:`<g ${S}><path d="M24 8h16l14 48H10z" fill="#8E3B2B"/><path d="M24 8c2 6 14 6 16 0"/></g>`,
+ scroll:`<g ${S}><rect x="12" y="10" width="40" height="44" rx="4" fill="#F7E9C8"/><path d="M20 22h24M20 30h24M20 38h16"/></g>`,
+ book:`<g ${S}><path d="M32 16c-8-6-18-6-24-4v38c6-2 16-2 24 4 8-6 18-6 24-4V12c-6-2-16-2-24 4zM32 16v38" fill="#FDFBF5"/></g>`,
+ pray:`<g ${S}><path d="M30 56V30c0-6-2-12-6-18-2-3-6-1-5 2l3 14-8 10v18M34 56V30c0-6 2-12 6-18 2-3 6-1 5 2l-3 14 8 10v18" fill="#E9C9A6"/></g>`,
+ heart:`<g ${S}><path d="M32 54S8 40 8 24a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 16-24 30-24 30z" fill="#E86A5A"/></g>`,
+ church:`<g ${S}><path d="M32 4v12M27 9h10M18 30l14-14 14 14M20 28v30h24V28M28 58V46a4 4 0 0 1 8 0v12" fill="none"/></g>`,
+ school:`<g ${S}><path d="M6 28 32 12l26 16" /><path d="M10 28v28h44V28" fill="#E9DCC0"/><rect x="27" y="40" width="10" height="16" fill="#B5764A"/><rect x="15" y="34" width="8" height="8" fill="#BFD7EA"/><rect x="41" y="34" width="8" height="8" fill="#BFD7EA"/><path d="M32 4v8M32 4h8v5h-8" /></g>`,
+ ball:`<g ${S}><circle cx="32" cy="32" r="22" fill="#FDFBF5"/><path d="M32 22l9 6-3 10H26l-3-10z" fill="#3A2E26"/><path d="M32 10v12M41 28l12-4M38 38l7 10M26 38l-7 10M23 28l-12-4"/></g>`,
+ calendar:`<g ${S}><rect x="8" y="12" width="48" height="44" rx="4" fill="#FDFBF5"/><path d="M8 24h48M20 6v12M44 6v12"/><path d="M18 34h6M30 34h6M42 34h6M18 44h6M30 44h6" stroke-width="4"/></g>`,
+ car:`<g ${S}><path d="M8 40v-8l8-12h30l10 12v8z" fill="#D9534F"/><path d="M18 22l-4 10h34l-6-10z" fill="#BFD7EA"/><circle cx="18" cy="42" r="6" fill="#3A2E26"/><circle cx="46" cy="42" r="6" fill="#3A2E26"/></g>`,
+ thermo:`<g ${S}><path d="M26 40V10a6 6 0 0 1 12 0v30a10 10 0 1 1-12 0z" fill="#FDFBF5"/><circle cx="32" cy="48" r="6" fill="#D9534F" stroke="none"/><path d="M32 46V18" stroke="#D9534F" stroke-width="5"/></g>`,
+ lake:`<g ${S}><path d="M8 40c0-12 16-20 28-18s22 8 20 18-18 14-30 12S8 50 8 40z" fill="#9CC3D5"/></g><g ${S} stroke="#2F4C7A" stroke-width="2"><path d="M18 40c4-2 6-2 10 0s6 2 10 0M26 46c4-2 6-2 10 0"/></g>`,
+ coin:`<g ${S}><circle cx="32" cy="32" r="22" fill="#E9C46A"/><circle cx="32" cy="32" r="16"/><text x="32" y="39" text-anchor="middle" font-family="Special Elite, monospace" font-size="18" fill="#3A2E26" stroke="none">zł</text></g>`,
+ family:`<g ${S}><circle cx="18" cy="16" r="6" fill="#E9C9A6"/><circle cx="46" cy="16" r="6" fill="#E9C9A6"/><circle cx="32" cy="30" r="5" fill="#E9C9A6"/><path d="M10 56V32c0-6 16-6 16 0v24M38 56V32c0-6 16-6 16 0v24M26 58V44c0-5 12-5 12 0v14" fill="#B9C6A1"/></g>`,
+ brick:`<g ${S}><rect x="6" y="20" width="52" height="26" rx="2" fill="#C2674A"/><path d="M6 33h52M24 20v13M42 33v13M16 33v13M48 20v13"/></g>`,
+ compass:`<g ${S}><circle cx="32" cy="32" r="24" fill="#FDFBF5"/><path d="M32 10l5 22-5 22-5-22z" fill="#D9534F"/><path d="M10 32h44" stroke-width="2"/></g><text x="32" y="8" text-anchor="middle" font-family="Special Elite, monospace" font-size="9" fill="#3A2E26">N</text>`,
+ mountains:`<g ${S}><path d="M4 54 22 22l10 14 10-20 18 38z" fill="#E9DCC0"/><path d="M38 24l4-8 4 8-4-2z" fill="#fff"/></g>`,
+ wave:`<g ${S} stroke="#2F4C7A"><path d="M6 24c6-6 10-6 13 0s7 6 13 0 10-6 13 0 7 6 13 0"/><path d="M6 36c6-6 10-6 13 0s7 6 13 0 10-6 13 0 7 6 13 0"/><path d="M6 48c6-6 10-6 13 0s7 6 13 0 10-6 13 0 7 6 13 0"/></g>`,
+ city:`<g ${S}><path d="M6 56V30h12v26M18 56V18h14v38M32 56V26h12v30M44 56V36h14v20" fill="#E9DCC0"/><path d="M24 4v14M20 8h8"/></g>`,
+ star:`<g ${S}><path d="M32 6l7 16 18 2-13 12 4 18-16-9-16 9 4-18L7 24l18-2z" fill="#F2C98A"/></g>`,
+ stand:`<g ${S}><circle cx="32" cy="10" r="6" fill="#E9C9A6"/><path d="M32 16v22M32 38l-8 20M32 38l8 20M32 22l-14-12M32 22l14-12"/></g>`,
+ sit:`<g ${S}><circle cx="26" cy="12" r="6" fill="#E9C9A6"/><path d="M26 18v18h16v20M26 26l12 4"/><path d="M14 36v22M14 36h12" stroke-width="2.5"/><path d="M46 36h6v22" stroke-width="2.5"/></g>`,
+ hand:`<g ${S}><path d="M22 58V30l-6-8c-2-3 2-6 4-3l6 7V10c0-4 6-4 6 0v16-20c0-4 6-4 6 0v20-16c0-4 6-4 6 0v20-12c0-4 6-4 6 0v24c0 10-6 16-16 16h-4" fill="#E9C9A6"/></g>`,
+ clap:`<g ${S}><path d="M18 50 8 30c-2-4 3-6 5-3l7 10-6-14c-2-4 3-6 5-2l8 16" fill="#E9C9A6"/><path d="M46 50l10-20c2-4-3-6-5-3l-7 10 6-14c2-4-3-6-5-2l-8 16" fill="#E9C9A6"/><path d="M30 8v6M22 12l3 5M42 12l-3 5" stroke="#F2B04C"/></g>`,
+ dice:`<g ${S}><rect x="10" y="10" width="44" height="44" rx="8" fill="#FDFBF5"/></g><g fill="#3A2E26"><circle cx="22" cy="22" r="4"/><circle cx="42" cy="22" r="4"/><circle cx="32" cy="32" r="4"/><circle cx="22" cy="42" r="4"/><circle cx="42" cy="42" r="4"/></g>`,
+ mask:`<g ${S}><path d="M10 14c14 6 30 6 44 0v14c0 16-10 26-22 26S10 44 10 28z" fill="#F2C98A"/><path d="M20 28c3-3 7-3 10 0M34 28c3-3 7-3 10 0M24 40c5 5 11 5 16 0"/></g>`,
+ chain2:`<g ${S}><rect x="4" y="22" width="26" height="20" rx="10" fill="none"/><rect x="34" y="22" width="26" height="20" rx="10" fill="none"/><path d="M22 32h20" stroke-width="4"/></g>`,
+ lamp:`<g ${S}><path d="M14 40c0-6 10-10 22-10h14l6-6v10c0 8-10 14-24 14S14 46 14 40z" fill="#C9A86A"/><path d="M48 24c2-6-4-10-2-16 4 4 8 8 4 14" fill="#F2B04C"/></g>`
+};
+const icon=(k,w=80)=>`<svg viewBox="0 0 64 64" width="${w}" height="${w}" aria-hidden="true">${ICON[k]||""}</svg>`;
+
+/* ---------- scale / rotate ---------- */
+let rotDismissed=false;
+function fit(){const W=document.documentElement.clientWidth||innerWidth,H=document.documentElement.clientHeight||innerHeight,s=Math.min(W/1280,H/720);
+ const st=$("#stage");st.style.transform=`scale(${s})`;st.style.left=((W-1280*s)/2)+"px";st.style.top=((H-720*s)/2)+"px";
+ $("#rot").classList.toggle("on",!rotDismissed&&H>W*1.15&&W<900);}
+addEventListener("resize",fit);addEventListener("orientationchange",()=>setTimeout(fit,200));
+$("#rotOk").onclick=()=>{rotDismissed=true;fit();};
+
+/* ---------- sound ---------- */
+let actx=null,muted=false;
+function tone(kind){if(muted)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();
+ const N={ok:[523.25,659.25,783.99],bad:[311.13,261.63],tick:[880],stamp:[180,120],win:[523.25,659.25,783.99,1046.5]}[kind]||[440];
+ N.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type=kind==="stamp"?"square":kind==="bad"?"sine":"triangle";o.frequency.value=f;const t=actx.currentTime+i*(kind==="win"?.13:.1);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(kind==="stamp"?.08:.16,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+.32);});}catch(e){}}
+function bindTools(root){(root||document).querySelectorAll(".sndBtn").forEach(b=>{if(b._b)return;b._b=1;b.addEventListener("click",()=>{muted=!muted;$$(".sndBtn").forEach(x=>x.style.opacity=muted?.45:1);});});
+ (root||document).querySelectorAll(".fsBtn").forEach(b=>{if(b._b)return;b._b=1;b.addEventListener("click",goFS);if(standalone())b.style.display="none";});}
+const isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const standalone=()=>matchMedia("(display-mode: fullscreen)").matches||matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+function showInstall(){overlay(`<div class="ovcard" style="text-align:left;align-items:stretch"><h2 style="font-size:40px;text-align:center">Pantalla completa</h2><div style="font-size:26px;line-height:1.35">${isIOS?`Este navegador no deja ocultar sus barras. Instálalo como app:<br><b>1.</b> Ábrelo en <b>Safari</b>.<br><b>2.</b> Toca <b>Compartir</b> → <b>Añadir a pantalla de inicio</b>.<br><b>3.</b> Abre el icono: se verá sin barras.`:`Instálalo como app y se abrirá a pantalla completa:<br><b>1.</b> En Chrome, toca el menú <b>⋮</b>.<br><b>2.</b> Elige <b>Instalar aplicación</b> o <b>Añadir a pantalla de inicio</b>.<br><b>3.</b> Abre el icono nuevo.`}</div><div style="text-align:center"><button class="btn main" id="ovOk">¡Entendido!</button></div></div>`);$("#ovOk").onclick=closeOv;}
+function goFS(){const d=document,e=d.documentElement;if(d.fullscreenElement||d.webkitFullscreenElement){try{(d.exitFullscreen||d.webkitExitFullscreen).call(d);}catch(_){}return;}
+ const r=e.requestFullscreen||e.webkitRequestFullscreen;if(!r){showInstall();return;}
+ const lock=()=>{try{const p=screen.orientation&&screen.orientation.lock&&screen.orientation.lock("landscape");if(p&&p.catch)p.catch(()=>{});}catch(_){}};
+ try{const p=r.call(e,{navigationUI:"hide"});if(p&&p.then)p.then(lock).catch(showInstall);else setTimeout(()=>{if(!d.fullscreenElement&&!d.webkitFullscreenElement)showInstall();else lock();},600);}catch(_){showInstall();}}
+document.addEventListener("fullscreenchange",()=>setTimeout(fit,100));
+
+/* ---------- overlay / feedback ---------- */
+function show(id,hud){$$(".screen").forEach(s=>s.classList.toggle("on",s.id===id));$("#hud").style.display=hud?"flex":"none";resetTimers();const t=$("#toast");if(t)t.style.display="none";}
+function overlay(html,conf){const o=$("#ov");o.innerHTML=html+(conf?confettiHTML():"");o.classList.add("on");}
+function closeOv(){$("#ov").classList.remove("on");$("#ov").innerHTML="";}
+function confettiHTML(){const c=["#B5352A","#2F4C7A","#F2C98A","#6E9E5B","#E3C792"];let h='<div class="confetti">';for(let i=0;i<46;i++)h+=`<i style="left:${Math.random()*100}%;background:${c[i%5]};animation-delay:${Math.random()*.6}s"></i>`;return h+"</div>";}
+function confetti(){const d=document.createElement("div");d.innerHTML=confettiHTML();const el=d.firstChild;$("#paper").appendChild(el);setTimeout(()=>el.remove(),2600);}
+let toastT;function toast(msg,ok){let t=$("#toast");if(!t){t=document.createElement("div");t.id="toast";t.style.cssText="pointer-events:none;position:absolute;left:50%;bottom:22px;transform:translateX(-50%);background:#FDFBF5;border:3px solid #9E2F28;border-radius:40px;padding:10px 28px;font-family:var(--hand);font-size:34px;z-index:15;box-shadow:0 8px 18px rgba(0,0,0,.25);white-space:nowrap";$("#paper").appendChild(t);}
+ t.style.borderColor=ok?"#2F5E2A":"#9E2F28";t.textContent=msg;t.style.display="block";clearTimeout(toastT);toastT=setTimeout(()=>t.style.display="none",2300);}
+function bad(el,msg){tone("bad");if(el){el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");}if(msg)toast(msg);}
+
+/* ---------- detective 3D helpers ---------- */
+function stamp3d(text,opts={}){const d=document.createElement("div");d.className="stamp3d";d.style.left=(opts.x||50)+"%";d.style.top=(opts.y||45)+"%";d.style.fontSize=(opts.size||64)+"px";d.style.marginLeft=`-${opts.w||300}px`;d.style.width=(opts.w?opts.w*2:600)+"px";d.style.marginTop="-60px";if(opts.color){d.style.color=opts.color;d.style.borderColor=opts.color;}
+ d.innerHTML=text;$("#paper").appendChild(d);tone("stamp");if(opts.keep)return d;setTimeout(()=>{d.style.transition="opacity .5s";d.style.opacity=0;setTimeout(()=>d.remove(),500);},opts.ms||1600);return d;}
+function folderOpen(title,sub){return new Promise(res=>{const f=document.createElement("div");f.className="folder3d";
+ f.innerHTML=`<div class="back"><div class="tab"></div></div><div class="front"><div style="font-family:var(--type);font-size:22px;letter-spacing:4px;color:#6E2A1A">CONFIDENCIAL · EXPEDIENTE</div><div style="font-family:var(--type);font-size:58px;color:#3A2E26;text-align:center;line-height:1.05;padding:0 30px">${esc(title)}</div>${sub?`<div style="font-family:var(--hand);font-size:36px;color:#6B5444">${esc(sub)}</div>`:""}<div style="margin-top:10px;width:120px;height:120px;border-radius:50%;border:6px double #B5352A;color:#B5352A;display:flex;align-items:center;justify-content:center;font-family:var(--type);font-size:22px;transform:rotate(-14deg)">ABIERTO</div></div>`;
+ $("#paper").appendChild(f);tone("stamp");setTimeout(()=>tone("tick"),500);setTimeout(()=>{f.classList.add("out");setTimeout(()=>{f.remove();res();},450);},2300);});}
+
+/* ---------- timer ---------- */
+let timerId=null;
+function timerBtn(){return `<button class="timer" data-s="20">${HOUR} 20 s</button>`;}
+function resetTimers(){clearInterval(timerId);timerId=null;$$(".timer").forEach(b=>{b.classList.remove("run","end");b.innerHTML=`${HOUR} ${b.dataset.s} s`;});}
+document.addEventListener("click",e=>{const b=e.target.closest(".timer");if(!b)return;if(b.classList.contains("run")){resetTimers();return;}
+ resetTimers();let left=+b.dataset.s;b.classList.add("run");b.innerHTML=`${HOUR} ${left}`;
+ timerId=setInterval(()=>{left--;if(left>0){b.innerHTML=`${HOUR} ${left}`;if(left<=3)tone("tick");}else{clearInterval(timerId);timerId=null;b.classList.remove("run");b.classList.add("end");b.innerHTML="¡Tiempo!";tone("win");}},1000);});
+
+/* ---------- teams ---------- */
+const TEAMS_ALL=[{n:"Leones",c:"#C8892B"},{n:"Águilas",c:"#2F4C7A"},{n:"Corderos",c:"#5E7A4C"},{n:"Palomas",c:"#9E2F28"}];
+let nTeams=0,TEAMS=[],turnI=-1;
+function nextTurn(){if(!TEAMS.length){$("#turn").classList.remove("on");return;}turnI=(turnI+1)%TEAMS.length;const t=TEAMS[turnI];const el=$("#turn");el.classList.add("on");el.style.background=t.c;el.innerHTML=`<span class="dot" style="background:#fff"></span>Turno: ${esc(t.n)}`;}
+
+/* ---------- maps ---------- */
+function arOf(svg){const r=svg.getBoundingClientRect();return r.width&&r.height?r.height/r.width:0.62;}
+function setVB(svg,v){const ar=arOf(svg);const B=svg._bounds;v.w=Math.max(svg._minW||20,Math.min(B.w*1.1,v.w));v.h=v.w*ar;
+ v.x=Math.max(B.x-B.w*.05,Math.min(B.x+B.w*1.05-v.w,v.x));v.y=Math.max(B.y-B.h*.05,Math.min(B.y+B.h*1.05-v.h,v.y));
+ svg._vb=v;svg.setAttribute("viewBox",`${v.x} ${v.y} ${v.w} ${v.h}`);}
+function fitPts(svg,pts,pad){const ar=arOf(svg);let x0=Math.min(...pts.map(p=>p[0]))-pad,x1=Math.max(...pts.map(p=>p[0]))+pad,y0=Math.min(...pts.map(p=>p[1]))-pad,y1=Math.max(...pts.map(p=>p[1]))+pad;
+ let w=x1-x0,h=y1-y0;if(h/w>ar)w=h/ar;return{x:(x0+x1)/2-w/2,y:(y0+y1)/2-w*ar/2,w};}
+function buildMap(svg){
+ const M=DATA.map;let h="";
+ if(M.kind==="med"){svg._bounds={x:0,y:0,w:M.W,h:M.H};svg._minW=60;
+  h=`<rect x="-200" y="-200" width="${M.W+400}" height="${M.H+400}" fill="#CFE0E3"/><path d="${M.grat}" fill="none" stroke="#A9C3C8" stroke-width=".8" stroke-dasharray="4 5" vector-effect="non-scaling-stroke"/><path d="${M.land}" fill="#EDE0C2" stroke="#7A6248" stroke-width="1.2" vector-effect="non-scaling-stroke"/>`;}
+ else{svg._bounds={x:0,y:0,w:1000,h:900};svg._minW=8;const PAL=["#D9A58C","#B9C6A1","#E3C792","#D3B2A6","#C2BC8E","#E6D2A9"];
+  h=`<rect x="-500" y="-500" width="2000" height="1900" fill="#DCE5DE"/><path d="${M.grat}" fill="none" stroke="#9FB3AE" stroke-width=".8" stroke-dasharray="4 5" vector-effect="non-scaling-stroke"/>`;
+  for(const d of M.bg)h+=`<path d="${d}" fill="#EDE3CC" stroke="#B8A888" stroke-width=".8" vector-effect="non-scaling-stroke"/>`;
+  for(const [k,c] of Object.entries(M.countries))h+=`<path class="c" data-k="${k}" d="${c.d}" fill="${PAL[M.colors[k]||0]}"/>`;}
+ svg.innerHTML=h+`<g class="ov"></g>`;svg.setAttribute("preserveAspectRatio","xMidYMid slice");setVB(svg,{x:0,y:0,w:svg._bounds.w});}
+function pin(x,y,s,label,color="#B5352A"){const fs=s*1.4;return `<g pointer-events="none"><path d="M${x} ${y}c${-s*.9} ${-s} ${-s*.9} ${-s*2.5} 0 ${-s*2.9}c${s*.9} ${s*.4} ${s*.9} ${s*1.9} 0 ${s*2.9}z" fill="${color}" stroke="#5E1A14" stroke-width="1.5" vector-effect="non-scaling-stroke"/><circle cx="${x}" cy="${y-s*2.05}" r="${s*.32}" fill="#FDFBF5"/>`+(label?`<text x="${x+s*.9}" y="${y-s*1.2}" font-family="Caveat, cursive" font-weight="700" font-size="${fs}" fill="#3A2E26" stroke="#FDFBF5" stroke-width="${fs*.22}" paint-order="stroke">${esc(label)}</text>`:"")+`</g>`;}
+function cityXY(k){const c=DATA.map.c[k];return[c.x,c.y];}
+function tapMap(svg,cb){let st=null,dk=null,moved=false;
+ svg.addEventListener("pointerdown",e=>{st={x:e.clientX,y:e.clientY};moved=false;const c=e.target.closest&&e.target.closest(".c,.mk");dk=c?(c.dataset.k):null;});
+ svg.addEventListener("pointermove",e=>{if(st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>10)moved=true;});
+ svg.addEventListener("pointerup",()=>{if(st&&!moved&&dk)cb(dk);st=null;dk=null;});}
+
+/* ---------- game flow ---------- */
+let G={i:0,r:0,got:0,stamps:[]};
+function hud(pop){const cb=$("#caseBadge");if(cb)cb.textContent=GAME.caseNo?`CASO Nº ${GAME.caseNo}`:"EXPEDIENTE";
+ $("#stops").innerHTML=GAME.steps.map((s,i)=>`<div class="st ${G.stamps.includes(i)?"got":""} ${i===G.i&&!G.stamps.includes(i)?"cur":""} ${pop===i?"pop":""}">${G.stamps.includes(i)||i===G.i?esc(s.short):"?"}</div>`).join("");
+ $("#col").innerHTML=`${icon(GAME.collect.icon,40)}<span>${G.got} / ${GAME.steps.length}</span>`;
+}
+function renderInicio(){
+ const s=$("#s-inicio");s.innerHTML=GAME.cover();
+ s.insertAdjacentHTML("beforeend",`<div style="position:absolute;right:0;top:0;display:flex;gap:8px;z-index:3"><a class="ib" href="../" aria-label="Todos los juegos" style="text-decoration:none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></a><button class="ib fsBtn" aria-label="Pantalla completa">${UI.fs}</button><button class="ib sndBtn" aria-label="Sonido">${UI.snd}</button></div>`);
+ bindTools(s);
+ $$("#teamPick .tm").forEach(b=>b.onclick=()=>{$$("#teamPick .tm").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");nTeams=+b.dataset.n;tone("tick");});
+ const kset=d=>{nKids=Math.max(3,Math.min(40,nKids+d));$("#kN").textContent=nKids;try{localStorage.setItem("es-kids",nKids);}catch(e){}tone("tick");};
+ if($("#kMinus")){$("#kMinus").onclick=()=>kset(-1);$("#kPlus").onclick=()=>kset(1);}
+ $("#play").onclick=()=>{TEAMS=TEAMS_ALL.slice(0,nTeams);turnI=-1;G={i:0,r:0,got:0,stamps:[]};$("#turn").classList.remove("on");intro();};
+}
+let nKids=12;try{nKids=+localStorage.getItem("es-kids")||12;}catch(e){}
+function kidsCtl(){return `<div class="row" style="gap:10px;margin-top:10px"><span style="font-family:var(--type);font-size:20px">Niños en clase:</span><button class="tm" id="kMinus" aria-label="Menos niños" style="min-height:52px;font-size:26px">−</button><span id="kN" style="font-family:var(--type);font-size:30px;min-width:44px;text-align:center">${nKids}</span><button class="tm" id="kPlus" aria-label="Más niños" style="min-height:52px;font-size:26px">+</button></div>`;}
+const teamPickHTML=`<div><div style="font-family:var(--type);font-size:20px;margin-bottom:10px">¿Cómo jugáis?</div><div class="teams" id="teamPick">
+ <button class="tm sel" data-n="0">Toda la clase</button>
+ <button class="tm" data-n="2"><span class="dot" style="background:#C8892B"></span><span class="dot" style="background:#2F4C7A"></span>2</button>
+ <button class="tm" data-n="3"><span class="dot" style="background:#C8892B"></span><span class="dot" style="background:#2F4C7A"></span><span class="dot" style="background:#5E7A4C"></span>3</button>
+ <button class="tm" data-n="4"><span class="dot" style="background:#C8892B"></span><span class="dot" style="background:#2F4C7A"></span><span class="dot" style="background:#5E7A4C"></span><span class="dot" style="background:#9E2F28"></span>4</button></div>${kidsCtl()}</div>`;
+let introStep=0;
+async function intro(){if(!G._opened){G._opened=1;await folderOpen(GAME.caseTitle||document.title.split("·")[0].trim(),GAME.caseNo?`Caso nº ${GAME.caseNo}`:"");}introStep=0;const s=$("#s-intro");
+ s.innerHTML=GAME.intro.map((p,i)=>`<div class="panel ${i?"hidden":""}" id="ip${i}" style="left:${i*400}px;top:${[20,50,10][i]}px;transform:rotate(${[-3,2,-2][i]}deg)"><div class="art">${p.art}</div><div class="cap">${esc(p.cap)}</div></div>`).join("")+
+  `<div style="position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center"><button class="btn main big pulse" id="introNext">Seguir ${ARROW}</button></div>`;
+ show("s-intro",false);tone("tick");
+ $("#introNext").onclick=()=>{introStep++;if(introStep<GAME.intro.length){$("#ip"+introStep).classList.remove("hidden");tone("tick");}else{const st=GAME.steps[0];if(st.travelFrom)travel(st.travelFrom,0,st.mode);else arrive();}};
+}
+function arrive(){
+ const st=GAME.steps[G.i];G.r=0;
+ if(!st.arrive){runReto();return;}
+ show("s-arrive",true);hud();const a=st.arrive;
+ $("#s-arrive").innerHTML=`
+  <div style="position:absolute;left:0;top:10px;width:500px;height:520px;background:#FDFBF5;box-shadow:0 12px 26px rgba(0,0,0,.25);transform:rotate(-3deg);padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;border:2px solid #E2D6BC">
+   <div style="position:absolute;top:-14px;left:180px;width:140px;height:34px;background:rgba(178,198,180,.8)"></div>
+   ${a.art}<div style="font-family:var(--type);font-size:${st.place.length>12?42:54}px;text-align:center;line-height:1.05">${esc(st.place)}</div>${a.sub?`<div class="hand" style="font-size:30px;color:var(--sepia)">${esc(a.sub)}</div>`:""}
+  </div>
+  <div style="position:absolute;left:560px;right:0;top:30px;display:flex;flex-direction:column;gap:24px">
+   <div class="row" style="gap:30px;align-items:flex-start;flex-wrap:nowrap"><div class="avatar" style="background:${a.color||"#E3C792"}">${a.face||""}</div><div class="bubble">${esc(a.say)}</div></div>
+   <div style="font-family:var(--type);font-size:22px;color:var(--sepia);margin-left:4px">${esc(a.who||"")}</div>
+   ${a.ref?`<div><span class="ref">${UI.book} ${esc(a.ref)}</span></div>`:""}
+  </div>
+  <div style="position:absolute;right:0;bottom:10px"><button class="btn main big pulse" id="toReto">¡Al reto! ${ARROW}</button></div>`;
+ $("#toReto").onclick=runReto;
+}
+function runReto(){
+ const st=GAME.steps[G.i],r=st.retos[G.r];nextTurn();show("s-reto",true);hud();
+ $("#s-reto").innerHTML=`<div class="row" style="justify-content:space-between;flex-wrap:nowrap;gap:20px"><h2 style="font-size:${r.title.length>40?32:38}px;line-height:1.1">${esc(r.title)}</h2><div class="row" style="flex-wrap:nowrap;gap:10px">${r.ref?`<span class="ref">${UI.book} ${esc(r.ref)}</span>`:""}${st.retos.length>1?`<span style="font-family:var(--type);font-size:20px;color:var(--sepia)">${G.r+1}/${st.retos.length}</span>`:""}<button class="ib" id="hintBtn" aria-label="Pedir pista" style="width:64px;height:64px;font-family:var(--type);font-size:32px">?</button></div></div><div id="rb" style="position:absolute;left:0;right:0;top:84px;bottom:0"></div>`;
+ $("#hintBtn").onclick=()=>hint(r.hint);
+ let _done=false;RET[r.type](r,()=>{if(_done)return;_done=true;retoOK();});
+}
+function hint(t){tone("tick");overlay(`<div class="ovcard"><div class="row" style="flex-wrap:nowrap;gap:24px"><div class="avatar" style="background:#E3C792">${icon("book",80)}</div><div class="bubble" style="max-width:600px">${esc(t)}</div></div><button class="btn main" id="ovOk">¡Vale!</button></div>`);$("#ovOk").onclick=closeOv;}
+function retoOK(){
+ resetTimers();const st=GAME.steps[G.i];
+ if(G.r<st.retos.length-1){tone("ok");toast("¡Correcto! Siguiente reto…",true);setTimeout(()=>{G.r++;runReto();},1200);return;}
+ G.got++;G.stamps.push(G.i);hud(G.i);tone("win");
+ const last=G.i===GAME.steps.length-1;
+ setTimeout(()=>stamp3d(`PRUEBA Nº ${G.got}`,{x:80,y:80,size:30,w:200,ms:2200}),450);
+ overlay(`<div class="ovcard"><h2 style="font-size:44px">${esc(GAME.collect.won(G.got))}</h2><div style="animation:thud .7s cubic-bezier(.2,1.6,.4,1)">${GAME.collect.art(G.got)}</div>${st.lesson?`<div class="hand" style="font-size:34px;max-width:760px;line-height:1.1">${esc(st.lesson)}</div>`:""}<button class="btn main big" id="ovOk">${last?"¡Final!":"Seguir"} ${ARROW}</button></div>`,true);
+ $("#ovOk").onclick=async()=>{closeOv();if(last){if(GAME.finalTrip){show("s-travel",true);const f=GAME.finalTrip;await animateTrip(st.city,f.via||[],f.city,f.mode,f.place,GAME.steps.map(s=>cityXY(s.city)));}finale();}else if(st.next)nextPick();else{G.i++;arrive();}};
+}
+
+/* ---------- next destination (map pick) ---------- */
+function nextPick(){
+ const st=GAME.steps[G.i],n=st.next,OP=shuffle(n.options);nextTurn();show("s-next",true);hud();
+ $("#s-next").innerHTML=`<div class="mapbox" style="position:absolute;left:0;top:0;width:640px;bottom:0"><svg id="nMap" aria-label="Mapa con opciones"></svg></div>
+  <div style="position:absolute;left:670px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:14px">
+   <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h2 style="font-size:32px">${esc(n.title||"¿Adónde vamos ahora?")}</h2><button class="ib" id="hintBtn" aria-label="Pedir pista" style="width:60px;height:60px;font-family:var(--type);font-size:30px">?</button></div>
+   <div class="clue">${icon(n.icon||"scroll",80)}<div class="t">${esc(n.q)}</div></div>
+   ${n.ref?`<div><span class="ref">${UI.book} ${esc(n.ref)}</span></div>`:""}
+   <div class="opts">${OP.map((k,i)=>`<button class="opt" data-k="${k}"><span class="let">${L[i]}</span>${esc(DATA.map.c[k].n)}</button>`).join("")}</div>
+   <div class="row" style="margin-top:auto">${timerBtn()}</div></div>`;
+ $("#hintBtn").onclick=()=>hint(n.hint);
+ const svg=$("#nMap");buildMap(svg);
+ requestAnimationFrame(()=>{const cur=cityXY(GAME.steps[G.i].city);setVB(svg,fitPts(svg,[cur,...OP.map(cityXY)],60));
+  const u=svg._vb.w/26;let h=pin(cur[0],cur[1],u*.5,DATA.map.c[GAME.steps[G.i].city].n);
+  OP.forEach((k,i)=>{const p=cityXY(k);h+=`<g class="mk" data-k="${k}"><circle cx="${p[0]}" cy="${p[1]}" r="${u*.8}" fill="#3A2E26" stroke="#FDFBF5" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="${p[0]}" y="${p[1]+u*.32}" text-anchor="middle" font-family="Special Elite, monospace" font-size="${u*.9}" fill="#F3EAD6">${L[i]}</text></g>`;});
+  svg.querySelector(".ov").innerHTML=h;tapMap(svg,k=>pick(k));});
+ let done=false;
+ const pick=k=>{if(done)return;const b=$(`#s-next .opt[data-k="${k}"]`);if(!b||b.disabled)return;
+  if(k===n.answer){done=true;resetTimers();b.classList.add("ok");$$("#s-next .opt").forEach(x=>x.disabled=true);tone("ok");
+   setTimeout(()=>{const from=GAME.steps[G.i].city;G.i++;travel(from,G.i,GAME.steps[G.i].mode);},1000);}
+  else{b.classList.add("bad");b.disabled=true;bad(b,`${DATA.map.c[k].n} no encaja: ¡lee el texto!`);}};
+ $$("#s-next .opt").forEach(b=>b.onclick=()=>pick(b.dataset.k));
+}
+async function travel(fromKey,toIdx,mode){
+ show("s-travel",true);G.i=toIdx;hud();const st=GAME.steps[toIdx];
+ await animateTrip(fromKey,st.via||[],st.city,mode,st.place,GAME.steps.slice(0,toIdx).map(s=>cityXY(s.city)));arrive();}
+async function animateTrip(fromKey,via,toKey,mode,place,visited){
+ const svg=$("#vMap");if(!svg._built){buildMap(svg);svg._built=1;}
+ const st={city:toKey,place};
+ const pts=[fromKey,...via,toKey].map(cityXY);
+ await wait(30);setVB(svg,fitPts(svg,[...pts,...visited.slice(-2)],50));
+ const u=svg._vb.w/40,ov=svg.querySelector(".ov");
+ const base=(visited.length>1?`<polyline points="${visited.map(p=>p.join(",")).join(" ")}" fill="none" stroke="#3A2E26" stroke-width="3" stroke-dasharray="9 7" vector-effect="non-scaling-stroke"/>`:"")+visited.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="${u*.35}" fill="#3A2E26"/>`).join("");
+ const seg=[];let tot=0;for(let i=1;i<pts.length;i++){const d=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);seg.push(d);tot+=d;}
+ const at=k=>{let d=k*tot;for(let i=0;i<seg.length;i++){if(d<=seg[i]||i===seg.length-1){const f=seg[i]?Math.min(1,d/seg[i]):1;return[pts[i][0]+(pts[i+1][0]-pts[i][0])*f,pts[i][1]+(pts[i+1][1]-pts[i][1])*f];}d-=seg[i];}};
+ const ico=mode==="walk"?"walk":"ship";const D=Math.min(2600,1200+tot*4);const t0=performance.now();
+ await new Promise(res=>{const step=n=>{const k=Math.min(1,(n-t0)/D),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2,p=at(e);
+  const trail=`<polyline points="${pts.slice(0,1).concat(Array.from({length:30},(_,j)=>at(e*(j+1)/30))).map(q=>q.join(",")).join(" ")}" fill="none" stroke="#B5352A" stroke-width="3" stroke-dasharray="8 6" vector-effect="non-scaling-stroke"/>`;
+  ov.innerHTML=base+trail+pin(pts[pts.length-1][0],pts[pts.length-1][1],u*.6,k>.9?DATA.map.c[st.city].n:"")+`<g transform="translate(${p[0]-u*1.5} ${p[1]-u*2.6}) scale(${u*3/64})"><circle cx="32" cy="34" r="30" fill="#FDFBF5" stroke="#3A2E26" stroke-width="2"/>${ICON[ico]}</g>`;
+  if(k<1)requestAnimationFrame(step);else res();};requestAnimationFrame(step);});
+ tone("stamp");
+ const vs=$("#vStamp");vs.innerHTML=`<div style="width:300px;height:300px;border-radius:50%;border:8px double var(--acc);background:rgba(253,251,245,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transform:rotate(-10deg);animation:thud .6s cubic-bezier(.2,1.6,.4,1)">${icon(ico,90)}<div style="font-family:var(--type);font-size:${st.place.length>9?36:46}px;color:var(--ink)">${esc(st.place.toUpperCase())}</div></div>`;vs.style.display="block";
+ await wait(1400);vs.style.display="none";
+}
+
+/* ---------- retos ---------- */
+const RET={
+ quiz(r,ok){let qi=0;
+  const draw=()=>{resetTimers();const q=r.qs[qi];const n=q.o.length;
+   $("#rb").innerHTML=`<div style="display:flex;gap:36px;align-items:flex-start">
+    <div style="width:230px;display:flex;flex-direction:column;align-items:center;gap:20px">${icon(q.i||"scroll",190)}${r.qs.length>1?`<div class="row" style="gap:10px;justify-content:center">${r.qs.map((_,i)=>`<div style="width:50px;height:50px;border-radius:50%;border:4px solid ${i<qi?"#2F5E2A":"#6B5444"};background:${i<qi?"#8FC07F":"#FDFBF5"};display:flex;align-items:center;justify-content:center;font-family:var(--type);font-size:22px">${i<qi?"✓":i+1}</div>`).join("")}</div>`:""}</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:14px"><div class="hand" style="font-size:${q.q.length>70?38:44}px;line-height:1.05">${esc(q.q)}</div>
+     <div class="opts" style="grid-template-columns:${n>2?"1fr 1fr":"1fr"}">${shuffle(q.o.map((o,i)=>[o,i])).map(([o,i],k)=>{const t=typeof o==="string"?o:o.t,ic=typeof o==="string"?"":icon(o.i,54);return `<button class="opt" data-i="${i}" style="min-height:${q.o.some(x=>typeof x!=="string")?110:96}px;font-size:${t.length>30?20:24}px"><span class="let">${L[k]}</span>${ic}<span>${esc(t)}</span></button>`;}).join("")}</div>
+     <div class="row">${timerBtn()}${q.ref?`<span class="ref">${UI.book} ${esc(q.ref)}</span>`:""}</div></div></div>`;
+   $$("#rb .opt").forEach(b=>b.onclick=()=>{if(+b.dataset.i===q.a){b.classList.add("ok");$$("#rb .opt").forEach(x=>x.disabled=true);tone("ok");qi++;setTimeout(()=>qi<r.qs.length?draw():ok(),q.why?1900:900);if(q.why)toast(q.why,true);}
+    else{b.classList.add("bad");b.disabled=true;bad(b,q.miss||"¡Casi! Piensa otra vez");}});};
+  draw();},
+ many(r,ok){const need=r.items.filter(x=>x.ok).length;let found=0;
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:22px"><div class="row" style="justify-content:space-between"><div class="hand" style="font-size:40px">${esc(r.prompt)}</div><div style="font-family:var(--type);font-size:28px" id="mcount">0 / ${need}</div></div>
+   <div class="tiles" style="justify-content:flex-start">${shuffle(r.items.map((x,i)=>[x,i])).map(([x,i])=>`<button class="tile" data-i="${i}" style="${r.wide?"width:calc(50% - 8px);font-family:var(--hand);font-size:32px;line-height:1.05;text-align:left;min-height:96px":""}">${x.i?icon(x.i,48):""}${esc(x.t)}</button>`).join("")}</div></div>`;
+  $$("#rb .tile").forEach(b=>b.onclick=()=>{if(b.classList.contains("done"))return;const x=r.items[+b.dataset.i];
+   if(x.ok){b.classList.add("done");found++;$("#mcount").textContent=`${found} / ${need}`;tone("ok");if(x.why)toast(x.why,true);if(found===need)setTimeout(ok,x.why?1800:700);}
+   else{bad(b,x.why||"¡Ese no!");}});},
+ order(r,ok){const ord=shuffle(r.items.map((e,i)=>[e,i]));const n=r.items.length;
+  $("#rb").innerHTML=`${r.note?`<div class="hand" style="font-size:34px;margin-bottom:6px">${esc(r.note)}</div>`:""}<div style="display:grid;grid-template-columns:repeat(${n},minmax(0,1fr));gap:${n>4?14:22}px;padding:24px 10px 0">${ord.map(([e,i])=>`<button class="evt" data-i="${i}" style="height:${n>4?260:240}px"><span class="num"></span>${icon(e.i,n>4?90:110)}<div class="cap" style="font-size:${n>4?26:30}px">${esc(e.t)}</div></button>`).join("")}</div>
+   <div style="position:absolute;left:0;right:0;bottom:4px;text-align:center" class="hand"><span style="font-size:34px;color:var(--sepia)">Toca las tarjetas en orden: 1, 2, 3…</span></div>`;
+  let seq=0;$$("#rb .evt").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(b.classList.contains("placed"))return;
+   if(i===seq){seq++;b.classList.add("placed");b.querySelector(".num").textContent=seq;tone("ok");if(seq===n)setTimeout(ok,600);}else bad(b,seq===0?"¿Qué pasó primero?":"¿Y después?");});},
+ match(r,ok){const left=shuffle(r.pairs.map(p=>p[0])),right=shuffle(r.pairs.map(p=>p[1]));let sel=null,done=0;
+  $("#rb").innerHTML=`<div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:10px;align-items:start;max-width:1000px;margin:0 auto">
+   <div style="display:grid;gap:10px"><div class="hand" style="font-size:30px;text-align:center">${esc(r.lh)}</div>${left.map(x=>`<button class="tile" data-l="${esc(x)}" style="justify-content:center;min-height:${r.pairs.length>5?60:76}px;font-size:${r.pairs.length>5?24:28}px">${esc(x)}</button>`).join("")}</div><div></div>
+   <div style="display:grid;gap:10px"><div class="hand" style="font-size:30px;text-align:center">${esc(r.rh)}</div>${right.map(x=>`<button class="tile" data-r="${esc(x)}" style="justify-content:center;min-height:${r.pairs.length>5?60:76}px;font-size:${r.pairs.length>5?24:28}px">${esc(x)}</button>`).join("")}</div></div>`;
+  $$("[data-l]").forEach(b=>b.onclick=()=>{if(b.classList.contains("done"))return;$$("[data-l]").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");sel=b;tone("tick");});
+  $$("[data-r]").forEach(b=>b.onclick=()=>{if(b.classList.contains("done"))return;if(!sel){bad(b,"Primero toca uno de la izquierda");return;}
+   if(r.pairs.some(p=>p[0]===sel.dataset.l&&p[1]===b.dataset.r)){sel.classList.add("done");b.classList.add("done");sel.classList.remove("sel");sel=null;done++;tone("ok");if(done===r.pairs.length)setTimeout(ok,600);}
+   else bad(b,"¡No es su pareja!");});},
+ verse(r,ok){const ch=shuffle(r.chunks.map((c,i)=>[c,i]));let pos=0;
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:26px"><div class="line" id="vline"><span style="color:#B8A888">…</span></div>
+   <div class="tiles">${ch.map(([c,i])=>`<button class="tile" data-i="${i}">${esc(c)}</button>`).join("")}</div><div style="text-align:center"><span class="ref">${UI.book} ${esc(r.vref)}</span></div></div>`;
+  $$("#rb .tile").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(i===pos){pos++;b.classList.add("used");const l=$("#vline");if(pos===1)l.innerHTML="";l.insertAdjacentHTML("beforeend",`<span>${esc(r.chunks[i])}</span>`);tone("tick");if(pos===r.chunks.length){tone("ok");setTimeout(ok,900);}}else bad(b,"¿Qué palabra va ahora?");});},
+ tf(r,ok){let qi=0;
+  const draw=()=>{const q=r.items[qi];
+   $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:30px;align-items:stretch;padding:0 40px">
+    <div style="font-family:var(--type);font-size:22px;text-align:center">${qi+1} / ${r.items.length}</div>
+    <div class="tfcard">${esc(q.t)}</div>
+    <div class="row" style="justify-content:center;gap:40px"><button class="tfb" data-v="1" style="background:#DCEBD3">✓ VERDADERO</button><button class="tfb" data-v="0" style="background:#F2D5CC">✗ FALSO</button></div>
+    <div id="why" class="hand" style="font-size:34px;text-align:center;min-height:44px"></div></div>`;
+   $$("#rb .tfb").forEach(b=>b.onclick=()=>{if(b.disabled)return;const right=(b.dataset.v==="1")===q.v;
+    if(right){$$("#rb .tfb").forEach(x=>x.disabled=true);b.style.outline="6px solid #2F5E2A";tone("ok");$("#why").textContent=q.why||"¡Correcto!";qi++;setTimeout(()=>qi<r.items.length?draw():ok(),2200);}
+    else{bad(b,"¡Piénsalo otra vez!");}});};
+  draw();},
+ mapcountry(r,ok){
+  $("#rb").innerHTML=`<div class="mapbox" style="position:absolute;left:0;top:0;width:800px;bottom:0"><svg id="rMap" class="tapmap" aria-label="Mapa"></svg></div>
+   <div style="position:absolute;left:830px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:18px"><div class="hand" style="font-size:44px;line-height:1.05">${esc(r.prompt)}</div>${r.clues?r.clues.map(c=>`<div class="clue" style="padding:10px 14px">${icon(c.i,56)}<div class="t" style="font-size:28px">${esc(c.t)}</div></div>`).join(""):""}<div class="row" style="margin-top:auto">${timerBtn()}</div></div>`;
+  const svg=$("#rMap");buildMap(svg);
+  requestAnimationFrame(()=>{const C=DATA.map.countries;const pts=[];r.view.forEach(k=>{const b=C[k].b;pts.push(b[0],b[1]);});setVB(svg,fitPts(svg,pts,10));});
+  let done=false;tapMap(svg,k=>{if(done||!k)return;const p=svg.querySelector(`.c[data-k="${k}"]`);
+   if(k===r.target){done=true;p.classList.add("ok");tone("ok");setTimeout(ok,900);}else{p.classList.add("bad");setTimeout(()=>p.classList.remove("bad"),900);bad(null,`Ese país es ${DATA.names[k]||"otro"}`);}});},
+ mappick(r,ok){
+  $("#rb").innerHTML=`<div class="mapbox" style="position:absolute;left:0;top:0;width:700px;bottom:0"><svg id="rMap" aria-label="Mapa"></svg><div style="position:absolute;right:12px;top:12px">${icon("compass",110)}</div></div>
+   <div style="position:absolute;left:730px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:16px"><div class="clue">${icon(r.icon||"school",70)}<div class="t" style="font-size:32px">${esc(r.prompt)}</div></div>
+   <div class="opts">${r.points.map((p,i)=>`<button class="opt" data-k="${p.k}"><span class="let">${L[i]}</span>${esc(p.label||"")}</button>`).join("")}</div><div class="row" style="margin-top:auto">${timerBtn()}</div></div>`;
+  const svg=$("#rMap");buildMap(svg);
+  requestAnimationFrame(()=>{const all=[r.center.xy,...r.points.map(p=>p.xy)];setVB(svg,fitPts(svg,all,r.pad||3));
+   const u=svg._vb.w/22;let h=pin(r.center.xy[0],r.center.xy[1],u*.55,r.center.n);
+   r.points.forEach((p,i)=>{h+=`<g class="mk" data-k="${p.k}"><circle cx="${p.xy[0]}" cy="${p.xy[1]}" r="${u*.7}" fill="#3A2E26" stroke="#FDFBF5" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="${p.xy[0]}" y="${p.xy[1]+u*.28}" text-anchor="middle" font-family="Special Elite, monospace" font-size="${u*.8}" fill="#F3EAD6">${L[i]}</text></g>`;});
+   if(r.scale)h+=`<g><path d="M${svg._vb.x+u} ${svg._vb.y+svg._vb.h-u}h${r.scale.len}" stroke="#3A2E26" stroke-width="4" vector-effect="non-scaling-stroke"/><text x="${svg._vb.x+u}" y="${svg._vb.y+svg._vb.h-u*1.4}" font-family="Special Elite, monospace" font-size="${u*.7}" fill="#3A2E26">${esc(r.scale.label)}</text></g>`;
+   svg.querySelector(".ov").innerHTML=h;tapMap(svg,k=>pick(k));});
+  let done=false;const pick=k=>{if(done)return;const b=$(`#rb .opt[data-k="${k}"]`);if(!b||b.disabled)return;
+   if(k===r.answer){done=true;b.classList.add("ok");$$("#rb .opt").forEach(x=>x.disabled=true);tone("ok");setTimeout(ok,900);}else{b.classList.add("bad");b.disabled=true;bad(b,r.miss||"Mira la brújula otra vez");}};
+  $$("#rb .opt").forEach(b=>b.onclick=()=>pick(b.dataset.k));}
+};
+
+Object.assign(RET,{
+ body(r,ok){let qi=0;
+  const draw=()=>{const q=r.items[qi];
+   $("#rb").innerHTML=`<div style="display:grid;grid-template-columns:220px 1fr 220px;gap:24px;align-items:center;height:100%;padding-bottom:20px">
+    <div id="bUp" style="text-align:center;border-radius:20px;padding:10px;transition:all .3s">${icon("stand",190)}<div style="font-family:var(--type);font-size:24px">DE PIE<br><b style="font-size:30px;color:#2F5E2A">VERDADERO</b></div></div>
+    <div style="display:flex;flex-direction:column;gap:20px;align-items:center"><div style="font-family:var(--type);font-size:20px">${qi+1} / ${r.items.length}</div><div class="tfcard" style="font-size:44px;min-height:220px">${esc(q.t)}</div>
+     <div id="bCount" style="font-family:var(--type);font-size:80px;line-height:1;min-height:80px;color:var(--red)"></div><div id="why" class="hand" style="font-size:32px;text-align:center;min-height:40px"></div>
+     <button class="btn main big" id="bGo">¡3, 2, 1… decidid!</button></div>
+    <div id="bDown" style="text-align:center;border-radius:20px;padding:10px;transition:all .3s">${icon("sit",190)}<div style="font-family:var(--type);font-size:24px">SENTADOS<br><b style="font-size:30px;color:#9E2F28">FALSO</b></div></div></div>`;
+   let phase=0;$("#bGo").onclick=async()=>{if(phase===0){phase=1;$("#bGo").style.visibility="hidden";for(const n of ["3","2","1"]){$("#bCount").textContent=n;tone("tick");await wait(800);}$("#bCount").textContent="¡YA!";tone("stamp");await wait(900);$("#bCount").textContent="";$("#bGo").textContent="Ver la respuesta";$("#bGo").style.visibility="visible";phase=2;}
+    else if(phase===2){phase=3;const w=q.v?$("#bUp"):$("#bDown"),o=q.v?$("#bDown"):$("#bUp");w.style.background="#DCEBD3";w.style.transform="scale(1.1)";o.style.opacity=.3;tone("win");$("#why").textContent=q.why||"";$("#bGo").textContent=qi<r.items.length-1?"Siguiente":"¡Terminado!";}
+    else{qi++;qi<r.items.length?draw():ok();}};};
+  draw();},
+ mime(r,ok){let qi=0;
+  const draw=()=>{const c=r.cards[qi];
+   $("#rb").innerHTML=`<div style="display:flex;gap:40px;align-items:center;height:100%;padding-bottom:30px">
+    <div style="width:320px;height:320px;border-radius:50%;background:#FDFBF5;border:5px solid var(--ink);display:flex;align-items:center;justify-content:center;flex:none" id="mArt">${icon(c.i,240)}</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:20px"><div style="font-family:var(--type);font-size:22px">${esc(r.who||"¡Toda la clase!")} · Escena ${qi+1} de ${r.cards.length}</div>
+     <div class="hand" style="font-size:54px;line-height:1.05">${esc(c.t)}</div>
+     <div id="mCount" style="font-family:var(--type);font-size:90px;line-height:1;min-height:90px;color:var(--red)"></div>
+     <div class="row"><button class="btn main big" id="mGo">${icon("mask",50)} ¡Acción!</button></div></div></div>`;
+   let ph=0;$("#mGo").onclick=async()=>{if(ph===0){ph=1;$("#mGo").style.visibility="hidden";for(let n=r.secs||5;n>0;n--){$("#mCount").textContent=n;tone("tick");await wait(1000);}
+     $("#mCount").textContent="¡CONGELADOS!";tone("stamp");const f=document.createElement("div");f.style.cssText="position:absolute;inset:0;background:#fff;z-index:30;animation:fade .5s reverse forwards";$("#paper").appendChild(f);setTimeout(()=>f.remove(),500);
+     await wait(1200);$("#mGo").innerHTML=(qi<r.cards.length-1?"Siguiente escena ":"¡Bravo! ")+ARROW;$("#mGo").style.visibility="visible";ph=2;}
+    else{qi++;qi<r.cards.length?draw():ok();}};};
+  draw();},
+ row(r,ok){const need=r.need||25,T=r.secs||20;let n=0,t0=null,tid=null,done=false;
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:20px;height:100%">
+   <div class="row" style="justify-content:space-between"><div class="hand" style="font-size:40px">${esc(r.prompt)}</div><div style="font-family:var(--type);font-size:40px" id="rT">${T} s</div></div>
+   <div style="position:relative;height:200px;background:#CFE0E3;border:4px solid #5B4636;border-radius:12px;overflow:hidden">
+    <svg viewBox="0 0 1000 200" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;inset:0"><path d="M0 150 Q50 135 100 150 T200 150 T300 150 T400 150 T500 150 T600 150 T700 150 T800 150 T900 150 T1000 150 V200 H0z" fill="#8FB8C8"/></svg>
+    <div style="position:absolute;right:20px;top:40px;text-align:center">${icon("city",110)}<div style="font-family:var(--type);font-size:22px">${esc(r.goal)}</div></div>
+    <div id="boat" style="position:absolute;left:10px;top:30px;transition:left .25s">${icon("ship",140)}</div></div>
+   <div style="height:26px;background:#E9DCC0;border:3px solid var(--ink);border-radius:14px;overflow:hidden"><div id="rBar" style="height:100%;width:0;background:#2F6F8F;transition:width .2s"></div></div>
+   <div class="row" style="justify-content:center;gap:30px"><button class="btn main big" id="rowB" style="min-width:420px;font-size:44px;min-height:110px">${icon("clap",70)} ¡REMA!</button><div class="hand" style="font-size:30px;max-width:360px">Cada palmada de la clase = un golpe de remo</div></div></div>`;
+  const reset=()=>{n=0;t0=null;clearInterval(tid);$("#rT").textContent=T+" s";$("#rBar").style.width="0";$("#boat").style.left="10px";};
+  $("#rowB").onclick=()=>{if(done)return;if(!t0){t0=Date.now();tid=setInterval(()=>{const left=Math.max(0,T-Math.floor((Date.now()-t0)/1000));$("#rT").textContent=left+" s";if(left<=0&&!done){clearInterval(tid);bad($("#rowB"),"¡El viento os frenó! Otra vez, más fuerte");setTimeout(reset,1500);}},250);}
+   n++;tone("tick");const f=Math.min(1,n/need);$("#rBar").style.width=(f*100)+"%";$("#boat").style.left=`calc(${f*78}% + 10px)`;
+   if(n>=need){done=true;clearInterval(tid);tone("win");confetti();setTimeout(ok,1200);}};},
+ chorus(r,ok){const words=r.text.split(" ");const hidden=new Set();
+  const paint=()=>{$("#chV").innerHTML=words.map((w,i)=>hidden.has(i)?`<span style="display:inline-block;min-width:${w.length*0.55}em;border-bottom:4px solid var(--ink);color:transparent">${esc(w)}</span>`:`<span>${esc(w)}</span>`).join(" ");};
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:24px;align-items:center;padding-top:6px">
+   <div class="hand" style="font-size:34px">${esc(r.prompt||"¡Leedlo todos juntos en voz alta!")}</div>
+   <div id="chV" style="font-family:var(--hand);font-size:60px;line-height:1.25;text-align:center;background:#FDFBF5;border:4px double #9E7B4F;padding:24px 34px;border-radius:12px;max-width:1100px"></div>
+   <span class="ref">${UI.book} ${esc(r.vref)}</span>
+   <button class="btn main big" id="chB">Ocultar palabras ${ARROW}</button></div>`;paint();
+  $("#chB").onclick=()=>{const vis=words.map((_,i)=>i).filter(i=>!hidden.has(i));if(!vis.length){ok();return;}
+   shuffle(vis).slice(0,Math.max(2,Math.ceil(words.length/5))).forEach(i=>hidden.add(i));paint();tone("tick");
+   if(hidden.size===words.length){$("#chB").innerHTML=`¡De memoria! ${ARROW}`;tone("win");}};},
+ poll(r,ok){let qi=0;const res=[];
+  const draw=()=>{const q=r.qs[qi];let v=0;
+   $("#rb").innerHTML=`<div style="display:flex;gap:40px;align-items:center;height:100%;padding-bottom:20px">
+    <div style="flex:none">${icon(q.i||"hand",230)}</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:18px"><div style="font-family:var(--type);font-size:22px">${qi+1} / ${r.qs.length} · ¡Levantad la mano!</div><div class="hand" style="font-size:50px;line-height:1.05">${esc(q.q)}</div>
+     <div class="row" style="gap:20px"><button class="tm" id="pM" aria-label="Menos" style="min-height:80px;min-width:80px;font-size:40px;justify-content:center">−</button><div id="pV" style="font-family:var(--type);font-size:90px;min-width:120px;text-align:center">0</div><button class="tm" id="pP" aria-label="Más" style="min-height:80px;min-width:80px;font-size:40px;justify-content:center">+</button><span style="font-family:var(--type);font-size:28px;color:var(--sepia)">de ${nKids}</span></div>
+     <div class="row"><button class="btn main" id="pOk">Anotar ${ARROW}</button></div></div></div>`;
+   const set=d=>{v=Math.max(0,Math.min(nKids,v+d));$("#pV").textContent=v;tone("tick");};
+   $("#pM").onclick=()=>set(-1);$("#pP").onclick=()=>set(1);
+   $("#pOk").onclick=()=>{res.push(v);qi++;if(qi<r.qs.length)draw();else chart();};};
+  const chart=()=>{tone("win");
+   $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:14px"><div class="hand" style="font-size:40px">${esc(r.chartTitle||"¡Así es nuestra clase!")}</div>
+    ${r.qs.map((q,i)=>{const pct=Math.round(res[i]/nKids*100);return `<div style="display:grid;grid-template-columns:420px 1fr 90px;gap:16px;align-items:center"><div style="font-size:24px;line-height:1.15">${esc(q.short||q.q)}</div><div style="height:46px;background:#E9DCC0;border:3px solid var(--ink);border-radius:8px;overflow:hidden"><div class="pbar" data-w="${pct}" style="height:100%;width:0;background:${["#2F4C7A","#C8892B","#5E7A4C","#9E2F28"][i%4]};transition:width 1.2s ease"></div></div><div style="font-family:var(--type);font-size:30px">${pct}%</div></div>`;}).join("")}
+    <div class="hand" style="font-size:32px;margin-top:8px">${esc(r.after||"")}</div><div class="row"><button class="btn main" id="pDone">¡Genial! ${ARROW}</button></div></div>`;
+   requestAnimationFrame(()=>requestAnimationFrame(()=>$$(".pbar").forEach(b=>b.style.width=b.dataset.w+"%")));$("#pDone").onclick=ok;};
+  draw();},
+ guess(r,ok){let v=r.start;
+  $("#rb").innerHTML=`<div style="display:flex;gap:40px;align-items:center;height:100%;padding-bottom:20px">
+   <div style="flex:none;position:relative">${icon(r.i||"lake",240)}<div id="gArrow" style="position:absolute;left:0;right:0;top:-10px;text-align:center;font-family:var(--type);font-size:40px"></div></div>
+   <div style="flex:1;display:flex;flex-direction:column;gap:18px"><div class="hand" style="font-size:46px;line-height:1.05">${esc(r.q)}</div>
+    <div class="row" style="gap:12px">${[-10,-1].map(d=>`<button class="tm gd" data-d="${d}" style="min-height:76px;min-width:90px;font-size:30px;justify-content:center">${d}</button>`).join("")}<div style="font-family:var(--type);font-size:84px;min-width:200px;text-align:center"><span id="gV">${v}</span><span style="font-size:36px"> ${esc(r.unit)}</span></div>${[1,10].map(d=>`<button class="tm gd" data-d="${d}" style="min-height:76px;min-width:90px;font-size:30px;justify-content:center">+${d}</button>`).join("")}</div>
+    <div id="gFb" class="hand" style="font-size:40px;min-height:48px"></div>
+    <div class="row"><button class="btn main" id="gOk">¿Es este? ${ARROW}</button>${timerBtn()}</div></div></div>`;
+  $$("#rb .gd").forEach(b=>b.onclick=()=>{v=Math.max(r.min||0,Math.min(r.max||9999,v+ +b.dataset.d));$("#gV").textContent=v;tone("tick");});
+  let tries=0;$("#gOk").onclick=()=>{tries++;const d=r.answer-v;
+   if(Math.abs(d)<=(r.tol||0)){$("#gFb").textContent=`¡Sí! ${r.answer} ${r.unit}. ${r.why||""}`;tone("win");confetti();$("#gOk").style.display="none";setTimeout(ok,2600);}
+   else{tone("bad");$("#gFb").textContent=(d>0?r.more:r.less)+(tries>=4?` (pista: entre ${r.answer-15} y ${r.answer+15})`:"");$("#gArrow").textContent=d>0?"▲":"▼";}};}
+});
+
+/* ---------- final ---------- */
+function finale(){show("s-final",false);const f=$("#s-final");f.innerHTML=GAME.final();
+ f.insertAdjacentHTML("beforeend",`<div style="position:absolute;right:0;top:0;display:flex;gap:8px;z-index:3"><a class="ib" href="../" aria-label="Todos los juegos" style="text-decoration:none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></a><button class="ib fsBtn" aria-label="Pantalla completa">${UI.fs}</button><button class="ib sndBtn" aria-label="Sonido">${UI.snd}</button></div>`);
+ bindTools(f);confetti();tone("win");setTimeout(()=>stamp3d("¡CASO RESUELTO!",{x:50,y:46,size:72,w:330,ms:2600}),300);if(GAME.afterFinal)GAME.afterFinal();
+ const a=$("#again");if(a)a.onclick=()=>{show("s-inicio",false);};}
+
+$("#homeBtn").onclick=()=>{overlay(`<div class="ovcard"><h2 style="font-size:40px">¿Volver al inicio?</h2><div class="row"><button class="btn" id="ovNo">No</button><button class="btn main" id="ovYes">Sí</button></div></div>`);$("#ovNo").onclick=closeOv;$("#ovYes").onclick=()=>{closeOv();show("s-inicio",false);};};
+
+/* ---------- ¿quién responde? ---------- */
+function picker(){const pool=TEAMS.length?TEAMS.map(t=>({t:t.n,c:t.c})):Array.from({length:nKids},(_,i)=>({t:"Nº "+(i+1),c:"#3A2E26"}));
+ overlay(`<div class="ovcard" style="min-width:560px"><div style="font-family:var(--type);font-size:30px">¿Quién responde?</div><div id="pk" style="font-family:var(--type);font-size:110px;line-height:1.1;min-height:130px"></div><div class="hand" id="pkSub" style="font-size:34px;min-height:40px"></div><button class="btn main" id="ovOk" style="visibility:hidden">¡Vamos!</button></div>`);
+ let n=0,last=-1;const total=18+Math.floor(Math.random()*6);
+ const step=()=>{let k;do{k=Math.floor(Math.random()*pool.length);}while(pool.length>1&&k===last);last=k;const el=$("#pk");if(!el)return;el.textContent=pool[k].t;el.style.color=pool[k].c;tone("tick");n++;
+  if(n<total)setTimeout(step,40+n*n*0.9);else{tone("win");$("#pkSub").textContent=TEAMS.length?"¡Le toca a este equipo!":"¡Que conteste este número de lista!";$("#ovOk").style.visibility="visible";$("#ovOk").onclick=closeOv;}};step();}
+$("#diceBtn").onclick=picker;
+
+/* ---------- keyboard ---------- */
+document.addEventListener("keydown",e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();const vis=el=>el&&el.offsetParent!==null&&!el.disabled;
+ const root=$("#ov.on")||$(".screen.on");if(!root)return;const idx="abcdefgh".indexOf(k)>=0&&k.length===1?"abcdefgh".indexOf(k):"12345678".indexOf(k);
+ if(idx>=0&&k.length===1){const o=[...root.querySelectorAll(".opt")].filter(vis);if(o[idx]){e.preventDefault();o[idx].click();}return;}
+ if(["enter","arrowright","pagedown"," "].includes(k)){if((e.target.tagName||"").toLowerCase()==="button"&&(k==="enter"||k===" "))return;const m=[...root.querySelectorAll(".btn.main")].filter(vis).pop();if(m){e.preventDefault();m.click();}}});
+if("serviceWorker" in navigator&&location.protocol==="https:"&&location.hostname.endsWith("github.io")){navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(()=>{});}
+</script>
+<script>
+/* ===== Lección 8 · Predicando a gobernantes · CASO Nº 16 ===== */
+document.head.insertAdjacentHTML("beforeend",`<style>
+.hud{gap:10px}.hud .st{min-width:44px;font-size:14px}.hud .turn{font-size:19px;padding:8px 14px}
+.j-flip{perspective:1100px}
+.j-flip>.in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.3,1.3,.5,1)}
+.j-flip.on>.in{transform:rotateY(180deg)}
+.j-flip .fc,.j-flip .bc{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px}
+.j-flip .bc{transform:rotateY(180deg)}
+.j-ev{background:#FDFBF5;border:4px solid var(--ink);box-shadow:0 14px 26px rgba(0,0,0,.25)}
+.j-back{background:repeating-linear-gradient(45deg,#C9A86A 0 14px,#BF9C5C 14px 28px);border:4px solid #7A5A2E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-family:var(--type);color:#3A2E26;font-size:30px;letter-spacing:3px}
+.j-cnt{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;border-radius:18px;border:4px solid transparent;transition:all .4s}
+.j-cnt .n{font-family:var(--type);font-size:66px;line-height:1;min-width:110px;text-align:center}
+.j-pm{width:70px;height:64px;border-radius:12px;border:3px solid var(--ink);background:#FDFBF5;font-family:var(--type);font-size:34px;cursor:pointer}
+.j-stamp{position:absolute;font-family:var(--type);border:7px double;border-radius:12px;padding:6px 20px;letter-spacing:4px;transform:rotate(-12deg);animation:j-slam .6s cubic-bezier(.3,1.6,.5,1) both;mix-blend-mode:multiply;white-space:nowrap;pointer-events:none}
+@keyframes j-slam{0%{opacity:0;transform:perspective(700px) translateZ(500px) rotate(-30deg)}100%{opacity:.95;transform:perspective(700px) translateZ(0) rotate(-12deg)}}
+.j-gavel{position:absolute;transform-origin:85% 85%;transform:rotate(25deg);transition:transform .18s ease-in}
+.j-gavel.hit{transform:rotate(-28deg)}
+.j-por{pointer-events:auto;cursor:pointer;background:#FDFBF5;border:4px solid var(--ink);border-radius:14px;padding:8px 8px 4px;display:flex;flex-direction:column;align-items:center;box-shadow:0 10px 0 #9E8458,0 18px 26px rgba(0,0,0,.25);transition:transform .25s,box-shadow .25s;transform-style:preserve-3d;position:relative}
+.j-por .nm{font-family:var(--type);font-size:24px}
+.j-por.ok{transform:translateZ(60px) translateY(-14px);background:#DCEBD3;border-color:var(--green-d)}
+.j-por.no{opacity:.45}
+.j-quote{transform-origin:50% 0;animation:j-drop .7s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes j-drop{0%{opacity:0;transform:perspective(900px) rotateX(-95deg)}100%{opacity:1;transform:perspective(900px) rotateX(0)}}
+.j-env{position:absolute;left:40px;top:190px;width:520px;height:300px;perspective:1000px}
+.j-env .body{position:absolute;inset:0;background:#E3C792;border:4px solid #7A5A2E;border-radius:8px;box-shadow:0 18px 30px rgba(0,0,0,.3)}
+.j-env .pocket{position:absolute;inset:0;z-index:3;pointer-events:none}
+.j-env .flap{position:absolute;left:0;top:0;width:520px;height:190px;transform-origin:50% 0;transition:transform .8s ease-in-out;z-index:4;transform-style:preserve-3d}
+.j-env.open .flap{transform:rotateX(178deg);z-index:1}
+.j-env .seal{position:absolute;left:220px;top:130px;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#D9534F,#8E2A1C);border:4px solid #6E2A1A;z-index:5;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#F2C98A;font-family:var(--type);font-size:26px;box-shadow:0 6px 10px rgba(0,0,0,.35);animation:btnpulse 1.4s infinite}
+.j-env.open .seal{display:none}
+.j-letter{position:absolute;left:30px;top:20px;width:460px;height:250px;background:#FDFBF5;border:2px solid #C9B48E;z-index:2;transition:transform 1s cubic-bezier(.3,1.2,.5,1) .6s;padding:20px 24px;font-family:var(--hand);font-size:36px;line-height:1.2;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+.j-env.open .j-letter{transform:translateY(-200px) translateZ(40px) rotate(-2deg);z-index:6}
+.j-blank{display:inline-block;min-width:120px;border-bottom:4px dashed var(--red);color:var(--red);text-align:center}
+.j-blank.cur{background:rgba(242,201,138,.6)}
+.j-scene{position:relative;height:300px;border:4px solid #5B4636;border-radius:12px;overflow:hidden;background:linear-gradient(#1D2A44,#34466B 55%,#3B4A5E);perspective:420px}
+.j-road{position:absolute;left:50%;bottom:-190px;width:560px;height:600px;margin-left:-280px;transform:rotateX(70deg);transform-origin:50% 100%;
+ background:linear-gradient(90deg,#2F3A2A 0 12%,#8C7A5C 12% 88%,#2F3A2A 88%),#8C7A5C;}
+.j-road:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:14px;margin-left:-7px;background:repeating-linear-gradient(#F3EAD6 0 50px,transparent 50px 110px);background-size:14px 110px}
+.j-road.go:after{animation:j-roll .5s linear infinite}
+@keyframes j-roll{to{background-position:0 110px}}
+.j-esc{position:absolute;left:50%;bottom:4px;margin-left:-240px;width:480px}
+.j-esc.go{animation:j-bob .5s ease-in-out infinite}
+@keyframes j-bob{50%{transform:translateY(-6px)}}
+.j-alto{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-family:var(--type);font-size:150px;color:#fff;text-shadow:0 8px 0 #9E2F28,0 0 40px rgba(0,0,0,.6);background:rgba(169,71,47,.35)}
+.j-alto.on{display:flex}.j-alto.on span{animation:j-slam .5s cubic-bezier(.3,1.6,.5,1) both}
+.j-cork{position:relative;height:410px;border:10px solid #8E5A3A;border-radius:10px;background:#C9A06A radial-gradient(circle,rgba(0,0,0,.08) 1.5px,transparent 2px) 0 0/14px 14px;transform:perspective(1200px) rotateX(12deg);transform-origin:50% 100%;box-shadow:0 20px 30px rgba(0,0,0,.3);display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:22px 20px}
+.j-card{height:170px;cursor:pointer}
+.j-card .fc{background:#FDFBF5;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;padding:14px 12px 8px;font-family:var(--hand);font-size:30px;line-height:1.05;box-shadow:0 6px 10px rgba(0,0,0,.25)}
+.j-card .bc{background:#E8B7A8;border:3px solid #9E2F28;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;text-align:center;font-family:var(--body);font-size:19px;line-height:1.15}
+.j-pin{position:absolute;top:-10px;left:50%;margin-left:-11px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#F06A55,#9E2F28);border:2px solid #5E1A14;z-index:2}
+.j-card.proof .fc{background:#DCEBD3;border-color:var(--green-d)}
+.j-board{position:relative;width:640px;height:290px;margin:0 auto;border:10px solid #8E5A3A;border-radius:10px;background:#C9A06A radial-gradient(circle,rgba(0,0,0,.08) 1.5px,transparent 2px) 0 0/14px 14px;transform:perspective(1000px) rotateX(16deg);box-shadow:0 18px 28px rgba(0,0,0,.3)}
+.j-pista{position:absolute;width:150px;height:118px;background:#FDFBF5;border:3px solid var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--hand);font-size:20px;line-height:1;text-align:center;box-shadow:0 6px 10px rgba(0,0,0,.3);padding:4px}
+.j-pista.no{background:rgba(253,251,245,.35);border:3px dashed rgba(58,46,38,.45);box-shadow:none;font-family:var(--type);font-size:44px;color:rgba(58,46,38,.4)}
+.j-pista.new{animation:j-fall .8s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes j-fall{0%{opacity:0;transform:translateZ(400px) translateY(-60px) rotate(-25deg)}100%{opacity:1}}
+.j-mag{animation:j-float 3s ease-in-out infinite}
+@keyframes j-float{50%{transform:translateY(-14px) rotate(-6deg)}}
+.j-folder{position:absolute;transform-style:preserve-3d;transform:perspective(1300px) rotateX(38deg) rotateZ(-7deg)}
+</style>`);
+
+Object.assign(ICON,{
+ lupa:`<g ${S}><circle cx="26" cy="26" r="17" fill="#CFE0E3"/><path d="M39 39l17 17" stroke-width="8"/><path d="M17 22a10 10 0 0 1 9-8" stroke="#fff" stroke-width="3"/></g>`,
+ nota:`<g ${S}><path d="M10 10h36l8 8v36H10z" fill="#FDFBF5"/><path d="M46 10v8h8" /><path d="M18 26h26M18 34h26M18 42h16" stroke-width="2.5"/><path d="M42 44l6 6" stroke="#B5352A" stroke-width="4"/><circle cx="46" cy="48" r="0"/><text x="42" y="47" font-family="Special Elite, monospace" font-size="16" fill="#B5352A" stroke="none">!</text></g>`,
+ carta:`<g ${S}><rect x="6" y="14" width="52" height="36" rx="3" fill="#F7E9C8"/><path d="M6 14l26 21 26-21"/><circle cx="32" cy="35" r="7" fill="#B5352A"/></g>`,
+ acta:`<g ${S}><path d="M14 8h30v44H14z" fill="#F7E9C8"/><path d="M14 8c-4 0-6 3-6 6h6M44 52c4 0 6-3 6-6h-6"/><path d="M20 18h18M20 26h18M20 34h12" stroke-width="2.5"/></g><g ${S}><g transform="rotate(-35 44 40)"><rect x="34" y="34" width="22" height="10" rx="2" fill="#8E5A3A"/><path d="M45 44v16" stroke-width="4"/></g></g>`,
+ corona:`<g ${S}><path d="M8 46 12 18l12 14 8-18 8 18 12-14 4 28z" fill="#F2C98A"/><path d="M8 46h48v8H8z" fill="#E9C46A"/><circle cx="32" cy="38" r="4" fill="#B5352A"/><circle cx="18" cy="40" r="2.5" fill="#2F4C7A"/><circle cx="46" cy="40" r="2.5" fill="#2F4C7A"/></g>`,
+ thumb:`<g ${S}><rect x="8" y="28" width="12" height="28" rx="2" fill="#C8892B"/><path d="M20 30l10-16c2-4 9-3 8 3l-2 10h14c4 0 6 4 5 7l-4 17c-1 3-3 5-6 5H20z" fill="#E9C9A6"/></g>`,
+ gavel:`<g ${S}><g transform="rotate(-35 30 24)"><rect x="12" y="14" width="34" height="16" rx="3" fill="#8E5A3A"/><path d="M18 14v16M40 14v16"/><path d="M29 30v30" stroke-width="6"/></g><rect x="30" y="52" width="30" height="8" rx="2" fill="#B5764A"/></g>`,
+ torch:`<g ${S}><path d="M28 30h8l-2 28h-4z" fill="#8E5A3A"/><path d="M32 4c8 8 10 14 6 22-2 3-10 3-12 0-4-8-2-14 6-22z" fill="#F2B04C"/><path d="M32 14c3 4 4 8 2 12h-4c-2-4-1-8 2-12z" fill="#FDFBF5" stroke="none"/></g>`
+});
+
+/* retratos dibujados */
+const POR={
+ felix:{n:"Félix",skin:"#E9C9A6",hair:"#3A2E26",robe:"#FDFBF5",band:"#7A3B7A",tag:"Gobernador"},
+ festo:{n:"Festo",skin:"#EBCDAE",hair:"#A89F94",robe:"#FDFBF5",cloak:"#B5352A",tag:"Gobernador"},
+ agripa:{n:"Agripa",skin:"#D9A58C",hair:"#5A3A22",beard:"#5A3A22",crown:1,robe:"#6B3E7A",tag:"Rey"},
+ pablo:{n:"Pablo",skin:"#D9A58C",hair:"#3A2E26",beard:"#4A3A30",bald:1,robe:"#B5764A",tag:"Apóstol"},
+ tertulo:{n:"Tértulo",skin:"#E9C9A6",hair:"#6B4A2E",robe:"#2F4C7A",tag:"Abogado"},
+ sobrino:{n:"Sobrino",skin:"#E3B48F",hair:"#5A3A22",robe:"#5E7A4C",young:1,tag:"Sobrino de Pablo"},
+ lisias:{n:"Lisias",skin:"#E9C9A6",hair:"#3A2E26",robe:"#B5352A",helmet:1,tag:"Tribuno"},
+ drusila:{n:"Drusila",skin:"#E3B48F",hair:"#3A2E26",robe:"#2F6F8F",veil:"#E3C792",woman:1,tag:"Esposa de Félix"},
+ lucas:{n:"Lucas",skin:"#E3B48F",hair:"#6B4A2E",beard:"#6B4A2E",robe:"#5E7A4C",tag:"Médico"}
+};
+function por(k,w=120){const p=POR[k],I="#3A2E26";let s=`<svg viewBox="0 0 120 140" width="${w}" height="${w*140/120}" aria-hidden="true"><g stroke="${I}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">`;
+ s+=`<path d="M10 140c0-30 22-46 50-46s50 16 50 46z" fill="${p.robe}"/>`;
+ if(p.band)s+=`<path d="M40 98 76 140" stroke="${p.band}" stroke-width="10"/><path d="M40 98 76 140" stroke-width="0"/>`;
+ if(p.cloak)s+=`<path d="M14 140c0-24 10-36 26-42l20 42z" fill="${p.cloak}"/><circle cx="40" cy="104" r="6" fill="#F2C98A"/>`;
+ if(p.veil)s+=`<path d="M24 64c-4-30 14-44 36-44s40 14 36 44l6 40c-10 8-20 10-30 10H48c-10 0-20-2-30-10z" fill="${p.veil}"/>`;
+ s+=`<rect x="50" y="78" width="20" height="20" fill="${p.skin}"/>`;
+ s+=`<circle cx="32" cy="60" r="6" fill="${p.skin}"/><circle cx="88" cy="60" r="6" fill="${p.skin}"/><ellipse cx="60" cy="58" rx="28" ry="${p.young?28:31}" fill="${p.skin}"/>`;
+ if(p.helmet)s+=`<path d="M30 52c0-22 12-32 30-32s30 10 30 32H30z" fill="#C9A86A"/><path d="M40 20c6-14 34-14 40 0" fill="#B5352A"/><path d="M30 52h60" />`;
+ else if(p.bald)s+=`<path d="M33 66c-3-10-2-18 3-24M87 66c3-10 2-18-3-24" stroke="${p.hair}" stroke-width="7"/>`;
+ else if(p.woman)s+=`<path d="M32 56c0-22 12-32 28-32s28 10 28 32c-6-10-16-16-28-16S38 46 32 56z" fill="${p.hair}"/>`;
+ else s+=`<path d="M32 54c0-22 12-30 28-30s28 8 28 30c-4-8-8-12-12-12-8 4-24 4-32 0-4 0-8 4-12 12z" fill="${p.hair}"/>`;
+ if(p.beard)s+=`<path d="M33 62c0 26 12 38 27 38s27-12 27-38c-6 10-14 15-27 15s-21-5-27-15z" fill="${p.beard}"/>`;
+ if(p.crown)s+=`<path d="M32 34 34 10l10 12 16-16 16 16 10-12 2 24z" fill="#F2C98A"/><circle cx="60" cy="24" r="3" fill="#B5352A"/>`;
+ s+=`<path d="M44 49q5-3 9 0M67 49q5-3 9 0" fill="none"/><circle cx="49" cy="58" r="3.5" fill="${I}"/><circle cx="71" cy="58" r="3.5" fill="${I}"/><path d="M60 60v9l-3 2" fill="none"/><path d="M52 77q8 6 16 0" fill="none" stroke="${p.beard?"#F3EAD6":I}"/>`;
+ if(!p.beard&&!p.young&&!p.woman)s+=`<circle cx="44" cy="70" r="4" fill="#E8A090" stroke="none" opacity=".5"/><circle cx="76" cy="70" r="4" fill="#E8A090" stroke="none" opacity=".5"/>`;
+ return s+`</g></svg>`;}
+const face=k=>`<div style="margin-top:18px">${por(k,104)}</div>`;
+
+/* pistas del caso */
+const PISTAS=[{i:"nota",t:"La nota del sobrino"},{i:"carta",t:"La carta de Lisias"},{i:"acta",t:"El acta del juicio"},{i:"calendar",t:"Dos años en Cesarea"},{i:"corona",t:"La visita del rey"},{i:"ship",t:"Rumbo a Roma"}];
+const PPOS=[[20,16],[235,8],[450,18],[30,152],[245,146],[455,150]];
+function board(n,fresh){
+ const pts=PPOS.slice(0,n).map(([x,y])=>[x+75,y+14]);
+ return `<div class="j-board">${n>1?`<svg width="640" height="290" style="position:absolute;left:-10px;top:-10px;z-index:3;pointer-events:none" aria-hidden="true"><polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="#B5352A" stroke-width="3"/></svg>`:""}
+  ${PISTAS.map((p,i)=>`<div class="j-pista ${i<n?"":"no"} ${fresh&&i===n-1?"new":""}" style="left:${PPOS[i][0]}px;top:${PPOS[i][1]}px;transform:rotate(${[-4,3,-2,2,-3,4][i]}deg)">${i<n?`<span class="j-pin" style="top:-8px"></span>${icon(p.i,62)}<span>${esc(p.t)}</span>`:"?"}</div>`).join("")}</div>`;}
+
+/* ---------- retos nuevos ---------- */
+Object.assign(RET,{
+ /* EL JUICIO: la clase es el jurado */
+ juicio(r,ok){let qi=0;
+  const draw=()=>{const c=r.cards[qi];let up=0,dn=0,ph=0;
+   $("#rb").innerHTML=`<div style="display:grid;grid-template-columns:210px 1fr 210px;gap:18px;height:100%;align-items:start">
+    <div class="j-cnt" id="jUp"><div style="font-family:var(--type);font-size:22px;color:var(--green-d)">VERDAD</div>${icon("thumb",120)}<div class="n" id="jUpN">0</div><div class="row" style="gap:8px;flex-wrap:nowrap"><button class="j-pm" data-v="u-">−</button><button class="j-pm" data-v="u+">+</button></div></div>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
+     <div style="display:flex;align-items:center;gap:12px;padding:4px 22px;background:linear-gradient(#8E5A3A,#6E4428);color:#F2C98A;border:3px solid #4A2E1A;border-radius:6px;font-family:var(--type);font-size:20px;letter-spacing:2px;box-shadow:0 6px 10px rgba(0,0,0,.3);transform:perspective(500px) rotateX(-12deg)">${icon("gavel",34)} TRIBUNAL DE CESAREA · PRUEBA ${qi+1}/${r.cards.length}</div>
+     <div class="j-flip" id="jCard" style="width:100%;height:270px"><div class="in">
+      <div class="fc j-back" style="transform:rotateY(180deg)">${icon("lupa",110)}<div>PRUEBA Nº ${qi+1}</div></div>
+      <div class="bc j-ev" style="transform:rotateY(0deg);display:flex;gap:16px;align-items:center;padding:14px 20px">
+       <div style="flex:none;text-align:center">${por(c.who,120)}<div style="font-family:var(--type);font-size:18px;max-width:130px;line-height:1.1">${esc(c.name)}</div></div>
+       <div style="flex:1;display:flex;flex-direction:column;gap:10px"><div class="hand" style="font-size:${c.t.length>80?34:40}px;line-height:1.08">${esc(c.t)}</div><div><span class="ref">${UI.book} ${esc(c.ref)}</span></div></div>
+       <div id="jSt"></div>
+      </div></div></div>
+     <div id="jWhy" class="hand" style="font-size:30px;text-align:center;min-height:36px;line-height:1.05"></div>
+     <button class="btn main big" id="jGo">${icon("thumb",48)} ¡Jurado, votad!</button>
+    </div>
+    <div class="j-cnt" id="jDn"><div style="font-family:var(--type);font-size:22px;color:#9E2F28">MENTIRA</div><div style="transform:rotate(180deg)">${icon("thumb",120)}</div><div class="n" id="jDnN">0</div><div class="row" style="gap:8px;flex-wrap:nowrap"><button class="j-pm" data-v="d-">−</button><button class="j-pm" data-v="d+">+</button></div></div></div>`;
+   const card=$("#jCard");card.classList.add("on");tone("tick");setTimeout(()=>{card.classList.remove("on");tone("stamp");},700);
+   const paint=()=>{$("#jUpN").textContent=up;$("#jDnN").textContent=dn;};
+   $$("#rb .j-pm").forEach(b=>b.onclick=()=>{if(ph>=2)return;const v=b.dataset.v;if(v==="u+")up=Math.min(nKids,up+1);if(v==="u-")up=Math.max(0,up-1);if(v==="d+")dn=Math.min(nKids,dn+1);if(v==="d-")dn=Math.max(0,dn-1);paint();tone("tick");});
+   $("#jGo").onclick=async()=>{
+    if(ph===0){ph=1;$("#jGo").style.visibility="hidden";$("#jWhy").textContent="Pulgar arriba: VERDAD · Pulgar abajo: MENTIRA";
+     for(const n of ["3","2","1"]){if(!$("#jWhy"))return;$("#jWhy").textContent=`Pensad… ${n}`;tone("tick");await wait(800);}
+     if(!$("#jWhy"))return;$("#jWhy").textContent="¡Pulgares arriba o abajo! Maestro: contad con + y −";tone("stamp");$("#jGo").innerHTML=`${icon("gavel",48)} Ver veredicto`;$("#jGo").style.visibility="visible";ph=1.5;}
+    else if(ph===1.5){ph=2;$("#jGo").style.visibility="hidden";
+     const g=document.createElement("div");g.className="j-gavel";g.style.cssText+="right:-30px;top:-70px;z-index:8";g.innerHTML=icon("gavel",170);$("#jCard").appendChild(g);
+     for(let k=0;k<3;k++){await wait(220);g.classList.add("hit");tone(k===2?"stamp":"tick");await wait(200);g.classList.remove("hit");}
+     g.remove();if(!$("#jSt"))return;
+     const col=c.v?"#2F5E2A":"#9E2F28";$("#jSt").innerHTML=`<div class="j-stamp" style="right:20px;bottom:18px;font-size:40px;color:${col};border-color:${col}">${c.v?"VERDAD":"MENTIRA"}</div>`;tone(c.v?"ok":"bad");
+     const w=c.v?$("#jUp"):$("#jDn");w.style.borderColor=c.v?"#2F5E2A":"#9E2F28";w.style.background=c.v?"#DCEBD3":"#F2D5CC";w.style.transform="scale(1.06)";
+     const jury=up===dn?null:up>dn;
+     $("#jWhy").textContent=(jury===null?"":jury===c.v?"¡El jurado acertó! ":"El jurado se despistó… ")+c.why;
+     if(jury===c.v)confetti();
+     $("#jGo").innerHTML=(qi<r.cards.length-1?"Siguiente prueba ":"Veredicto final ")+ARROW;$("#jGo").style.visibility="visible";ph=3;}
+    else if(ph===3){qi++;qi<r.cards.length?draw():verdict();}};};
+  const verdict=()=>{
+   $("#rb").innerHTML=`<div style="display:flex;gap:40px;align-items:center;height:100%;padding-bottom:20px">
+    <div style="position:relative;width:420px;height:400px;flex:none;perspective:900px">
+     <div style="position:absolute;inset:30px 10px 0;background:#FDFBF5;border:4px solid var(--ink);border-radius:10px;transform:rotateX(28deg) rotateZ(-4deg);box-shadow:0 26px 30px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
+      <div style="font-family:var(--type);font-size:22px;letter-spacing:3px">CASO: PABLO DE TARSO</div>${por("pablo",150)}</div>
+     <div id="jVs" style="position:absolute;inset:0"></div><div class="j-gavel" id="jVg" style="right:-40px;top:-30px">${icon("gavel",200)}</div></div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:18px"><span class="label" style="align-self:flex-start">VEREDICTO DEL JURADO</span>
+     <div class="hand" style="font-size:46px;line-height:1.05">${esc(r.final)}</div>
+     <div class="row"><span class="ref">${UI.book} ${esc(r.fref)}</span></div>
+     <div class="row"><button class="btn main big" id="jEnd" style="visibility:hidden">Cerrar el juicio ${ARROW}</button></div></div></div>`;
+   (async()=>{const g=$("#jVg");for(let k=0;k<3;k++){await wait(350);g.classList.add("hit");tone("tick");await wait(220);g.classList.remove("hit");}
+    if(!$("#jVs"))return;tone("stamp");$("#jVs").innerHTML=`<div class="j-stamp" style="left:40px;top:290px;font-size:64px;color:#2F5E2A;border-color:#2F5E2A">INOCENTE</div>`;confetti();tone("win");$("#jEnd").style.visibility="visible";$("#jEnd").onclick=ok;})();};
+  draw();},
+
+ /* ¿QUIÉN LO DIJO? retratos */
+ quien(r,ok){let qi=0;const Q=r.qs;
+  const draw=()=>{const q=Q[qi];const P=r.people;
+   $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:16px;height:100%">
+    <div class="j-quote bubble" style="align-self:center;width:1040px;min-height:130px;display:flex;align-items:center;gap:20px;font-size:${q.t.length>50?42:50}px;padding:14px 30px">
+     <span style="font-family:var(--type);font-size:80px;line-height:.6;color:var(--red)">«</span><span style="flex:1">${esc(q.t)}</span>
+     <span style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none"><span style="font-family:var(--type);font-size:20px;color:var(--sepia)">${qi+1} / ${Q.length}</span><span class="ref" style="font-size:18px">${UI.book} ${esc(q.ref)}</span></span></div>
+    <div style="perspective:1100px;flex:1;pointer-events:none"><div style="pointer-events:none;display:grid;grid-template-columns:repeat(${P.length},1fr);gap:26px;padding:16px 30px 0;transform:rotateX(14deg);transform-style:preserve-3d;transform-origin:50% 100%">
+     ${P.map(k=>`<button class="j-por" data-k="${k}">${por(k,150)}<span class="nm">${esc(POR[k].n)}</span><span style="font-family:var(--body);font-size:16px;color:var(--sepia)">${esc(POR[k].tag)}</span></button>`).join("")}
+    </div></div></div>`;
+   tone("tick");
+   $$("#rb .j-por").forEach(b=>b.onclick=()=>{if(b.disabled)return;
+    if(b.dataset.k===q.who){$$("#rb .j-por").forEach(x=>{x.disabled=true;if(x!==b)x.classList.add("no");});b.classList.add("ok");b.insertAdjacentHTML("beforeend",`<div class="j-stamp" style="right:-16px;bottom:64px;background:#FDFBF5;font-size:34px;color:#2F5E2A;border-color:#2F5E2A">¡ÉL!</div>`);tone("ok");if(q.why)toast(q.why,true);qi++;setTimeout(()=>qi<Q.length?draw():ok(),1900);}
+    else{b.disabled=true;b.classList.add("no");bad(b,`No fue ${POR[b.dataset.k].n}. ¡Pensad otra vez!`);}});};
+  draw();},
+
+ /* LA CARTA SELLADA */
+ carta(r,ok){let bi=0;
+  $("#rb").innerHTML=`<div style="position:absolute;left:0;top:0;width:600px;bottom:0">
+    <div class="j-env" id="jEnv"><div class="body"></div>
+     <div class="j-letter"><div style="font-family:var(--type);font-size:18px;letter-spacing:2px;color:var(--sepia);margin-bottom:6px">CARTA · ${esc(r.ref)}</div>${r.parts.map((p,i)=>typeof p==="string"?esc(p):`<span class="j-blank" id="jb${p.b}">?</span>`).join("")}</div>
+     <svg class="pocket" viewBox="0 0 520 300" width="520" height="300" aria-hidden="true"><path d="M2 298 260 140 518 298z" fill="#D9B46A" stroke="#7A5A2E" stroke-width="4" stroke-linejoin="round"/><path d="M2 2 200 170M518 2 320 170" stroke="#7A5A2E" stroke-width="3" fill="none"/><path d="M4 4v292L210 160zM516 4v292L310 160z" fill="#DDBA78"/></svg>
+     <div class="flap"><svg viewBox="0 0 520 190" width="520" height="190" aria-hidden="true"><path d="M2 2h516L260 186z" fill="#CFA65E" stroke="#7A5A2E" stroke-width="4" stroke-linejoin="round"/></svg></div>
+     <button class="seal" id="jSeal" aria-label="Romper el sello">CL</button></div>
+    <div id="jEnvTip" class="hand" style="position:absolute;left:40px;top:40px;width:520px;font-size:38px;line-height:1.05">${esc(r.prompt)}</div></div>
+   <div id="jQ" style="position:absolute;left:640px;right:0;top:0;bottom:0;display:flex;flex-direction:column;gap:16px"></div>`;
+  const ask=()=>{const B=r.blanks[bi];$$(".j-blank").forEach(x=>x.classList.remove("cur"));$("#jb"+bi).classList.add("cur");
+   $("#jQ").innerHTML=`<div class="clue">${icon(B.i||"scroll",70)}<div class="t">${esc(B.q)}</div></div><div class="opts" style="grid-template-columns:1fr 1fr">${shuffle(B.o.map((o,i)=>[o,i])).map(([o,i],k)=>`<button class="opt" data-i="${i}"><span class="let">${L[k]}</span>${esc(o)}</button>`).join("")}</div><div class="row" style="margin-top:auto">${timerBtn()}</div>`;
+   $$("#jQ .opt").forEach(b=>b.onclick=()=>{if(+b.dataset.i===0){b.classList.add("ok");$$("#jQ .opt").forEach(x=>x.disabled=true);tone("ok");const bl=$("#jb"+bi);bl.textContent=B.o[0];bl.classList.remove("cur");bl.style.borderBottomStyle="solid";bi++;
+     setTimeout(()=>{if(bi<r.blanks.length)ask();else{toast(r.why,true);tone("win");setTimeout(ok,2200);}},900);}
+    else{b.classList.add("bad");b.disabled=true;bad(b,B.miss||"¡Ese nombre no encaja!");}});};
+  $("#jSeal").onclick=()=>{$("#jEnv").classList.add("open");$("#jEnvTip").style.display="none";tone("stamp");setTimeout(()=>tone("tick"),700);setTimeout(ask,1500);};},
+
+ /* MARCHA NOCTURNA: toda la clase marcha en silencio y se congela */
+ marcha(r,ok){let li=0,busy=false;const N=r.legs.length;
+  const esc3=`<svg viewBox="0 0 360 150" width="480" height="200" aria-hidden="true"><g stroke="#1B1410" stroke-width="3" stroke-linejoin="round">
+    ${[30,300].map(x=>`<g transform="translate(${x} 20)"><path d="M10 120V60c0-10 30-10 30 0v60z" fill="#6E2A1A"/><path d="M8 50c0-18 34-18 34 0z" fill="#C9A86A"/><path d="M16 34c4-10 18-10 22 0" fill="#B5352A"/><path d="M44 66v54" stroke="#8E5A3A" stroke-width="5"/><path d="M44 50c6 6 6 12 0 16-6-4-6-10 0-16z" fill="#F2B04C"/></g>`).join("")}
+    <g transform="translate(110 4)"><path d="M14 112c-8 0-14 6-12 18" fill="none" stroke-width="5"/><path d="M14 112c0-22 8-34 34-34h50c18 0 26 10 26 26v8z" fill="#8C6A4A"/><path d="M112 88l10-34c2-6 8-8 13-6l10 4c4 2 5 7 2 10l-11 8-6 22z" fill="#8C6A4A"/><path d="M128 50l2-10 6 8" fill="#8C6A4A"/><circle cx="138" cy="58" r="2" fill="#1B1410"/><path d="M24 112v30M42 112v30M98 112v30M116 112v30" stroke-width="6"/><path d="M56 76V44c0-10 26-10 26 0v32" fill="#B5764A"/><circle cx="69" cy="30" r="13" fill="#D9A58C"/><path d="M57 34c0 12 6 16 12 16s12-4 12-16" fill="#4A3A30"/></g></g></svg>`;
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:12px;height:100%">
+   <div class="j-scene" id="jSc"><svg viewBox="0 0 1180 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0" aria-hidden="true"><circle cx="1040" cy="60" r="34" fill="#F3EAD6"/><circle cx="1054" cy="52" r="30" fill="#2A3858"/>${Array.from({length:26},(_,i)=>`<circle cx="${(i*197)%1160+10}" cy="${(i*83)%120+12}" r="${i%3?1.6:2.6}" fill="#F3EAD6" opacity=".8"/>`).join("")}<path d="M0 170 120 120 260 150 400 100 560 140 700 96 860 136 1000 110 1180 150V300H0z" fill="#232C24"/></svg>
+    <div class="j-road" id="jRoad"></div><div class="j-esc" id="jEsc">${esc3}</div>
+    <div style="position:absolute;left:16px;top:12px;font-family:var(--type);font-size:22px;color:#F2C98A;letter-spacing:2px">${icon("torch",34)} 21:00 · LA HORA TERCERA DE LA NOCHE</div>
+    <div class="j-alto" id="jAlto"><span>¡ALTO!</span></div></div>
+   <div style="position:relative;height:56px;margin:0 60px"><div style="position:absolute;left:0;right:0;top:24px;height:8px;background:#E9DCC0;border:2px solid var(--ink);border-radius:6px"></div><div id="jBar" style="position:absolute;left:0;top:24px;height:8px;width:0;background:var(--red);border-radius:6px;transition:width 1s"></div>
+    ${r.stops.map((s,i)=>`<div style="position:absolute;left:${i/(r.stops.length-1)*100}%;top:0;transform:translateX(-50%);text-align:center"><div style="width:28px;height:28px;margin:12px auto 0;border-radius:50%;background:#FDFBF5;border:4px solid var(--ink)" id="jS${i}"></div><div style="font-family:var(--type);font-size:18px;white-space:nowrap">${esc(s)}</div></div>`).join("")}</div>
+   <div class="row" style="justify-content:space-between;flex-wrap:nowrap;gap:20px;margin-top:8px"><div class="hand" id="jFact" style="font-size:32px;line-height:1.05;flex:1">${esc(r.prompt)}</div><button class="btn main big" id="jM">${icon("walk",50)} ¡A marchar!</button></div></div>`;
+  $("#jS0").style.background="var(--red)";
+  $("#jM").onclick=async()=>{if(busy)return;if(li>=N){ok();return;}busy=true;const leg=r.legs[li];$("#jM").style.visibility="hidden";
+   $("#jFact").textContent="Marchad en el sitio… ¡sin hacer ruido! Cuando veáis ¡ALTO!, congelados.";
+   $("#jRoad").classList.add("go");$("#jEsc").classList.add("go");
+   const T=3500+Math.random()*3500,t0=Date.now();while(Date.now()-t0<T){tone("tick");await wait(500);}
+   if(!$("#jRoad"))return;$("#jRoad").classList.remove("go");$("#jEsc").classList.remove("go");$("#jAlto").classList.add("on");tone("stamp");await wait(2600);if(!$("#jAlto"))return;$("#jAlto").classList.remove("on");
+   li++;$("#jBar").style.width=(li/N*100)+"%";const dot=$("#jS"+li);setTimeout(()=>{if(dot)dot.style.background="var(--red)";tone("ok");},900);
+   $("#jFact").textContent=leg.fact;$("#jM").innerHTML=li<N?`${icon("walk",50)} ¡Seguimos!`:`¡Llegamos! ${ARROW}`;if(li>=N){confetti();tone("win");}
+   $("#jM").style.visibility="visible";busy=false;};},
+
+ /* DESCARTA LAS SOSPECHAS: tablero de corcho */
+ descarta(r,ok){const need=r.cards.filter(c=>!c.v).length;let n=0;
+  $("#rb").innerHTML=`<div style="display:flex;flex-direction:column;gap:12px;height:100%">
+   <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div class="hand" style="font-size:36px;line-height:1">${esc(r.prompt)}</div><div style="font-family:var(--type);font-size:26px;white-space:nowrap">Descartadas: <span id="jDc">0</span> / ${need}</div></div>
+   <div class="j-cork">${shuffle(r.cards.map((c,i)=>[c,i])).map(([c,i],k)=>`<div class="j-flip j-card" data-i="${i}" style="transform:rotate(${[-2,1.5,-1,2,1,-2,2,-1.5][k%8]}deg)"><div class="in"><div class="fc"><span class="j-pin"></span>${esc(c.t)}</div><div class="bc"><div style="font-family:var(--hand);font-size:24px;line-height:1;text-decoration:line-through;text-decoration-color:#9E2F28;text-decoration-thickness:3px;opacity:.75">${esc(c.t)}</div><div class="j-stamp" style="position:static;font-size:20px;color:#9E2F28;border-color:#9E2F28;padding:0 10px;animation:none;margin:8px 0 8px;transform:rotate(-4deg)">DESCARTADA</div>${esc(c.why)}</div></div></div>`).join("")}</div></div>`;
+  $$("#rb .j-card").forEach(b=>b.onclick=()=>{const c=r.cards[+b.dataset.i];if(b.classList.contains("on")||b.classList.contains("proof"))return;
+   if(!c.v){b.classList.add("on");n++;$("#jDc").textContent=n;tone("ok");if(n===need){setTimeout(()=>{$$("#rb .j-card:not(.on)").forEach((x,k)=>setTimeout(()=>{x.classList.add("proof");x.insertAdjacentHTML("beforeend",`<div class="j-stamp" style="right:10px;bottom:8px;font-size:17px;color:#2F5E2A;border-color:#2F5E2A;padding:0 8px;border-width:5px">PRUEBA</div>`);tone("stamp");},k*350));setTimeout(()=>{toast(r.done,true);tone("win");},1600);setTimeout(ok,3800);},700);}}
+   else bad(b,c.why);});}
+});
+
+const GAME={
+ caseNo:16,caseTitle:"El preso inocente",
+ cover:()=>`
+  <div style="position:absolute;left:0;top:10px;width:620px;display:flex;flex-direction:column;gap:14px">
+   <span class="label" style="align-self:flex-start">CASO Nº 16 · LECCIÓN 8 · HECHOS 23–27</span>
+   <h1 style="font-size:62px;line-height:1.02">El preso inocente</h1>
+   <div class="hand" style="font-size:42px;line-height:1;color:#8E3B2B">¿Por qué acabó Pablo navegando hacia Roma?</div>
+   <div style="margin-top:4px">${teamPickHTML}</div>
+   <div class="row" style="margin-top:8px"><button class="btn main big pulse" id="play">${icon("lupa",50)} Abrir el expediente</button></div>
+  </div>
+  <div style="position:absolute;left:660px;top:80px;width:520px;height:560px">
+   <div class="j-folder" style="left:20px;top:60px;width:470px;height:380px">
+    <div style="position:absolute;left:30px;top:-34px;width:190px;height:44px;background:#C9A86A;border-radius:10px 10px 0 0;border:3px solid #9E7B4F;border-bottom:0"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(#E3C792,#D9B46A);border:3px solid #9E7B4F;border-radius:6px;box-shadow:0 40px 50px rgba(0,0,0,.4)"></div>
+    <div style="position:absolute;left:30px;top:30px;width:200px;height:240px;background:#FDFBF5;padding:10px;transform:rotate(-5deg) translateZ(20px);box-shadow:0 8px 14px rgba(0,0,0,.3);text-align:center">${por("pablo",170)}<div class="hand" style="font-size:28px">Pablo de Tarso</div></div>
+    <div style="position:absolute;left:250px;top:40px;width:190px;height:150px;background:#FDFBF5;padding:12px;transform:rotate(4deg) translateZ(30px);box-shadow:0 8px 14px rgba(0,0,0,.3);font-family:var(--type);font-size:17px;line-height:1.5">PRESO EN: Cesarea<br>ACUSADO DE: ¿?<br>PRUEBAS: <b style="color:#B5352A">ninguna</b></div>
+    <div style="position:absolute;left:40px;top:300px;font-family:var(--type);font-size:30px;color:#B5352A;border:6px double #B5352A;padding:4px 14px;transform:rotate(-10deg) translateZ(40px);letter-spacing:3px">CONFIDENCIAL</div>
+   </div>
+   <div class="j-mag" style="position:absolute;left:300px;top:250px">${icon("lupa",200)}</div>
+   <div style="position:absolute;left:-40px;top:330px;transform:rotate(-8deg)">${icon("gavel",150)}</div>
+  </div>`,
+ intro:[
+  {art:por("pablo",200),cap:"Pablo está preso en Jerusalén… ¡y es inocente!"},
+  {art:icon("nota",220),cap:"Alguien prepara un plan secreto contra él…"},
+  {art:icon("lupa",220),cap:"Detectives: seguid las pistas hasta Roma."}],
+ collect:{icon:"lupa",won:n=>`¡Pista ${n} de 6: ${PISTAS[n-1].t}!`,art:n=>board(n,true)},
+ steps:[
+  {short:"Plan",place:"Jerusalén",
+   arrive:{art:icon("nota",220),sub:"Un plan secreto",face:face("sobrino"),color:"#B9C6A1",who:"El sobrino de Pablo",say:"¡Tío Pablo! He oído a unos hombres preparar un plan secreto contra ti…",ref:"Hechos 23:16"},
+   retos:[{type:"quiz",title:"Interrogatorio: el plan secreto",hint:"Lee Hechos 23:13, 23:16 y 23:23. ¡Suma con cuidado los tres grupos!",qs:[
+     {q:"¿Cuántos hombres se pusieron de acuerdo contra Pablo?",i:"family",o:["Más de 40","12","7","Más de 400"],a:0,ref:"Hechos 23:13"},
+     {q:"¿Quién oyó el plan y corrió a avisar a Pablo?",i:"nota",o:["El hijo de su hermana","Un soldado romano","Lucas, el médico","El sumo sacerdote"],a:0,ref:"Hechos 23:16",why:"¡Su sobrino! Era valiente y fue sin perder un instante."},
+     {q:"El tribuno preparó una escolta: 200 soldados + 70 jinetes + 200 lanceros. ¿Cuántos son?",i:"torch",o:["470","270","400","570"],a:0,ref:"Hechos 23:23",why:"¡470 hombres para cuidar a Pablo!"}]}],
+   lesson:"Dios usó a un chico valiente para proteger a Pablo."},
+  {short:"Carta",place:"De noche a Cesarea",
+   arrive:{art:icon("carta",220),sub:"Una carta sellada",face:face("lisias"),color:"#D9A58C",who:"El tribuno de Jerusalén",say:"Debo proteger a este ciudadano romano. ¡Esta misma noche saldrá hacia Cesarea con una carta!",ref:"Hechos 23:23-26"},
+   retos:[
+    {type:"carta",title:"La carta sellada",ref:"Hechos 23:26",prompt:"¡Romped el sello de cera para leer la carta!",why:"Claudio Lisias escribió al gobernador Félix.",hint:"Hechos 23:26 empieza con el nombre del tribuno y el del gobernador. Félix vivía en Cesarea; Festo llegó dos años después.",
+     parts:["Claudio ",{b:0}," al excelentísimo gobernador ",{b:1},": Salud."],
+     blanks:[{q:"¿Cómo se llamaba el tribuno que protegió a Pablo?",i:"carta",o:["Lisias","Julio","Tértulo","Ananías"],miss:"Ese no es el tribuno. ¡Lee Hechos 23:26!"},
+             {q:"¿A qué gobernador iba la carta?",i:"corona",o:["Félix","Festo","Agripa","César"],miss:"Ese gobernador llegó más tarde… o no era gobernador"}]},
+    {type:"marcha",title:"¡Marcha nocturna en silencio!",prompt:"Toda la clase: de pie. Marchad en el sitio sin hacer ruido… y cuando salga ¡ALTO!, ¡congelados!",hint:"Todos de pie. Marchad en el sitio, en silencio. Al ver ¡ALTO! nadie se mueve. Quien se mueva, ¡ayuda a contar la siguiente!",
+     stops:["Jerusalén","De noche","Antípatris","Cesarea"],
+     legs:[{fact:"Salieron a las nueve de la noche. ¡Viajaban de noche y en secreto!"},
+           {fact:"En Antípatris, los soldados de a pie volvieron. Pablo siguió con los 70 jinetes."},
+           {fact:"¡Cesarea! Entregaron la carta al gobernador Félix. Pablo estaba a salvo."}]}],
+   lesson:"Dios cuidó a Pablo… ¡hasta con 470 hombres!"},
+  {short:"Juicio",place:"El juicio",
+   arrive:{art:icon("gavel",220),sub:"Cinco días después",face:face("felix"),color:"#E3C792",who:"Félix, gobernador de Cesarea",say:"Han llegado los acusadores con su abogado, Tértulo. ¡Que comience el juicio!",ref:"Hechos 24:1"},
+   retos:[{type:"juicio",title:"El juicio: ¡la clase es el jurado!",hint:"Escuchad cada prueba. Si es verdad, pulgar arriba; si es mentira, pulgar abajo. El maestro cuenta los pulgares con + y −.",
+     cards:[
+      {who:"tertulo",name:"Tértulo, el abogado",t:"«Este hombre es una plaga, y promotor de sediciones»: ¡arma revueltas por todo el mundo!",ref:"Hechos 24:5",v:false,why:"No tenían ni una prueba. ¡Era mentira!"},
+      {who:"pablo",name:"Pablo",t:"«Según el Camino que ellos llaman herejía, así sirvo al Dios de mis padres».",ref:"Hechos 24:14",v:true,why:"Pablo seguía a Jesús y creía en las Escrituras."},
+      {who:"tertulo",name:"Tértulo, el abogado",t:"Pablo intentó profanar el Templo de Jerusalén.",ref:"Hechos 24:6",v:false,why:"Otra mentira: no había ninguna prueba."},
+      {who:"felix",name:"Félix, el gobernador",t:"Félix conocía bien «este Camino»: sabía cómo eran los cristianos.",ref:"Hechos 24:22",v:true,why:"Félix sabía que los cristianos no hacían nada malo."}],
+     final:"No había ninguna prueba contra Pablo. Félix lo sabía… pero aplazó el juicio y lo dejó vigilado, con algo de libertad.",fref:"Hechos 24:22-23"}],
+   lesson:"La verdad no necesita mentiras para defenderse."},
+  {short:"Félix",place:"Dos años con Félix",
+   arrive:{art:icon("calendar",220),sub:"Félix y Drusila",face:face("drusila"),color:"#BFD7EA",who:"Drusila, esposa de Félix",say:"Pablo, queremos que nos hables de Jesús.",ref:"Hechos 24:24"},
+   retos:[
+    {type:"quiz",title:"Interrogatorio: el gobernador Félix",hint:"Hechos 24:24 y 24:27.",qs:[
+     {q:"¿Con quién llamó Félix a Pablo para oírle hablar de Jesús?",i:"heart",o:["Con Drusila, su esposa","Con Berenice","Con Festo","Con Tértulo"],a:0,ref:"Hechos 24:24"},
+     {q:"¿Cuánto tiempo siguió Pablo preso en Cesarea con Félix?",i:"calendar",o:["Dos años","Dos semanas","Cinco días","Diez años"],a:0,ref:"Hechos 24:27",why:"Dos años en los que Félix pudo decidir seguir a Jesús."}]},
+    {type:"descarta",title:"Detectives: descartad las sospechas falsas",prompt:"¿Qué hizo Félix en esos dos años? Tocad las 4 FALSAS",done:"¡Solo quedan las pruebas verdaderas!",hint:"Lee Hechos 24:23-27. Félix escuchaba a Pablo, pero no quiso cambiar.",
+     cards:[
+      {t:"Habló muchas veces con Pablo",v:true,why:"¡Es verdad! Hechos 24:26"},
+      {t:"Dejó que los amigos de Pablo lo visitaran",v:true,why:"¡Es verdad! Hechos 24:23"},
+      {t:"Escuchó a Pablo hablar de Jesús",v:true,why:"¡Es verdad! Hechos 24:24"},
+      {t:"Esperaba que Pablo le diera dinero",v:true,why:"¡Es verdad! Hechos 24:26"},
+      {t:"Se hizo cristiano enseguida",why:"No quiso cambiar su forma de vivir."},
+      {t:"Dejó a Pablo libre",why:"Lo dejó preso dos años (24:27)."},
+      {t:"Lo devolvió a Jerusalén",why:"Pablo siguió en Cesarea."},
+      {t:"Nunca quiso escucharle",why:"Le gustaba escuchar a Pablo."}]}],
+   lesson:"Félix tuvo dos años para decidir… El Espíritu Santo también nos da tiempo a nosotros."},
+  {short:"Rey",place:"Festo y el rey",
+   arrive:{art:icon("corona",220),sub:"Una visita real",face:face("agripa"),color:"#D3B2A6",who:"El rey Agripa",say:"Festo me ha hablado de ese preso. Quiero oírle yo mismo.",ref:"Hechos 25:13-22"},
+   retos:[
+    {type:"quiz",title:"Interrogatorio: el nuevo gobernador",hint:"Hechos 25:9, 25:11 y 25:13.",qs:[
+     {q:"¿Qué propuso Festo?",i:"city",o:["Juzgar a Pablo en Jerusalén","Soltar a Pablo","Enviarlo a Éfeso","Hacerlo soldado"],a:0,ref:"Hechos 25:9"},
+     {q:"¿Qué pidió Pablo, como ciudadano romano?",i:"crown",o:["Apelar a César, el emperador","Volver a Tarso","Un barco propio","Otro abogado"],a:0,ref:"Hechos 25:11",why:"«Apelar a César»: que le juzgara la máxima autoridad del Imperio."},
+     {q:"¿Quiénes fueron a Cesarea a saludar a Festo?",i:"corona",o:["El rey Agripa y Berenice","Félix y Drusila","Lucas y Aristarco","Pedro y Juan"],a:0,ref:"Hechos 25:13"}]},
+    {type:"quien",title:"¿Quién lo dijo?",hint:"Félix aparece en Hechos 24; Festo en Hechos 25; el rey Agripa en Hechos 25 y 26. ¡Y Pablo habla en todos!",
+     people:["felix","festo","agripa","pablo"],qs:[
+      {t:"Ahora vete; pero cuando tenga oportunidad te llamaré.",who:"felix",ref:"Hechos 24:25"},
+      {t:"A César apelo.",who:"pablo",ref:"Hechos 25:11",why:"Pablo usó sus derechos de ciudadano romano."},
+      {t:"A César has apelado; a César irás.",who:"festo",ref:"Hechos 25:12"},
+      {t:"Yo también quisiera oír a ese hombre.",who:"agripa",ref:"Hechos 25:22"},
+      {t:"Estás loco, Pablo; las muchas letras te vuelven loco.",who:"festo",ref:"Hechos 26:24"},
+      {t:"No estoy loco, excelentísimo Festo, sino que hablo palabras de verdad y de cordura.",who:"pablo",ref:"Hechos 26:25"},
+      {t:"Por poco me persuades a ser cristiano.",who:"agripa",ref:"Hechos 26:28",why:"¡Por poco! Pero Agripa no se decidió."}]}],
+   lesson:"Pablo habló de Jesús a gobernantes y reyes sin desanimarse."},
+  {short:"Roma",place:"Rumbo a Roma",
+   arrive:{art:icon("ship",220),sub:"En pleno otoño",face:face("lucas"),color:"#B9C6A1",who:"Lucas, el médico",say:"Nos embarcamos hacia Roma. Pablo nos avisa: en esta época, ¡el mar es peligroso!",ref:"Hechos 27:1-12"},
+   retos:[
+    {type:"many",title:"¿Quién iba en el barco?",prompt:"Tocad a los 3 que viajaban con Pablo",hint:"Hechos 27:1-2: un centurión, el médico que escribió Hechos y un discípulo de Tesalónica.",
+     items:[{t:"Lucas",ok:1,why:"El médico que escribió Hechos"},{t:"Aristarco",ok:1,why:"Un discípulo de Tesalónica"},{t:"Julio",ok:1,why:"El centurión que estaba al mando"},
+      {t:"Tértulo",why:"Tértulo era el abogado acusador"},{t:"Drusila",why:"Drusila se quedó con Félix"},{t:"Lisias",why:"Lisias era el tribuno de Jerusalén"},{t:"Silas",why:"Silas no aparece en este viaje"}]},
+    {type:"quiz",title:"El cuaderno de bitácora",hint:"Hechos 27:8-10. Buenos Puertos estaba en una isla grande al sur de Grecia.",qs:[
+     {q:"¿En qué isla pararon, en un lugar llamado Buenos Puertos?",i:"ship",o:["Creta","Chipre","Malta","Sicilia"],a:0,ref:"Hechos 27:8"},
+     {q:"¿Qué aconsejó Pablo?",i:"wave",o:["Quedarse allí: el viaje sería peligroso","Navegar en mar abierto","Volver a Cesarea","Ir a pie hasta Roma"],a:0,ref:"Hechos 27:10",why:"No le hicieron caso… y llegó una gran tormenta."}]},
+    {type:"chorus",title:"La promesa de esta semana",vref:"Salmos 91:15",prompt:"¡Todos juntos en voz alta! Cada vez se esconden más palabras.",text:"Me invocará, y yo le responderé; con él estaré yo en la angustia; lo libraré y le glorificaré.",hint:"Leedlo juntos varias veces hasta saberlo de memoria."}],
+   lesson:"Aunque todo parecía perdido, Pablo sabía que Dios lo guardaría."}
+ ],
+ final:()=>`<div style="position:absolute;left:0;top:30px;width:660px;bottom:0;display:flex;flex-direction:column;gap:18px;align-items:center">
+   <span class="label">LAS 6 PISTAS DEL CASO</span>${board(6,false)}
+   <div style="background:var(--blue);color:#F5F0E4;padding:14px 22px;border-radius:6px;align-self:stretch;text-align:center;margin-top:12px"><div class="hand" style="font-size:34px;line-height:1.05">«Me invocará, y yo le responderé; con él estaré yo en la angustia; lo libraré y le glorificaré.»</div><div style="font-family:var(--type);font-size:18px;color:var(--gold);margin-top:4px">SALMOS 91:15 · RVR1960</div></div></div>
+  <div style="position:absolute;left:700px;right:0;top:60px;bottom:0;display:flex;flex-direction:column;gap:14px">
+   <h2 style="font-size:32px;line-height:1.1;margin-top:-10px">¿Por qué un preso inocente viajaba a Roma?</h2>
+   <div class="j-flip" id="jRev" style="height:370px;cursor:pointer"><div class="in">
+    <div class="fc j-back" style="flex-direction:column">${icon("lupa",120)}<div>TOCA PARA</div><div>REVELAR</div></div>
+    <div class="bc j-ev" style="padding:14px 20px;display:flex;flex-direction:column;gap:6px;font-family:var(--hand);font-size:28px;line-height:1.02">
+     <div>${icon("acta",40)} Félix, Festo y Agripa sabían que era inocente.</div>
+     <div>${icon("corona",40)} Pero Pablo había apelado a César.</div>
+     <div>${icon("heart",40)} Y Dios quería que hablara de Jesús a gobernantes, reyes… ¡y en Roma!</div>
+     <div class="hand" style="font-size:27px;color:var(--red)">Nada pasó por casualidad: Dios lo cuidó en cada paso.</div></div></div></div>
+   <div class="row"><button class="btn main" id="again">Otra vez</button></div></div>`,
+ afterFinal:()=>{const f=$("#jRev");f.onclick=()=>{if(f.classList.contains("on"))return;f.classList.add("on");tone("win");confetti();};}
+};
+
+</script>
+<script>
+bindTools(document);renderInicio();fit();
+</script>
+</body>
+</html>

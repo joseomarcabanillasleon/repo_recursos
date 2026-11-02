@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi Biblia, mi tesoro · Archivo de casos</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2E2018">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mi Biblia, mi tesoro">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@600;700&family=Andika:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3A2E26;--sepia:#6B5444;--paper:#F3EAD6;--card:#FCF9F1;--kraft:#CDB58E;--red:#A9472F;--red-d:#6E2A1A;
+--type:'Special Elite','Courier New',monospace;--hand:'Caveat','Comic Sans MS',cursive;--body:'Andika','Trebuchet MS',sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#2E2018}
+body{font-family:var(--body);color:var(--ink)}
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;border-radius:10px;background:#4A3426;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.paper{position:relative;width:100%;height:100%;border-radius:6px;overflow:hidden;background-color:var(--paper);padding:24px 34px;
+ background-image:radial-gradient(circle at 10% 8%,rgba(176,128,64,.18),rgba(176,128,64,0) 30%),radial-gradient(circle at 92% 92%,rgba(150,104,52,.18),rgba(150,104,52,0) 32%),linear-gradient(rgba(110,130,150,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(110,130,150,.09) 1px,transparent 1px);
+ background-size:auto,auto,24px 24px,24px 24px;box-shadow:inset 0 0 80px rgba(120,80,30,.28)}
+.tape{position:absolute;width:130px;height:32px;background:rgba(178,198,180,.8);z-index:1}
+h1{font-family:var(--type);font-weight:400;margin:0;font-size:46px;line-height:1.05}
+.label{display:inline-block;padding:7px 15px;background:var(--kraft);font-family:var(--type);font-size:17px;letter-spacing:2px;transform:rotate(-2deg);box-shadow:0 2px 4px rgba(0,0,0,.18)}
+.feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;margin-top:14px}
+.feat{perspective:1400px}
+.game{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:30px 16px 18px;background:linear-gradient(#E3C792,#D4AE68);border:3px solid #9E7B4F;border-radius:6px 12px 12px 12px;box-shadow:0 10px 0 #8C6A3A,0 22px 30px rgba(0,0,0,.3);text-decoration:none;color:var(--ink);transform-style:preserve-3d;transition:transform .25s;animation:fold .8s cubic-bezier(.2,1.3,.4,1) backwards}
+.game:before{content:"";position:absolute;top:-26px;left:-3px;width:180px;height:28px;background:#D4AE68;border:3px solid #9E7B4F;border-bottom:0;border-radius:10px 10px 0 0}
+.game:nth-child(1){transform:rotateX(8deg) rotate(-1.5deg)}.game:nth-child(2){transform:rotateX(8deg) rotate(1.2deg);animation-delay:.15s}
+.game:hover{transform:rotateX(0) translateZ(30px)}
+.game:active{transform:rotateX(14deg) translateY(6px)}
+@keyframes fold{0%{opacity:0;transform:rotateX(70deg) translateY(-80px)}100%{opacity:1}}
+.cno{position:absolute;top:-22px;left:14px;font-family:var(--type);font-size:15px;letter-spacing:2px;color:#6E2A1A}
+.seal{position:absolute;right:-18px;top:-18px;background:rgba(253,251,245,.85);width:74px;height:74px;border-radius:50%;border:4px double #B5352A;color:#B5352A;font-family:var(--type);font-size:12px;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(14deg);line-height:1.1}
+.game img{width:160px;height:160px;border-radius:20px;box-shadow:0 8px 14px rgba(0,0,0,.25);transform:translateZ(20px)}
+.kind{font-family:var(--type);font-size:15px;letter-spacing:2px;padding:5px 12px;border-radius:20px;color:#fff}
+.game .t{font-family:var(--type);font-size:27px;text-align:center;line-height:1.1}
+.game .s{font-family:var(--hand);font-size:29px;color:var(--sepia);text-align:center;line-height:1}
+.go{margin-top:4px;font-family:var(--type);font-size:22px;background:var(--red);color:#fff;padding:12px 26px;border-radius:8px;box-shadow:0 4px 0 var(--red-d)}
+#list{position:absolute;right:34px;top:96px;bottom:24px;width:420px;overflow-y:auto;overscroll-behavior:contain;padding:4px 10px 4px 4px}
+.wk{font-family:var(--type);font-size:16px;letter-spacing:1px;color:var(--sepia);margin:12px 0 6px}
+.wk.now{color:var(--red)}
+.row{display:flex;align-items:center;gap:12px;padding:8px 10px;margin-bottom:8px;background:var(--card);border:2px solid var(--ink);border-radius:10px;text-decoration:none;color:var(--ink);min-height:64px}
+.row img{width:48px;height:48px;border-radius:10px;flex:none}
+.row .n{font-family:var(--type);font-size:13px;color:#6E2A1A;letter-spacing:1px}
+.row .t{font-family:var(--type);font-size:18px;line-height:1.1}
+.row .s{font-size:14px;color:var(--sepia)}
+.row.past{opacity:.7}
+.tools{position:absolute;right:34px;top:24px;display:flex;gap:8px;z-index:3}
+.ib{width:56px;height:56px;border-radius:50%;border:3px solid var(--ink);background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center}
+#ov{position:absolute;inset:0;background:rgba(46,32,24,.55);display:none;align-items:center;justify-content:center;z-index:20}
+#ov.on{display:flex}
+.ovcard{background:var(--paper);border-radius:10px;padding:30px 44px;box-shadow:0 20px 40px rgba(0,0,0,.4);max-width:900px;font-size:26px;line-height:1.35}
+.btn{font-family:var(--type);font-size:24px;min-height:62px;padding:0 28px;border-radius:8px;border:0;background:var(--red);color:#fff;cursor:pointer;box-shadow:0 4px 0 var(--red-d)}
+#rot{position:fixed;inset:0;background:#2E2018;color:#F3EAD6;display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;z-index:50;font-family:var(--type);padding:30px}
+#rot.on{display:flex}
+</style>
+</head>
+<body>
+<div id="wrap" style="position:fixed;inset:0;overflow:hidden"><div id="stage"><div class="paper">
+<div class="tape" style="top:-6px;left:-30px;transform:rotate(-32deg)"></div><div class="tape" style="top:-6px;right:-30px;transform:rotate(32deg)"></div>
+<div class="tools"><button class="ib" id="fsBtn" aria-label="Pantalla completa"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></div>
+<div style="width:740px">
+ <span class="label">ARCHIVO DE CASOS · 4.º TRIMESTRE 2026</span>
+ <h1 style="margin-top:12px">Mi Biblia, mi tesoro</h1>
+ <div style="font-family:var(--hand);font-size:34px;color:#8E3B2B;line-height:1" id="weekTitle"></div>
+ <div class="feat" id="feat"></div>
+</div>
+<div id="list"></div>
+<div id="ov"></div>
+</div></div></div>
+<div id="rot"><svg width="110" height="110" viewBox="0 0 64 64" fill="none" stroke="#F3EAD6" stroke-width="3" stroke-linecap="round" aria-hidden="true"><rect x="20" y="6" width="24" height="44" rx="4"/><path d="M29 44h6"/></svg>
+<div style="font-size:30px">Gira el móvil</div><div style="font-family:var(--body);font-size:20px;opacity:.85">Los juegos se ven en horizontal, como en la tele.</div>
+<button class="btn" id="rotOk" style="font-size:20px">Seguir así</button></div>
+<script>
+const GAMES=[{"id": "mision-3-oct", "date": "2026-10-03", "kind": "Misión · Finlandia", "cardTitle": "Solo un amigo", "cardSub": "Con la linterna por el invierno de Helsinki · Katarina", "caseNo": 1, "color": "#2F4C7A"}, {"id": "leccion-1", "date": "2026-10-03", "kind": "Lección 1", "cardTitle": "Debate en Jerusalén", "cardSub": "La balanza del concilio y una carta sellada para Antioquía", "caseNo": 2, "color": "#B88A2E"}, {"id": "mision-10-oct", "date": "2026-10-10", "kind": "Misión · Croacia", "cardTitle": "Valiente por Jesús", "cardSub": "Lucjica y el rosco de letras: la única adventista de su clase", "caseNo": 3, "color": "#B5352A"}, {"id": "leccion-2", "date": "2026-10-10", "kind": "Lección 2", "cardTitle": "El evangelio en Europa", "cardSub": "El canto de medianoche: la visión, Lidia y la cárcel que se abrió", "caseNo": 4, "color": "#34407A"}, {"id": "mision-17-oct", "date": "2026-10-17", "kind": "Misión · Croacia", "cardTitle": "Una maleta llena de biblias", "cardSub": "Nana: encajad las biblias en la maleta", "caseNo": 5, "color": "#C8102E"}, {"id": "leccion-3", "date": "2026-10-17", "kind": "Lección 3", "cardTitle": "Los detectives de Berea", "cardSub": "La lupa de Berea compara lo que dice la Escritura con lo que alguien cuenta", "caseNo": 6, "color": "#2F4C7A"}, {"id": "mision-24-oct", "date": "2026-10-24", "kind": "Misión · Croacia", "cardTitle": "Milagro en medio de la calle", "cardSub": "El dominó de la historia de Teodor", "caseNo": 7, "color": "#1A3E8C"}, {"id": "leccion-4", "date": "2026-10-24", "kind": "Lección 4", "cardTitle": "Pablo en Corinto y Éfeso", "cardSub": "Cose la historia puntada a puntada y levanta la tienda en 3D", "caseNo": 8, "color": "#B5764A"}, {"id": "croacia", "date": "2026-10-31", "kind": "Misión · Croacia", "cardTitle": "El misterio de los planos perdidos", "cardSub": "Teodor y Anastasia", "caseNo": 9, "color": "#2F4C7A"}, {"id": "leccion-5", "date": "2026-10-31", "kind": "Lección 5", "cardTitle": "Alboroto en Éfeso", "cardSub": "La caja del platero", "caseNo": 10, "color": "#9C5A2A"}, {"id": "mision-kompas", "date": "2026-11-07", "kind": "Misión · Polonia", "cardTitle": "Cinco años orando", "cardSub": "El árbol de oración de Filip", "caseNo": 11, "color": "#DC143C"}, {"id": "leccion-6", "date": "2026-11-07", "kind": "Lección 6", "cardTitle": "La bitácora del Egeo", "cardSub": "Viaje en 3D: de Filipos a Jerusalén", "caseNo": 12, "color": "#2F6F8F"}, {"id": "mision-14-nov", "date": "2026-11-14", "kind": "Misión · Polonia", "cardTitle": "Cómo multiplicar el dinero", "cardSub": "Las monedas que se multiplicaron", "caseNo": 13, "color": "#C8742A"}, {"id": "leccion-7", "date": "2026-11-14", "kind": "Lección 7", "cardTitle": "Prisionero", "cardSub": "El mensaje de la noche", "caseNo": 14, "color": "#34407A"}, {"id": "mision-21-nov", "date": "2026-11-21", "kind": "Misión · Polonia", "cardTitle": "La amiga misteriosa", "cardSub": "La oración de Miriam", "caseNo": 15, "color": "#DC143C"}, {"id": "leccion-8", "date": "2026-11-21", "kind": "Lección 8", "cardTitle": "El preso inocente", "cardSub": "Predicando a gobernantes", "caseNo": 16, "color": "#7A3B2E"}, {"id": "mision-28-nov", "date": "2026-11-28", "kind": "Misión · Polonia", "cardTitle": "La oración de Natan", "cardSub": "La plaza misteriosa · De Ucrania a Kompas", "caseNo": 17, "color": "#3D7CC9"}, {"id": "leccion-9", "date": "2026-11-28", "kind": "Lección 9", "cardTitle": "Pablo en Roma", "cardSub": "El barco perdido · Hechos 27–28", "caseNo": 18, "color": "#2F5E7C"}, {"id": "mision-5-dic", "date": "2026-12-05", "kind": "Misión · Polonia", "cardTitle": "Una mejor amiga", "cardSub": "Recompón las fotos rotas de Hanna y Polianna", "caseNo": 19, "color": "#DC143C"}, {"id": "leccion-10", "date": "2026-12-05", "kind": "Lección 10", "cardTitle": "El día que esperamos", "cardSub": "Vigías del horizonte: ¿cómo volverá Jesús?", "caseNo": 20, "color": "#C8892B"}, {"id": "mision-12-dic", "date": "2026-12-12", "kind": "Misión · Polonia", "cardTitle": "La «Biblia grande»", "cardSub": "Estantería bíblica 3D y carrera de búsqueda en la Biblia", "caseNo": 21, "color": "#DC143C"}, {"id": "leccion-11", "date": "2026-12-12", "kind": "Lección 11", "cardTitle": "¿Quién vivirá eternamente?", "cardSub": "Un tablero 3D por equipos hasta la puerta de la ciudad de Dios", "caseNo": 22, "color": "#2F6F8F"}, {"id": "mision-19-dic", "date": "2026-12-19", "kind": "Misión · Reino Unido", "cardTitle": "La melodía misteriosa", "cardSub": "Amarissa y la música", "caseNo": 23, "color": "#3D6FD1"}, {"id": "leccion-12", "date": "2026-12-19", "kind": "Lección 12", "cardTitle": "Un hermoso nuevo mundo", "cardSub": "El lugar que nadie ha imaginado", "caseNo": 24, "color": "#2E8B6A"}, {"id": "mision-26-dic", "date": "2026-12-26", "kind": "Misión · 13.er sábado", "cardTitle": "Tocar música para Jesús", "cardSub": "La partitura perdida: el gran concierto y el termómetro de la ofrenda", "caseNo": 25, "color": "#6A4C93"}, {"id": "leccion-13", "date": "2026-12-26", "kind": "Lección 13", "cardTitle": "Y mientras esperamos… amor", "cardSub": "El mensaje sin vocales: la ruleta del amor", "caseNo": 26, "color": "#B5352A"}];
+const $=s=>document.querySelector(s);const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const MES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const fdate=d=>{const [y,m,dd]=d.split("-").map(Number);return `${dd} de ${MES[m-1]}`;};
+const today=new Date();const t=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+const dates=[...new Set(GAMES.map(g=>g.date))].sort();
+const cur=dates.find(d=>d>=t)||dates[dates.length-1];
+const icon=g=>`${g.id}/icon-192.png`;
+$("#weekTitle").textContent=(cur===t?"Hoy, sábado ":"Este sábado, ")+fdate(cur);
+$("#feat").innerHTML=GAMES.filter(g=>g.date===cur).map(g=>`<a class="game" href="${g.id}/">${g.caseNo?`<span class="cno">CASO Nº ${g.caseNo}</span>`:""}<span class="seal">CASO<br>ABIERTO</span><span class="kind" style="background:${g.color}">${esc(g.kind.toUpperCase())}</span><img src="${icon(g)}" alt=""><div class="t">${esc(g.cardTitle)}</div><div class="s">${esc(g.cardSub)}</div><span class="go">Jugar ▶</span></a>`).join("");
+$("#list").innerHTML=dates.map(d=>`<div class="wk ${d===cur?"now":""}">${d===cur?"★ ":""}SÁBADO ${esc(fdate(d).toUpperCase())}</div>`+GAMES.filter(g=>g.date===d).map(g=>`<a class="row ${d<cur?"past":""}" href="${g.id}/"><img src="${icon(g)}" alt=""><div>${g.caseNo?`<div class="n">CASO Nº ${g.caseNo}</div>`:""}<div class="t">${esc(g.cardTitle)}</div><div class="s">${esc(g.kind)}</div></div></a>`).join("")).join("");
+requestAnimationFrame(()=>{const n=document.querySelector(".wk.now");if(n)$("#list").scrollTop=n.offsetTop-110;});
+let rotDismissed=false;
+function fit(){const W=document.documentElement.clientWidth||innerWidth,H=document.documentElement.clientHeight||innerHeight,s=Math.min(W/1280,H/720);const st=$("#stage");st.style.transform=`scale(${s})`;st.style.left=((W-1280*s)/2)+"px";st.style.top=((H-720*s)/2)+"px";$("#rot").classList.toggle("on",!rotDismissed&&H>W*1.15&&W<900);}
+addEventListener("resize",fit);addEventListener("orientationchange",()=>setTimeout(fit,200));$("#rotOk").onclick=()=>{rotDismissed=true;fit();};
+const isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const standalone=()=>matchMedia("(display-mode: fullscreen)").matches||matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+if(standalone())$("#fsBtn").style.display="none";
+function showInstall(){const o=$("#ov");o.innerHTML=`<div class="ovcard"><div style="font-family:var(--type);font-size:36px;text-align:center;margin-bottom:10px">Pantalla completa</div>${isIOS?`Instálalo como app:<br><b>1.</b> Ábrelo en <b>Safari</b>.<br><b>2.</b> Toca <b>Compartir</b> → <b>Añadir a pantalla de inicio</b>.<br><b>3.</b> Abre el icono <b>Mi Biblia, mi tesoro</b>.`:`Instálalo como app:<br><b>1.</b> En Chrome, toca el menú <b>⋮</b>.<br><b>2.</b> Elige <b>Instalar aplicación</b> o <b>Añadir a pantalla de inicio</b>.<br><b>3.</b> Abre el icono <b>Mi Biblia, mi tesoro</b>.`}<div style="text-align:center;margin-top:16px"><button class="btn" id="ovOk">¡Entendido!</button></div></div>`;o.classList.add("on");$("#ovOk").onclick=()=>o.classList.remove("on");}
+$("#fsBtn").onclick=()=>{const d=document,e=d.documentElement;if(d.fullscreenElement){d.exitFullscreen().catch(()=>{});return;}const r=e.requestFullscreen||e.webkitRequestFullscreen;if(!r){showInstall();return;}try{const p=r.call(e,{navigationUI:"hide"});if(p&&p.then)p.then(()=>{try{screen.orientation.lock("landscape").catch(()=>{});}catch(_){}}).catch(showInstall);}catch(_){showInstall();}};
+document.addEventListener("fullscreenchange",()=>setTimeout(fit,100));
+if("serviceWorker" in navigator&&location.protocol==="https:"&&location.hostname.endsWith("github.io")){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+fit();
+</script>
+</body>
+</html>

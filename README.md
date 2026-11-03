@@ -20,6 +20,7 @@ gym/                  → guía interactiva «Gimnasia para todos» (ejercicios,
   gym.js              → ejercicios, filtros, sesión guiada, cartel
   figura.js           → personaje articulado (esqueleto, cinemática inversa, cuerpo y animación)
   movimientos.js      → fotogramas clave de cada ejercicio
+  figura3d.js         → persona en 3D con luz y sombras (Three.js); se gira arrastrando. Si no hay WebGL, se usan las ilustraciones SVG
 CNAME                 → dominio propio para GitHub Pages
 assets/img/           → portadas de los recursos (opcional)
 ```

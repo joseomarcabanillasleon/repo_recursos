@@ -51,7 +51,7 @@
         { pose: front({ P: [100, 128], aL: { to: [110, 92] }, aR: { to: [90, 92] }, lL: [12, 2, 0.35], lR: [12, 2, 0.35] }), t: 1000, hold: 200 },
         { pose: front({ P: [100, 128], rot: -38, aL: { to: [102, 91] }, aR: { to: [82, 93] }, lL: [12, 2, 0.35], lR: [12, 2, 0.35] }), t: 1000, hold: 500 }
       ],
-      peak: 1, cuePaths: ["M78 26 Q100 10 122 26", "M122 30 Q100 46 78 30"], noGhost: true
+      peak: 1, cuePaths: ["M80 40 Q100 30 120 40", "M120 44 Q100 54 80 44"], noGhost: true
     },
     levantarse: {
       frames: [
@@ -83,7 +83,7 @@
         { pose: side({ P: [103, 108], T: 160, H: 162, aB: { to: [171, 73] }, aF: { to: [173, 70] }, lB: { to: [74, 183], ft: 90 }, lF: { to: [78, 183], ft: 90 } }), t: 900, hold: 300 },
         { pose: side({ P: [114, 113], T: 154, H: 158, aB: { to: [171, 73] }, aF: { to: [173, 70] }, lB: { to: [74, 183], ft: 90 }, lF: { to: [78, 183], ft: 90 } }), t: 900, hold: 500 }
       ],
-      peak: 1, props: [["wall", 176]], cue: { j: "N", off: [0, -16], bow: -8 }, focus: { j: "S", off: [8, 10], r: 14 }
+      peak: 1, az: 6, tx: 0.2, props: [["wall", 176]], cue: { j: "N", off: [0, -16], bow: -8 }, focus: { j: "S", off: [8, 10], r: 14 }
     },
     paso: {
       frames: [

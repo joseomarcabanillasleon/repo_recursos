@@ -74,8 +74,32 @@
   const CATS = { fuerza: "Fuerza", movilidad: "Movilidad", equilibrio: "Equilibrio", cardio: "Cardio suave" };
 
   /* Figura animada realista (figura.js + movimientos.js) */
+  /* Primero se dibuja la ilustración SVG; cuando el motor 3D está listo,
+     se sustituye por la persona en 3D (figura3d.js). */
+  const pending3d = [];
   function figure(ex, big) {
-    return window.Figura.mount(Object.assign({}, window.MOV[ex.id], { t: ex.t }), { big });
+    const data = Object.assign({}, window.MOV[ex.id], { t: ex.t, id: ex.id });
+    const box = document.createElement("div");
+    box.className = "fig-box" + (big ? " fig-box--big" : "");
+    box._data = data; box._big = !!big;
+    box.appendChild(window.Figura.mount(data, { big }));
+    pending3d.push(box); upgrade3d();
+    return box;
+  }
+  function upgrade3d() {
+    if (!window.Figura3D) return;
+    while (pending3d.length) {
+      const box = pending3d.shift(), svg = box.querySelector("svg");
+      if (svg) window.Figura.unmount(svg);
+      window.Figura3D.mount(box, box._data, { big: box._big });
+    }
+  }
+  window.addEventListener("figura3d-ready", upgrade3d);
+  function dropFigure(box) {
+    if (!box) return;
+    window.Figura3D?.unmount(box);
+    const svg = box.querySelector("svg"); if (svg) window.Figura.unmount(svg);
+    const i = pending3d.indexOf(box); if (i >= 0) pending3d.splice(i, 1);
   }
 
   /* ------------------------------------------------------------------
@@ -186,7 +210,7 @@
     const nx = steps[idx + 1];
     $("#s-next").textContent = nx ? `Siguiente: ${nx.title}` : "Último paso";
     const box = $("#s-fig"); box.innerHTML = "";
-    if (sFig) window.Figura.unmount(sFig);
+    dropFigure(sFig);
     sFig = figure(s.ex, true); box.appendChild(sFig);
     $("#s-prev").disabled = idx === 0;
     $("#s-skip").textContent = nx ? "Siguiente ⏭" : "Terminar ✓";

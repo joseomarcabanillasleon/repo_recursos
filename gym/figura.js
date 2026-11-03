@@ -291,5 +291,5 @@
   }
   function unmount(svg) { const i = live.findIndex((f) => f.svg === svg); if (i >= 0) live.splice(i, 1); }
 
-  window.Figura = { mount, unmount, solve, create, PROPS, L };
+  window.Figura = { mount, unmount, solve, create, poseAt, PROPS, L };
 })();

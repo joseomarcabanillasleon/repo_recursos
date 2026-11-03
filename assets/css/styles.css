@@ -272,3 +272,4 @@ input, select { font: inherit; color: var(--text); }
 .health__text > span:not(.eyebrow):not(.btn) { color: var(--muted); }
 .health__text .btn { align-self: flex-start; margin-top: 6px; }
 @media (max-width: 760px) { .health { grid-template-columns: 1fr; } }
+.health__more { font-size: 13px; color: var(--muted); }

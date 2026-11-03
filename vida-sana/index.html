@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vida sana · Recursos Adventistas</title>
+  <meta name="description" content="Guías interactivas y gratuitas para un estilo de vida saludable: movimiento, alimentación, agua, descanso, aire puro, sol, equilibrio y confianza.">
+  <meta property="og:title" content="Vida sana · guías para un estilo de vida saludable">
+  <meta property="og:description" content="Ocho áreas para cuidar cuerpo, mente y espíritu, paso a paso y en comunidad.">
+  <meta property="og:image" content="https://recursosadventistas.es/assets/img/gym-cover.webp">
+  <link rel="canonical" href="https://recursosadventistas.es/vida-sana/">
+  <meta name="theme-color" content="#243247">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <style>
+    .vs-hero { padding: 40px 0 150px; }
+    .vs-hero .crumbs { font-size: 14px; color: var(--on-dark-muted); margin-bottom: 18px; font-weight: 600; }
+    .vs-hero .crumbs a { color: #fff; }
+    .vs-hero__inner { position: relative; z-index: 2; }
+    .vs-hero__inner > * { max-width: 760px; }
+    .pillars-wrap { position: relative; z-index: 3; margin-top: -110px; padding-bottom: 56px; }
+    .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .pillar { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 22px; border-radius: 20px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); text-decoration: none; color: var(--text); }
+    .pillar__ico { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; font-size: 26px; background: var(--surface-2); }
+    .pillar h2 { font-size: 20px; margin: 4px 0 0; }
+    .pillar p { margin: 0; color: var(--muted); font-size: 15px; flex: 1; }
+    .pillar__state { align-self: flex-start; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 5px 10px; border-radius: 99px; background: var(--surface-2); color: var(--muted); }
+    a.pillar { border: 2px solid #177a62; transition: transform .2s; }
+    a.pillar:hover { transform: translateY(-4px); }
+    a.pillar .pillar__ico { background: #e2f3ec; }
+    a.pillar .pillar__state { background: #177a62; color: #fff; }
+    a.pillar .pillar__go { font-weight: 800; color: var(--accent-text); }
+    .pillar--soon h2 { color: var(--muted); } .pillar--soon .pillar__ico { filter: grayscale(.35); }
+    .intro { max-width: 760px; margin: 0 auto 28px; text-align: center; color: var(--muted); font-size: 17px; }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .principles div { background: var(--surface); border-radius: 18px; padding: 20px; box-shadow: var(--shadow); }
+    .principles h3 { font-size: 18px; margin-bottom: 6px; }
+    .principles p { margin: 0; color: var(--muted); font-size: 15px; }
+    @media (max-width: 900px) { .pillars { grid-template-columns: 1fr 1fr; } .principles { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .pillars { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenido">Ir al contenido</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="../" aria-label="Recursos Adventistas, inicio">
+        <img class="brand__logo" src="../assets/img/logo.svg" alt="">
+        <span class="brand__name">Recursos<small>Adventistas</small></span>
+      </a>
+      <nav class="topnav" aria-label="Principal">
+        <a href="../escuela-sabatica/">Escuela Sabática</a>
+        <a href="./" aria-current="page">Vida sana</a>
+        <a href="../#biblioteca">Biblioteca</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero vs-hero">
+      <div class="wrap vs-hero__inner">
+        <nav class="crumbs" aria-label="Migas de pan"><a href="../">Inicio</a> <span aria-hidden="true">›</span> Vida sana</nav>
+        <p class="eyebrow">Estilo de vida saludable</p>
+        <h1>Vida <em>sana</em>, paso a paso</h1>
+        <p class="hero__lead">Ocho áreas para cuidar cuerpo, mente y espíritu. Guías prácticas, basadas en la evidencia y pensadas para vivirlas en comunidad.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="../gym/">Empezar por el movimiento</a>
+        </div>
+      </div>
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path class="w-band" d="M0,78 C360,18 900,8 1440,52 L1440,120 L0,120 Z"/>
+        <path class="w-base" d="M0,104 C380,48 920,38 1440,84 L1440,120 L0,120 Z"/>
+      </svg>
+    </section>
+
+    <section class="wrap pillars-wrap" aria-label="Áreas de vida sana">
+      <div class="pillars">
+        <a class="pillar" href="../gym/">
+          <span class="pillar__ico" aria-hidden="true">💪</span>
+          <span class="pillar__state">Disponible</span>
+          <h2>Movimiento</h2>
+          <p>Gimnasia para todos: fuerza, movilidad y equilibrio con una silla y una pared.</p>
+          <span class="pillar__go">Abrir la guía →</span>
+        </a>
+        <div class="pillar pillar--soon">
+          <span class="pillar__ico" aria-hidden="true">🥗</span><span class="pillar__state">Próximamente</span>
+          <h2>Alimentación</h2><p>Comer variado y basado en plantas, con atención a los nutrientes clave.</p>
+        </div>
+        <div class="pillar pillar--soon">
+          <span class="pillar__ico" aria-hidden="true">💧</span><span class="pillar__state">Próximamente</span>
+          <h2>Agua</h2><p>Hidratarse bien a lo largo del día, también cuando hace calor.</p>
+        </div>
+        <div class="pillar pillar--soon">
+          <span class="pillar__ico" aria-hidden="true">🌙</span><span class="pillar__state">Próximamente</span>
+          <h2>Descanso</h2><p>Dormir lo suficiente y regalarse un día de descanso semanal.</p>
+        </div>
+        <div class="pillar pillar--soon">
+          <span class="pillar__ico" aria-hidden="true">🌳</span><span class="pillar__state">Próximamente</span>
+          <h2>Aire puro</h2><p>Ventilar, salir a la naturaleza y respirar con calma.</p>
+        </div>
+        <div class="pillar pillar--soon">
+          <span class="pillar__ico" aria-hidden="true">☀️</span><span class="pillar__state">Próximamente</span>
+          <h2>Sol</h2><p>Luz natural con moderación y protección de la piel.</p>
+        </div>
+        <div class="pillar pillar--soon">
+          <span class="pillar__ico" aria-hidden="true">⚖️</span><span class="pillar__state">Próximamente</span>
+          <h2>Equilibrio</h2><p>Moderación en lo bueno y evitar lo que daña: tabaco, alcohol, pantallas en exceso.</p>
+        </div>
+        <div class="pillar pillar--soon">
+          <span class="pillar__ico" aria-hidden="true">🙏</span><span class="pillar__state">Próximamente</span>
+          <h2>Confianza</h2><p>Fe, gratitud y relaciones que sostienen la salud emocional.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-peach" aria-labelledby="pr-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Cómo están hechas estas guías</p>
+          <h2 id="pr-t">Prácticas, honestas y para compartir</h2>
+        </div>
+        <p class="intro">Las ocho áreas se inspiran en los principios de salud que la Iglesia Adventista ha promovido desde hace más de un siglo, y se explican con las recomendaciones de organismos sanitarios actuales.</p>
+        <div class="principles">
+          <div><h3>🔬 Basadas en evidencia</h3><p>Cada guía cita sus fuentes oficiales y separa lo comprobado de lo que no lo está. Sin promesas milagrosas.</p></div>
+          <div><h3>🧩 Interactivas</h3><p>Herramientas para practicar, no solo para leer: sesiones guiadas, registros semanales y retos.</p></div>
+          <div><h3>🤝 Para la comunidad</h3><p>Pensadas para usarlas en familia, en la iglesia o en el barrio, con material para invitar y organizar.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <strong>Recursos Adventistas</strong> · por Jose Omar
+        <p>Sitio personal, sin relación oficial con la Iglesia Adventista del Séptimo Día. Información educativa general: no sustituye la valoración de un profesional sanitario.</p>
+      </div>
+      <a class="btn btn--outline-light btn--plain" href="../">← Todos los recursos</a>
+    </div>
+  </footer>
+
+  <script>
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    document.querySelector(".theme-toggle").addEventListener("click", () => {
+      const r = document.documentElement, d = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+      r.dataset.theme = d ? "light" : "dark"; try { localStorage.setItem("theme", r.dataset.theme); } catch (e) {}
+    });
+  </script>
+  <script src="../assets/js/stats.js" defer></script>
+</body>
+</html>

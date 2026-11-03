@@ -17,7 +17,9 @@ archivos/             → los PDF/ZIP que se descargan
 escuela-sabatica/     → apartado Escuela Sabática (página propia, lecciones, misioneros y juegos)
   trimestre.js        → ⭐ datos semana a semana del trimestre
 gym/                  → guía interactiva «Gimnasia para todos» (ejercicios, sesión guiada, cartel)
-  gym.js              → ejercicios y poses de las figuras animadas
+  gym.js              → ejercicios, filtros, sesión guiada, cartel
+  figura.js           → personaje articulado (esqueleto, cinemática inversa, cuerpo y animación)
+  movimientos.js      → fotogramas clave de cada ejercicio
 CNAME                 → dominio propio para GitHub Pages
 assets/img/           → portadas de los recursos (opcional)
 ```

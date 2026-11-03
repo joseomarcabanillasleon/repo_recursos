@@ -16,167 +16,66 @@
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ------------------------------------------------------------------
-     POSES
-     h cabeza · n cuello · p cadera
-     le/lh codo y mano de atrás · re/rh codo y mano de delante
-     lk/la/lt rodilla, tobillo, punta de atrás · rk/ra/rt de delante
-     ------------------------------------------------------------------ */
-  const S = { h: [100, 38], n: [100, 56], p: [100, 110], le: [98, 82], lh: [100, 106], re: [102, 82], rh: [104, 106],
-    lk: [98, 148], la: [97, 182], lt: [109, 184], rk: [102, 148], ra: [103, 182], rt: [115, 184] };
-  const C = { h: [90, 52], n: [88, 70], p: [84, 122], le: [90, 96], lh: [104, 116], re: [94, 96], rh: [108, 118],
-    lk: [118, 123], la: [120, 180], lt: [132, 183], rk: [122, 124], ra: [124, 181], rt: [136, 183] };
-  const F = { h: [100, 38], n: [100, 58], p: [100, 112], le: [86, 84], lh: [84, 108], re: [114, 84], rh: [116, 108],
-    lk: [92, 148], la: [90, 182], lt: [85, 185], rk: [108, 148], ra: [110, 182], rt: [115, 185] };
-  const FC = { h: [100, 50], n: [100, 68], p: [100, 120], le: [86, 92], lh: [112, 84], re: [114, 92], rh: [88, 84],
-    lk: [86, 126], la: [84, 180], lt: [80, 184], rk: [114, 126], ra: [116, 180], rt: [120, 184] };
-  const P = (base, over) => Object.assign({}, base, over);
-  const hold = { re: [114, 86], rh: [128, 102] }; // mano delantera sujetando el respaldo
-
-  const PROPS = {
-    chairR: '<path d="M128 96 V186 M128 134 H160 V186" class="prop"/>',
-    seat: '<path d="M72 74 V186 M72 128 H114 V186" class="prop"/>',
-    seatFront: '<path d="M78 68 H122 V128 M78 68 V128 M70 128 H130 M74 128 V186 M126 128 V186" class="prop prop--soft"/>',
-    chairFront: '<path d="M132 96 H158 V134 M132 96 V134 M128 134 H162 M131 134 V186 M159 134 V186" class="prop"/>',
-    wall: '<rect x="168" y="20" width="12" height="166" rx="2" class="wall"/>'
-  };
-
-  /* ------------------------------------------------------------------
      EJERCICIOS (contenido de la guía «Gimnasia para todos»)
+     Los movimientos de cada figura están en movimientos.js
      ------------------------------------------------------------------ */
   const EJ = [
     { id: "marcha", n: 1, t: "Marcha cómoda", cat: ["cardio"], pos: ["sentado", "pie"], dosis: "45–60 segundos", dur: 90,
       como: "De pie detrás de la silla o sentado, alterna levantar los pies como si caminaras. Mantén el tronco erguido y pisa con suavidad.",
       facil: "Marcha sentado, levantando un pie cada vez.",
-      porque: "Calienta el cuerpo, sube un poco el pulso y prepara las articulaciones para el resto de la sesión.",
-      A: P(S, { rk: [118, 128], ra: [116, 162], rt: [128, 165], le: [106, 80], lh: [114, 98], re: [94, 82], rh: [90, 104] }),
-      B: P(S, { lk: [116, 128], la: [114, 162], lt: [126, 165], re: [108, 80], rh: [116, 98], le: [94, 82], lh: [90, 104] }) },
+      porque: "Calienta el cuerpo, sube un poco el pulso y prepara las articulaciones para el resto de la sesión." },
     { id: "brazos", n: 2, t: "Brazos que se abren", cat: ["movilidad"], pos: ["sentado", "pie"], dosis: "6–10 repeticiones",
       como: "Deja los brazos junto al cuerpo. Súbelos hacia los lados hasta una altura cómoda y bájalos lentamente, sin encoger los hombros.",
       facil: "Sube solo hasta media altura. Inspira al abrir y suelta el aire al bajar.",
-      porque: "Mantiene la movilidad de los hombros, que usamos para vestirnos, peinarnos o alcanzar objetos.",
-      view: "front", A: F, B: P(F, { le: [76, 62], lh: [54, 60], re: [124, 62], rh: [146, 60] }) },
+      porque: "Mantiene la movilidad de los hombros, que usamos para vestirnos, peinarnos o alcanzar objetos." },
     { id: "omoplatos", n: 3, t: "Juntar omóplatos", cat: ["movilidad", "fuerza"], pos: ["sentado", "pie"], dosis: "8–10 repeticiones · 2 s",
       como: "Con los brazos relajados, lleva suavemente los hombros hacia atrás y acerca los omóplatos, sin arquear la espalda. Mantén 2 segundos y relaja.",
       facil: "Hazlo sentado y con un movimiento más pequeño.",
-      porque: "Fortalece los músculos de la espalda alta y ayuda a compensar las horas con los hombros hacia delante.",
-      A: P(S, { n: [103, 57], h: [105, 39], le: [101, 83], re: [106, 83], lh: [104, 107], rh: [109, 107] }),
-      B: P(S, { n: [97, 55], h: [98, 37], le: [93, 82], re: [97, 82], lh: [94, 106], rh: [98, 106] }) },
+      porque: "Fortalece los músculos de la espalda alta y ayuda a compensar las horas con los hombros hacia delante." },
     { id: "giro", n: 4, t: "Giro sentado, corto y cómodo", cat: ["movilidad"], pos: ["sentado"], dosis: "5–8 por lado",
       como: "Siéntate con los pies apoyados y los brazos cruzados sobre el pecho. Gira el tronco un poco hacia un lado, vuelve al centro y cambia. Mantén la pelvis estable y no tires del cuello.",
       facil: "Deja las manos sobre los muslos y gira menos.",
-      porque: "Da movilidad a la columna de forma suave. El movimiento nunca debe provocar dolor.",
-      view: "front", props: ["seatFront"], A: FC,
-      B: P(FC, { n: [104, 68], h: [107, 50], le: [94, 92], lh: [118, 82], re: [124, 88], rh: [98, 82] }) },
+      porque: "Da movilidad a la columna de forma suave. El movimiento nunca debe provocar dolor." },
     { id: "levantarse", n: 5, t: "Levantarse y sentarse", cat: ["fuerza"], pos: ["pie"], dosis: "5–8 repeticiones",
       como: "Siéntate cerca del borde de una silla firme, con los pies debajo de las rodillas. Inclina ligeramente el tronco hacia delante y ponte de pie; vuelve a sentarte despacio.",
       facil: "Usa las manos en los muslos o en los apoyabrazos, o practica solo despegarte un poco del asiento. Que la silla no se deslice.",
-      porque: "Es uno de los gestos más útiles del día a día: fortalece piernas y glúteos y ayuda a mantener la autonomía.",
-      props: ["seat"], A: C,
-      B: { h: [126, 38], n: [122, 56], p: [116, 110], le: [120, 82], lh: [128, 102], re: [124, 82], rh: [132, 102],
-        lk: [118, 148], la: [120, 182], lt: [132, 184], rk: [122, 148], ra: [124, 182], rt: [136, 184] } },
+      porque: "Es uno de los gestos más útiles del día a día: fortalece piernas y glúteos y ayuda a mantener la autonomía." },
     { id: "talones", n: 6, t: "Elevación de talones", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "8–12 repeticiones",
       como: "De pie, sujeta la silla con una o dos manos. Eleva los talones, haz una pausa breve y bájalos de forma controlada.",
       facil: "Eleva solo un poco los talones o hazlo sentado.",
-      porque: "Fortalece las pantorrillas, que ayudan a caminar con seguridad y a recuperar el equilibrio.",
-      props: ["chairR"], A: P(S, hold),
-      B: { h: [100, 30], n: [100, 48], p: [100, 102], le: [98, 74], lh: [100, 98], re: [114, 79], rh: [128, 96],
-        lk: [98, 140], la: [97, 174], lt: [109, 184], rk: [102, 140], ra: [103, 174], rt: [115, 184] } },
+      porque: "Fortalece las pantorrillas, que ayudan a caminar con seguridad y a recuperar el equilibrio." },
     { id: "rodilla", n: 7, t: "Extensión de rodilla sentado", cat: ["fuerza"], pos: ["sentado"], dosis: "6–10 por pierna",
       como: "Sentado con la espalda cómoda, estira una rodilla hasta donde resulte fácil; baja el pie lentamente y cambia de pierna. No bloquees la rodilla ni balancees la pierna.",
       facil: "Estira solo a medias y descansa entre repeticiones.",
-      porque: "Trabaja el músculo de delante del muslo (cuádriceps), clave para subir escaleras y levantarse.",
-      props: ["seat"], A: C, B: P(C, { rk: [122, 124], ra: [160, 120], rt: [165, 108] }) },
+      porque: "Trabaja el músculo de delante del muslo (cuádriceps), clave para subir escaleras y levantarse." },
     { id: "pared", n: 8, t: "Empujes contra la pared", cat: ["fuerza"], pos: ["pie"], dosis: "6–10 repeticiones",
       como: "Coloca las manos en la pared a la altura del pecho, algo más abiertas que los hombros. Da un pequeño paso atrás, flexiona los codos acercando el pecho a la pared y empuja para volver. Mantén el cuerpo alineado.",
       facil: "Acércate más a la pared. Sustituye a las flexiones en el suelo.",
-      porque: "Fortalece pecho, hombros y brazos sin cargar las muñecas ni la espalda como en el suelo.",
-      props: ["wall"],
-      A: { h: [140, 50], n: [132, 63], p: [108, 120], le: [148, 74], lh: [166, 72], re: [150, 77], rh: [166, 79],
-        lk: [95, 151], la: [82, 182], lt: [94, 185], rk: [97, 152], ra: [85, 182], rt: [97, 185] },
-      B: { h: [150, 56], n: [141, 68], p: [113, 122], le: [140, 90], lh: [166, 72], re: [142, 93], rh: [166, 79],
-        lk: [97, 152], la: [82, 182], lt: [94, 185], rk: [99, 153], ra: [85, 182], rt: [97, 185] } },
+      porque: "Fortalece pecho, hombros y brazos sin cargar las muñecas ni la espalda como en el suelo." },
     { id: "paso", n: 9, t: "Paso atrás con apoyo", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "6–8 por lado",
       como: "De pie detrás de la silla, sujétala. Lleva un pie hacia atrás y toca el suelo con la punta; vuelve al centro y cambia. Mantén el paso corto y el tronco estable.",
       facil: "Mueve el pie solo unos centímetros. No hace falta bajar a una zancada profunda.",
-      porque: "Entrena el control de la pierna de apoyo y la capacidad de dar un paso para no perder el equilibrio.",
-      props: ["chairR"], A: P(S, hold), B: P(S, Object.assign({}, hold, { lk: [92, 149], la: [74, 179], lt: [84, 184], p: [101, 111] })) },
+      porque: "Entrena el control de la pierna de apoyo y la capacidad de dar un paso para no perder el equilibrio." },
     { id: "lado", n: 10, t: "Pierna hacia el lado", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "6–10 por lado",
       como: "Sujeta la silla con una mano. Lleva una pierna recta unos centímetros hacia el lado, sin inclinar el cuerpo ni girar el pie; vuelve despacio. Cambia de mano para mantener el apoyo.",
       facil: "Levanta la pierna muy poco, casi deslizando el pie.",
-      porque: "Fortalece la cadera por fuera, que estabiliza la pelvis al caminar.",
-      view: "front", props: ["chairFront"], A: P(F, { re: [124, 86], rh: [134, 100] }),
-      B: P(F, { re: [124, 86], rh: [134, 100], rk: [117, 146], ra: [129, 179], rt: [135, 181] }) },
+      porque: "Fortalece la cadera por fuera, que estabiliza la pelvis al caminar." },
     { id: "rodillas", n: 11, t: "Elevación alterna de rodillas", cat: ["fuerza", "cardio"], pos: ["sentado", "pie"], dosis: "6–10 por pierna",
       como: "Sentado o de pie con apoyo, eleva una rodilla unos centímetros y bájala; cambia de lado. Mantén la espalda cómoda y respira con normalidad.",
       facil: "Sentado, levanta solo el talón y la punta del pie.",
-      porque: "Activa los flexores de la cadera y el abdomen, que intervienen al subir escalones.",
-      props: ["seat"], A: C, B: P(C, { rk: [124, 106], ra: [128, 162], rt: [140, 164] }) },
+      porque: "Activa los flexores de la cadera y el abdomen, que intervienen al subir escalones." },
     { id: "equilibrio", n: 12, t: "Equilibrio con apoyo cercano", cat: ["equilibrio"], pos: ["pie"], dosis: "10–20 segundos por lado", dur: 90,
       como: "De pie junto a la silla o a una pared, coloca un pie ligeramente delante del otro. Mantén la posición y cambia los pies. Mira al frente y deja una mano cerca del apoyo.",
       facil: "Separa más los pies. No cierres los ojos ni sueltes el apoyo si tienes inestabilidad.",
-      porque: "El equilibrio se entrena: practicarlo con seguridad ayuda a prevenir caídas.",
-      props: ["chairR"],
-      A: P(S, { re: [114, 88], rh: [126, 100], lk: [96, 148], la: [94, 182], lt: [106, 184], rk: [106, 148], ra: [108, 182], rt: [120, 184] }),
-      B: P(S, { h: [103, 38], n: [102, 56], p: [101, 110], re: [116, 88], rh: [126, 100], lk: [96, 148], la: [94, 182], lt: [106, 184], rk: [106, 148], ra: [108, 182], rt: [120, 184] }) }
+      porque: "El equilibrio se entrena: practicarlo con seguridad ayuda a prevenir caídas." }
   ];
-  const CALMA = { id: "calma", t: "Vuelta a la calma", view: "front", A: P(F, { le: [84, 76], lh: [80, 60], re: [116, 76], rh: [120, 60] }), B: F };
+  const CALMA = { id: "calma", t: "Vuelta a la calma" };
   const BYID = Object.fromEntries(EJ.map((e) => [e.id, e]));
   const CATS = { fuerza: "Fuerza", movilidad: "Movilidad", equilibrio: "Equilibrio", cardio: "Cardio suave" };
 
-  /* ------------------------------------------------------------------
-     FIGURAS ANIMADAS
-     ------------------------------------------------------------------ */
-  const SEG = [ // [clase, puntos]
-    ["back", ["n", "le", "lh"]], ["back", ["p", "lk", "la", "lt"]],
-    ["torso", ["n", "p"]],
-    ["front", ["p", "rk", "ra", "rt"]], ["front", ["n", "re", "rh"]]
-  ];
-  const figs = [];
+  /* Figura animada realista (figura.js + movimientos.js) */
   function figure(ex, big) {
-    const props = (ex.props || []).map((k) => PROPS[k]).join("");
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 200 200");
-    svg.setAttribute("class", "fig" + (big ? " fig--big" : ""));
-    svg.setAttribute("role", "img");
-    svg.setAttribute("aria-label", "Ilustración: " + ex.t);
-    svg.innerHTML = `<ellipse cx="105" cy="188" rx="70" ry="6" class="floor"/>${props}` +
-      SEG.map(([c]) => `<polyline class="limb limb--${c}"/>`).join("") +
-      `<circle r="12" class="head"/>`;
-    const lines = $$("polyline", svg), head = $("circle", svg);
-    const f = { ex, svg, lines, head, t: 0, visible: true };
-    draw(f, 0);
-    figs.push(f);
-    return svg;
-  }
-  const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
-  function draw(f, t) {
-    const A = f.ex.A, B = f.ex.B;
-    const pt = (k) => lerp(A[k], B[k], t);
-    SEG.forEach(([, keys], i) => f.lines[i].setAttribute("points", keys.map((k) => pt(k).map((v) => v.toFixed(1)).join(",")).join(" ")));
-    const h = pt("h"); f.head.setAttribute("cx", h[0].toFixed(1)); f.head.setAttribute("cy", h[1].toFixed(1));
-  }
-  // Ciclo: A → B (1,1 s) · pausa · B → A · pausa
-  const ease = (x) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
-  function phase(ms) {
-    const T = 3200, x = (ms % T) / T;
-    if (x < 0.35) return ease(x / 0.35);
-    if (x < 0.5) return 1;
-    if (x < 0.85) return 1 - ease((x - 0.5) / 0.35);
-    return 0;
-  }
-  if (reduceMotion) {
-    requestAnimationFrame(() => figs.forEach((f) => draw(f, 1)));
-  } else {
-    const io = "IntersectionObserver" in window ? new IntersectionObserver((es) => es.forEach((e) => {
-      const f = figs.find((x) => x.svg === e.target); if (f) f.visible = e.isIntersecting;
-    })) : null;
-    const observe = () => figs.forEach((f) => { if (!f.obs && io) { io.observe(f.svg); f.obs = true; } });
-    (function loop(ms) {
-      observe();
-      const t = phase(ms);
-      figs.forEach((f) => { if (f.visible && f.svg.isConnected) draw(f, t); });
-      requestAnimationFrame(loop);
-    })(0);
+    return window.Figura.mount(Object.assign({}, window.MOV[ex.id], { t: ex.t }), { big });
   }
 
   /* ------------------------------------------------------------------
@@ -287,8 +186,8 @@
     const nx = steps[idx + 1];
     $("#s-next").textContent = nx ? `Siguiente: ${nx.title}` : "Último paso";
     const box = $("#s-fig"); box.innerHTML = "";
-    if (sFig) { const i = figs.indexOf(sFig); if (i >= 0) figs.splice(i, 1); }
-    box.appendChild(figure(s.ex, true)); sFig = figs[figs.length - 1];
+    if (sFig) window.Figura.unmount(sFig);
+    sFig = figure(s.ex, true); box.appendChild(sFig);
     $("#s-prev").disabled = idx === 0;
     $("#s-skip").textContent = nx ? "Siguiente ⏭" : "Terminar ✓";
     left = s.dur; paused = false; updTimer();

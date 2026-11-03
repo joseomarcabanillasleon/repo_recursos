@@ -36,6 +36,21 @@ window.CATEGORIAS = {
 
 window.RECURSOS = [
   {
+    id: "vivir-con-equilibrio",
+    titulo: "Vivir con equilibrio: pantallas, tabaco y alcohol",
+    descripcion: "Pantallas según la edad (AEP y OMS), plan digital familiar para imprimir, alternativas a la pantalla, beneficios de dejar de fumar con calculadora de ahorro y qué es una unidad de alcohol.",
+    categoria: "salud",
+    formato: "Enlace",
+    tipo: "gratis",
+    destacado: false,
+    peso: "",
+    detalles: "Plan digital familiar imprimible",
+    etiquetas: ["pantallas", "móvil", "niños", "tabaco", "alcohol", "templanza", "vida sana", "familia"],
+    portada: "assets/img/equilibrio-cover.webp",
+    archivo: "equilibrio/",
+    fecha: "2026-11-03"
+  },
+  {
     id: "agua-aire-sol",
     titulo: "Agua, aire y sol: guía interactiva",
     descripcion: "Cuánta agua beber según la edad, vasos de hoy, plan semanal al aire libre, el índice UV explicado, protección solar para niños y preparación para el calor.",

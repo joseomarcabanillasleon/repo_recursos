@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vivir con equilibrio · Recursos Adventistas</title>
+  <meta name="description" content="Guía interactiva de equilibrio y templanza: pantallas según la edad (AEP y OMS), plan digital familiar imprimible, alternativas a la pantalla, beneficios de dejar de fumar y alcohol: cuanto menos, mejor.">
+  <meta property="og:title" content="Vivir con equilibrio · pantallas, tabaco y alcohol">
+  <meta property="og:description" content="Pantallas según la edad, plan digital familiar para imprimir, calculadora de ahorro al dejar de fumar y qué es una unidad de alcohol.">
+  <meta property="og:image" content="https://recursosadventistas.es/assets/img/equilibrio-cover.webp">
+  <link rel="canonical" href="https://recursosadventistas.es/equilibrio/">
+  <meta name="theme-color" content="#172a32">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../gym/gym.css">
+  <link rel="stylesheet" href="equilibrio.css">
+</head>
+<body>
+  <a class="skip" href="#contenido">Ir al contenido</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="../" aria-label="Recursos Adventistas, inicio">
+        <img class="brand__logo" src="../assets/img/logo.svg" alt="">
+        <span class="brand__name">Recursos<small>Adventistas</small></span>
+      </a>
+      <nav class="topnav" aria-label="Principal">
+        <a href="../vida-sana/">Vida sana</a>
+        <a href="#pantallas">Pantallas</a>
+        <a href="#tabaco">Tabaco</a>
+        <a href="#alcohol">Alcohol</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero eq-hero">
+      <div class="wrap hero__grid">
+        <div>
+          <nav class="crumbs" aria-label="Migas de pan"><a href="../">Inicio</a> <span aria-hidden="true">›</span> <a href="../vida-sana/">Vida sana</a> <span aria-hidden="true">›</span> Vivir con equilibrio</nav>
+          <p class="eyebrow">Templanza en el día a día</p>
+          <h1>Vivir con <em>equilibrio</em></h1>
+          <p class="hero__lead">Moderación en lo bueno y libertad frente a lo que nos daña. Pantallas, tabaco y alcohol, con datos claros y herramientas para la familia.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#pantallas">Empezar por las pantallas</a>
+            <a class="btn btn--outline-light btn--plain" href="#plan-digital">Plan digital familiar ↓</a>
+          </div>
+        </div>
+        <div class="scale" aria-hidden="true">
+          <svg viewBox="0 0 300 260">
+            <rect x="142" y="70" width="16" height="160" rx="6" fill="#6cd3b0"/>
+            <rect x="90" y="226" width="120" height="16" rx="8" fill="#6cd3b0"/>
+            <g class="beam">
+              <rect x="40" y="62" width="220" height="14" rx="7" fill="#fff"/>
+              <circle cx="150" cy="69" r="13" fill="#f3793b"/>
+              <path d="M60 76 L36 140 M60 76 L84 140" stroke="#fff" stroke-width="3"/>
+              <path d="M240 76 L216 140 M240 76 L264 140" stroke="#fff" stroke-width="3"/>
+              <path d="M28 140 H92 Q60 172 28 140 Z" fill="#ffa974"/>
+              <path d="M208 140 H272 Q240 172 208 140 Z" fill="#ffa974"/>
+              <text x="60" y="132" font-size="30" text-anchor="middle">📵</text>
+              <text x="240" y="132" font-size="30" text-anchor="middle">🌳</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path class="w-band" d="M0,78 C360,18 900,8 1440,52 L1440,120 L0,120 Z"/>
+        <path class="w-base" d="M0,104 C380,48 920,38 1440,84 L1440,120 L0,120 Z"/>
+      </svg>
+    </section>
+
+    <!-- PANTALLAS -->
+    <section class="wrap sec" id="pantallas" aria-labelledby="pan-t" style="padding-top:24px">
+      <div class="section-head">
+        <p class="eyebrow">Pantallas</p>
+        <h2 id="pan-t" class="sec-title"><span aria-hidden="true">📱</span>Pantallas según la edad</h2>
+        <p>Recomendaciones de la Asociación Española de Pediatría (AEP) y de la OMS. Elige una edad.</p>
+      </div>
+      <div class="ages" id="ages" role="group" aria-label="Edad">
+        <button type="button" class="chip" data-age="0-2">👶 0–2 años</button>
+        <button type="button" class="chip" data-age="3-5">🧸 3–5 años</button>
+        <button type="button" class="chip" data-age="6-12">🎒 6–12 años</button>
+        <button type="button" class="chip" data-age="13+">🎧 Adolescentes</button>
+      </div>
+      <div class="screens">
+        <div class="panel" id="age-out" aria-live="polite"></div>
+        <div class="panel">
+          <h3>⏱ ¿Cuánto tiempo es?</h3>
+          <label class="field"><span>Horas de pantalla en un día normal</span><input id="s-h" inputmode="decimal" placeholder="Ej.: 3"></label>
+          <div id="s-out" aria-live="polite"></div>
+          <div class="alt">
+            <h3>✨ En lugar de pantalla…</h3>
+            <ul id="alt"></ul>
+            <button type="button" class="link-btn" id="alt-more">Otras ideas</button>
+          </div>
+        </div>
+      </div>
+      <blockquote class="verse">«Mas el fruto del Espíritu es amor, gozo, paz, paciencia, benignidad, bondad, fe, mansedumbre, templanza».<cite>Gálatas 5:22-23 (RVR1960)</cite></blockquote>
+    </section>
+
+    <!-- PLAN DIGITAL -->
+    <section class="sec sec--alt" id="plan-digital" aria-labelledby="pd-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Plan digital familiar</p>
+          <h2 id="pd-t">Acordad vuestras normas y firmadlas</h2>
+          <p>Marcad las normas que queréis cumplir en casa, imprimid el plan y colgadlo a la vista. Funciona mejor si todos participan, también los adultos.</p>
+        </div>
+        <div class="pd">
+          <div>
+            <label class="field"><span>Apellido o nombre de la familia</span><input id="pl-name" maxlength="30" placeholder="Ej.: García"></label>
+            <ul class="checklist" id="rules"></ul>
+          </div>
+          <article class="pcard" aria-label="Vista previa del plan">
+            <p class="k">Plan digital familiar</p>
+            <h3 id="pc-name"></h3>
+            <ol id="pc-list"></ol>
+            <div class="sign"><span>Firma</span><span>Firma</span><span>Firma</span></div>
+            <button type="button" class="btn btn--primary btn--plain" id="pl-print">🖨 Imprimir plan</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABACO -->
+    <section class="wrap sec" id="tabaco" aria-labelledby="tab-t">
+      <div class="section-head">
+        <p class="eyebrow">Tabaco</p>
+        <h2 id="tab-t" class="sec-title"><span aria-hidden="true">🚭</span>Dejar de fumar merece la pena</h2>
+        <p>Los beneficios empiezan a los 20 minutos y siguen durante años, según la OMS. Mueve el control.</p>
+      </div>
+      <div class="tob">
+        <div class="panel">
+          <div class="tl-top"><span>Tiempo sin fumar:</span><b id="tl-now" aria-live="polite"></b></div>
+          <label><span class="sr-only">Tiempo sin fumar</span><input type="range" id="tl" min="0" max="7" value="0"></label>
+          <ol class="tl-list" id="tl-list"></ol>
+        </div>
+        <div class="panel">
+          <h3>💶 ¿Cuánto ahorrarías?</h3>
+          <div class="calc-row">
+            <label class="field"><span>Cigarrillos al día</span><input id="t-c" inputmode="numeric" placeholder="Ej.: 10"></label>
+            <label class="field"><span>Precio del paquete (€)</span><input id="t-p" inputmode="decimal" placeholder="Ej.: 5,50"></label>
+          </div>
+          <div id="t-out" aria-live="polite"></div>
+          <p class="who">🩺 No tienes que hacerlo solo: tu centro de salud puede ayudarte con apoyo y, si hace falta, tratamiento.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALCOHOL -->
+    <section class="band-peach sec" id="alcohol" aria-labelledby="alc-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Alcohol</p>
+          <h2 id="alc-t" class="sec-title"><span aria-hidden="true">🍷</span>Alcohol: cuanto menos, mejor</h2>
+          <p>La OMS recuerda que no hay un nivel de consumo seguro para la salud. Así mide el Ministerio de Sanidad una unidad de bebida estándar (UBE = 10 g de alcohol):</p>
+        </div>
+        <div class="ube">
+          <div><span aria-hidden="true">🍺</span><b>1 caña de cerveza</b><small>250 ml al 5 % = 1 UBE</small></div>
+          <div><span aria-hidden="true">🍷</span><b>Media copa de vino</b><small>125 ml al 10 % = 1 UBE</small></div>
+          <div><span aria-hidden="true">🥃</span><b>1 chupito o medio combinado</b><small>30 ml al 40 % = 1 UBE</small></div>
+        </div>
+        <p style="text-align:center;margin:0"><strong>Sanidad indica no consumir nada de alcohol en estas situaciones:</strong></p>
+        <ul class="never">
+          <li>🚗 Conducción</li><li>🤰 Embarazo</li><li>🍼 Lactancia</li><li>🧒 Menores de edad</li>
+          <li>🛠️ Trabajos de precisión</li><li>💊 Algunos medicamentos y enfermedades</li><li>⚠️ Actividades de riesgo</li><li>👶 Cuidado de menores</li>
+        </ul>
+        <p class="alc-msg">La opción más saludable es <strong>no beber</strong>. Si alguien consume, reducir siempre trae beneficios.</p>
+      </div>
+    </section>
+
+    <!-- MITOS -->
+    <section class="band-sky myths-band" aria-labelledby="myth-t">
+      <span class="cloud cloud--1" aria-hidden="true"></span>
+      <span class="cloud cloud--2" aria-hidden="true"></span>
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="myth-t">Mitos y realidades</h2>
+          <p>Toca cada tarjeta para descubrir la respuesta.</p>
+        </div>
+        <div class="myths">
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Una copa de vino al día es buena para el corazón»</span>
+            <span class="myth__a"><b>Falso.</b> La OMS afirma que no existe un nivel de consumo de alcohol seguro para la salud.</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Llevo años fumando: dejarlo ya no sirve»</span>
+            <span class="myth__a"><b>Falso.</b> Dejarlo beneficia a cualquier edad: incluso hacia los 60 años se ganan unos 3 años de esperanza de vida (OMS).</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Los vídeos para bebés estimulan su desarrollo»</span>
+            <span class="myth__a"><b>Falso.</b> La OMS no recomienda pantallas antes del año. Lo que más les ayuda es jugar, moverse y relacionarse.</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Si sabe usar la tablet, ya está preparado»</span>
+            <span class="myth__a"><b>Falso.</b> Saber manejar un dispositivo no es tener la madurez para gestionarlo (AEP).</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- AYUDA -->
+    <section class="wrap sec" aria-labelledby="help-t">
+      <div class="section-head">
+        <p class="eyebrow">Pedir ayuda</p>
+        <h2 id="help-t">Cuando cuesta, no estás solo</h2>
+        <p>Dejar un hábito es difícil. Pedir ayuda es un paso valiente, no un fracaso.</p>
+      </div>
+      <div class="help">
+        <div><h3>🩺 Tu centro de salud</h3><p>Medicina y enfermería de familia pueden ayudarte a dejar el tabaco o el alcohol con un plan y, si hace falta, tratamiento.</p></div>
+        <div><h3>📞 017 · Ayuda en ciberseguridad</h3><p>Línea gratuita y confidencial de INCIBE para dudas sobre seguridad digital, también para familias y menores.</p><a class="tel" href="tel:017">017</a></div>
+        <div><h3>🚑 Emergencias</h3><p>Si alguien está en peligro por una intoxicación o una situación de riesgo, llama al 112.</p><a class="tel" href="tel:112">112</a></div>
+      </div>
+    </section>
+
+    <!-- FUENTES -->
+    <section class="wrap sources" aria-labelledby="src-t">
+      <h2 id="src-t">Fuentes</h2>
+      <ul>
+        <li><a href="https://enfamilia.aeped.es/noticias/nuevas-recomendaciones-sobre-pantallas-en-infancia-adolescencia" target="_blank" rel="noopener">AEP (En Familia). Nuevas recomendaciones sobre pantallas en la infancia y la adolescencia</a> · <a href="https://plandigitalfamiliar.aeped.es/" target="_blank" rel="noopener">Plan Digital Familiar</a></li>
+        <li><a href="https://www.who.int/es/news/item/24-04-2019-to-grow-up-healthy-children-need-to-sit-less-and-play-more" target="_blank" rel="noopener">OMS (2019). Para crecer sanos, los niños tienen que pasar menos tiempo sentados y jugar más</a></li>
+        <li><a href="https://www.who.int/es/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation" target="_blank" rel="noopener">OMS. Beneficios para la salud de dejar de fumar</a></li>
+        <li><a href="https://www.sanidad.gob.es/areas/promocionPrevencion/alcohol/documentosTecnicos/docs/ConsumoAlcohol_cuantoconsumo.pdf" target="_blank" rel="noopener">Ministerio de Sanidad (2022). Conoce cuánto alcohol consumes</a></li>
+        <li><a href="https://www.who.int/europe/news/item/04-01-2023-no-level-of-alcohol-consumption-is-safe-for-our-health" target="_blank" rel="noopener">OMS Europa (2023). No level of alcohol consumption is safe for our health</a></li>
+        <li><a href="https://www.incibe.es/linea-de-ayuda-en-ciberseguridad" target="_blank" rel="noopener">INCIBE. Línea de ayuda en ciberseguridad 017</a></li>
+      </ul>
+      <p class="disclaimer">Guía educativa y general. No sustituye la valoración de un profesional sanitario. Los datos que escribes se guardan solo en tu dispositivo.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <strong>Recursos Adventistas</strong> · por Jose Omar
+        <p>Sitio personal, sin relación oficial con la Iglesia Adventista del Séptimo Día. Guía bajo licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC 4.0</a>.</p>
+      </div>
+      <a class="btn btn--outline-light btn--plain" href="../vida-sana/">← Vida sana</a>
+    </div>
+  </footer>
+
+  <script src="equilibrio.js"></script>
+  <script src="../assets/js/stats.js" defer></script>
+</body>
+</html>

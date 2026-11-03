@@ -36,6 +36,21 @@ window.CATEGORIAS = {
 
 window.RECURSOS = [
   {
+    id: "comer-bien",
+    titulo: "Comer bien: guía interactiva de alimentación saludable",
+    descripcion: "El plato equilibrado, un juego para construir tu plato, las raciones de la AESAN, nutrientes clave en dietas vegetarianas, calculadora de etiquetas y reto de 7 días.",
+    categoria: "salud",
+    formato: "Enlace",
+    tipo: "gratis",
+    destacado: true,
+    peso: "",
+    detalles: "Plato · raciones · reto 7 días",
+    etiquetas: ["alimentación", "nutrición", "vegetariano", "plato", "recetas", "vida sana", "familia", "B12"],
+    portada: "assets/img/alimentacion-cover.webp",
+    archivo: "alimentacion/",
+    fecha: "2026-11-03"
+  },
+  {
     id: "gimnasia-para-todos",
     titulo: "Gimnasia para todos: guía interactiva de movimiento seguro",
     descripcion: "12 ejercicios de fuerza, movilidad y equilibrio con una silla y una pared, sesión guiada de 25 minutos con temporizador y cartel para invitar a tu comunidad.",

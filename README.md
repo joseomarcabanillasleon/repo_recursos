@@ -57,6 +57,13 @@ Guía interactiva basada en el documento «Gimnasia para todos — guía comunit
 - Test del habla, «Mi semana» (se guarda solo en el navegador) y cartel de invitación imprimible / WhatsApp.
 - Fuentes: Ministerio de Sanidad (2023), OMS y NHS. Sin promesas terapéuticas.
 
+## Vida sana (`/vida-sana/`)
+
+Centro con ocho áreas. Disponibles: **Movimiento** (`/gym/`) y **Alimentación** (`/alimentacion/`).
+Alimentación: plato interactivo, constructor de platos, mi semana (raciones AESAN 2022), nutrientes clave,
+calculadora de etiquetas (límites OMS) y reto de 7 días. Para añadir un área: crea su carpeta y cambia su
+tarjeta en `vida-sana/index.html` de «Próximamente» a enlace.
+
 ## Estadísticas de visitas y descargas (GoatCounter)
 
 Anónimas y sin cookies: no hace falta aviso de cookies. Gratis para sitios no comerciales.

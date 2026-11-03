@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comer bien · Recursos Adventistas</title>
+  <meta name="description" content="Guía interactiva de alimentación saludable basada en plantas: el plato equilibrado, construye tu plato, mi semana, nutrientes clave para vegetarianos, calculadora de etiquetas y reto de 7 días.">
+  <meta property="og:title" content="Comer bien · guía interactiva de alimentación saludable">
+  <meta property="og:description" content="El plato equilibrado, las raciones de la AESAN, nutrientes clave en una dieta vegetariana y un reto de 7 días.">
+  <meta property="og:image" content="https://recursosadventistas.es/assets/img/alimentacion-cover.webp">
+  <link rel="canonical" href="https://recursosadventistas.es/alimentacion/">
+  <meta name="theme-color" content="#243247">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../gym/gym.css">
+  <link rel="stylesheet" href="alimentacion.css">
+</head>
+<body>
+  <a class="skip" href="#contenido">Ir al contenido</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="../" aria-label="Recursos Adventistas, inicio">
+        <img class="brand__logo" src="../assets/img/logo.svg" alt="">
+        <span class="brand__name">Recursos<small>Adventistas</small></span>
+      </a>
+      <nav class="topnav" aria-label="Principal">
+        <a href="../vida-sana/">Vida sana</a>
+        <a href="#plato">El plato</a>
+        <a href="#semana">Mi semana</a>
+        <a href="#reto-sec">Reto</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- PORTADA -->
+    <section class="hero ali-hero">
+      <div class="wrap hero__grid">
+        <div>
+          <nav class="crumbs" aria-label="Migas de pan"><a href="../">Inicio</a> <span aria-hidden="true">›</span> <a href="../vida-sana/">Vida sana</a> <span aria-hidden="true">›</span> Comer bien</nav>
+          <p class="eyebrow">Guía de alimentación saludable</p>
+          <h1>Comer <em>bien</em>, sin complicarse</h1>
+          <p class="hero__lead">Un plato equilibrado, basado en plantas y fácil de preparar. Con las raciones oficiales, los nutrientes que no hay que olvidar y un reto para empezar esta semana.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#plato">Descubre el plato</a>
+            <a class="btn btn--outline-light btn--plain" href="#reto-sec">Reto de 7 días ↓</a>
+          </div>
+        </div>
+        <div class="hero-plate" id="poster-plate" aria-hidden="true"></div>
+      </div>
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path class="w-band" d="M0,78 C360,18 900,8 1440,52 L1440,120 L0,120 Z"/>
+        <path class="w-base" d="M0,104 C380,48 920,38 1440,84 L1440,120 L0,120 Z"/>
+      </svg>
+    </section>
+
+    <!-- POR QUÉ -->
+    <section class="wrap why" aria-labelledby="why-t">
+      <div class="section-head">
+        <p class="eyebrow">Por qué importa</p>
+        <h2 id="why-t">Lo que comemos cada día suma</h2>
+        <p>Cuatro ideas sencillas respaldadas por la evidencia.</p>
+      </div>
+      <div class="why__grid">
+        <div class="why__card"><span class="why__ico" aria-hidden="true">🌱</span><h3>Más plantas</h3><p>Verduras, frutas, legumbres, cereales integrales y frutos secos son la base de un patrón saludable y sostenible.</p></div>
+        <div class="why__card"><span class="why__ico" aria-hidden="true">🛡️</span><h3>Prevención</h3><p>Una alimentación sana ayuda a prevenir enfermedades crónicas como la diabetes tipo 2 o las cardiovasculares (OMS).</p></div>
+        <div class="why__card"><span class="why__ico" aria-hidden="true">🧂</span><h3>Menos sal y azúcar</h3><p>Menos de 5 g de sal al día y azúcares libres por debajo del 10 % de las calorías.</p></div>
+        <div class="why__card"><span class="why__ico" aria-hidden="true">👨‍👩‍👧</span><h3>En familia</h3><p>Cocinar y comer juntos ayuda a crear hábitos que duran, también en los niños.</p></div>
+      </div>
+      <blockquote class="verse">«Si, pues, coméis o bebéis, o hacéis otra cosa, hacedlo todo para la gloria de Dios».<cite>1 Corintios 10:31 (RVR1960)</cite></blockquote>
+    </section>
+
+    <!-- EL PLATO -->
+    <section class="band-peach sec" id="plato" aria-labelledby="plato-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">El plato equilibrado</p>
+          <h2 id="plato-t">Toca cada parte del plato</h2>
+          <p>Una guía visual para la comida y la cena, inspirada en el «Plato para comer saludable» de Harvard.</p>
+        </div>
+        <div class="plate-wrap">
+          <div id="plate"></div>
+          <div>
+            <div class="plate-info" id="plate-info" aria-live="polite"></div>
+            <div class="plate-extras">
+              <span>💧 Agua como bebida principal</span>
+              <span>🫒 Aceite de oliva para cocinar y aliñar</span>
+              <span>🚶 Y mantenerse activo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONSTRUCTOR -->
+    <section class="wrap sec" id="construye" aria-labelledby="cons-t">
+      <div class="section-head">
+        <p class="eyebrow">Juego</p>
+        <h2 id="cons-t">Construye tu plato</h2>
+        <p>Toca alimentos para añadirlos o quitarlos. Te digo qué tal está equilibrado. ¡Ideal para hacerlo con niños!</p>
+      </div>
+      <div class="builder">
+        <div class="foods" id="foods"></div>
+        <aside class="my-plate" aria-live="polite">
+          <h3>Mi plato</h3>
+          <div class="mine" id="mine"></div>
+          <div id="score"></div>
+          <button type="button" class="link-btn" id="reset">Vaciar el plato</button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MI SEMANA -->
+    <section class="sec sec--alt" id="semana" aria-labelledby="sem-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Mi semana · raciones recomendadas</p>
+          <h2 id="sem-t">¿Cuántas raciones llevas?</h2>
+          <p>Según la AESAN (2022). Pulsa + cada vez que tomes una ración. Se guarda solo en este dispositivo.</p>
+        </div>
+        <div class="track" id="track"></div>
+        <p class="rec__note">Además: <strong>cereales</strong> 3–6 raciones al día, mejor integrales · <strong>aceite de oliva</strong> en las comidas principales · <strong>agua</strong> toda la que necesites · si tomas lácteos, hasta 3 al día · si comes carne, máximo 3 veces por semana y poca procesada.</p>
+      </div>
+    </section>
+
+    <!-- NUTRIENTES -->
+    <section class="wrap sec" id="nutrientes" aria-labelledby="nut-t">
+      <div class="section-head">
+        <p class="eyebrow">Si comes vegetariano o casi</p>
+        <h2 id="nut-t">Nutrientes que no hay que olvidar</h2>
+        <p>Las dietas vegetarianas bien planificadas son saludables y adecuadas en todas las etapas de la vida. «Bien planificadas» significa cuidar estos nutrientes:</p>
+      </div>
+      <div class="nutrients">
+        <div class="nut" style="--c:#b0413e"><span class="key">Imprescindible</span><h3><span aria-hidden="true">💊</span>Vitamina B12</h3>
+          <p>Los alimentos vegetales no la aportan de forma fiable. En dietas veganas es necesario un suplemento o alimentos enriquecidos.</p>
+          <p class="where">Si tomas huevos y lácteos, consulta si también lo necesitas: muchas personas vegetarianas sí.</p></div>
+        <div class="nut" style="--c:#8a3a12"><h3><span aria-hidden="true">🫘</span>Hierro</h3>
+          <p>Legumbres, tofu, frutos secos, semillas y verduras de hoja verde.</p>
+          <p class="where">Truco: acompáñalos de vitamina C (pimiento, tomate, cítricos) y deja el té o el café para fuera de las comidas.</p></div>
+        <div class="nut" style="--c:#5bb0e3"><h3><span aria-hidden="true">🥛</span>Calcio</h3>
+          <p>Lácteos o bebidas vegetales enriquecidas en calcio, tofu cuajado con calcio, almendras, sésamo y verduras como el brócoli.</p></div>
+        <div class="nut" style="--c:#177a62"><h3><span aria-hidden="true">🌰</span>Omega-3</h3>
+          <p>Nueces y semillas de lino o chía molidas cada día. Si comes pescado, mejor el azul.</p></div>
+        <div class="nut" style="--c:#6a4c93"><h3><span aria-hidden="true">🧂</span>Yodo</h3>
+          <p>Usa sal yodada, pero poca. Los lácteos también aportan yodo.</p></div>
+        <div class="nut" style="--c:#d9a441"><h3><span aria-hidden="true">☀️</span>Vitamina D</h3>
+          <p>Se forma con el sol en la piel, con moderación. Hay alimentos enriquecidos. En invierno o en personas mayores, consulta si hace falta un suplemento.</p></div>
+        <div class="nut" style="--c:#c9733f"><h3><span aria-hidden="true">💪</span>Proteínas</h3>
+          <p>Legumbres, soja, frutos secos, huevos y lácteos. Variando a lo largo del día se cubren sin problema.</p></div>
+        <div class="nut" style="--c:#3f9a5c"><h3><span aria-hidden="true">🌾</span>Zinc</h3>
+          <p>Legumbres, frutos secos, semillas y cereales integrales.</p></div>
+      </div>
+      <p class="nut-note muted">En embarazo, lactancia, infancia, edad avanzada o si tienes una enfermedad, pide a un profesional sanitario o dietista-nutricionista que revise tu alimentación y tus suplementos.</p>
+    </section>
+
+    <!-- CALCULADORA -->
+    <section class="band-peach sec" id="etiquetas" aria-labelledby="cal-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Aprende a leer etiquetas</p>
+          <h2 id="cal-t">¿Cuánto azúcar y sal lleva?</h2>
+          <p>Copia los números de la etiqueta y mira lo que representan. Límites de la OMS para adultos.</p>
+        </div>
+        <div class="calc">
+          <div class="tool">
+            <h3>🍬 Azúcar</h3>
+            <label class="field"><span>Azúcares (g)</span><input id="c-sug" inputmode="decimal" placeholder="Ej.: 35"></label>
+            <div id="r-sug" aria-live="polite"></div>
+          </div>
+          <div class="tool">
+            <h3>🧂 Sal</h3>
+            <div class="calc-row">
+              <label class="field"><span>Cantidad (g)</span><input id="c-sal" inputmode="decimal" placeholder="Ej.: 1,2"></label>
+              <label class="field"><span>Pone…</span><select id="c-mode"><option value="sal">Sal</option><option value="sodio">Sodio</option></select></label>
+            </div>
+            <div id="r-sal" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IDEAS -->
+    <section class="wrap sec" aria-labelledby="ideas-t">
+      <div class="section-head">
+        <p class="eyebrow">Ideas para empezar</p>
+        <h2 id="ideas-t">Platos sencillos y económicos</h2>
+      </div>
+      <div class="ideas">
+        <div class="idea"><h3>☀️ Desayuno</h3><ul>
+          <li>Avena con fruta troceada y un puñado de nueces.</li>
+          <li>Tostada integral con tomate, aceite de oliva y aguacate.</li>
+          <li>Yogur o bebida de soja enriquecida con fresas y semillas.</li></ul></div>
+        <div class="idea"><h3>🍲 Comida</h3><ul>
+          <li>Lentejas estofadas con verduras y arroz integral.</li>
+          <li>Ensalada grande de garbanzos, tomate, pimiento y huevo cocido.</li>
+          <li>Pasta integral con brócoli, ajo y alubias blancas.</li></ul></div>
+        <div class="idea"><h3>🌙 Cena</h3><ul>
+          <li>Crema de verduras y tortilla de espinacas.</li>
+          <li>Salteado de tofu con verduras y quinoa.</li>
+          <li>Hummus con palitos de zanahoria y pan integral.</li></ul></div>
+      </div>
+    </section>
+
+    <!-- MITOS -->
+    <section class="band-sky myths-band" aria-labelledby="myth-t">
+      <span class="cloud cloud--1" aria-hidden="true"></span>
+      <span class="cloud cloud--2" aria-hidden="true"></span>
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="myth-t">Mitos y realidades</h2>
+          <p>Toca cada tarjeta para descubrir la respuesta.</p>
+        </div>
+        <div class="myths">
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Sin carne no se tiene suficiente proteína»</span>
+            <span class="myth__a"><b>Falso.</b> Legumbres, soja, frutos secos, huevos y lácteos cubren las necesidades si la dieta es variada.</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Un zumo es igual que una fruta»</span>
+            <span class="myth__a"><b>Falso.</b> El zumo pierde la fibra y su azúcar cuenta como azúcar libre. Mejor la fruta entera.</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«El pan engorda, hay que quitarlo»</span>
+            <span class="myth__a"><b>Falso.</b> El pan integral forma parte de una dieta sana. Importan el tipo y la cantidad.</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Si pone “natural” o “light”, es sano»</span>
+            <span class="myth__a"><b>Falso.</b> Son reclamos comerciales. Lee la etiqueta: azúcares, sal y lista de ingredientes.</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RETO -->
+    <section class="wrap sec" id="reto-sec" aria-labelledby="reto-t">
+      <div class="reto-card">
+        <p class="eyebrow">Reto de 7 días</p>
+        <h2 id="reto-t">Un pequeño cambio cada día</h2>
+        <p class="muted">Marca cada día cuando lo consigas. Ideal para hacerlo en familia o en grupo.</p>
+        <div class="reto-prog" aria-hidden="true"><span id="reto-bar"></span></div>
+        <ul class="reto" id="reto"></ul>
+        <div class="reto-foot"><span id="reto-n" aria-live="polite"></span><button type="button" class="link-btn" id="reto-reset">Empezar de nuevo</button></div>
+      </div>
+    </section>
+
+    <!-- FUENTES -->
+    <section class="wrap sources" aria-labelledby="src-t">
+      <h2 id="src-t">Fuentes</h2>
+      <ul>
+        <li><a href="https://www.aesan.gob.es/AECOSAN/web/nutricion/subseccion/recomendaciones_dieteticas.htm" target="_blank" rel="noopener">AESAN. Recomendaciones dietéticas sostenibles y de actividad física para la población española (informe AESAN-2022-007)</a></li>
+        <li><a href="https://www.who.int/es/news-room/fact-sheets/detail/healthy-diet" target="_blank" rel="noopener">OMS. Alimentación sana (nota descriptiva): sal, azúcares libres, frutas y verduras, fibra</a></li>
+        <li><a href="https://nutritionsource.hsph.harvard.edu/healthy-eating-plate/translations/spanish/" target="_blank" rel="noopener">Harvard T.H. Chan School of Public Health. El plato para comer saludable</a></li>
+        <li><a href="https://www.nhs.uk/live-well/eat-well/how-to-eat-a-balanced-diet/the-vegan-diet/" target="_blank" rel="noopener">NHS. The vegan diet</a> · <a href="https://www.nhs.uk/live-well/eat-well/how-to-eat-a-balanced-diet/the-vegetarian-diet/" target="_blank" rel="noopener">The vegetarian diet</a></li>
+        <li><a href="https://doi.org/10.1016/j.jand.2016.09.025" target="_blank" rel="noopener">Academy of Nutrition and Dietetics (2016). Position: Vegetarian Diets</a></li>
+      </ul>
+      <p class="disclaimer">Guía educativa y general. No sustituye la valoración individual de un profesional sanitario o de un dietista-nutricionista, especialmente en embarazo, infancia, edad avanzada, enfermedades o trastornos de la conducta alimentaria.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <strong>Recursos Adventistas</strong> · por Jose Omar
+        <p>Sitio personal, sin relación oficial con la Iglesia Adventista del Séptimo Día. Guía bajo licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC 4.0</a>.</p>
+      </div>
+      <a class="btn btn--outline-light btn--plain" href="../vida-sana/">← Vida sana</a>
+    </div>
+  </footer>
+
+  <script src="alimentacion.js"></script>
+  <script src="../assets/js/stats.js" defer></script>
+</body>
+</html>

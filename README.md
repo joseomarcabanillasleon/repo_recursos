@@ -59,7 +59,7 @@ Guía interactiva basada en el documento «Gimnasia para todos — guía comunit
 
 ## Vida sana (`/vida-sana/`)
 
-Centro con ocho áreas. Disponibles: **Movimiento** (`/gym/`) y **Alimentación** (`/alimentacion/`).
+Centro con ocho áreas. Disponibles: **Movimiento** (`/gym/`), **Alimentación** (`/alimentacion/`) y **Descanso** (`/descanso/`).
 Alimentación: plato interactivo, constructor de platos, mi semana (raciones AESAN 2022), nutrientes clave,
 calculadora de etiquetas (límites OMS) y reto de 7 días. Para añadir un área: crea su carpeta y cambia su
 tarjeta en `vida-sana/index.html` de «Próximamente» a enlace.

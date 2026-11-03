@@ -36,6 +36,21 @@ window.CATEGORIAS = {
 
 window.RECURSOS = [
   {
+    id: "descansar-bien",
+    titulo: "Descansar bien: guía interactiva del sueño y del descanso",
+    descripcion: "Horas de sueño por edad, calculadora familiar de la hora de dormir, rutina de noche para imprimir, diario de sueño, test de hábitos e ideas para el día de descanso.",
+    categoria: "salud",
+    formato: "Enlace",
+    tipo: "gratis",
+    destacado: true,
+    peso: "",
+    detalles: "Calculadora · rutina imprimible",
+    etiquetas: ["sueño", "dormir", "descanso", "niños", "rutina", "sábado", "vida sana", "familia"],
+    portada: "assets/img/descanso-cover.webp",
+    archivo: "descanso/",
+    fecha: "2026-11-03"
+  },
+  {
     id: "comer-bien",
     titulo: "Comer bien: guía interactiva de alimentación saludable",
     descripcion: "El plato equilibrado, un juego para construir tu plato, las raciones de la AESAN, nutrientes clave en dietas vegetarianas, calculadora de etiquetas y reto de 7 días.",

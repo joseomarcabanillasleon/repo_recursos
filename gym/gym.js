@@ -1,0 +1,474 @@
+/* =====================================================================
+   Gimnasia para todos · guía interactiva
+   - Figuras animadas propias (SVG generado a partir de poses)
+   - Ejercicios, filtros, sesión guiada con temporizador
+   - Test del habla, mi semana, cartel de invitación
+   ===================================================================== */
+(() => {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* sin almacenamiento */ } }
+  };
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ------------------------------------------------------------------
+     POSES
+     h cabeza · n cuello · p cadera
+     le/lh codo y mano de atrás · re/rh codo y mano de delante
+     lk/la/lt rodilla, tobillo, punta de atrás · rk/ra/rt de delante
+     ------------------------------------------------------------------ */
+  const S = { h: [100, 38], n: [100, 56], p: [100, 110], le: [98, 82], lh: [100, 106], re: [102, 82], rh: [104, 106],
+    lk: [98, 148], la: [97, 182], lt: [109, 184], rk: [102, 148], ra: [103, 182], rt: [115, 184] };
+  const C = { h: [90, 52], n: [88, 70], p: [84, 122], le: [90, 96], lh: [104, 116], re: [94, 96], rh: [108, 118],
+    lk: [118, 123], la: [120, 180], lt: [132, 183], rk: [122, 124], ra: [124, 181], rt: [136, 183] };
+  const F = { h: [100, 38], n: [100, 58], p: [100, 112], le: [86, 84], lh: [84, 108], re: [114, 84], rh: [116, 108],
+    lk: [92, 148], la: [90, 182], lt: [85, 185], rk: [108, 148], ra: [110, 182], rt: [115, 185] };
+  const FC = { h: [100, 50], n: [100, 68], p: [100, 120], le: [86, 92], lh: [112, 84], re: [114, 92], rh: [88, 84],
+    lk: [86, 126], la: [84, 180], lt: [80, 184], rk: [114, 126], ra: [116, 180], rt: [120, 184] };
+  const P = (base, over) => Object.assign({}, base, over);
+  const hold = { re: [114, 86], rh: [128, 102] }; // mano delantera sujetando el respaldo
+
+  const PROPS = {
+    chairR: '<path d="M128 96 V186 M128 134 H160 V186" class="prop"/>',
+    seat: '<path d="M72 74 V186 M72 128 H114 V186" class="prop"/>',
+    seatFront: '<path d="M78 68 H122 V128 M78 68 V128 M70 128 H130 M74 128 V186 M126 128 V186" class="prop prop--soft"/>',
+    chairFront: '<path d="M132 96 H158 V134 M132 96 V134 M128 134 H162 M131 134 V186 M159 134 V186" class="prop"/>',
+    wall: '<rect x="168" y="20" width="12" height="166" rx="2" class="wall"/>'
+  };
+
+  /* ------------------------------------------------------------------
+     EJERCICIOS (contenido de la guía «Gimnasia para todos»)
+     ------------------------------------------------------------------ */
+  const EJ = [
+    { id: "marcha", n: 1, t: "Marcha cómoda", cat: ["cardio"], pos: ["sentado", "pie"], dosis: "45–60 segundos", dur: 90,
+      como: "De pie detrás de la silla o sentado, alterna levantar los pies como si caminaras. Mantén el tronco erguido y pisa con suavidad.",
+      facil: "Marcha sentado, levantando un pie cada vez.",
+      porque: "Calienta el cuerpo, sube un poco el pulso y prepara las articulaciones para el resto de la sesión.",
+      A: P(S, { rk: [118, 128], ra: [116, 162], rt: [128, 165], le: [106, 80], lh: [114, 98], re: [94, 82], rh: [90, 104] }),
+      B: P(S, { lk: [116, 128], la: [114, 162], lt: [126, 165], re: [108, 80], rh: [116, 98], le: [94, 82], lh: [90, 104] }) },
+    { id: "brazos", n: 2, t: "Brazos que se abren", cat: ["movilidad"], pos: ["sentado", "pie"], dosis: "6–10 repeticiones",
+      como: "Deja los brazos junto al cuerpo. Súbelos hacia los lados hasta una altura cómoda y bájalos lentamente, sin encoger los hombros.",
+      facil: "Sube solo hasta media altura. Inspira al abrir y suelta el aire al bajar.",
+      porque: "Mantiene la movilidad de los hombros, que usamos para vestirnos, peinarnos o alcanzar objetos.",
+      view: "front", A: F, B: P(F, { le: [76, 62], lh: [54, 60], re: [124, 62], rh: [146, 60] }) },
+    { id: "omoplatos", n: 3, t: "Juntar omóplatos", cat: ["movilidad", "fuerza"], pos: ["sentado", "pie"], dosis: "8–10 repeticiones · 2 s",
+      como: "Con los brazos relajados, lleva suavemente los hombros hacia atrás y acerca los omóplatos, sin arquear la espalda. Mantén 2 segundos y relaja.",
+      facil: "Hazlo sentado y con un movimiento más pequeño.",
+      porque: "Fortalece los músculos de la espalda alta y ayuda a compensar las horas con los hombros hacia delante.",
+      A: P(S, { n: [103, 57], h: [105, 39], le: [101, 83], re: [106, 83], lh: [104, 107], rh: [109, 107] }),
+      B: P(S, { n: [97, 55], h: [98, 37], le: [93, 82], re: [97, 82], lh: [94, 106], rh: [98, 106] }) },
+    { id: "giro", n: 4, t: "Giro sentado, corto y cómodo", cat: ["movilidad"], pos: ["sentado"], dosis: "5–8 por lado",
+      como: "Siéntate con los pies apoyados y los brazos cruzados sobre el pecho. Gira el tronco un poco hacia un lado, vuelve al centro y cambia. Mantén la pelvis estable y no tires del cuello.",
+      facil: "Deja las manos sobre los muslos y gira menos.",
+      porque: "Da movilidad a la columna de forma suave. El movimiento nunca debe provocar dolor.",
+      view: "front", props: ["seatFront"], A: FC,
+      B: P(FC, { n: [104, 68], h: [107, 50], le: [94, 92], lh: [118, 82], re: [124, 88], rh: [98, 82] }) },
+    { id: "levantarse", n: 5, t: "Levantarse y sentarse", cat: ["fuerza"], pos: ["pie"], dosis: "5–8 repeticiones",
+      como: "Siéntate cerca del borde de una silla firme, con los pies debajo de las rodillas. Inclina ligeramente el tronco hacia delante y ponte de pie; vuelve a sentarte despacio.",
+      facil: "Usa las manos en los muslos o en los apoyabrazos, o practica solo despegarte un poco del asiento. Que la silla no se deslice.",
+      porque: "Es uno de los gestos más útiles del día a día: fortalece piernas y glúteos y ayuda a mantener la autonomía.",
+      props: ["seat"], A: C,
+      B: { h: [126, 38], n: [122, 56], p: [116, 110], le: [120, 82], lh: [128, 102], re: [124, 82], rh: [132, 102],
+        lk: [118, 148], la: [120, 182], lt: [132, 184], rk: [122, 148], ra: [124, 182], rt: [136, 184] } },
+    { id: "talones", n: 6, t: "Elevación de talones", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "8–12 repeticiones",
+      como: "De pie, sujeta la silla con una o dos manos. Eleva los talones, haz una pausa breve y bájalos de forma controlada.",
+      facil: "Eleva solo un poco los talones o hazlo sentado.",
+      porque: "Fortalece las pantorrillas, que ayudan a caminar con seguridad y a recuperar el equilibrio.",
+      props: ["chairR"], A: P(S, hold),
+      B: { h: [100, 30], n: [100, 48], p: [100, 102], le: [98, 74], lh: [100, 98], re: [114, 79], rh: [128, 96],
+        lk: [98, 140], la: [97, 174], lt: [109, 184], rk: [102, 140], ra: [103, 174], rt: [115, 184] } },
+    { id: "rodilla", n: 7, t: "Extensión de rodilla sentado", cat: ["fuerza"], pos: ["sentado"], dosis: "6–10 por pierna",
+      como: "Sentado con la espalda cómoda, estira una rodilla hasta donde resulte fácil; baja el pie lentamente y cambia de pierna. No bloquees la rodilla ni balancees la pierna.",
+      facil: "Estira solo a medias y descansa entre repeticiones.",
+      porque: "Trabaja el músculo de delante del muslo (cuádriceps), clave para subir escaleras y levantarse.",
+      props: ["seat"], A: C, B: P(C, { rk: [122, 124], ra: [160, 120], rt: [165, 108] }) },
+    { id: "pared", n: 8, t: "Empujes contra la pared", cat: ["fuerza"], pos: ["pie"], dosis: "6–10 repeticiones",
+      como: "Coloca las manos en la pared a la altura del pecho, algo más abiertas que los hombros. Da un pequeño paso atrás, flexiona los codos acercando el pecho a la pared y empuja para volver. Mantén el cuerpo alineado.",
+      facil: "Acércate más a la pared. Sustituye a las flexiones en el suelo.",
+      porque: "Fortalece pecho, hombros y brazos sin cargar las muñecas ni la espalda como en el suelo.",
+      props: ["wall"],
+      A: { h: [140, 50], n: [132, 63], p: [108, 120], le: [148, 74], lh: [166, 72], re: [150, 77], rh: [166, 79],
+        lk: [95, 151], la: [82, 182], lt: [94, 185], rk: [97, 152], ra: [85, 182], rt: [97, 185] },
+      B: { h: [150, 56], n: [141, 68], p: [113, 122], le: [140, 90], lh: [166, 72], re: [142, 93], rh: [166, 79],
+        lk: [97, 152], la: [82, 182], lt: [94, 185], rk: [99, 153], ra: [85, 182], rt: [97, 185] } },
+    { id: "paso", n: 9, t: "Paso atrás con apoyo", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "6–8 por lado",
+      como: "De pie detrás de la silla, sujétala. Lleva un pie hacia atrás y toca el suelo con la punta; vuelve al centro y cambia. Mantén el paso corto y el tronco estable.",
+      facil: "Mueve el pie solo unos centímetros. No hace falta bajar a una zancada profunda.",
+      porque: "Entrena el control de la pierna de apoyo y la capacidad de dar un paso para no perder el equilibrio.",
+      props: ["chairR"], A: P(S, hold), B: P(S, Object.assign({}, hold, { lk: [92, 149], la: [74, 179], lt: [84, 184], p: [101, 111] })) },
+    { id: "lado", n: 10, t: "Pierna hacia el lado", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "6–10 por lado",
+      como: "Sujeta la silla con una mano. Lleva una pierna recta unos centímetros hacia el lado, sin inclinar el cuerpo ni girar el pie; vuelve despacio. Cambia de mano para mantener el apoyo.",
+      facil: "Levanta la pierna muy poco, casi deslizando el pie.",
+      porque: "Fortalece la cadera por fuera, que estabiliza la pelvis al caminar.",
+      view: "front", props: ["chairFront"], A: P(F, { re: [124, 86], rh: [134, 100] }),
+      B: P(F, { re: [124, 86], rh: [134, 100], rk: [117, 146], ra: [129, 179], rt: [135, 181] }) },
+    { id: "rodillas", n: 11, t: "Elevación alterna de rodillas", cat: ["fuerza", "cardio"], pos: ["sentado", "pie"], dosis: "6–10 por pierna",
+      como: "Sentado o de pie con apoyo, eleva una rodilla unos centímetros y bájala; cambia de lado. Mantén la espalda cómoda y respira con normalidad.",
+      facil: "Sentado, levanta solo el talón y la punta del pie.",
+      porque: "Activa los flexores de la cadera y el abdomen, que intervienen al subir escalones.",
+      props: ["seat"], A: C, B: P(C, { rk: [124, 106], ra: [128, 162], rt: [140, 164] }) },
+    { id: "equilibrio", n: 12, t: "Equilibrio con apoyo cercano", cat: ["equilibrio"], pos: ["pie"], dosis: "10–20 segundos por lado", dur: 90,
+      como: "De pie junto a la silla o a una pared, coloca un pie ligeramente delante del otro. Mantén la posición y cambia los pies. Mira al frente y deja una mano cerca del apoyo.",
+      facil: "Separa más los pies. No cierres los ojos ni sueltes el apoyo si tienes inestabilidad.",
+      porque: "El equilibrio se entrena: practicarlo con seguridad ayuda a prevenir caídas.",
+      props: ["chairR"],
+      A: P(S, { re: [114, 88], rh: [126, 100], lk: [96, 148], la: [94, 182], lt: [106, 184], rk: [106, 148], ra: [108, 182], rt: [120, 184] }),
+      B: P(S, { h: [103, 38], n: [102, 56], p: [101, 110], re: [116, 88], rh: [126, 100], lk: [96, 148], la: [94, 182], lt: [106, 184], rk: [106, 148], ra: [108, 182], rt: [120, 184] }) }
+  ];
+  const CALMA = { id: "calma", t: "Vuelta a la calma", view: "front", A: P(F, { le: [84, 76], lh: [80, 60], re: [116, 76], rh: [120, 60] }), B: F };
+  const BYID = Object.fromEntries(EJ.map((e) => [e.id, e]));
+  const CATS = { fuerza: "Fuerza", movilidad: "Movilidad", equilibrio: "Equilibrio", cardio: "Cardio suave" };
+
+  /* ------------------------------------------------------------------
+     FIGURAS ANIMADAS
+     ------------------------------------------------------------------ */
+  const SEG = [ // [clase, puntos]
+    ["back", ["n", "le", "lh"]], ["back", ["p", "lk", "la", "lt"]],
+    ["torso", ["n", "p"]],
+    ["front", ["p", "rk", "ra", "rt"]], ["front", ["n", "re", "rh"]]
+  ];
+  const figs = [];
+  function figure(ex, big) {
+    const props = (ex.props || []).map((k) => PROPS[k]).join("");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 200 200");
+    svg.setAttribute("class", "fig" + (big ? " fig--big" : ""));
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "Ilustración: " + ex.t);
+    svg.innerHTML = `<ellipse cx="105" cy="188" rx="70" ry="6" class="floor"/>${props}` +
+      SEG.map(([c]) => `<polyline class="limb limb--${c}"/>`).join("") +
+      `<circle r="12" class="head"/>`;
+    const lines = $$("polyline", svg), head = $("circle", svg);
+    const f = { ex, svg, lines, head, t: 0, visible: true };
+    draw(f, 0);
+    figs.push(f);
+    return svg;
+  }
+  const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+  function draw(f, t) {
+    const A = f.ex.A, B = f.ex.B;
+    const pt = (k) => lerp(A[k], B[k], t);
+    SEG.forEach(([, keys], i) => f.lines[i].setAttribute("points", keys.map((k) => pt(k).map((v) => v.toFixed(1)).join(",")).join(" ")));
+    const h = pt("h"); f.head.setAttribute("cx", h[0].toFixed(1)); f.head.setAttribute("cy", h[1].toFixed(1));
+  }
+  // Ciclo: A → B (1,1 s) · pausa · B → A · pausa
+  const ease = (x) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+  function phase(ms) {
+    const T = 3200, x = (ms % T) / T;
+    if (x < 0.35) return ease(x / 0.35);
+    if (x < 0.5) return 1;
+    if (x < 0.85) return 1 - ease((x - 0.5) / 0.35);
+    return 0;
+  }
+  if (reduceMotion) {
+    requestAnimationFrame(() => figs.forEach((f) => draw(f, 1)));
+  } else {
+    const io = "IntersectionObserver" in window ? new IntersectionObserver((es) => es.forEach((e) => {
+      const f = figs.find((x) => x.svg === e.target); if (f) f.visible = e.isIntersecting;
+    })) : null;
+    const observe = () => figs.forEach((f) => { if (!f.obs && io) { io.observe(f.svg); f.obs = true; } });
+    (function loop(ms) {
+      observe();
+      const t = phase(ms);
+      figs.forEach((f) => { if (f.visible && f.svg.isConnected) draw(f, t); });
+      requestAnimationFrame(loop);
+    })(0);
+  }
+
+  /* ------------------------------------------------------------------
+     TARJETAS DE EJERCICIOS
+     ------------------------------------------------------------------ */
+  const sel = new Set(store.get("gym-sel", ["marcha", "brazos", "omoplatos", "levantarse", "talones", "pared", "equilibrio"]));
+  const grid = $("#ex-grid");
+  EJ.forEach((e) => {
+    const card = document.createElement("article");
+    card.className = "ex";
+    card.id = "ej-" + e.id;
+    card.dataset.cat = e.cat.join(" ");
+    card.dataset.pos = e.pos.join(" ");
+    card.innerHTML = `
+      <div class="ex__fig"><span class="ex__n">${e.n}</span></div>
+      <div class="ex__body">
+        <div class="ex__tags">${e.cat.map((c) => `<span class="tag tag--${c}">${CATS[c]}</span>`).join("")}
+          <span class="tag tag--pos">${e.pos.map((p) => p === "pie" ? "De pie con apoyo" : "Sentado").join(" · ")}</span></div>
+        <h3>${esc(e.t)}</h3>
+        <p class="ex__dose">⏱ ${esc(e.dosis)}</p>
+        <p>${esc(e.como)}</p>
+        <details><summary>Más fácil y por qué sirve</summary>
+          <p><strong>Más fácil:</strong> ${esc(e.facil)}</p>
+          <p><strong>Para qué sirve:</strong> ${esc(e.porque)}</p>
+        </details>
+        <label class="pick"><input type="checkbox" value="${e.id}" ${sel.has(e.id) ? "checked" : ""}> En mi sesión</label>
+      </div>`;
+    $(".ex__fig", card).prepend(figure(e));
+    grid.appendChild(card);
+  });
+
+  // Filtros
+  let fCat = "", fPos = "";
+  function applyFilter() {
+    $$(".ex", grid).forEach((c) => {
+      const ok = (!fCat || c.dataset.cat.includes(fCat)) && (!fPos || c.dataset.pos.includes(fPos));
+      c.hidden = !ok;
+    });
+    $$("#ex-filters [data-cat]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cat === fCat)));
+    $$("#ex-filters [data-pos]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.pos === fPos)));
+  }
+  $("#ex-filters").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button"); if (!b) return;
+    if ("cat" in b.dataset) fCat = b.dataset.cat === fCat ? "" : b.dataset.cat;
+    if ("pos" in b.dataset) fPos = b.dataset.pos === fPos ? "" : b.dataset.pos;
+    applyFilter();
+  });
+  applyFilter();
+
+  // Selección para la sesión
+  function syncSel() {
+    store.set("gym-sel", [...sel]);
+    $$(".pick input", grid).forEach((i) => { i.checked = sel.has(i.value); i.closest(".ex").classList.toggle("is-picked", i.checked); });
+    const n = sel.size, min = Math.round(4 + n * 2 + 5);
+    $("#sel-count").textContent = n ? `${n} ejercicio${n === 1 ? "" : "s"} · unos ${min} minutos` : "Elige al menos un ejercicio";
+    $("#start").disabled = !n;
+    $$("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", "false"));
+  }
+  grid.addEventListener("change", (ev) => {
+    const i = ev.target.closest(".pick input"); if (!i) return;
+    i.checked ? sel.add(i.value) : sel.delete(i.value); syncSel();
+  });
+  const PRESETS = {
+    sentado: ["marcha", "brazos", "omoplatos", "giro", "rodilla", "rodillas"],
+    pie: ["marcha", "brazos", "levantarse", "talones", "pared", "paso", "lado", "equilibrio"],
+    mixto: ["marcha", "brazos", "omoplatos", "levantarse", "talones", "pared", "equilibrio"]
+  };
+  $$("[data-preset]").forEach((b) => b.addEventListener("click", () => {
+    sel.clear(); PRESETS[b.dataset.preset].forEach((id) => sel.add(id)); syncSel();
+    b.setAttribute("aria-pressed", "true");
+  }));
+  syncSel();
+
+  /* ------------------------------------------------------------------
+     SESIÓN GUIADA
+     ------------------------------------------------------------------ */
+  const ov = $("#session");
+  let steps = [], idx = 0, left = 0, paused = false, tick = null, wake = null, sFig = null;
+  function buildSteps() {
+    const chosen = EJ.filter((e) => sel.has(e.id));
+    steps = [{ ex: BYID.marcha, title: "Activación", text: "Marcha suave en el sitio o sentado. Mueve los hombros y abre y cierra las manos.", dose: "4 minutos", dur: 240, warm: true }]
+      .concat(chosen.map((e) => ({ ex: e, title: e.t, text: e.como, dose: e.dosis, easy: e.facil, dur: e.dur || 120 })))
+      .concat([{ ex: CALMA, title: "Vuelta a la calma", text: "Camina despacio, respira con calma y haz estiramientos suaves, sin rebotes ni dolor.", dose: "5 minutos", dur: 300 }]);
+  }
+  let actx = null;
+  function beep(f = 880, d = 0.18) {
+    if (!$("#snd").checked) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.frequency.value = f; o.connect(g); g.connect(actx.destination);
+      g.gain.setValueAtTime(0.0001, actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.25, actx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + d);
+      o.start(); o.stop(actx.currentTime + d + 0.02);
+    } catch { /* sin audio */ }
+  }
+  const mmss = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  function renderStep() {
+    const s = steps[idx];
+    $("#s-count").textContent = `Paso ${idx + 1} de ${steps.length}`;
+    $("#s-bar").style.width = `${(idx / (steps.length - 1)) * 100}%`;
+    $("#s-title").textContent = s.title;
+    $("#s-text").textContent = s.text;
+    $("#s-dose").textContent = s.dose;
+    $("#s-easy").hidden = !s.easy;
+    $("#s-easy").innerHTML = s.easy ? `<strong>Más fácil:</strong> ${esc(s.easy)}` : "";
+    const nx = steps[idx + 1];
+    $("#s-next").textContent = nx ? `Siguiente: ${nx.title}` : "Último paso";
+    const box = $("#s-fig"); box.innerHTML = "";
+    if (sFig) { const i = figs.indexOf(sFig); if (i >= 0) figs.splice(i, 1); }
+    box.appendChild(figure(s.ex, true)); sFig = figs[figs.length - 1];
+    $("#s-prev").disabled = idx === 0;
+    $("#s-skip").textContent = nx ? "Siguiente ⏭" : "Terminar ✓";
+    left = s.dur; paused = false; updTimer();
+  }
+  function updTimer() {
+    const s = steps[idx], frac = s ? left / s.dur : 0;
+    $("#s-time").textContent = mmss(left);
+    $("#s-ring").style.strokeDashoffset = String(339.3 * (1 - frac));
+    $("#s-pause").textContent = paused ? "▶ Seguir" : "⏸ Pausa";
+  }
+  function next() {
+    if (idx < steps.length - 1) { idx++; beep(988); renderStep(); }
+    else finish();
+  }
+  function finish() {
+    beep(1175, 0.3);
+    stopSession(false);
+    markToday();
+    $("#done").hidden = false;
+    $("#done").scrollIntoView({ behavior: "smooth", block: "center" });
+    window.track?.("gym/sesion-completada", "Sesión de gimnasia completada");
+  }
+  async function startSession() {
+    buildSteps(); idx = 0;
+    ov.hidden = false; document.body.classList.add("no-scroll");
+    renderStep(); beep(660);
+    clearInterval(tick);
+    tick = setInterval(() => {
+      if (paused) return;
+      left = Math.max(0, left - 1);
+      if (left <= 3 && left > 0) beep(520, 0.08);
+      updTimer();
+      if (left === 0) next();
+    }, 1000);
+    try { wake = await navigator.wakeLock?.request("screen"); } catch { wake = null; }
+    $("#s-close").focus();
+    window.track?.("gym/sesion-iniciada", "Sesión de gimnasia iniciada");
+  }
+  function stopSession(focusBack = true) {
+    clearInterval(tick); tick = null;
+    ov.hidden = true; document.body.classList.remove("no-scroll");
+    try { wake?.release(); } catch { /* nada */ } wake = null;
+    if (focusBack) $("#start").focus();
+  }
+  $("#start").addEventListener("click", startSession);
+  $("#s-close").addEventListener("click", () => stopSession());
+  $("#s-pause").addEventListener("click", () => { paused = !paused; updTimer(); });
+  $("#s-skip").addEventListener("click", next);
+  $("#s-prev").addEventListener("click", () => { if (idx > 0) { idx--; renderStep(); } });
+  $("#s-plus").addEventListener("click", () => { left += 15; steps[idx].dur = Math.max(steps[idx].dur, left); updTimer(); });
+  document.addEventListener("keydown", (e) => {
+    if (ov.hidden) return;
+    if (e.key === "Escape") stopSession();
+    if (e.key === " ") { e.preventDefault(); paused = !paused; updTimer(); }
+    if (e.key === "ArrowRight") next();
+    if (e.key === "ArrowLeft" && idx > 0) { idx--; renderStep(); }
+  });
+
+  /* ------------------------------------------------------------------
+     TEST DEL HABLA
+     ------------------------------------------------------------------ */
+  const RPE = [
+    [0, 2, "Muy suave", "Puedes cantar sin problema. Perfecto para calentar o volver a la calma.", "lo"],
+    [3, 4, "Suave", "Hablas con total normalidad. Buen punto de partida si llevas tiempo sin moverte.", "lo"],
+    [5, 6, "Moderada ✓", "Puedes hablar, pero no cantar. Es la intensidad recomendada para la mayoría de la actividad semanal.", "ok"],
+    [7, 8, "Vigorosa", "Solo dices frases cortas. Útil en personas entrenadas; en esta guía no hace falta llegar aquí.", "hi"],
+    [9, 10, "Máxima", "No puedes hablar. Baja el ritmo: esta sesión no busca este nivel.", "max"]
+  ];
+  const r = $("#rpe");
+  function updRpe() {
+    const v = +r.value, x = RPE.find(([a, b]) => v >= a && v <= b);
+    $("#rpe-v").textContent = v;
+    $("#rpe-t").textContent = x[2];
+    $("#rpe-d").textContent = x[3];
+    $("#rpe-card").dataset.lvl = x[4];
+  }
+  r.addEventListener("input", updRpe); updRpe();
+
+  /* ------------------------------------------------------------------
+     MI SEMANA (se guarda solo en este navegador)
+     ------------------------------------------------------------------ */
+  const DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+  function weekKey(d = new Date()) {
+    const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day);
+    const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+    return `gym-week-${t.getUTCFullYear()}-${Math.ceil(((t - y0) / 864e5 + 1) / 7)}`;
+  }
+  const todayIdx = (new Date().getDay() + 6) % 7;
+  let week = store.get(weekKey(), [0, 0, 0, 0, 0, 0, 0]);
+  const LV = ["", "move", "str"]; // 0 nada · 1 me moví · 2 fuerza
+  function renderWeek() {
+    $("#week").innerHTML = DIAS.map((d, i) => `
+      <button type="button" class="day day--${LV[week[i]] || "none"} ${i === todayIdx ? "is-today" : ""}" data-i="${i}"
+        aria-label="${d}: ${["sin registrar", "me moví", "hice fuerza"][week[i]]}">
+        <span>${d}</span><b>${["·", "🚶", "💪"][week[i]]}</b></button>`).join("");
+    const moved = week.filter(Boolean).length, str = week.filter((v) => v === 2).length;
+    $("#week-sum").innerHTML = `Días activos: <strong>${moved}/7</strong> · Días de fuerza: <strong>${str}</strong>` +
+      (str >= 2 ? " · ¡Objetivo de fuerza cumplido! 🎉" : ` · Te falta${2 - str === 1 ? "" : "n"} ${2 - str} para el objetivo de fuerza`);
+  }
+  $("#week").addEventListener("click", (e) => {
+    const b = e.target.closest(".day"); if (!b) return;
+    const i = +b.dataset.i; week[i] = (week[i] + 1) % 3; store.set(weekKey(), week); renderWeek();
+  });
+  function markToday() { week[todayIdx] = 2; store.set(weekKey(), week); renderWeek(); }
+  renderWeek();
+
+  /* ------------------------------------------------------------------
+     CHECKLIST DE SEGURIDAD
+     ------------------------------------------------------------------ */
+  const chk = $$("#safety input");
+  const updSafe = () => {
+    const n = chk.filter((c) => c.checked).length;
+    $("#safe-state").textContent = n === chk.length ? "✓ Todo listo. ¡A moverse!" : `${n} de ${chk.length} comprobados`;
+    $("#safe-state").classList.toggle("is-ok", n === chk.length);
+  };
+  chk.forEach((c) => c.addEventListener("change", updSafe)); updSafe();
+
+  /* ------------------------------------------------------------------
+     CARTEL DE INVITACIÓN
+     ------------------------------------------------------------------ */
+  const INV = store.get("gym-inv", { lugar: "", cuando: "", contacto: "" });
+  ["lugar", "cuando", "contacto"].forEach((k) => {
+    const i = $("#inv-" + k); i.value = INV[k] || "";
+    i.addEventListener("input", () => { INV[k] = i.value; store.set("gym-inv", INV); renderInv(); });
+  });
+  const val = (k, d) => (INV[k] || "").trim() || d;
+  function renderInv() {
+    $("#p-lugar").textContent = val("lugar", "[Lugar]");
+    $("#p-cuando").textContent = val("cuando", "[Día y hora]");
+    $("#p-contacto").textContent = val("contacto", "[Contacto]");
+  }
+  renderInv();
+  const pageUrl = location.origin + location.pathname;
+  function invText() {
+    return `🌿 *Gimnasia para todos* — encuentro comunitario de gimnasia suave\n\n` +
+      `¿Te gustaría moverte un poco más y hacerlo acompañado? Ejercicios sencillos de movilidad, fuerza y equilibrio, con opciones sentado y de pie, pausas y un ambiente de apoyo. No necesitas experiencia ni material: solo ropa cómoda, agua y ganas de participar a tu ritmo.\n\n` +
+      `📍 ${val("lugar", "[Lugar]")}\n🗓 ${val("cuando", "[Día y hora]")}\n📞 ${val("contacto", "[Contacto]")}\n\n` +
+      `Si tienes una lesión o una condición de salud, consulta antes con tu profesional sanitario.\nGuía: ${pageUrl}\n\nVen como eres; empezamos paso a paso.`;
+  }
+  function toast(msg) {
+    const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; t.setAttribute("role", "status");
+    document.body.appendChild(t); setTimeout(() => t.remove(), 2200);
+  }
+  $("#inv-copy").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(invText()); toast("Texto copiado: pégalo en WhatsApp"); }
+    catch { prompt("Copia este texto:", invText()); }
+    window.track?.("gym/invitacion-copiada", "Invitación copiada");
+  });
+  $("#inv-wa").addEventListener("click", () => {
+    window.open("https://wa.me/?text=" + encodeURIComponent(invText()), "_blank", "noopener");
+    window.track?.("gym/invitacion-whatsapp", "Invitación por WhatsApp");
+  });
+  $("#inv-print").addEventListener("click", () => {
+    document.body.classList.add("print-poster"); window.print();
+    setTimeout(() => document.body.classList.remove("print-poster"), 500);
+    window.track?.("gym/cartel-impreso", "Cartel impreso");
+  });
+  window.addEventListener("afterprint", () => document.body.classList.remove("print-poster"));
+  $("#poster-fig").appendChild(figure(BYID.brazos));
+
+  /* Figuras decorativas de la portada y de los mitos */
+  $("#hero-fig-1").appendChild(figure(BYID.levantarse));
+  $("#hero-fig-2").appendChild(figure(BYID.talones));
+  $("#hero-fig-3").appendChild(figure(BYID.pared));
+
+  /* Mitos: tarjetas que se giran */
+  $$(".myth").forEach((m) => m.addEventListener("click", () => {
+    const on = m.getAttribute("aria-pressed") !== "true";
+    m.setAttribute("aria-pressed", String(on));
+  }));
+
+  /* Tema (compartido con el resto de la web) */
+  try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch { /* nada */ }
+  $(".theme-toggle").addEventListener("click", () => {
+    const d = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : matchMedia("(prefers-color-scheme: dark)").matches;
+    const n = d ? "light" : "dark";
+    document.documentElement.dataset.theme = n;
+    try { localStorage.setItem("theme", n); } catch { /* nada */ }
+  });
+})();

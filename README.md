@@ -16,6 +16,8 @@ data/recursos.js      → ⭐ EL CATÁLOGO: aquí añades tus recursos
 archivos/             → los PDF/ZIP que se descargan
 escuela-sabatica/     → apartado Escuela Sabática (página propia, lecciones, misioneros y juegos)
   trimestre.js        → ⭐ datos semana a semana del trimestre
+gym/                  → guía interactiva «Gimnasia para todos» (ejercicios, sesión guiada, cartel)
+  gym.js              → ejercicios y poses de las figuras animadas
 CNAME                 → dominio propio para GitHub Pages
 assets/img/           → portadas de los recursos (opcional)
 ```
@@ -46,6 +48,14 @@ Haz commit y push: GitHub Pages actualiza la web en ~1 minuto.
 2. Sube los juegos nuevos a `escuela-sabatica/juegos/`.
 3. Edita `escuela-sabatica/trimestre.js`: título, fechas, descargas y la lista de semanas.
 4. Actualiza las fichas correspondientes en `data/recursos.js`.
+
+## Gimnasia para todos (`/gym/`)
+
+Guía interactiva basada en el documento «Gimnasia para todos — guía comunitaria de movimiento seguro».
+- 12 ejercicios con figuras animadas propias (SVG); los textos y las poses están en `gym/gym.js` (lista `EJ`).
+- Sesión guiada a pantalla completa con temporizador, sonido y pantalla siempre encendida.
+- Test del habla, «Mi semana» (se guarda solo en el navegador) y cartel de invitación imprimible / WhatsApp.
+- Fuentes: Ministerio de Sanidad (2023), OMS y NHS. Sin promesas terapéuticas.
 
 ## Estadísticas de visitas y descargas (GoatCounter)
 

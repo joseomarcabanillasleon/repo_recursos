@@ -26,6 +26,7 @@
 
 window.CATEGORIAS = {
   escuela:  { nombre: "Escuela Sabática",    icono: "⛪" },
+  salud:    { nombre: "Vida sana",           icono: "💪" },
   biblia:   { nombre: "Biblia",              icono: "📖" },
   ninos:    { nombre: "Niños y familia",     icono: "🧒" },
   ia:       { nombre: "IA y prompts",        icono: "✨" },
@@ -34,6 +35,21 @@ window.CATEGORIAS = {
 };
 
 window.RECURSOS = [
+  {
+    id: "gimnasia-para-todos",
+    titulo: "Gimnasia para todos: guía interactiva de movimiento seguro",
+    descripcion: "12 ejercicios de fuerza, movilidad y equilibrio con una silla y una pared, sesión guiada de 25 minutos con temporizador y cartel para invitar a tu comunidad.",
+    categoria: "salud",
+    formato: "Enlace",
+    tipo: "gratis",
+    destacado: true,
+    peso: "",
+    detalles: "12 ejercicios · 25 min",
+    etiquetas: ["gimnasia", "ejercicio", "salud", "mayores", "fuerza", "equilibrio", "vida sana", "comunidad"],
+    portada: "assets/img/gym-cover.webp",
+    archivo: "gym/",
+    fecha: "2026-11-03"
+  },
   {
     id: "juegos-escuela-sabatica-4t-2026",
     titulo: "Mi Biblia, mi tesoro: 26 juegos de detectives para Escuela Sabática",

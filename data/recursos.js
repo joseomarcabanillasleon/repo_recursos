@@ -36,6 +36,21 @@ window.CATEGORIAS = {
 
 window.RECURSOS = [
   {
+    id: "agua-aire-sol",
+    titulo: "Agua, aire y sol: guía interactiva",
+    descripcion: "Cuánta agua beber según la edad, vasos de hoy, plan semanal al aire libre, el índice UV explicado, protección solar para niños y preparación para el calor.",
+    categoria: "salud",
+    formato: "Enlace",
+    tipo: "gratis",
+    destacado: false,
+    peso: "",
+    detalles: "Hidratación · UV · calor",
+    etiquetas: ["agua", "hidratación", "sol", "índice uv", "calor", "aire libre", "vida sana", "niños"],
+    portada: "assets/img/aas-cover.webp",
+    archivo: "agua-aire-sol/",
+    fecha: "2026-11-03"
+  },
+  {
     id: "descansar-bien",
     titulo: "Descansar bien: guía interactiva del sueño y del descanso",
     descripcion: "Horas de sueño por edad, calculadora familiar de la hora de dormir, rutina de noche para imprimir, diario de sueño, test de hábitos e ideas para el día de descanso.",

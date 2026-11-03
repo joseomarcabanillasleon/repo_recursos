@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agua, aire y sol · Recursos Adventistas</title>
+  <meta name="description" content="Guía interactiva de agua, aire puro y sol: cuánta agua beber según la edad, vasos de hoy, plan al aire libre, índice UV explicado, protección solar para niños y consejos para el calor.">
+  <meta property="og:title" content="Agua, aire y sol · guía interactiva">
+  <meta property="og:description" content="Cuánta agua beber, un plan semanal al aire libre, el índice UV explicado y cómo protegerse del calor.">
+  <meta property="og:image" content="https://recursosadventistas.es/assets/img/aas-cover.webp">
+  <link rel="canonical" href="https://recursosadventistas.es/agua-aire-sol/">
+  <meta name="theme-color" content="#1b3046">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../gym/gym.css">
+  <link rel="stylesheet" href="aas.css">
+</head>
+<body>
+  <a class="skip" href="#contenido">Ir al contenido</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="../" aria-label="Recursos Adventistas, inicio">
+        <img class="brand__logo" src="../assets/img/logo.svg" alt="">
+        <span class="brand__name">Recursos<small>Adventistas</small></span>
+      </a>
+      <nav class="topnav" aria-label="Principal">
+        <a href="../vida-sana/">Vida sana</a>
+        <a href="#agua">Agua</a>
+        <a href="#aire">Aire</a>
+        <a href="#sol">Sol</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero aas-hero">
+      <div class="wrap hero__grid">
+        <div>
+          <nav class="crumbs" aria-label="Migas de pan"><a href="../">Inicio</a> <span aria-hidden="true">›</span> <a href="../vida-sana/">Vida sana</a> <span aria-hidden="true">›</span> Agua, aire y sol</nav>
+          <p class="eyebrow">Tres regalos de la naturaleza</p>
+          <h1>Agua, aire <em>y sol</em></h1>
+          <p class="hero__lead">Beber lo suficiente, salir al aire libre y disfrutar del sol con cabeza. Herramientas sencillas para toda la familia, también en los veranos calurosos.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#agua">Empezar por el agua</a>
+          </div>
+        </div>
+        <nav class="trio" aria-label="Secciones">
+          <a href="#agua"><span aria-hidden="true">💧</span>Agua</a>
+          <a href="#aire"><span aria-hidden="true">🌳</span>Aire puro</a>
+          <a href="#sol"><span aria-hidden="true">☀️</span>Sol</a>
+        </nav>
+      </div>
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path class="w-band" d="M0,78 C360,18 900,8 1440,52 L1440,120 L0,120 Z"/>
+        <path class="w-base" d="M0,104 C380,48 920,38 1440,84 L1440,120 L0,120 Z"/>
+      </svg>
+    </section>
+
+    <!-- AGUA -->
+    <section class="wrap sec" id="agua" aria-labelledby="agua-t" style="padding-top:24px">
+      <div class="section-head">
+        <p class="eyebrow">Agua</p>
+        <h2 id="agua-t" class="sec-title"><span aria-hidden="true">💧</span>¿Cuánta agua necesito?</h2>
+        <p>Valores de referencia de la Autoridad Europea de Seguridad Alimentaria (EFSA) para temperatura y actividad moderadas.</p>
+      </div>
+      <div class="water">
+        <div class="w-card">
+          <label class="field"><span>¿Para quién?</span><select id="w-perf"></select></label>
+          <div class="w-out" id="w-out" aria-live="polite"></div>
+          <p class="w-note">Con calor o con mucha actividad física se necesita más. El agua es la mejor bebida: los refrescos y zumos añaden azúcar.</p>
+          <div class="pee-wrap">
+            <strong>¿De qué color es tu orina?</strong>
+            <div class="pee-row" id="pee" role="group" aria-label="Color de la orina"></div>
+            <p class="pee-out" id="pee-out" aria-live="polite">Toca el color más parecido.</p>
+          </div>
+        </div>
+        <div class="w-card">
+          <strong>Mis vasos de hoy</strong>
+          <p class="muted" style="margin:4px 0 0">Toca un vaso cada vez que bebas. Se guarda solo en este dispositivo.</p>
+          <div class="glasses" id="glasses"></div>
+          <div class="w-prog" aria-hidden="true"><span id="w-bar"></span></div>
+          <div class="w-foot"><span id="w-count" aria-live="polite"></span><button type="button" class="btn btn--ghost" id="w-plus">＋ Otro vaso</button></div>
+        </div>
+      </div>
+      <blockquote class="verse">«Mas el que bebiere del agua que yo le daré, no tendrá sed jamás».<cite>Juan 4:14 (RVR1960)</cite></blockquote>
+    </section>
+
+    <!-- AIRE -->
+    <section class="sec sec--alt" id="aire" aria-labelledby="aire-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Aire puro</p>
+          <h2 id="aire-t" class="sec-title"><span aria-hidden="true">🌳</span>Respira y sal fuera</h2>
+          <p>Ventilar la casa y pasar tiempo al aire libre invita a moverse, a desconectar y a disfrutar en familia.</p>
+        </div>
+        <div class="air">
+          <div class="tips-card">
+            <strong>En casa y fuera</strong>
+            <ul>
+              <li><span aria-hidden="true">🪟</span><div>Ventila la casa cada día abriendo las ventanas unos minutos, también en invierno.</div></li>
+              <li><span aria-hidden="true">🚭</span><div>Nada de humo de tabaco dentro de casa ni del coche.</div></li>
+              <li><span aria-hidden="true">🌬️</span><div>Respira con calma: inspira por la nariz contando hasta 4 y suelta el aire despacio.</div></li>
+              <li><span aria-hidden="true">📊</span><div>Consulta el <a href="https://www.miteco.gob.es/es/calidad-y-evaluacion-ambiental/temas/atmosfera-y-calidad-del-aire/calidad-del-aire/ica.html" target="_blank" rel="noopener">Índice de Calidad del Aire</a>. Si la calidad es mala, evita el ejercicio intenso en la calle.</div></li>
+            </ul>
+          </div>
+          <div>
+            <strong>Mi plan verde de la semana</strong>
+            <p class="muted" style="margin:4px 0 10px">🚶 paseo · 🛝 parque · 🌱 huerto · 🚲 bici · ⛰️ excursión · 🏖️ playa</p>
+            <div class="gplan" id="gplan"></div>
+            <div class="plan-foot"><span id="plan-sum" aria-live="polite"></span><button type="button" class="link-btn" id="plan-reset">Vaciar</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOL -->
+    <section class="wrap sec" id="sol" aria-labelledby="sol-t">
+      <div class="section-head">
+        <p class="eyebrow">Sol</p>
+        <h2 id="sol-t" class="sec-title"><span aria-hidden="true">☀️</span>Sol con cabeza</h2>
+        <p>El índice UV dice cuánta radiación ultravioleta llega hoy. Mueve el control y mira cómo protegerte.</p>
+      </div>
+      <div class="sun">
+        <div class="uv-card" id="uv-card">
+          <strong>Índice UV</strong>
+          <div class="uv-scale" aria-hidden="true"></div>
+          <label><span class="sr-only">Índice UV de 0 a 11 o más</span><input type="range" id="uv" min="0" max="11" value="6"></label>
+          <div class="uv-ticks" aria-hidden="true"><span>0</span><span>3</span><span>6</span><span>8</span><span>11+</span></div>
+          <div class="uv-out" aria-live="polite"><b id="uv-v"></b><strong id="uv-t"></strong></div>
+          <ul id="uv-list"></ul>
+          <a class="btn btn--ghost btn--plain" href="https://www.aemet.es/es/eltiempo/prediccion/radiacionuv" target="_blank" rel="noopener">Ver el índice UV de hoy en AEMET ↗</a>
+        </div>
+        <div>
+          <div class="kids">
+            <h3>👧 Niños al sol</h3>
+            <ul>
+              <li>Menores de 6 meses: protegidos con ropa, sombrero y sombra.</li>
+              <li>Menores de 3 años: evitar el sol directo y prolongado en las horas de más intensidad.</li>
+              <li>El protector lo aplica un adulto 30 minutos antes de salir, y se repite tras el baño.</li>
+              <li>Gorra, camiseta y gafas de sol homologadas también cuentan.</li>
+            </ul>
+          </div>
+          <div class="vitd">☀️ <strong>¿Y la vitamina D?</strong> La piel la fabrica con el sol, y para ello bastan exposiciones cortas. No hace falta broncearse ni quemarse. Si tienes dudas, sobre todo en personas mayores, consulta a tu médico.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALOR -->
+    <section class="band-peach sec" id="calor-sec" aria-labelledby="calor-t">
+      <div class="wrap">
+        <div class="heat-card">
+          <p class="eyebrow">Olas de calor</p>
+          <h2 id="calor-t">¿Estás preparado para el calor?</h2>
+          <p class="muted">Recomendaciones del Ministerio de Sanidad. Marca las que ya tienes en cuenta.</p>
+          <ul class="checklist" id="calor">
+            <li><label><input type="checkbox"> <span>Bebo agua con frecuencia, aunque no tenga sed.</span></label></li>
+            <li><label><input type="checkbox"> <span>Evito el sol directo en las horas más calurosas.</span></label></li>
+            <li><label><input type="checkbox"> <span>Uso ropa ligera, holgada y de colores claros.</span></label></li>
+            <li><label><input type="checkbox"> <span>Busco lugares frescos y mantengo la casa fresca y ventilada.</span></label></li>
+            <li><label><input type="checkbox"> <span>Hago comidas ligeras y evito el alcohol.</span></label></li>
+            <li><label><input type="checkbox"> <span>Evito el ejercicio intenso en las horas de más calor.</span></label></li>
+            <li><label><input type="checkbox"> <span>Estoy pendiente de mayores, niños y personas enfermas.</span></label></li>
+            <li><label><input type="checkbox"> <span>Nunca dejo a nadie (ni a mascotas) en un coche cerrado.</span></label></li>
+          </ul>
+          <p class="safe-state" id="calor-n" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MITOS -->
+    <section class="band-sky myths-band" aria-labelledby="myth-t">
+      <span class="cloud cloud--1" aria-hidden="true"></span>
+      <span class="cloud cloud--2" aria-hidden="true"></span>
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="myth-t">Mitos y realidades</h2>
+          <p>Toca cada tarjeta para descubrir la respuesta.</p>
+        </div>
+        <div class="myths">
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Si no tengo sed, no necesito beber»</span>
+            <span class="myth__a"><b>Falso.</b> Con calor, Sanidad recomienda beber con frecuencia aunque no se tenga sed, sobre todo los mayores.</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«A la sombra no me quemo»</span>
+            <span class="myth__a"><b>No siempre.</b> La arena, el agua y las superficies claras reflejan la radiación: la sombra sola puede no bastar.</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Si estoy moreno, ya estoy protegido»</span>
+            <span class="myth__a"><b>Falso.</b> La melanina protege algo, pero no lo suficiente para evitar las quemaduras.</span>
+          </button>
+          <button type="button" class="myth" aria-pressed="false">
+            <span class="myth__q">«Los refrescos hidratan igual que el agua»</span>
+            <span class="myth__a"><b>Falso.</b> El agua es la bebida principal de una dieta sana. Los refrescos añaden azúcar.</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUENTES -->
+    <section class="wrap sources" aria-labelledby="src-t">
+      <h2 id="src-t">Fuentes</h2>
+      <ul>
+        <li><a href="https://doi.org/10.2903/j.efsa.2010.1459" target="_blank" rel="noopener">EFSA (2010). Scientific Opinion on Dietary Reference Values for water</a></li>
+        <li><a href="https://www.nhs.uk/conditions/dehydration/" target="_blank" rel="noopener">NHS. Dehydration</a></li>
+        <li><a href="https://www.aemet.es/es/eltiempo/prediccion/radiacionuv" target="_blank" rel="noopener">AEMET. Predicción del índice de radiación ultravioleta</a></li>
+        <li><a href="https://www.aemps.gob.es/cosmeticos/consejos-para-una-adecuada-proteccion-solar-en-ninos/" target="_blank" rel="noopener">AEMPS. Consejos para una adecuada protección solar en niños</a></li>
+        <li><a href="https://www.sanidad.gob.es/en/gabinete/notasPrensa.do?id=6482" target="_blank" rel="noopener">Ministerio de Sanidad. Medidas preventivas frente a las altas temperaturas</a></li>
+        <li><a href="https://www.miteco.gob.es/es/calidad-y-evaluacion-ambiental/temas/atmosfera-y-calidad-del-aire/calidad-del-aire/ica.html" target="_blank" rel="noopener">MITECO. Índice de Calidad del Aire</a></li>
+      </ul>
+      <p class="disclaimer">Guía educativa y general. Las cantidades de agua son orientativas para personas sanas; algunas enfermedades (del corazón o del riñón, por ejemplo) requieren indicaciones individuales de tu médico.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <strong>Recursos Adventistas</strong> · por Jose Omar
+        <p>Sitio personal, sin relación oficial con la Iglesia Adventista del Séptimo Día. Guía bajo licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC 4.0</a>.</p>
+      </div>
+      <a class="btn btn--outline-light btn--plain" href="../vida-sana/">← Vida sana</a>
+    </div>
+  </footer>
+
+  <script src="aas.js"></script>
+  <script src="../assets/js/stats.js" defer></script>
+</body>
+</html>

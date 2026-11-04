@@ -287,10 +287,14 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     for (const [dx, dz] of [[-0.13, -0.13], [0.13, -0.13], [-0.13, 0.13], [0.13, 0.13]]) g.add(leg3(X + dx, dz, 0.38));
     return g;
   }
-  function book(x2) {
+  function step(x2) { // step de gimnasio: plataforma de 12 cm con superficie antideslizante
     const g = new THREE.Group(), X = (x2 - 100) * S3;
-    g.add(box3(0.26, 0.06, 0.36, new THREE.MeshStandardMaterial({ color: "#7a4b8c", roughness: 0.7 }), X, 0.03, 0));
-    g.add(box3(0.25, 0.045, 0.35, new THREE.MeshStandardMaterial({ color: "#f4efe6", roughness: 0.9 }), X + 0.008, 0.03, 0));
+    const body = new THREE.MeshStandardMaterial({ color: "#c9ced6", roughness: 0.55 });
+    const top = new THREE.MeshStandardMaterial({ color: "#2f3640", roughness: 0.95 });
+    const foot = new THREE.MeshStandardMaterial({ color: "#2a9d8f", roughness: 0.6 });
+    g.add(box3(0.3, 0.07, 0.8, body, X, 0.065, 0));
+    g.add(box3(0.31, 0.02, 0.81, top, X, 0.11, 0));
+    for (const dz of [-0.3, 0.3]) g.add(box3(0.3, 0.03, 0.14, foot, X, 0.015, dz));
     return g;
   }
   const box40 = (x2, h = 40) => box3(0.32, h * S3, 0.44, M.wood, (x2 - 100) * S3, h * S3 / 2, 0);
@@ -300,7 +304,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     g.add(leg3(X - 0.22, -0.27, 0.28), leg3(X + 0.22, -0.27, 0.28), leg3(X - 0.22, 0.27, 0.28), leg3(X + 0.22, 0.27, 0.28));
     return g;
   }
-  const PROP3 = { chair: chairSide, chairFront: chairSide, chairSide: chairBeside, chairRev, chairFar, chairBehind, stool, book, box: box40, bench, wall: wall3 };
+  const PROP3 = { chair: chairSide, chairFront: chairSide, chairSide: chairBeside, chairRev, chairFar, chairBehind, stool, step, box: box40, bench, wall: wall3 };
 
   /* ---------- Flechas ---------- */
   function arrow(curve) {

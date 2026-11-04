@@ -132,13 +132,13 @@
     };
   }
 
-  /* 6 · Elevación de talones sobre un libro */
+  /* 6 · Elevación de talones en un step de gimnasio */
   M.e6 = {
     frames: [
-      { pose: stand(102, { P: [103, 102], lB: { toe: [118, 178], ft: 106 }, lF: { toe: [122, 178], ft: 106 } }), t: 1000, hold: 300 },
-      { pose: stand(102, { P: [107, 87], lB: { toe: [118, 178], ft: 46 }, lF: { toe: [122, 178], ft: 46 } }), t: 1000, hold: 500 }
+      { pose: stand(102, { P: [103, 96], lB: { toe: [118, 172], ft: 106 }, lF: { toe: [122, 172], ft: 106 } }), t: 1000, hold: 300 },
+      { pose: stand(102, { P: [107, 81], lB: { toe: [118, 172], ft: 46 }, lF: { toe: [122, 172], ft: 46 } }), t: 1000, hold: 500 }
     ],
-    peak: 1, props: [["book", 122]], cue: { j: "HeelF", off: [-8, 2], bow: -8 }, focus: { j: "KF", off: [-3, 18], r: 14 }
+    peak: 1, props: [["step", 128]], cam: { az: 42, el: 17 }, cue: { j: "HeelF", off: [-8, 2], bow: -8 }, focus: { j: "KF", off: [-3, 18], r: 14 }
   };
 
   /* 7 · Codos atrás para abrir el pecho */

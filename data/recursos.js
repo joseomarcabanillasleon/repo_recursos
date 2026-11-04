@@ -36,6 +36,21 @@ window.CATEGORIAS = {
 
 window.RECURSOS = [
   {
+    id: "biblia-de-estudio",
+    titulo: "Biblia de estudio: versiones en paralelo, hebreo y griego",
+    descripcion: "Compara siete versiones y llega al original: hebreo y griego palabra por palabra con análisis gramatical en español, ficha de cada palabra con su significado, frecuencia y concordancia, y diferencias entre el Textus Receptus y el Nestle 1904.",
+    categoria: "biblia",
+    formato: "Enlace",
+    tipo: "gratis",
+    destacado: true,
+    peso: "",
+    detalles: "7 versiones · hebreo · griego",
+    etiquetas: ["biblia", "hebreo", "griego", "interlineal", "strong", "concordancia", "versiones", "estudio bíblico"],
+    portada: "assets/img/biblia-cover.webp",
+    archivo: "biblia/",
+    fecha: "2026-11-04"
+  },
+  {
     id: "vivir-con-equilibrio",
     titulo: "Vivir con equilibrio: pantallas, tabaco y alcohol",
     descripcion: "Pantallas según la edad (AEP y OMS), plan digital familiar para imprimir, alternativas a la pantalla, beneficios de dejar de fumar con calculadora de ahorro y qué es una unidad de alcohol.",

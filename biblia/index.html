@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biblia de estudio · Recursos Adventistas</title>
+  <meta name="description" content="Compara versiones de la Biblia en paralelo y estudia el texto original: hebreo y griego palabra por palabra, con análisis gramatical en español, números de Strong y concordancia.">
+  <meta property="og:title" content="Biblia de estudio · versiones en paralelo, hebreo y griego">
+  <meta property="og:description" content="Siete versiones, el hebreo masorético y dos textos griegos. Toca una palabra original y mira cómo la traducen, qué significa y dónde más aparece.">
+  <meta property="og:image" content="https://recursosadventistas.es/assets/img/biblia-cover.webp">
+  <link rel="canonical" href="https://recursosadventistas.es/biblia/">
+  <meta name="theme-color" content="#243247">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Literata:opsz,wght@7..72,400;7..72,600&family=Noto+Serif+Hebrew:wght@400;600&family=Gentium+Book+Plus&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="biblia.css">
+</head>
+<body>
+  <a class="skip" href="#lector">Ir al lector</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="../" aria-label="Recursos Adventistas, inicio">
+        <img class="brand__logo" src="../assets/img/logo.svg" alt="">
+        <span class="brand__name">Recursos<small>Adventistas</small></span>
+      </a>
+      <nav class="topnav" aria-label="Principal">
+        <a href="#lector">Lector</a>
+        <a href="#estudios">Estudios de palabras</a>
+        <a href="#ayuda">Cómo se usa</a>
+        <a href="#fuentes">Fuentes</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- PORTADA -->
+    <section class="bhero">
+      <div class="wrap bhero__grid">
+        <div>
+          <nav class="crumbs" aria-label="Migas de pan"><a href="../">Inicio</a> <span aria-hidden="true">›</span> Biblia de estudio</nav>
+          <p class="eyebrow">Biblia de estudio</p>
+          <h1>Compara versiones y <em>llega al original</em></h1>
+          <p class="bhero__lead">Siete versiones en paralelo, el hebreo y el griego palabra por palabra. Toca cualquier palabra original y descubre cómo se traduce, qué significa y dónde más aparece.</p>
+          <form class="goto" id="goto" role="search" autocomplete="off">
+            <label class="sr-only" for="goto-q">Ir a un pasaje o buscar</label>
+            <input id="goto-q" placeholder="Juan 3:16 · Sal 23 · «gracia» · G26" spellcheck="false">
+            <button class="btn btn--primary btn--plain" type="submit">Abrir</button>
+          </form>
+          <p class="goto__try">Prueba: <button type="button" data-go="GEN.1.1">Génesis 1:1</button> <button type="button" data-go="JHN.1.1">Juan 1:1</button> <button type="button" data-go="PSA.23.1">Salmo 23</button> <button type="button" data-go="ROM.3.23">Romanos 3:23</button> <button type="button" data-go="DAN.7.13">Daniel 7:13</button></p>
+        </div>
+        <ul class="bhero__facts" aria-label="Contenido">
+          <li><b>7</b><span>versiones en español e inglés</span></li>
+          <li><b>3</b><span>textos originales: hebreo, Textus Receptus y Nestle 1904</span></li>
+          <li><b>14.197</b><span>palabras del léxico de Strong con concordancia</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- LECTOR -->
+    <section class="reader" id="lector" aria-label="Lector de la Biblia">
+      <div class="bar" id="bar">
+        <div class="wrap bar__inner">
+          <div class="nav-ref">
+            <button type="button" class="ib" id="prev" aria-label="Capítulo anterior" title="Capítulo anterior (←)">‹</button>
+            <label class="sr-only" for="sel-book">Libro</label>
+            <select id="sel-book"></select>
+            <label class="sr-only" for="sel-ch">Capítulo</label>
+            <select id="sel-ch"></select>
+            <button type="button" class="ib" id="next" aria-label="Capítulo siguiente" title="Capítulo siguiente (→)">›</button>
+          </div>
+          <div class="modes" role="tablist" aria-label="Modo de lectura">
+            <button type="button" role="tab" data-mode="par" aria-selected="true">Paralelo</button>
+            <button type="button" role="tab" data-mode="int" aria-selected="false">Interlineal</button>
+            <button type="button" role="tab" data-mode="ver" aria-selected="false">Versículo</button>
+            <button type="button" role="tab" data-mode="bus" aria-selected="false">Buscar</button>
+          </div>
+          <button type="button" class="ib ib--wide" id="btn-opts" aria-expanded="false" aria-controls="opts">⚙ Versiones y ajustes</button>
+        </div>
+        <div class="opts wrap" id="opts" hidden>
+          <div class="opts__group">
+            <p class="opts__t">Versiones <small>(toca para añadir o quitar; el orden es el de las columnas)</small></p>
+            <div class="vchips" id="vchips"></div>
+          </div>
+          <div class="opts__group opts__row">
+            <label class="tg"><input type="checkbox" id="o-vowels" checked> Vocales hebreas</label>
+            <label class="tg"><input type="checkbox" id="o-cant"> Acentos de cantilación</label>
+            <label class="tg"><input type="checkbox" id="o-translit" checked> Transliteración (interlineal)</label>
+            <label class="tg"><input type="checkbox" id="o-morph" checked> Análisis (interlineal)</label>
+            <label class="tg"><input type="checkbox" id="o-strong"> Números de Strong</label>
+            <label class="tg tg--size">Tamaño <input type="range" id="o-size" min="14" max="26" value="18" aria-label="Tamaño del texto"></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <div class="tip" id="tip">
+          <span aria-hidden="true">💡</span>
+          <p><strong>Pasa el ratón o toca una palabra en hebreo o griego:</strong> se iluminan las palabras que la traducen en RV1909, PDPT y BLM. Al tocarla se abre su ficha con el significado, la gramática y todas las veces que aparece.</p>
+          <button type="button" class="tip__x" id="tip-x" aria-label="Cerrar consejo">✕</button>
+        </div>
+        <h2 class="ref-title" id="ref-title" aria-live="polite"></h2>
+        <p class="notice" id="notice" hidden></p>
+        <div id="view" class="view" aria-live="polite"></div>
+        <div class="chap-nav">
+          <button type="button" class="btn btn--ghost" id="prev2">‹ Capítulo anterior</button>
+          <button type="button" class="btn btn--ghost" id="next2">Capítulo siguiente ›</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTUDIOS DE PALABRAS -->
+    <section class="band-peach" id="estudios" aria-labelledby="est-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Estudios de palabras</p>
+          <h2 id="est-t">Palabras que cambian la lectura</h2>
+          <p>Toca una tarjeta para abrir su ficha: cómo se traduce, qué significa en el diccionario de Strong y en qué pasajes aparece.</p>
+        </div>
+        <div class="studies" id="studies"></div>
+      </div>
+    </section>
+
+    <!-- AYUDA -->
+    <section class="wrap help" id="ayuda" aria-labelledby="help-t">
+      <div class="section-head">
+        <p class="eyebrow">Cómo se usa</p>
+        <h2 id="help-t">Cuatro formas de leer</h2>
+      </div>
+      <div class="help__grid">
+        <div class="help__card"><b>Paralelo</b><p>Columnas con las versiones que elijas. Pasa por una palabra original y verás qué palabras la traducen en las versiones etiquetadas.</p></div>
+        <div class="help__card"><b>Interlineal</b><p>Cada palabra hebrea o griega con su transliteración, su traducción en el contexto y su análisis gramatical en español.</p></div>
+        <div class="help__card"><b>Versículo</b><p>Un versículo en todas las versiones a la vez. Marca las diferencias entre traducciones y entre el Textus Receptus y el Nestle 1904.</p></div>
+        <div class="help__card"><b>Buscar</b><p>Busca palabras o frases en cualquier versión, o escribe un número de Strong (H2617, G26) para abrir su ficha.</p></div>
+      </div>
+      <ul class="help__keys">
+        <li><kbd>←</kbd> <kbd>→</kbd> capítulo anterior o siguiente</li>
+        <li>Escribe «Jn 3:16», «1 Co 13», «Sal 23:1» o «Ap 22» en el buscador</li>
+        <li>El enlace de la página guarda el pasaje, las versiones y el modo: cópialo para compartir</li>
+      </ul>
+      <p class="help__note"><strong>A tener en cuenta:</strong> la numeración del hebreo a veces no coincide con la de las versiones españolas. Por ejemplo, en los Salmos con título, el título es el versículo 1 en hebreo. Las equivalencias con Strong de RV1909, PDPT y BLM proceden de etiquetas automáticas: ayudan mucho, pero alguna puede estar mal. Las definiciones del diccionario de Strong están en inglés; las glosas en español salen de cómo traducen cada palabra estas versiones.</p>
+    </section>
+
+    <!-- FUENTES -->
+    <section class="wrap sources" id="fuentes" aria-labelledby="src-t">
+      <h2 id="src-t">Fuentes y licencias</h2>
+      <ul id="src-list"></ul>
+      <ul>
+        <li>Diccionarios hebreo y griego de James Strong (1890), edición JSON de Open Scriptures (CC BY-SA).</li>
+        <li>Textos de las versiones obtenidos de <a href="https://ebible.org" target="_blank" rel="noopener">eBible.org</a>. Los datos derivados de esta sección se comparten con la misma licencia CC BY-SA.</li>
+      </ul>
+      <p class="disclaimer">Herramienta de estudio personal. No sustituye a una gramática ni a un comentario. Las versiones RV1960, NVI o LBLA no aparecen porque tienen derechos de autor que no permiten publicarlas aquí.</p>
+    </section>
+  </main>
+
+  <!-- FICHA DE PALABRA -->
+  <aside class="lex" id="lex" aria-label="Ficha de la palabra" hidden>
+    <div class="lex__head">
+      <button type="button" class="ib" id="lex-back" aria-label="Volver" hidden>‹</button>
+      <span class="lex__k">Ficha de la palabra</span>
+      <button type="button" class="ib" id="lex-x" aria-label="Cerrar ficha">✕</button>
+    </div>
+    <div class="lex__body" id="lex-body"></div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <strong>Recursos Adventistas</strong> · por Jose Omar
+        <p>Sitio personal, sin relación oficial con la Iglesia Adventista del Séptimo Día.</p>
+      </div>
+      <a class="btn btn--outline-light btn--plain" href="../">← Todos los recursos</a>
+    </div>
+  </footer>
+
+  <script src="morfo.js"></script>
+  <script src="biblia.js"></script>
+  <script src="../assets/js/stats.js" defer></script>
+</body>
+</html>

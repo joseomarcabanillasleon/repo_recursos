@@ -60,6 +60,14 @@ Guía interactiva con los **42 ejercicios de «La Reforma Pro-Salud», Tomo I**.
 - Sesión guiada a pantalla completa: activación (complemento del ej. 6), los ejercicios elegidos y vuelta a la calma (ej. 1 lento).
 - «Mi semana» (se guarda solo en el navegador) y cartel de invitación imprimible / WhatsApp.
 
+## Biblia de estudio (`/biblia/`)
+
+Lector con versiones en paralelo, interlineal hebreo/griego, comparación de un versículo, búsqueda y ficha de cada palabra (Strong, glosas en español, análisis gramatical, frecuencia y concordancia).
+- App: `biblia/index.html`, `biblia/biblia.js` (lector) y `biblia/morfo.js` (análisis en español y transliteración).
+- Datos estáticos en `biblia/data/`, generados con `python3 tools/biblia/build.py RUTA_FUENTES` (ver la cabecera del script para las fuentes y el formato).
+- Versiones: RV1909, BES, BLM, KJV y WEB (dominio público), PDPT (CC BY 4.0) y VBL (CC BY-SA 4.0). Originales: WLC con morfología OSHB (CC BY 4.0), Textus Receptus (DP) y Nestle 1904 con morfología CC0. Strong: Open Scriptures (CC BY-SA).
+- Para añadir una versión: descarga su USFM de eBible.org, añádela a `VERSIONS` en el script y vuelve a generarlo.
+
 ## Vida sana (`/vida-sana/`)
 
 Centro con ocho áreas. Disponibles: **Movimiento** (`/gym/`), **Alimentación** (`/alimentacion/`), **Descanso** (`/descanso/`) **Agua, aire y sol** (`/agua-aire-sol/`, tres áreas en una guía) y **Equilibrio** (`/equilibrio/`).

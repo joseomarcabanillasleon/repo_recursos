@@ -272,7 +272,7 @@
       const pose = typeof ms === "number" ? poseAt(frames, ms) : (ms && ms.P ? ms : peak);
       const J = solve(pose);
       gBody.innerHTML = body(J, false) + (ex.stick ? (() => { const a = J.HdB || J.HdL, b = J.HdF || J.HdR, v = unit(sub(b, a));
-        return `<path d="M${pt(add(a, v, -14))} L${pt(add(b, v, 14))}" stroke="#8a5a35" stroke-width="3" stroke-linecap="round"/>`; })() : "");
+        return `<path d="M${pt(add(a, v, -14))} L${pt(add(b, v, 14))}" stroke="#3a4150" stroke-width="3" stroke-linecap="round"/>`; })() : "");
       if (ex.focus) {
         const c = add(J[ex.focus.j], ex.focus.off || [0, 0]);
         gFocus.innerHTML = circ(c, ex.focus.r || 14, `url(#${id}-fo)`);

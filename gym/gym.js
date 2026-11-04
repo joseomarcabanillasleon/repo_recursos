@@ -24,8 +24,8 @@
     { id: "e1", t: "Brazos arriba por delante", zona: "Respiración y tórax", cat: "resp", pos: "pie", nivel: "suave", dosis: "10–15 veces",
       como: "De pie y erguido, con los brazos pegados al cuerpo. Súbelos por delante hasta que queden verticales y bájalos por los lados hasta la posición de partida.",
       resp: "Toma aire al subir los brazos y suéltalo al bajarlos.", trabaja: "Respiración, hombros y pecho." },
-    { id: "e2", t: "Giro de cintura con bastón", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Bastón o cuerda", dosis: "10 por lado",
-      como: "Erguido, con los brazos estirados al frente sujetando un bastón para mantenerlos paralelos. Gira el tronco a un lado y al otro sin mover caderas ni piernas: solo se mueve de la cintura hacia arriba.",
+    { id: "e2", t: "Giro de cintura con barra", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Barra ligera de gimnasio (o un palo)", dosis: "10 por lado",
+      como: "Erguido, con los brazos estirados al frente sujetando una barra ligera de gimnasio (body bar) para mantenerlos paralelos. Gira el tronco a un lado y al otro sin mover caderas ni piernas: solo se mueve de la cintura hacia arriba.",
       resp: "Toma aire al girar hacia un lado y suéltalo hacia el otro.", trabaja: "Músculos de la cintura y del tronco." },
     { id: "e3", t: "Flexión de piernas de puntillas", zona: "Espalda y piernas", cat: "piernas", pos: "pie", nivel: "medio", dosis: "5–10 veces",
       como: "De pie con las piernas juntas y las puntas de los pies un poco abiertas. Lleva las manos a la nuca y flexiona las piernas quedándote de puntillas. Vuelve a subir.",
@@ -45,8 +45,8 @@
     { id: "e8", t: "Bicicleta con las piernas arriba", zona: "Cintura y piernas", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "15–20 vueltas",
       como: "Tumbado boca arriba, sube las piernas hasta la vertical sosteniendo la espalda con las manos y los codos en el suelo. Mueve las piernas como si pedalearas.",
       resp: "Respira con normalidad, sin aguantar el aire.", trabaja: "Piernas y abdomen.", prec: "El peso va sobre los hombros, nunca sobre el cuello. Evítalo si tienes problemas de cuello, espalda o tensión alta." },
-    { id: "e9", t: "Inclinación lateral con bastón", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Bastón o cuerda", dosis: "10–15 veces",
-      como: "Erguido, con los brazos arriba algo separados sujetando un bastón. Inclínate a la derecha y a la izquierda sin mover caderas ni piernas.",
+    { id: "e9", t: "Inclinación lateral con barra", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Barra ligera de gimnasio (o un palo)", dosis: "10–15 veces",
+      como: "Erguido, con los brazos arriba algo separados sujetando una barra ligera. Inclínate a la derecha y a la izquierda sin mover caderas ni piernas.",
       resp: "Toma aire hacia un lado y suéltalo hacia el otro.", trabaja: "Músculos laterales de la cintura." },
     { id: "e10", t: "Puños al cuello", zona: "Bíceps y hombros", cat: "brazos", pos: "pie", nivel: "suave", dosis: "15 veces",
       como: "Erguido, con los brazos en cruz y los puños cerrados. Dobla los codos con energía hasta acercar los puños al cuello, por encima de los hombros, y vuelve a estirar.",
@@ -144,9 +144,9 @@
     { id: "e41", t: "Caminar a cuatro patas", zona: "Piernas, brazos y muñecas", cat: "brazos", pos: "suelo", nivel: "exigente", dosis: "Hasta notar cansancio",
       como: "Con las manos en el suelo y las piernas y los brazos rectos, camina con energía apoyándote en manos y pies.",
       resp: "Respira por la nariz.", trabaja: "Piernas, brazos, hombros y muñecas.", prec: "Exige mucho a las muñecas y la cabeza queda baja. Para si te mareas." },
-    { id: "e42", t: "Bastón por encima de la cabeza", zona: "Espalda y hombros", cat: "brazos", pos: "sentado", nivel: "suave", mat: "Taburete y bastón", dosis: "10 veces",
-      como: "Sentado en un taburete, sujeta un bastón por delante, cerca del pecho. Pásalo por encima de la cabeza y bájalo por detrás todo lo que puedas sin forzar. Vuelve adelante.",
-      resp: "Toma aire al llevarlo atrás y suéltalo al traerlo adelante.", trabaja: "Espalda y hombros.", prec: "Agarra el bastón con las manos bien separadas. Si notas molestias en el hombro, quédate encima de la cabeza." }
+    { id: "e42", t: "Barra por encima de la cabeza", zona: "Espalda y hombros", cat: "brazos", pos: "sentado", nivel: "suave", mat: "Taburete y barra ligera de gimnasio (o un palo)", dosis: "10 veces",
+      como: "Sentado en un taburete, sujeta una barra ligera por delante, cerca del pecho. Pásalo por encima de la cabeza y bájalo por detrás todo lo que puedas sin forzar. Vuelve adelante.",
+      resp: "Toma aire al llevarlo atrás y suéltalo al traerlo adelante.", trabaja: "Espalda y hombros.", prec: "Agarra la barra con las manos bien separadas y usa una ligera (1–3 kg o un palo). Si notas molestias en el hombro, quédate encima de la cabeza." }
   ];
   EJ.forEach((e, i) => { e.n = i + 1; });
   const ACT = { id: "act", t: "Activación" };

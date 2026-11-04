@@ -352,9 +352,15 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     focus.renderOrder = 10;
     g.add(focus);
     let stick = null;
-    if (ex.stick) {
-      stick = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 1, 12), new THREE.MeshStandardMaterial({ color: "#8a5a35", roughness: 0.6 }));
-      stick.castShadow = true; g.add(stick);
+    if (ex.stick) { // barra ligera de gimnasio: tubo con empuñadura y topes de color
+      stick = new THREE.Group();
+      const bar = cyl(0.016, 0.016, new THREE.MeshStandardMaterial({ color: "#3a4150", roughness: 0.35, metalness: 0.4 }));
+      stick.add(bar);
+      for (const y of [-0.5, 0.5]) {
+        const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, 0.05, 16), new THREE.MeshStandardMaterial({ color: "#f3793b", roughness: 0.5 }));
+        cap.position.y = y; cap.castShadow = true; stick.add(cap);
+      }
+      g.add(stick);
     }
     // encuadre automático: caja que contiene todos los fotogramas clave
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
@@ -407,7 +413,8 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
       const a = pts.HdL, c = pts.HdR, d = new THREE.Vector3().subVectors(c, a), l = d.length() || 1e-3;
       X.stick.position.copy(a).addScaledVector(d, 0.5);
       X.stick.quaternion.setFromUnitVectors(Y, d.divideScalar(l));
-      X.stick.scale.set(1, l + 0.3, 1);
+      const L = l + 0.36; X.stick.children[0].scale.y = L;
+      X.stick.children[1].position.y = -L / 2; X.stick.children[2].position.y = L / 2;
     }
     // cámara (encuadre automático; cada ejercicio puede ajustar con ex.cam)
     const fr = X.frame, cam = ex.cam || {};

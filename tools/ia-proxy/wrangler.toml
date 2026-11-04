@@ -1,0 +1,17 @@
+# Despliegue opcional por línea de comandos:  npx wrangler deploy
+# (también se puede crear el Worker desde el panel de Cloudflare: ver README.md)
+name = "ia-recursos"
+main = "worker.js"
+compatibility_date = "2025-06-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://recursosadventistas.es,https://www.recursosadventistas.es,http://localhost:8765"
+GEMINI_MODELS = "gemini-2.5-flash,gemini-2.5-flash-lite"
+PER_HOUR = "20"
+
+# IA de respaldo de Cloudflare (gratis hasta su cupo diario)
+[ai]
+binding = "AI"
+
+# La clave de Gemini NO va aquí: se guarda como secreto con
+#   npx wrangler secret put GEMINI_KEY

@@ -288,6 +288,8 @@
       });
       h += `</tbody></table></div>`;
     }
+    h += aiBoxHTML("vv", "Pregunta a la IA sobre este versículo", [
+      ["explicar", "✨ Explícame este versículo"], ["difieren", "✨ ¿Por qué difieren las traducciones?"], ["ninos", "✨ Explícalo para niños"]]);
     view.innerHTML = h + "</div>";
     const nV = maxV;
     $("#vv-prev").onclick = () => { if (v > 1) { S.verse = v - 1; render(); } else goChapter(-1, true); };
@@ -299,6 +301,93 @@
       await copy(lines.join("\n"), "Versículo copiado en todas las versiones");
     };
     $("#vv-share").onclick = () => copy(location.href, "Enlace copiado");
+    wireAI("vv", async (kind, q) => verseContext(v, texts, all, kind, q));
+  }
+
+  /* ---------------- IA: explicar versículos y palabras ---------------- */
+  const AI_SYS = [
+    "Eres un asistente de estudio bíblico en español, riguroso y claro. Ayudas a entender el texto, no a confirmar ideas previas.",
+    "Distingue siempre: 1) lo que dice literalmente el texto; 2) su contexto histórico y literario; 3) las interpretaciones posibles. Si hay debate entre intérpretes cristianos, dilo y resume las posturas principales. Puedes señalar la lectura adventista del séptimo día cuando sea pertinente, sin forzarla.",
+    "Usa los datos que te doy (versiones, hebreo o griego, léxico). No inventes significados de palabras originales, citas de autores ni datos históricos. Si citas otros versículos, da la referencia completa (Libro capítulo:versículo). Marca con [verificar] lo que no puedas asegurar.",
+    "Escribe en Markdown con encabezados ##, de forma concisa (entre 250 y 600 palabras salvo que se pida otra cosa)."
+  ].join("\n");
+  function aiBoxHTML(id, title, buttons, compact) {
+    const st = window.IA ? window.IA.status() : { ok: false };
+    return `<section class="aibox${compact ? " aibox--c" : ""}" id="${id}-ai">
+      <p class="aibox__t">${esc(title)} <small>${st.ok ? esc(st.via === "site" ? "IA gratuita del sitio" : "con tu clave de Gemini") : "sin IA conectada: se copia el encargo"}</small></p>
+      <div class="aibox__b">${buttons.map(([k, l]) => `<button type="button" class="btn btn--ghost" data-ai="${k}">${esc(l)}</button>`).join("")}</div>
+      ${compact ? "" : `<form class="aibox__q" data-ai-form><input placeholder="Escribe tu pregunta sobre este pasaje…" aria-label="Tu pregunta"><button class="btn btn--primary btn--plain" type="submit">Preguntar</button></form>`}
+      <div class="aibox__ext" hidden>Sin IA conectada en esta web. Copia el encargo y pégalo en
+        <button type="button" class="linkbtn" data-ext="chatgpt">ChatGPT</button>, <button type="button" class="linkbtn" data-ext="claude">Claude</button> o <button type="button" class="linkbtn" data-ext="gemini">Gemini</button>.</div>
+      <div class="aibox__out doc" aria-live="polite"></div><div class="aibox__ver verify"></div>
+    </section>`;
+  }
+  function wireAI(id, build) {
+    const box = $(`#${id}-ai`); if (!box) return;
+    const out = $(".aibox__out", box), ver = $(".aibox__ver", box);
+    let ctrl = null, lastFull = "";
+    async function run(kind, q) {
+      const P = await build(kind, q);
+      lastFull = `${P.system}\n\n---\n\n${P.prompt}`;
+      if (!window.IA.status().ok) { $(".aibox__ext", box).hidden = false; out.innerHTML = ""; return; }
+      ctrl?.abort(); ctrl = new AbortController();
+      out.innerHTML = `<p class="loading">Pensando…</p>`; ver.innerHTML = "";
+      let last = 0;
+      try {
+        const t = await window.IA.ask({ system: P.system, prompt: P.prompt, maxTokens: P.max || 2048, signal: ctrl.signal,
+          onText: (txt) => { const n = performance.now(); if (n - last > 120) { last = n; out.innerHTML = window.IA.md(txt); } } });
+        out.innerHTML = window.IA.md(t) + `<p class="aibox__note">Respuesta generada por IA: compárala con el texto y con las fuentes antes de usarla.</p>`;
+        ver.innerHTML = await window.IA.verify(t, { base: "data/", link: "" });
+        window.track?.("biblia/ia/" + kind, "IA en la Biblia");
+      } catch (err) {
+        if (err.name !== "AbortError") out.innerHTML = `<p class="err">❌ ${esc(err.message)}</p>`;
+      }
+    }
+    $$("[data-ai]", box).forEach((b) => b.addEventListener("click", () => run(b.dataset.ai)));
+    $("[data-ai-form]", box)?.addEventListener("submit", (e) => { e.preventDefault(); const q = $("input", e.target).value.trim(); if (q) run("pregunta", q); });
+    $$(".aibox__ext [data-ext]", box).forEach((b) => b.addEventListener("click", () => { window.IA.external(b.dataset.ext, lastFull); toast("Encargo copiado: pégalo con Ctrl+V si no aparece"); }));
+  }
+  async function verseContext(v, texts, all, kind, q) {
+    const ref = refStr(S.book, S.ch, v);
+    const base = ((await loadTrans("rv1909", S.book).catch(() => []))[S.ch - 1]) || [];
+    const ctxV = base.map((t, i) => [i + 1, plain(t)]).filter(([n]) => n >= v - 4 && n <= v + 4).map(([n, t]) => `${n} ${t}`).join("\n");
+    const ov = isOT(S.book) ? "heb" : "na", L = ov === "heb" ? "H" : "G";
+    const ws = texts[ov] || [];
+    const gl = await load(`gl/${L}.json`).catch(() => ({}));
+    const wl = ws.map((w) => `${w[0]} (${ov === "heb" ? M.trHebrew(w[0]) : M.trGreek(w[0])}; ${w[1] ? L + w[1] : "—"}; «${gl[w[1]] || ""}»; ${ov === "heb" ? M.hebrew(w[2]).long : M.greek(w[2]).long}${ov === "na" && w[3] ? "; lema " + w[3] : ""})`).join("\n");
+    const lexs = [];
+    for (const w of ws) {
+      if (!w[1] || lexs.length >= 6) continue;
+      const m = w[2] || "";
+      if (!(ov === "heb" ? /(^|\/)(V|Nc|Aa)/.test(m.slice(1)) : /^(V-|N-(?!PRI)|A-)/.test(m))) continue;
+      const e = await lexEntry(L + w[1]).catch(() => null);
+      if (e && !lexs.some((x) => x.s === L + w[1])) lexs.push({ s: L + w[1], e });
+    }
+    const vers = all.filter((x) => texts[x.id]).map((x) => `${x.s}: ${x.orig ? texts[x.id].map((w) => w[0]).join(" ") : plain(texts[x.id])}`).join("\n");
+    const ask = {
+      explicar: `Explícame ${ref}: qué dice, su contexto en el capítulo y en el libro, el significado de las palabras clave del original y una aplicación breve.`,
+      difieren: `Compara cómo traducen ${ref} las distintas versiones. Explica las diferencias importantes, por qué se producen (texto original, variantes del manuscrito como Textus Receptus frente a Nestle 1904, decisiones de traducción) y cuál se ajusta mejor al original.`,
+      ninos: `Explica ${ref} para niños de 6 a 10 años: muy sencillo, con un ejemplo de su vida, una pregunta para pensar y una frase para recordar. Fiel al texto.`,
+      pregunta: `Pregunta sobre ${ref}: ${q}`
+    }[kind];
+    const prompt = [ask, "", `VERSÍCULO EN TODAS LAS VERSIONES (${ref}):`, vers, "", `CONTEXTO (RV1909, ${bookName(S.book)} ${S.ch}):`, ctxV,
+      ws.length ? `\nPALABRA POR PALABRA (${VER[ov].n}; forma, transliteración, Strong, glosa, análisis):\n${wl}` : "",
+      lexs.length ? `\nLÉXICO DE STRONG (definiciones en inglés):\n${lexs.map(({ s, e }) => `- ${e.l} ${s} (${e.x}): ${e.d} · se traduce: ${e.es.map((x) => x[0]).join(", ")} · ${e.f} apariciones`).join("\n")}` : ""].join("\n");
+    return { system: AI_SYS, prompt, max: kind === "ninos" ? 1200 : 2048 };
+  }
+  async function wordContext(s, e, refs, ctx) {
+    const sample = [];
+    for (const r of refs.slice(0, 10)) {
+      const [b, c, v] = refFromInt(r);
+      const t = ((await loadTrans("rv1909", b).catch(() => []))[c - 1] || [])[v - 1];
+      if (t) sample.push(`${refStr(b, c, v)}: ${plain(t)}`);
+    }
+    const prompt = [`Explícame la palabra ${s[0] === "H" ? "hebrea" : "griega"} ${e.l} (${e.x}, Strong ${s}): su significado básico, sus matices, cómo la traducen las versiones españolas y qué aporta al leer los pasajes donde aparece. Si hay palabras cercanas con las que se confunde, menciónalas.`,
+      ctx && ctx.w ? `La consulta viene de ${refStr(S.book, S.ch, ctx.vn)}, donde aparece como «${ctx.w[0]}».` : "",
+      "", `DATOS DEL LÉXICO DE STRONG (inglés): ${e.d}`, `KJV la traduce: ${e.k}`, `Origen: ${e.o}`,
+      `Traducciones al español (recuento en RV1909, PDPT y BLM): ${e.es.map(([w, n]) => `${w} (${n})`).join(", ")}`,
+      `Aparece ${e.f} veces en ${refs.length} versículos.`, "", "PRIMERAS APARICIONES (RV1909):", ...sample].join("\n");
+    return { system: AI_SYS, prompt, max: 1500 };
   }
 
   /* ---------------- Búsqueda ---------------- */
@@ -397,6 +486,7 @@
       </div>
       <div class="lex__sec"><p class="lex__k2">Dónde aparece</p><div id="lex-refs" class="lex__refs"></div>
         <button type="button" class="btn btn--ghost" id="lex-more" hidden>Ver más</button></div>
+      ${aiBoxHTML("lx", "IA sobre esta palabra", [["palabra", "✨ Explícame esta palabra"]], true)}
       <p class="lex__fine"><button type="button" class="linkbtn" id="lex-copy">Copiar ficha</button> · <button type="button" class="linkbtn" id="lex-search">Buscar ${esc(s)}</button></p>`;
     let page = 0, list = refs;
     const PAGE = 15;
@@ -420,6 +510,7 @@
     $("#lex-copy").onclick = () => copy(`${e.l} (${s}) · ${e.x}\n${e.es.map(([w]) => w).join(", ")}\n${e.d}\nAparece ${e.f} veces en ${refs.length} versículos.\n${location.origin}${location.pathname}`, "Ficha copiada");
     $("#lex-search").onclick = () => { closeLex(); lastSearch.q = s; S.mode = "bus"; render(); };
     more();
+    wireAI("lx", async () => wordContext(s, e, refs, ctx));
     window.track?.("biblia/ficha/" + s, "Ficha " + s);
   }
   function closeLex() { lex.hidden = true; scrim.hidden = true; document.body.classList.remove("lex-open"); lexHist = []; }

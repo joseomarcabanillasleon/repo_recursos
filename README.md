@@ -76,6 +76,13 @@ Generador de sermones, historias para niños, devocionales, estudios y cultos fa
 - Verificador de citas: comprueba que cada referencia existe y que las citas textuales coinciden con alguna versión.
 - Código: `sermones/sermones.js` (prompts en `AUD`, `FORMAT` y `systemPrompt`).
 
+## IA gratuita del sitio (`tools/ia-proxy/`)
+
+Un Cloudflare Worker guarda en secreto la clave de Gemini y da IA gratis a todos los visitantes de `/sermones/` y `/biblia/`.
+Pasos de despliegue en [`tools/ia-proxy/README.md`](tools/ia-proxy/README.md); después se escribe su dirección en `assets/js/ia-config.js`.
+Código compartido en el navegador: `assets/js/ia.js` (consulta, Markdown y verificador de citas).
+Orden de uso: la clave propia del usuario (si la ha puesto) → la IA del sitio → copiar el encargo a ChatGPT, Claude o Gemini.
+
 ## Vida sana (`/vida-sana/`)
 
 Centro con ocho áreas. Disponibles: **Movimiento** (`/gym/`), **Alimentación** (`/alimentacion/`), **Descanso** (`/descanso/`) **Agua, aire y sol** (`/agua-aire-sol/`, tres áreas en una guía) y **Equilibrio** (`/equilibrio/`).

@@ -242,3 +242,31 @@ kbd { font: 700 12px var(--font); border: 1px solid var(--border); border-bottom
 .sources ul { padding-left: 20px; display: grid; gap: 6px; }
 .disclaimer { font-size: 13px; color: var(--muted); max-width: 820px; }
 .muted { color: var(--muted); }
+
+/* ---------- IA ---------- */
+.aibox { margin-top: 24px; border: 1px solid color-mix(in srgb, var(--gold) 40%, var(--border)); background: color-mix(in srgb, var(--gold) 6%, var(--surface)); border-radius: 18px; padding: 14px 16px; }
+.aibox--c { margin: 10px 0; padding: 12px; }
+.aibox__t { margin: 0 0 8px; font-weight: 800; color: var(--ink); }
+.aibox__t small { font-weight: 600; color: var(--muted); margin-left: 6px; font-size: 12px; }
+.aibox__b { display: flex; flex-wrap: wrap; gap: 8px; }
+.aibox__b .btn { padding: 7px 12px; font-size: 14px; }
+.aibox__q { display: flex; gap: 8px; margin-top: 10px; }
+.aibox__q input { flex: 1; min-width: 0; font: 600 15px var(--font); padding: 10px 14px; border-radius: 12px; border: 2px solid var(--border); background: var(--surface); color: var(--ink); }
+.aibox__q .btn { padding: 8px 16px; font-size: 14px; }
+.aibox__ext { margin-top: 10px; font-size: 14px; }
+.aibox__out { margin-top: 10px; font-family: var(--read); font-size: 16px; line-height: 1.65; }
+.aibox__out h2 { font-family: var(--font); font-size: 20px; margin: 14px 0 6px; }
+.aibox__out h3 { font-family: var(--font); font-size: 17px; margin: 14px 0 4px; color: var(--accent-text); }
+.aibox__out p { margin: 0 0 10px; }
+.aibox__out ul, .aibox__out ol { padding-left: 20px; }
+.aibox__note { font: 600 12px var(--font); color: var(--muted); }
+.aibox .err { color: var(--no); font-weight: 700; font-family: var(--font); }
+.vf { background: #fff1cc; color: #7a5300; border-radius: 4px; padding: 0 3px; font: 700 12px var(--font); }
+.verify h3 { font-size: 16px; margin: 12px 0 4px; }
+.v-sum .ok { color: var(--ok); font-weight: 800; } .warnc { color: var(--gold); font-weight: 800; } .badc { color: var(--no); font-weight: 800; }
+.v-list { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 6px; }
+.v-list li { border: 1px solid var(--border); border-radius: 10px; padding: 7px 10px; font-size: 13px; background: var(--surface); }
+.v-list a { color: var(--ink); text-decoration: none; }
+.v-real { display: block; font-family: var(--read); color: var(--muted); margin-top: 3px; }
+.v-bad { border-color: var(--no) !important; } .v-warn { border-color: var(--gold) !important; }
+.v-tag { font-size: 12px; font-weight: 700; margin-left: 6px; } .v-tag.ok { color: var(--ok); } .v-tag.warn { color: var(--gold); }

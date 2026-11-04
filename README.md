@@ -54,11 +54,11 @@ Haz commit y push: GitHub Pages actualiza la web en ~1 minuto.
 
 ## Gimnasia para todos (`/gym/`)
 
-Guía interactiva basada en el documento «Gimnasia para todos — guía comunitaria de movimiento seguro».
-- 12 ejercicios con figuras animadas propias (SVG); los textos y las poses están en `gym/gym.js` (lista `EJ`).
-- Sesión guiada a pantalla completa con temporizador, sonido y pantalla siempre encendida.
-- Test del habla, «Mi semana» (se guarda solo en el navegador) y cartel de invitación imprimible / WhatsApp.
-- Fuentes: Ministerio de Sanidad (2023), OMS y NHS. Sin promesas terapéuticas.
+Guía interactiva con los **42 ejercicios de «La Reforma Pro-Salud», Tomo I**. Textos redactados de nuevo, sin afirmaciones de salud sin respaldo.
+- Textos, niveles y precauciones: `gym/gym.js` (lista `EJ`). Movimientos 3D: `gym/movimientos.js` (`e1`…`e42`, `act`, `calma`).
+- Filtros por zona, posición (de pie, sentado, suelo) y nivel (suave, medio, exigente); sesiones prediseñadas por nivel.
+- Sesión guiada a pantalla completa: activación (complemento del ej. 6), los ejercicios elegidos y vuelta a la calma (ej. 1 lento).
+- «Mi semana» (se guarda solo en el navegador) y cartel de invitación imprimible / WhatsApp.
 
 ## Vida sana (`/vida-sana/`)
 

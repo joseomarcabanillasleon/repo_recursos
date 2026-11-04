@@ -1,8 +1,8 @@
 /* =====================================================================
    Gimnasia para todos · guía interactiva
-   - Figuras animadas propias (SVG generado a partir de poses)
-   - Ejercicios, filtros, sesión guiada con temporizador
-   - Test del habla, mi semana, cartel de invitación
+   - 42 ejercicios de «La Reforma Pro-Salud», Tomo I, con personas en 3D
+   - Filtros por zona, posición y nivel; sesión guiada con temporizador
+   - Mi semana y cartel de invitación
    ===================================================================== */
 (() => {
   "use strict";
@@ -16,62 +16,144 @@
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ------------------------------------------------------------------
-     EJERCICIOS (contenido de la guía «Gimnasia para todos»)
+     EJERCICIOS · «La Reforma Pro-Salud», Tomo I, ejercicios 1–42
+     Textos redactados con nuestras palabras; sin promesas de salud.
      Los movimientos de cada figura están en movimientos.js
      ------------------------------------------------------------------ */
   const EJ = [
-    { id: "marcha", n: 1, t: "Marcha cómoda", cat: ["cardio"], pos: ["sentado", "pie"], dosis: "45–60 segundos", dur: 90,
-      como: "De pie detrás de la silla o sentado, alterna levantar los pies como si caminaras. Mantén el tronco erguido y pisa con suavidad.",
-      facil: "Marcha sentado, levantando un pie cada vez.",
-      porque: "Calienta el cuerpo, sube un poco el pulso y prepara las articulaciones para el resto de la sesión." },
-    { id: "brazos", n: 2, t: "Brazos que se abren", cat: ["movilidad"], pos: ["sentado", "pie"], dosis: "6–10 repeticiones",
-      como: "Deja los brazos junto al cuerpo. Súbelos hacia los lados hasta una altura cómoda y bájalos lentamente, sin encoger los hombros.",
-      facil: "Sube solo hasta media altura. Inspira al abrir y suelta el aire al bajar.",
-      porque: "Mantiene la movilidad de los hombros, que usamos para vestirnos, peinarnos o alcanzar objetos." },
-    { id: "omoplatos", n: 3, t: "Juntar omóplatos", cat: ["movilidad", "fuerza"], pos: ["sentado", "pie"], dosis: "8–10 repeticiones · 2 s",
-      como: "Con los brazos relajados, lleva suavemente los hombros hacia atrás y acerca los omóplatos, sin arquear la espalda. Mantén 2 segundos y relaja.",
-      facil: "Hazlo sentado y con un movimiento más pequeño.",
-      porque: "Fortalece los músculos de la espalda alta y ayuda a compensar las horas con los hombros hacia delante." },
-    { id: "giro", n: 4, t: "Giro sentado, corto y cómodo", cat: ["movilidad"], pos: ["sentado"], dosis: "5–8 por lado",
-      como: "Siéntate con los pies apoyados y los brazos cruzados sobre el pecho. Gira el tronco un poco hacia un lado, vuelve al centro y cambia. Mantén la pelvis estable y no tires del cuello.",
-      facil: "Deja las manos sobre los muslos y gira menos.",
-      porque: "Da movilidad a la columna de forma suave. El movimiento nunca debe provocar dolor." },
-    { id: "levantarse", n: 5, t: "Levantarse y sentarse", cat: ["fuerza"], pos: ["pie"], dosis: "5–8 repeticiones",
-      como: "Siéntate cerca del borde de una silla firme, con los pies debajo de las rodillas. Inclina ligeramente el tronco hacia delante y ponte de pie; vuelve a sentarte despacio.",
-      facil: "Usa las manos en los muslos o en los apoyabrazos, o practica solo despegarte un poco del asiento. Que la silla no se deslice.",
-      porque: "Es uno de los gestos más útiles del día a día: fortalece piernas y glúteos y ayuda a mantener la autonomía." },
-    { id: "talones", n: 6, t: "Elevación de talones", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "8–12 repeticiones",
-      como: "De pie, sujeta la silla con una o dos manos. Eleva los talones, haz una pausa breve y bájalos de forma controlada.",
-      facil: "Eleva solo un poco los talones o hazlo sentado.",
-      porque: "Fortalece las pantorrillas, que ayudan a caminar con seguridad y a recuperar el equilibrio." },
-    { id: "rodilla", n: 7, t: "Extensión de rodilla sentado", cat: ["fuerza"], pos: ["sentado"], dosis: "6–10 por pierna",
-      como: "Sentado con la espalda cómoda, estira una rodilla hasta donde resulte fácil; baja el pie lentamente y cambia de pierna. No bloquees la rodilla ni balancees la pierna.",
-      facil: "Estira solo a medias y descansa entre repeticiones.",
-      porque: "Trabaja el músculo de delante del muslo (cuádriceps), clave para subir escaleras y levantarse." },
-    { id: "pared", n: 8, t: "Empujes contra la pared", cat: ["fuerza"], pos: ["pie"], dosis: "6–10 repeticiones",
-      como: "Coloca las manos en la pared a la altura del pecho, algo más abiertas que los hombros. Da un pequeño paso atrás, flexiona los codos acercando el pecho a la pared y empuja para volver. Mantén el cuerpo alineado.",
-      facil: "Acércate más a la pared. Sustituye a las flexiones en el suelo.",
-      porque: "Fortalece pecho, hombros y brazos sin cargar las muñecas ni la espalda como en el suelo." },
-    { id: "paso", n: 9, t: "Paso atrás con apoyo", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "6–8 por lado",
-      como: "De pie detrás de la silla, sujétala. Lleva un pie hacia atrás y toca el suelo con la punta; vuelve al centro y cambia. Mantén el paso corto y el tronco estable.",
-      facil: "Mueve el pie solo unos centímetros. No hace falta bajar a una zancada profunda.",
-      porque: "Entrena el control de la pierna de apoyo y la capacidad de dar un paso para no perder el equilibrio." },
-    { id: "lado", n: 10, t: "Pierna hacia el lado", cat: ["fuerza", "equilibrio"], pos: ["pie"], dosis: "6–10 por lado",
-      como: "Sujeta la silla con una mano. Lleva una pierna recta unos centímetros hacia el lado, sin inclinar el cuerpo ni girar el pie; vuelve despacio. Cambia de mano para mantener el apoyo.",
-      facil: "Levanta la pierna muy poco, casi deslizando el pie.",
-      porque: "Fortalece la cadera por fuera, que estabiliza la pelvis al caminar." },
-    { id: "rodillas", n: 11, t: "Elevación alterna de rodillas", cat: ["fuerza", "cardio"], pos: ["sentado", "pie"], dosis: "6–10 por pierna",
-      como: "Sentado o de pie con apoyo, eleva una rodilla unos centímetros y bájala; cambia de lado. Mantén la espalda cómoda y respira con normalidad.",
-      facil: "Sentado, levanta solo el talón y la punta del pie.",
-      porque: "Activa los flexores de la cadera y el abdomen, que intervienen al subir escalones." },
-    { id: "equilibrio", n: 12, t: "Equilibrio con apoyo cercano", cat: ["equilibrio"], pos: ["pie"], dosis: "10–20 segundos por lado", dur: 90,
-      como: "De pie junto a la silla o a una pared, coloca un pie ligeramente delante del otro. Mantén la posición y cambia los pies. Mira al frente y deja una mano cerca del apoyo.",
-      facil: "Separa más los pies. No cierres los ojos ni sueltes el apoyo si tienes inestabilidad.",
-      porque: "El equilibrio se entrena: practicarlo con seguridad ayuda a prevenir caídas." }
+    { id: "e1", t: "Brazos arriba por delante", zona: "Respiración y tórax", cat: "resp", pos: "pie", nivel: "suave", dosis: "10–15 veces",
+      como: "De pie y erguido, con los brazos pegados al cuerpo. Súbelos por delante hasta que queden verticales y bájalos por los lados hasta la posición de partida.",
+      resp: "Toma aire al subir los brazos y suéltalo al bajarlos.", trabaja: "Respiración, hombros y pecho." },
+    { id: "e2", t: "Giro de cintura con bastón", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Bastón o cuerda", dosis: "10 por lado",
+      como: "Erguido, con los brazos estirados al frente sujetando un bastón para mantenerlos paralelos. Gira el tronco a un lado y al otro sin mover caderas ni piernas: solo se mueve de la cintura hacia arriba.",
+      resp: "Toma aire al girar hacia un lado y suéltalo hacia el otro.", trabaja: "Músculos de la cintura y del tronco." },
+    { id: "e3", t: "Flexión de piernas de puntillas", zona: "Espalda y piernas", cat: "piernas", pos: "pie", nivel: "medio", dosis: "5–10 veces",
+      como: "De pie con las piernas juntas y las puntas de los pies un poco abiertas. Lleva las manos a la nuca y flexiona las piernas quedándote de puntillas. Vuelve a subir.",
+      resp: "Toma aire al bajar y suéltalo al subir.", trabaja: "Piernas, muslos, espalda y brazos.", prec: "Ten una silla cerca por si pierdes el equilibrio. Baja solo hasta donde controles el movimiento." },
+    { id: "e4", t: "Rodilla al pecho tumbado", zona: "Piernas y abdomen", cat: "abd", pos: "suelo", nivel: "suave", dosis: "10–15 veces",
+      como: "Tumbado boca arriba, dobla una pierna y lleva la rodilla hacia el pecho ayudándote con las manos. Vuelve a estirarla y repite con la otra pierna.",
+      resp: "Toma aire al subir la rodilla y suéltalo al estirar la pierna.", trabaja: "Piernas, muslos y abdomen." },
+    { id: "e5", t: "Patada a la mano contraria", zona: "Piernas y caderas", cat: "piernas", pos: "pie", nivel: "medio", dosis: "5–10 por pierna",
+      como: "Erguido, con los brazos al frente. Sube una pierna estirada intentando tocar con la punta del pie la mano contraria: pie derecho con mano izquierda y pie izquierdo con mano derecha. Alterna.",
+      resp: "Toma aire al subir la pierna y suéltalo al bajarla.", trabaja: "Piernas, caderas y equilibrio.", prec: "Sube la pierna solo hasta donde llegues sin forzar. Si te desequilibras, hazlo junto a una pared." },
+    { id: "e6", t: "Talones arriba sobre un libro", zona: "Pies", cat: "piernas", pos: "pie", nivel: "suave", mat: "Un libro grueso", dosis: "10–15 veces",
+      como: "Apoya la parte delantera de los pies en el borde de un libro grueso, con los talones en el aire. Sube de puntillas todo lo que puedas y baja los talones por debajo del borde. Complemento: camina de puntillas, camina sobre los talones y corre en el sitio de puntillas.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Pies, pantorrillas y equilibrio." },
+    { id: "e7", t: "Codos atrás para abrir el pecho", zona: "Respiración y tórax", cat: "resp", pos: "pie", nivel: "suave", dosis: "10–15 veces",
+      como: "Erguido, con los brazos doblados a la altura de los hombros y las manos delante del pecho. Estira los brazos con energía hacia atrás para abrir el pecho y vuelve a doblarlos.",
+      resp: "Toma aire al abrir los brazos y suéltalo al doblarlos.", trabaja: "Pecho, hombros y respiración." },
+    { id: "e8", t: "Bicicleta con las piernas arriba", zona: "Cintura y piernas", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "15–20 vueltas",
+      como: "Tumbado boca arriba, sube las piernas hasta la vertical sosteniendo la espalda con las manos y los codos en el suelo. Mueve las piernas como si pedalearas.",
+      resp: "Respira con normalidad, sin aguantar el aire.", trabaja: "Piernas y abdomen.", prec: "El peso va sobre los hombros, nunca sobre el cuello. Evítalo si tienes problemas de cuello, espalda o tensión alta." },
+    { id: "e9", t: "Inclinación lateral con bastón", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Bastón o cuerda", dosis: "10–15 veces",
+      como: "Erguido, con los brazos arriba algo separados sujetando un bastón. Inclínate a la derecha y a la izquierda sin mover caderas ni piernas.",
+      resp: "Toma aire hacia un lado y suéltalo hacia el otro.", trabaja: "Músculos laterales de la cintura." },
+    { id: "e10", t: "Puños al cuello", zona: "Bíceps y hombros", cat: "brazos", pos: "pie", nivel: "suave", dosis: "15 veces",
+      como: "Erguido, con los brazos en cruz y los puños cerrados. Dobla los codos con energía hasta acercar los puños al cuello, por encima de los hombros, y vuelve a estirar.",
+      resp: "Toma aire al doblar los brazos y suéltalo al estirarlos.", trabaja: "Brazos y hombros." },
+    { id: "e11", t: "Paso adelante", zona: "Piernas", cat: "piernas", pos: "pie", nivel: "medio", dosis: "10 por pierna",
+      como: "Erguido, con las manos en la cintura. Da un paso largo hacia delante flexionando la pierna y vuelve a la posición inicial. Alterna las piernas.",
+      resp: "Toma aire al dar el paso y suéltalo al volver.", trabaja: "Piernas y muslos.", prec: "La rodilla de delante queda encima del pie. Si te cuesta, da un paso más corto." },
+    { id: "e12", t: "Las dos piernas arriba", zona: "Abdomen y cadera", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "Empieza con 5 y sube poco a poco hasta 15",
+      como: "Tumbado boca arriba, con los brazos junto al cuerpo. Sube las dos piernas juntas hasta la vertical y bájalas despacio.",
+      resp: "Toma aire al subir las piernas y suéltalo al bajarlas.", trabaja: "Abdomen y flexores de la cadera.", prec: "Si notas tirantez en la zona lumbar, flexiona un poco las rodillas o sube una pierna cada vez." },
+    { id: "e13", t: "Rodilla al pecho de pie", zona: "Piernas y vientre", cat: "piernas", pos: "pie", nivel: "medio", dosis: "10 por pierna",
+      como: "De pie, sube una rodilla hacia el pecho y abrázala con las manos para acercarla un poco más. Baja y cambia de pierna.",
+      resp: "Toma aire al subir la pierna y suéltalo al bajarla.", trabaja: "Piernas, cadera y abdomen.", prec: "Ten una pared o una silla cerca para apoyarte si lo necesitas." },
+    { id: "e14", t: "Rotación de cuello", zona: "Cuello", cat: "cintura", pos: "pie", nivel: "exigente", dosis: "5–10 por lado",
+      como: "Erguido, con las manos en la cintura. Mueve la cabeza dibujando un círculo imaginario, primero hacia la derecha y después hacia la izquierda.",
+      resp: "Respira con normalidad.", trabaja: "Movilidad del cuello.", prec: "Hazlo muy despacio y con círculos pequeños. No lo hagas si tienes problemas de cervicales, mareo o vértigo." },
+    { id: "e15", t: "Brazos cruzados que se abren", zona: "Respiración y pecho", cat: "resp", pos: "pie", nivel: "suave", dosis: "10 veces",
+      como: "Erguido, con los brazos cruzados por delante del cuerpo y una muñeca sobre la otra. Sube los brazos y ábrelos hasta formar una cruz, estirándolos todo lo posible.",
+      resp: "Toma aire al abrir los brazos y suéltalo al cerrarlos.", trabaja: "Pecho, hombros y respiración." },
+    { id: "e16", t: "Flexiones apoyado en una silla", zona: "Brazos y hombros", cat: "brazos", pos: "pie", nivel: "medio", mat: "Silla firme", dosis: "10 veces",
+      como: "Con el cuerpo recto y las piernas juntas, inclínate hacia delante y apoya las manos en el borde de una silla. Dobla los brazos hasta acercar el pecho al borde y vuelve a empujar.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Brazos, hombros y pecho.", prec: "Apoya la silla contra la pared para que no se mueva." },
+    { id: "e17", t: "Mano a la rodilla contraria", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "medio", dosis: "10 por lado",
+      como: "Erguido, con los brazos en cruz y las piernas un poco separadas. Inclínate y gira para tocar la rodilla izquierda con la mano derecha. Vuelve arriba y repite hacia el otro lado.",
+      resp: "Toma aire arriba y suéltalo al inclinarte.", trabaja: "Cintura y espalda.", prec: "Dobla un poco las rodillas si notas tirantez en la espalda." },
+    { id: "e18", t: "Salida de velocista", zona: "Piernas y caderas", cat: "piernas", pos: "suelo", nivel: "exigente", dosis: "15 cambios",
+      como: "Colócate como en la salida de una carrera: manos en el suelo, una pierna doblada bajo el pecho y la otra estirada atrás. Cambia la posición de las piernas sin moverte del sitio, cargando el peso en los brazos.",
+      resp: "Toma aire al estirar la pierna derecha y suéltalo al encogerla.", trabaja: "Muslos, caderas y hombros.", prec: "Exige mucho al corazón y a las muñecas. Empieza despacio y con pocos cambios." },
+    { id: "e19", t: "Molinos con los brazos", zona: "Cintura y brazos", cat: "brazos", pos: "sentado", nivel: "suave", mat: "Taburete", dosis: "15 vueltas",
+      como: "Sentado en un taburete, dibuja grandes círculos con los brazos como las aspas de un molino. Los brazos van siempre en direcciones opuestas.",
+      resp: "Toma aire al subir el brazo derecho y suéltalo al subir el izquierdo.", trabaja: "Hombros, brazos y tronco." },
+    { id: "e20", t: "Piernas alternas sentado en el suelo", zona: "Piernas y abdomen", cat: "abd", pos: "suelo", nivel: "medio", dosis: "2 series de 10",
+      como: "Sentado en el suelo, con las manos apoyadas detrás. Dobla y estira las piernas por turnos, derecha e izquierda, sin que toquen el suelo. Haz 10, descansa y haz otras 10.",
+      resp: "Respira al ritmo de las piernas.", trabaja: "Abdomen y piernas." },
+    { id: "e21", t: "Incorporarse hasta los pies", zona: "Abdomen y espalda", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "10 veces",
+      como: "Tumbado boca arriba, con los brazos estirados por detrás de la cabeza. Levanta el tronco y estírate hacia delante hasta tocar los pies con la punta de los dedos. Vuelve a tumbarte despacio.",
+      resp: "Suelta el aire al inclinarte y tómalo al volver.", trabaja: "Abdomen, espalda y muslos.", prec: "Sube sin tirones. Si no llegas a los pies, toca las rodillas o las espinillas." },
+    { id: "e22", t: "Brazos en cruz", zona: "Respiración y pecho", cat: "resp", pos: "pie", nivel: "suave", dosis: "10 veces",
+      como: "Erguido, con los brazos pegados al cuerpo. Súbelos por los lados hasta la altura de los hombros, en cruz, y bájalos.",
+      resp: "Toma aire al subir los brazos y suéltalo al bajarlos.", trabaja: "Hombros y respiración." },
+    { id: "e23", t: "Mano al pie contrario", zona: "Cintura y caderas", cat: "cintura", pos: "pie", nivel: "medio", dosis: "10 por mano",
+      como: "De pie con las piernas bien separadas y los brazos en cruz. Inclínate hacia delante hasta tocar el pie izquierdo con la mano derecha. Sube y repite hacia el otro lado.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Cintura, caderas y parte posterior de las piernas.", prec: "Dobla un poco las rodillas si no llegas. Sube despacio para evitar mareos." },
+    { id: "e24", t: "Flexiones con las rodillas apoyadas", zona: "Brazos y tórax", cat: "brazos", pos: "suelo", nivel: "medio", dosis: "10 veces",
+      como: "Boca abajo, con las manos a la altura de las axilas y las rodillas en el suelo. Sube el cuerpo recto de la cabeza a las rodillas y baja hasta rozar el suelo con el pecho, sin apoyarlo.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Brazos, muñecas y pecho." },
+    { id: "e25", t: "Balanceo de pierna", zona: "Piernas y cintura", cat: "piernas", pos: "pie", nivel: "medio", mat: "Silla (opcional)", dosis: "10 por pierna",
+      como: "Erguido, con las manos en la cintura. Balancea una pierna hacia delante y hacia atrás todo lo que puedas y luego cambia. Si te cuesta el equilibrio, apóyate con una mano en una silla o en la pared.",
+      resp: "Toma aire al llevar la pierna adelante y suéltalo al llevarla atrás.", trabaja: "Piernas, cadera y equilibrio." },
+    { id: "e26", t: "Piernas por encima de la cabeza", zona: "Abdomen y espalda", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "10 veces",
+      como: "Tumbado boca arriba, con los brazos a los lados. Sube las dos piernas estiradas y llévalas hacia atrás, por encima de la cabeza, hasta tocar el suelo con los pies si puedes.",
+      resp: "Toma aire al subir las piernas y suéltalo al bajarlas.", trabaja: "Abdomen y flexibilidad de la espalda.", prec: "Es una postura muy intensa para el cuello. No la hagas si tienes problemas de cervicales, de espalda o tensión alta. No gires la cabeza." },
+    { id: "e27", t: "Brazos cruzados que suben y se abren", zona: "Respiración y tórax", cat: "resp", pos: "pie", nivel: "suave", dosis: "10 veces",
+      como: "Erguido, con los brazos cruzados por delante y una muñeca sobre la otra. Súbelos por encima de la cabeza y ábrelos en forma de V, estirándolos todo lo posible. Bájalos despacio.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Hombros, pecho y respiración." },
+    { id: "e28", t: "Flexiones completas", zona: "Tórax y hombros", cat: "brazos", pos: "suelo", nivel: "exigente", dosis: "Empieza con 5; con el tiempo, 15–20",
+      como: "Boca abajo, apoyado en las manos y en las puntas de los pies. Con el cuerpo recto, baja y sube sin tocar el suelo con el pecho.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Muñecas, brazos, hombros, pecho y tronco.", prec: "Si no mantienes el cuerpo recto, haz el ejercicio 24, con las rodillas apoyadas." },
+    { id: "e29", t: "Tocar el suelo con las piernas rectas", zona: "Espalda y abdomen", cat: "cintura", pos: "pie", nivel: "exigente", dosis: "10 veces",
+      como: "Erguido, con los brazos arriba y las piernas juntas. Inclínate hacia delante hasta tocar el suelo delante de los pies con la punta de los dedos, sin doblar las rodillas. Con el tiempo podrás apoyar la palma.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Espalda, parte posterior de las piernas y abdomen.", prec: "Sin rebotes. Si no llegas, dobla un poco las rodillas. Sube despacio para evitar mareos." },
+    { id: "e30", t: "Incorporarse con los pies en alto", zona: "Cintura y abdomen", cat: "abd", pos: "suelo", nivel: "exigente", mat: "Silla baja o caja de unos 40 cm", dosis: "5–10 veces",
+      como: "Tumbado boca arriba, con los brazos por detrás de la cabeza y los pies sobre una silla baja de unos 40 cm. Levanta el tronco y estírate hasta tocar los pies con la punta de los dedos.",
+      resp: "Toma aire al estirarte y suéltalo al doblarte.", trabaja: "Abdomen, cintura y piernas.", prec: "Sube sin tirones. Si no llegas, toca las rodillas." },
+    { id: "e31", t: "Inclinación lateral sentado", zona: "Cintura y columna", cat: "cintura", pos: "sentado", nivel: "suave", mat: "Taburete", dosis: "10 por lado",
+      como: "Sentado en un taburete o un asiento sin respaldo, con las manos en la nuca. Inclínate a la derecha y a la izquierda manteniendo la espalda recta.",
+      resp: "Toma aire hacia un lado y suéltalo hacia el otro.", trabaja: "Cintura y espalda." },
+    { id: "e32", t: "Abdominal completo con los pies sujetos", zona: "Abdomen y columna", cat: "abd", pos: "suelo", nivel: "exigente", mat: "Un mueble bajo para sujetar los pies", dosis: "5–10 veces",
+      como: "Tumbado boca arriba, con las piernas juntas y estiradas y las manos en la nuca. Levanta el tronco e inclínate hasta acercar los codos a las rodillas. Al principio necesitarás que alguien te sujete los pies, o meterlos bajo un mueble.",
+      resp: "Suelta el aire al subir y tómalo al bajar.", trabaja: "Abdomen y espalda.", prec: "El libro lo llama «muy duro». No tires de la cabeza con las manos y sube despacio. Si notas molestias lumbares, cambia al ejercicio 21." },
+    { id: "e33", t: "Saltitos con las piernas flexionadas", zona: "Abdomen y piernas", cat: "piernas", pos: "pie", nivel: "exigente", dosis: "10 saltitos",
+      como: "Con las piernas flexionadas y las manos en la cintura, da saltitos pequeños con los dos pies a la vez, sin desplazarte.",
+      resp: "Respira con normalidad.", trabaja: "Piernas, abdomen y equilibrio.", prec: "Hazlo sobre un suelo que no resbale y aterriza con suavidad. Evítalo si tienes problemas de rodillas o de suelo pélvico." },
+    { id: "e34", t: "Tijeras en el suelo", zona: "Caderas y abdomen", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "Hasta notar cansancio, sin agotarte",
+      como: "Tumbado boca arriba, con las manos un poco por debajo de las nalgas. Sube las piernas a media altura y muévelas arriba y abajo por turnos, unos 30 cm, sin tocar el suelo, como unas tijeras. Descansa y repite un poco más.",
+      resp: "Respira al ritmo de las piernas.", trabaja: "Abdomen, caderas y piernas.", prec: "Si se arquea la zona lumbar, sube más las piernas o hazlo con menos recorrido." },
+    { id: "e35", t: "Arriba de puntillas y abajo en cruz", zona: "Respiración, equilibrio y piernas", cat: "piernas", pos: "pie", nivel: "exigente", dosis: "10 veces",
+      como: "Erguido, sube los brazos mientras te pones de puntillas hasta juntar las manos arriba, como si quisieras tocar el techo. Después baja los brazos en cruz mientras flexionas del todo las piernas, sin dejar de estar de puntillas.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Piernas, equilibrio y respiración.", prec: "Ten una silla cerca. Baja solo hasta donde controles el movimiento." },
+    { id: "e36", t: "Cadera arriba sentado en el suelo", zona: "Brazos y abdomen", cat: "brazos", pos: "suelo", nivel: "medio", dosis: "10 veces",
+      como: "Sentado en el suelo, con las rodillas dobladas y las manos apoyadas detrás. Levanta la cadera todo lo que puedas, sosteniéndote en las manos y los pies, y baja.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Brazos, glúteos y abdomen." },
+    { id: "e37", t: "Fondos en una silla", zona: "Brazos y hombros", cat: "brazos", pos: "sentado", nivel: "exigente", mat: "Silla firme", dosis: "10 veces",
+      como: "De espaldas a una silla, apoya las manos en el borde del asiento con las piernas juntas y estiradas. Dobla los brazos bajando el cuerpo hasta quedar casi sentado en el suelo y vuelve a subir.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Brazos y hombros.", prec: "La silla debe estar apoyada contra la pared. Evítalo si te duelen los hombros. Para que cueste menos, dobla las rodillas." },
+    { id: "e38", t: "Giro sentado hasta el pie", zona: "Cintura y columna", cat: "cintura", pos: "suelo", nivel: "medio", dosis: "10 veces",
+      como: "Sentado en el suelo, con las piernas bien separadas y los brazos en cruz. Gira e inclínate hasta tocar el pie izquierdo con la mano derecha. Vuelve y repite hacia el otro lado.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Espalda y cintura.", prec: "Si no llegas al pie, toca la rodilla o la espinilla." },
+    { id: "e39", t: "Sentadilla a una pierna con apoyo", zona: "Piernas", cat: "piernas", pos: "pie", nivel: "exigente", mat: "Silla firme", dosis: "5–10 por pierna",
+      como: "De pie, apoya una mano en el respaldo de una silla. Flexiona la pierna del mismo lado mientras mantienes la otra estirada al frente. Sube y cambia de lado.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Piernas y equilibrio.", prec: "Muy exigente para las rodillas. Baja solo un poco al principio y apóyate bien en la silla." },
+    { id: "e40", t: "Cabeza a la rodilla sentado", zona: "Columna y cintura", cat: "cintura", pos: "suelo", nivel: "exigente", dosis: "5 por lado",
+      como: "Sentado en el suelo, con las piernas separadas y las manos en la nuca. Gira hacia un lado y llévate la cabeza hacia la rodilla. Vuelve y repite hacia el otro lado.",
+      resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Espalda, cintura y muslos.", prec: "No tires del cuello con las manos. Llega solo hasta donde puedas sin forzar." },
+    { id: "e41", t: "Caminar a cuatro patas", zona: "Piernas, brazos y muñecas", cat: "brazos", pos: "suelo", nivel: "exigente", dosis: "Hasta notar cansancio",
+      como: "Con las manos en el suelo y las piernas y los brazos rectos, camina con energía apoyándote en manos y pies.",
+      resp: "Respira por la nariz.", trabaja: "Piernas, brazos, hombros y muñecas.", prec: "Exige mucho a las muñecas y la cabeza queda baja. Para si te mareas." },
+    { id: "e42", t: "Bastón por encima de la cabeza", zona: "Espalda y hombros", cat: "brazos", pos: "sentado", nivel: "suave", mat: "Taburete y bastón", dosis: "10 veces",
+      como: "Sentado en un taburete, sujeta un bastón por delante, cerca del pecho. Pásalo por encima de la cabeza y bájalo por detrás todo lo que puedas sin forzar. Vuelve adelante.",
+      resp: "Toma aire al llevarlo atrás y suéltalo al traerlo adelante.", trabaja: "Espalda y hombros.", prec: "Agarra el bastón con las manos bien separadas. Si notas molestias en el hombro, quédate encima de la cabeza." }
   ];
+  EJ.forEach((e, i) => { e.n = i + 1; });
+  const ACT = { id: "act", t: "Activación" };
   const CALMA = { id: "calma", t: "Vuelta a la calma" };
   const BYID = Object.fromEntries(EJ.map((e) => [e.id, e]));
-  const CATS = { fuerza: "Fuerza", movilidad: "Movilidad", equilibrio: "Equilibrio", cardio: "Cardio suave" };
+  const POS = { pie: "De pie", sentado: "Sentado", suelo: "En el suelo" };
+  const NIV = { suave: "Suave", medio: "Medio", exigente: "Exigente" };
 
   /* Figura animada realista (figura.js + movimientos.js) */
   /* Primero se dibuja la ilustración SVG; cuando el motor 3D está listo,
@@ -105,25 +187,33 @@
   /* ------------------------------------------------------------------
      TARJETAS DE EJERCICIOS
      ------------------------------------------------------------------ */
-  const sel = new Set(store.get("gym-sel", ["marcha", "brazos", "omoplatos", "levantarse", "talones", "pared", "equilibrio"]));
+  const PRESETS = {
+    suave: ["e1", "e22", "e7", "e10", "e15", "e2", "e9", "e19", "e31", "e6", "e42", "e27"],
+    medio: ["e1", "e7", "e2", "e3", "e11", "e16", "e17", "e4", "e24", "e36", "e20", "e25"],
+    exigente: ["e1", "e15", "e23", "e29", "e35", "e28", "e12", "e21", "e37", "e39", "e34", "e18"]
+  };
+  const sel = new Set(store.get("gym-sel42", PRESETS.suave).filter((id) => BYID[id]));
   const grid = $("#ex-grid");
   EJ.forEach((e) => {
     const card = document.createElement("article");
     card.className = "ex";
-    card.id = "ej-" + e.id;
-    card.dataset.cat = e.cat.join(" ");
-    card.dataset.pos = e.pos.join(" ");
+    card.id = "ej-" + e.n;
+    card.dataset.cat = e.cat;
+    card.dataset.pos = e.pos;
+    card.dataset.niv = e.nivel;
     card.innerHTML = `
       <div class="ex__fig"><span class="ex__n">${e.n}</span></div>
       <div class="ex__body">
-        <div class="ex__tags">${e.cat.map((c) => `<span class="tag tag--${c}">${CATS[c]}</span>`).join("")}
-          <span class="tag tag--pos">${e.pos.map((p) => p === "pie" ? "De pie con apoyo" : "Sentado").join(" · ")}</span></div>
+        <div class="ex__tags"><span class="tag tag--${e.nivel}">${NIV[e.nivel]}</span>
+          <span class="tag tag--pos">${POS[e.pos]}</span>${e.mat ? `<span class="tag tag--mat">🧰 ${esc(e.mat)}</span>` : ""}</div>
+        <p class="ex__zona">${esc(e.zona)}</p>
         <h3>${esc(e.t)}</h3>
         <p class="ex__dose">⏱ ${esc(e.dosis)}</p>
         <p>${esc(e.como)}</p>
-        <details><summary>Más fácil y por qué sirve</summary>
-          <p><strong>Más fácil:</strong> ${esc(e.facil)}</p>
-          <p><strong>Para qué sirve:</strong> ${esc(e.porque)}</p>
+        ${e.prec ? `<p class="ex__prec">⚠️ ${esc(e.prec)}</p>` : ""}
+        <details><summary>Respiración y qué trabaja</summary>
+          <p><strong>Respiración:</strong> ${esc(e.resp)}</p>
+          <p><strong>Trabaja:</strong> ${esc(e.trabaja)}</p>
         </details>
         <label class="pick"><input type="checkbox" value="${e.id}" ${sel.has(e.id) ? "checked" : ""}> En mi sesión</label>
       </div>`;
@@ -131,29 +221,30 @@
     grid.appendChild(card);
   });
 
-  // Filtros
-  let fCat = "", fPos = "";
+  // Filtros: zona, posición y nivel
+  const F = { cat: "", pos: "", niv: "" };
   function applyFilter() {
+    let n = 0;
     $$(".ex", grid).forEach((c) => {
-      const ok = (!fCat || c.dataset.cat.includes(fCat)) && (!fPos || c.dataset.pos.includes(fPos));
-      c.hidden = !ok;
+      const ok = Object.keys(F).every((k) => !F[k] || c.dataset[k] === F[k]);
+      c.hidden = !ok; if (ok) n++;
     });
-    $$("#ex-filters [data-cat]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cat === fCat)));
-    $$("#ex-filters [data-pos]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.pos === fPos)));
+    for (const k of Object.keys(F)) $$(`#ex-filters [data-${k}]`).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset[k] === F[k])));
+    $("#ex-count").textContent = n === EJ.length ? `Mostrando los ${n} ejercicios` : `Mostrando ${n} de ${EJ.length}`;
   }
   $("#ex-filters").addEventListener("click", (ev) => {
     const b = ev.target.closest("button"); if (!b) return;
-    if ("cat" in b.dataset) fCat = b.dataset.cat === fCat ? "" : b.dataset.cat;
-    if ("pos" in b.dataset) fPos = b.dataset.pos === fPos ? "" : b.dataset.pos;
+    if ("reset" in b.dataset) { F.cat = F.pos = F.niv = ""; }
+    for (const k of Object.keys(F)) if (k in b.dataset) F[k] = b.dataset[k] === F[k] ? "" : b.dataset[k];
     applyFilter();
   });
   applyFilter();
 
   // Selección para la sesión
   function syncSel() {
-    store.set("gym-sel", [...sel]);
+    store.set("gym-sel42", [...sel]);
     $$(".pick input", grid).forEach((i) => { i.checked = sel.has(i.value); i.closest(".ex").classList.toggle("is-picked", i.checked); });
-    const n = sel.size, min = Math.round(4 + n * 2 + 5);
+    const n = sel.size, min = Math.round(3 + n * 1.5 + 3);
     $("#sel-count").textContent = n ? `${n} ejercicio${n === 1 ? "" : "s"} · unos ${min} minutos` : "Elige al menos un ejercicio";
     $("#start").disabled = !n;
     $$("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", "false"));
@@ -162,11 +253,6 @@
     const i = ev.target.closest(".pick input"); if (!i) return;
     i.checked ? sel.add(i.value) : sel.delete(i.value); syncSel();
   });
-  const PRESETS = {
-    sentado: ["marcha", "brazos", "omoplatos", "giro", "rodilla", "rodillas"],
-    pie: ["marcha", "brazos", "levantarse", "talones", "pared", "paso", "lado", "equilibrio"],
-    mixto: ["marcha", "brazos", "omoplatos", "levantarse", "talones", "pared", "equilibrio"]
-  };
   $$("[data-preset]").forEach((b) => b.addEventListener("click", () => {
     sel.clear(); PRESETS[b.dataset.preset].forEach((id) => sel.add(id)); syncSel();
     b.setAttribute("aria-pressed", "true");
@@ -180,9 +266,9 @@
   let steps = [], idx = 0, left = 0, paused = false, tick = null, wake = null, sFig = null;
   function buildSteps() {
     const chosen = EJ.filter((e) => sel.has(e.id));
-    steps = [{ ex: BYID.marcha, title: "Activación", text: "Marcha suave en el sitio o sentado. Mueve los hombros y abre y cierra las manos.", dose: "4 minutos", dur: 240, warm: true }]
-      .concat(chosen.map((e) => ({ ex: e, title: e.t, text: e.como, dose: e.dosis, easy: e.facil, dur: e.dur || 120 })))
-      .concat([{ ex: CALMA, title: "Vuelta a la calma", text: "Camina despacio, respira con calma y haz estiramientos suaves, sin rebotes ni dolor.", dose: "5 minutos", dur: 300 }]);
+    steps = [{ ex: ACT, title: "Activación", text: "Camina de puntillas, camina sobre los talones y corre suave en el sitio de puntillas (complemento del ejercicio 6). Ve a tu ritmo.", dose: "3 minutos", dur: 180, warm: true }]
+      .concat(chosen.map((e) => ({ ex: e, title: `${e.n}. ${e.t}`, text: e.como, dose: e.dosis, easy: e.prec ? "⚠️ " + e.prec : "🌬 " + e.resp, dur: 90 })))
+      .concat([{ ex: CALMA, title: "Vuelta a la calma", text: "Repite el ejercicio 1 muy despacio: sube los brazos tomando aire y bájalos soltándolo. Deja que el pulso se calme.", dose: "3 minutos", dur: 180 }]);
   }
   let actx = null;
   function beep(f = 880, d = 0.18) {
@@ -206,7 +292,7 @@
     $("#s-text").textContent = s.text;
     $("#s-dose").textContent = s.dose;
     $("#s-easy").hidden = !s.easy;
-    $("#s-easy").innerHTML = s.easy ? `<strong>Más fácil:</strong> ${esc(s.easy)}` : "";
+    $("#s-easy").textContent = s.easy || "";
     const nx = steps[idx + 1];
     $("#s-next").textContent = nx ? `Siguiente: ${nx.title}` : "Último paso";
     const box = $("#s-fig"); box.innerHTML = "";
@@ -271,26 +357,6 @@
   });
 
   /* ------------------------------------------------------------------
-     TEST DEL HABLA
-     ------------------------------------------------------------------ */
-  const RPE = [
-    [0, 2, "Muy suave", "Puedes cantar sin problema. Perfecto para calentar o volver a la calma.", "lo"],
-    [3, 4, "Suave", "Hablas con total normalidad. Buen punto de partida si llevas tiempo sin moverte.", "lo"],
-    [5, 6, "Moderada ✓", "Puedes hablar, pero no cantar. Es la intensidad recomendada para la mayoría de la actividad semanal.", "ok"],
-    [7, 8, "Vigorosa", "Solo dices frases cortas. Útil en personas entrenadas; en esta guía no hace falta llegar aquí.", "hi"],
-    [9, 10, "Máxima", "No puedes hablar. Baja el ritmo: esta sesión no busca este nivel.", "max"]
-  ];
-  const r = $("#rpe");
-  function updRpe() {
-    const v = +r.value, x = RPE.find(([a, b]) => v >= a && v <= b);
-    $("#rpe-v").textContent = v;
-    $("#rpe-t").textContent = x[2];
-    $("#rpe-d").textContent = x[3];
-    $("#rpe-card").dataset.lvl = x[4];
-  }
-  r.addEventListener("input", updRpe); updRpe();
-
-  /* ------------------------------------------------------------------
      MI SEMANA (se guarda solo en este navegador)
      ------------------------------------------------------------------ */
   const DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -348,7 +414,7 @@
   const pageUrl = location.origin + location.pathname;
   function invText() {
     return `🌿 *Gimnasia para todos* — encuentro comunitario de gimnasia suave\n\n` +
-      `¿Te gustaría moverte un poco más y hacerlo acompañado? Ejercicios sencillos de movilidad, fuerza y equilibrio, con opciones sentado y de pie, pausas y un ambiente de apoyo. No necesitas experiencia ni material: solo ropa cómoda, agua y ganas de participar a tu ritmo.\n\n` +
+      `¿Te gustaría moverte un poco más y hacerlo acompañado? Practicaremos ejercicios de gimnasia en tres niveles (suave, medio y exigente), cada uno a su ritmo y con pausas. Solo necesitas ropa cómoda, agua y ganas de participar.\n\n` +
       `📍 ${val("lugar", "[Lugar]")}\n🗓 ${val("cuando", "[Día y hora]")}\n📞 ${val("contacto", "[Contacto]")}\n\n` +
       `Si tienes una lesión o una condición de salud, consulta antes con tu profesional sanitario.\nGuía: ${pageUrl}\n\nVen como eres; empezamos paso a paso.`;
   }
@@ -371,18 +437,12 @@
     window.track?.("gym/cartel-impreso", "Cartel impreso");
   });
   window.addEventListener("afterprint", () => document.body.classList.remove("print-poster"));
-  $("#poster-fig").appendChild(figure(BYID.brazos));
+  $("#poster-fig").appendChild(figure(BYID.e27));
 
-  /* Figuras decorativas de la portada y de los mitos */
-  $("#hero-fig-1").appendChild(figure(BYID.levantarse));
-  $("#hero-fig-2").appendChild(figure(BYID.talones));
-  $("#hero-fig-3").appendChild(figure(BYID.pared));
-
-  /* Mitos: tarjetas que se giran */
-  $$(".myth").forEach((m) => m.addEventListener("click", () => {
-    const on = m.getAttribute("aria-pressed") !== "true";
-    m.setAttribute("aria-pressed", String(on));
-  }));
+  /* Figuras decorativas de la portada */
+  $("#hero-fig-1").appendChild(figure(BYID.e11));
+  $("#hero-fig-2").appendChild(figure(BYID.e16));
+  $("#hero-fig-3").appendChild(figure(BYID.e23));
 
   /* Tema (compartido con el resto de la web) */
   try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch { /* nada */ }

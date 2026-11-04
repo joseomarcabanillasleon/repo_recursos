@@ -254,3 +254,19 @@ body.no-scroll { overflow: hidden; }
 .session__fig .fig-box { height: 100%; }
 .session__fig .fig-box canvas.fig3d { height: 100%; width: auto; max-width: 100%; margin: 0 auto; }
 .poster__fig .fig-box canvas.fig3d { border-radius: 50%; }
+
+/* ---------- 42 ejercicios: niveles, zona y precauciones ---------- */
+.tag--suave { background: #e2f3ec; color: #13644f; }
+.tag--medio { background: #fff1cc; color: #7a5300; }
+.tag--exigente { background: #fde2dc; color: #9a2f17; }
+.tag--mat { background: #f1ebe3; color: #5c4630; }
+.ex__zona { margin: 2px 0 -4px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted, #6b7280); }
+.ex__prec { margin: 0; padding: 8px 10px; border-radius: 10px; background: #fff4e5; color: #6b3d00; font-size: 14px; line-height: 1.45; }
+:root[data-theme="dark"] .ex__prec { background: #3a2a14; color: #ffd9a3; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ex__prec { background: #3a2a14; color: #ffd9a3; } }
+.ex-count { margin: -6px 0 14px; font-size: 14px; color: var(--muted, #6b7280); }
+.chip--suave[aria-pressed="true"] { background: #13644f; border-color: #13644f; color: #fff; }
+.chip--medio[aria-pressed="true"] { background: #a06d00; border-color: #a06d00; color: #fff; }
+.chip--exigente[aria-pressed="true"] { background: #b23a1d; border-color: #b23a1d; color: #fff; }
+.presets .chip--suave[aria-pressed="true"], .presets .chip--medio[aria-pressed="true"], .presets .chip--exigente[aria-pressed="true"] { color: #fff; }
+.duo--one { grid-template-columns: minmax(0, 640px); justify-content: center; }

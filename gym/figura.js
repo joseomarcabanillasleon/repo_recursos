@@ -47,12 +47,14 @@
     J.N = add(P, dir(T), L.torso);
     J.HC = add(add(J.N, dir(H), L.neck), dir(H), L.head);
     J.H = H; J.T = T; J.rot = p.rot || 0;
+    J.z = p.z || null; J.yaw = p.yaw || 0; J.yawA = p.yawA ?? true;
     if (J.view === "side") {
       J.S = add(P, dir(T), L.torso - 5);
       for (const k of ["B", "F"]) {
         const a = p["a" + k] || [0, 0];
         let E, W, fa;
         if (Array.isArray(a)) { E = add(J.S, dir(a[0]), L.ua); W = add(E, dir(a[1]), L.fa); }
+        else if (a.E) { E = a.E; W = a.W; }
         else { [E, W] = ik(J.S, a.to, L.ua, L.fa, a.bend ?? 1); }
         fa = unit(sub(W, E));
         J["E" + k] = E; J["W" + k] = W; J["Hd" + k] = add(W, fa, 3);
@@ -74,21 +76,23 @@
       const perp = [-Math.cos(T * R), Math.sin(T * R)]; // perpendicular al tronco (hacia la derecha si está erguido)
       const S0 = add(P, dir(T), L.torso - 5);
       J.SL = add(S0, perp, -sw); J.SR = add(S0, perp, sw);
-      J.HL = add(P, perp, -hw); J.HR = add(P, perp, hw);
+      const PT = p.PT ?? T, pp = [-Math.cos(PT * R), Math.sin(PT * R)];
+      J.HL = add(P, pp, -hw); J.HR = add(P, pp, hw);
       for (const k of ["L", "R"]) {
         const sgn = k === "L" ? -1 : 1, S = J["S" + k];
         const a = p["a" + k] || [6, 6];
-        let E, W;
-        if (Array.isArray(a)) {
+        let E, W; J["dz" + k] = 1;
+        if (a.E) { E = a.E; W = a.W; }
+        else if (Array.isArray(a)) {
           const d0 = (ang) => [sgn * Math.sin(ang * R), Math.cos(ang * R)];
           E = add(S, d0(a[0]), L.ua); W = add(E, d0(a[1]), L.fa);
-        } else { [E, W] = ik(S, a.to, L.ua, L.fa, (a.bend ?? 1) * -sgn); }
+        } else { [E, W] = ik(S, a.to, L.ua, L.fa, (a.bend ?? 1) * -sgn); J["dz" + k] = a.dz ?? 1; }
         J["E" + k] = E; J["W" + k] = W; J["Hd" + k] = add(W, unit(sub(W, E)), 3);
         const g = p["l" + k] || [3, 2];
         const d0 = (ang) => [sgn * Math.sin(ang * R), Math.cos(ang * R)];
         const fs = g[2] ?? 1; // escorzo del muslo (sentado)
         const K = add(J["H" + k], d0(g[0]), L.th * fs);
-        const A = add(K, d0(g[1]), L.sh);
+        const A = add(K, d0(g[1]), L.sh * (g[3] ?? 1));
         J["K" + k] = K; J["A" + k] = A;
         J["Toe" + k] = add(A, [sgn * 0.55, 0.35], 9);
       }
@@ -191,6 +195,16 @@
     // silla vista de frente al lado (para apoyar la mano)
     chairSide: (x = 140) => `<g fill="${C.prop}"><rect x="${x}" y="96" width="34" height="48" rx="5" opacity=".75"/><rect x="${x - 4}" y="142" width="42" height="8" rx="3" fill="${C.propD}"/>
       <rect x="${x - 1}" y="148" width="5" height="39" rx="2"/><rect x="${x + 30}" y="148" width="5" height="39" rx="2"/></g>`,
+    chairRev: (x = 134) => `<g fill="none" stroke="${C.prop}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M${x + 44} 98 V187"/><path d="M${x + 44} 146 H${x} V187"/></g>
+      <rect x="${x - 3}" y="142" width="50" height="7" rx="3" fill="${C.propD}"/>`,
+    chairFar: (x = 96) => `<g fill="${C.prop}" opacity=".6"><rect x="${x - 20}" y="96" width="40" height="48" rx="5"/><rect x="${x - 22}" y="142" width="44" height="7" rx="3"/>
+      <rect x="${x - 19}" y="148" width="5" height="39" rx="2"/><rect x="${x + 14}" y="148" width="5" height="39" rx="2"/></g>`,
+    stool: (x = 80) => `<g fill="${C.prop}"><rect x="${x - 20}" y="142" width="40" height="7" rx="3" fill="${C.propD}"/>
+      <rect x="${x - 17}" y="148" width="5" height="39" rx="2"/><rect x="${x + 12}" y="148" width="5" height="39" rx="2"/></g>`,
+    book: (x = 112) => `<rect x="${x - 14}" y="181" width="28" height="7" rx="1.5" fill="#7a4b8c"/>`,
+    box: (x = 172, h = 40) => `<rect x="${x - 16}" y="${188 - h}" width="32" height="${h}" rx="3" fill="${C.prop}"/>`,
+    bench: (x = 172) => `<g fill="${C.propD}"><rect x="${x - 22}" y="156" width="44" height="5" rx="2"/><rect x="${x - 20}" y="160" width="4" height="27"/><rect x="${x + 16}" y="160" width="4" height="27"/></g>`,
     wall: (x = 176) => `<rect x="${x}" y="14" width="20" height="173" fill="${C.wall}"/><rect x="${x}" y="14" width="3" height="173" fill="#d9cdbb"/>`
   };
 
@@ -198,7 +212,7 @@
   const lerp = (a, b, t) => {
     if (typeof a === "number") return a + (b - a) * t;
     if (Array.isArray(a)) return a.map((x, i) => lerp(x, b[i], t));
-    if (a && typeof a === "object") { const o = {}; for (const k in a) o[k] = (k in b) ? lerp(a[k], b[k], t) : a[k]; return o; }
+    if (a && typeof a === "object") { const o = {}; for (const k in a) o[k] = (b && k in b) ? lerp(a[k], b[k], t) : a[k]; return o; }
     return a;
   };
   const ease = (x) => x * x * (3 - 2 * x);
@@ -241,7 +255,7 @@
       const c = add(m, n, (ex.cue.bow ?? 14));
       cue = `<path d="M${pt(a)} Q${pt(c)} ${pt(b)}" fill="none" stroke="${C.cue}" stroke-width="2.6" stroke-dasharray="5 4" stroke-linecap="round" marker-end="url(#${id}-ar)" opacity=".9"/>`;
     }
-    const props = (ex.props || []).map((p) => typeof p === "string" ? PROPS[p]() : PROPS[p[0]](...p.slice(1))).join("");
+    const props = (ex.props || []).map((p) => { const [n, ...a] = Array.isArray(p) ? p : [p]; return PROPS[n] ? PROPS[n](...a) : ""; }).join("");
     svg.innerHTML = `<defs>
         <marker id="${id}-ar" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.cue}"/></marker>
         <radialGradient id="${id}-fo"><stop offset="0" stop-color="${C.focus}" stop-opacity=".55"/><stop offset="1" stop-color="${C.focus}" stop-opacity="0"/></radialGradient>
@@ -256,7 +270,8 @@
     function draw(ms) {
       const pose = typeof ms === "number" ? poseAt(frames, ms) : (ms && ms.P ? ms : peak);
       const J = solve(pose);
-      gBody.innerHTML = body(J, false);
+      gBody.innerHTML = body(J, false) + (ex.stick ? (() => { const a = J.HdB || J.HdL, b = J.HdF || J.HdR, v = unit(sub(b, a));
+        return `<path d="M${pt(add(a, v, -14))} L${pt(add(b, v, 14))}" stroke="#8a5a35" stroke-width="3" stroke-linecap="round"/>`; })() : "");
       if (ex.focus) {
         const c = add(J[ex.focus.j], ex.focus.off || [0, 0]);
         gFocus.innerHTML = circ(c, ex.focus.r || 14, `url(#${id}-fo)`);

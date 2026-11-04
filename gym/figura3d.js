@@ -120,7 +120,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
       P["sole" + s] = new THREE.Mesh(new THREE.CapsuleGeometry(0.041, 0.12, 6, 16), mat("sole"));
     }
     for (const k in P) g.add(P[k]);
-    if (ghost) g.renderOrder = -1;
+    if (ghost) { g.renderOrder = -1; g.traverse((o) => { o.castShadow = false; }); }
 
     const basis = new THREE.Matrix4();
     const q = new THREE.Quaternion();
@@ -136,7 +136,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
       const Pp = v2(J.P), Np = v2(J.N);
       const up = new THREE.Vector3().subVectors(Np, Pp).normalize();
       let fwd0;
-      if (side) fwd0 = new THREE.Vector3(1, 0, 0);
+      if (side) { const t = (J.T ?? 180) * Math.PI / 180; fwd0 = new THREE.Vector3(-Math.cos(t), -Math.sin(t), 0); }
       else if (J.back) fwd0 = new THREE.Vector3(0, 0, -1);
       else fwd0 = new THREE.Vector3(Math.sin((J.rot || 0) * Math.PI / 180), 0, Math.cos((J.rot || 0) * Math.PI / 180));
       const fwd = fwd0.clone().addScaledVector(up, -fwd0.dot(up)).normalize();
@@ -153,19 +153,29 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
           pts["H" + s] = Pp.clone().setZ(zH);
           pts["K" + s] = v2(J["K" + k], zH); pts["A" + s] = v2(J["A" + k], zH);
           pts["Toe" + s] = v2(J["Toe" + k], zH); pts["Heel" + s] = v2(J["Heel" + k], zH);
+          const z = J.z;
+          if (z) {
+            if (z["S" + k] != null) pts["S" + s].z = z["S" + k];
+            if (z["E" + k] != null) pts["E" + s].z = z["E" + k];
+            if (z["W" + k] != null) { pts["W" + s].z = z["W" + k]; pts["Hd" + s].z = z["W" + k]; }
+            if (z["K" + k] != null) pts["K" + s].z = z["K" + k];
+            if (z["A" + k] != null) { pts["A" + s].z = z["A" + k]; pts["Toe" + s].z = z["A" + k]; pts["Heel" + s].z = z["A" + k]; }
+          }
         }
       } else {
         const L3 = { ua: 0.29, fa: 0.26, th: 0.4, sh: 0.4 };
         const depthSign = J.back ? -1 : 1;
-        const deep = (a3, b2, len) => {
+        const deep = (a3, b2, len, ds = 1) => {
           const b3 = v2(b2);
           const proj = Math.hypot(b3.x - a3.x, b3.y - a3.y);
-          b3.z = a3.z + depthSign * Math.sqrt(Math.max(0, len * len - proj * proj));
+          b3.z = a3.z + ds * depthSign * Math.sqrt(Math.max(0, len * len - proj * proj));
           return b3;
         };
         for (const s of ["L", "R"]) {
           const S = v2(J["S" + s]); S.z = -0.01 * depthSign;
-          const E = deep(S, J["E" + s], L3.ua), W = deep(E, J["W" + s], L3.fa);
+          const ds = J["dz" + s] ?? 1;
+          const E = deep(S, J["E" + s], L3.ua, ds), W = deep(E, J["W" + s], L3.fa, ds);
+          if (J.z) { if (J.z["E" + s] != null) E.z = J.z["E" + s]; if (J.z["W" + s] != null) W.z = J.z["W" + s]; }
           const hd = W.clone().add(new THREE.Vector3().subVectors(W, E).normalize().multiplyScalar(0.03));
           const H = v2(J["H" + s]);
           const K = deep(H, J["K" + s], L3.th), A = deep(K, J["A" + s], L3.sh);
@@ -174,14 +184,25 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
           Object.assign(pts, { ["S" + s]: S, ["E" + s]: E, ["W" + s]: W, ["Hd" + s]: hd, ["H" + s]: H, ["K" + s]: K, ["A" + s]: A, ["Toe" + s]: toe, ["Heel" + s]: heel });
         }
       }
+      // giro del tronco (yaw) alrededor del eje del cuerpo
+      let cR = right, cF = fwd;
+      const HC = v2(J.HC);
+      if (side && J.z && J.z.HC != null) HC.z = J.z.HC;
+      if (J.yaw) {
+        const qy = new THREE.Quaternion().setFromAxisAngle(up, J.yaw * Math.PI / 180);
+        const rot = (v) => v.sub(Pp).applyQuaternion(qy).add(Pp);
+        const keys = ["S"].concat(J.yawA ? ["E", "W", "Hd"] : []);
+        for (const s of ["L", "R"]) for (const k of keys) rot(pts[k + s]);
+        rot(HC);
+        cR = right.clone().applyQuaternion(qy); cF = fwd.clone().applyQuaternion(qy);
+      }
       // tronco
       ellipsoid(P.pelvis, Pp.clone().addScaledVector(up, 0.02), 0.165, 0.115, 0.115, right, up, fwd);
       ellipsoid(P.abdomen, Pp.clone().addScaledVector(up, 0.17), 0.15, 0.15, 0.1, right, up, fwd);
-      ellipsoid(P.chest, Pp.clone().addScaledVector(up, 0.33), 0.175, 0.165, 0.112, right, up, fwd);
+      ellipsoid(P.chest, Pp.clone().addScaledVector(up, 0.33), 0.175, 0.165, 0.112, cR, up, cF);
       // cabeza
-      const HC = v2(J.HC);
       const hUp = new THREE.Vector3().subVectors(HC, Np).normalize();
-      const hF = fwd.clone().addScaledVector(hUp, -fwd.dot(hUp)).normalize();
+      const hF = cF.clone().addScaledVector(hUp, -fwd.dot(hUp)).normalize();
       const hR = new THREE.Vector3().crossVectors(hUp, hF).normalize();
       placeSeg(P.neck, Np.clone().addScaledVector(up, -0.03), Np.clone().addScaledVector(hUp, 0.06));
       P.head.position.copy(HC); orient(P.head, hR, hUp, hF);
@@ -221,13 +242,13 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
   /* ---------- Atrezo 3D ---------- */
   const box3 = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true; return m; };
   const leg3 = (x, z, h, mat = M.wood) => { const m = cyl(0.016, 0.018, mat); m.scale.y = h; m.position.set(x, h / 2, z); return m; };
-  function chairSide(x2) { // silla vista de lado: respaldo en x2, asiento hacia +x
-    const X = (x2 - 100) * S3, g = new THREE.Group();
+  function chairSide(x2, flip) { // silla vista de lado: respaldo en x2, asiento hacia +x (flip: respaldo al otro extremo)
+    const X = (x2 - 100) * S3, g = new THREE.Group(), B = flip ? X + 0.42 : X + 0.02;
     g.add(box3(0.46, 0.04, 0.44, M.woodD, X + 0.22, 0.4, 0));
     g.add(leg3(X + 0.03, -0.19, 0.38), leg3(X + 0.03, 0.19, 0.38), leg3(X + 0.41, -0.19, 0.38), leg3(X + 0.41, 0.19, 0.38));
-    const p1 = cyl(0.016, 0.018, M.wood); p1.scale.y = 0.52; p1.position.set(X + 0.02, 0.66, -0.19);
+    const p1 = cyl(0.016, 0.018, M.wood); p1.scale.y = 0.52; p1.position.set(B, 0.66, -0.19);
     const p2 = p1.clone(); p2.position.z = 0.19;
-    g.add(p1, p2, box3(0.03, 0.16, 0.42, M.woodD, X + 0.02, 0.84, 0), box3(0.025, 0.05, 0.38, M.wood, X + 0.02, 0.62, 0));
+    g.add(p1, p2, box3(0.03, 0.16, 0.42, M.woodD, B, 0.84, 0), box3(0.025, 0.05, 0.38, M.wood, B, 0.62, 0));
     return g;
   }
   function chairBeside(x2) { // vista frontal: silla a la derecha, respaldo en z = 0
@@ -249,7 +270,37 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     return g;
   }
   const wall3 = (x2) => box3(0.06, 2.2, 2.6, M.wall, (x2 - 100) * S3 + 0.03, 1.1, 0);
-  const PROP3 = { chair: chairSide, chairFront: chairSide, chairSide: chairBeside, wall: wall3 };
+  const chairRev = (x2) => chairSide(x2, true); // asiento hacia la persona, respaldo al fondo
+  function chairFar(x2) { // silla al otro lado de la persona: el respaldo queda junto a su mano
+    const X = (x2 - 100) * S3, g = new THREE.Group(), Z = -0.62;
+    g.add(box3(0.42, 0.04, 0.42, M.woodD, X, 0.4, Z));
+    g.add(leg3(X - 0.18, Z - 0.18, 0.38), leg3(X + 0.18, Z - 0.18, 0.38), leg3(X - 0.18, Z + 0.18, 0.38), leg3(X + 0.18, Z + 0.18, 0.38));
+    const p1 = cyl(0.016, 0.018, M.wood); p1.scale.y = 0.52; p1.position.set(X - 0.19, 0.66, Z + 0.2);
+    const p2 = p1.clone(); p2.position.x = X + 0.19;
+    g.add(p1, p2, box3(0.42, 0.14, 0.03, M.woodD, X, 0.86, Z + 0.2));
+    return g;
+  }
+  function stool(x2) { // taburete sin respaldo
+    const X = (x2 - 100) * S3, g = new THREE.Group();
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.045, 28), M.woodD);
+    top.position.set(X, 0.4, 0); top.castShadow = top.receiveShadow = true; g.add(top);
+    for (const [dx, dz] of [[-0.13, -0.13], [0.13, -0.13], [-0.13, 0.13], [0.13, 0.13]]) g.add(leg3(X + dx, dz, 0.38));
+    return g;
+  }
+  function book(x2) {
+    const g = new THREE.Group(), X = (x2 - 100) * S3;
+    g.add(box3(0.26, 0.06, 0.36, new THREE.MeshStandardMaterial({ color: "#7a4b8c", roughness: 0.7 }), X, 0.03, 0));
+    g.add(box3(0.25, 0.045, 0.35, new THREE.MeshStandardMaterial({ color: "#f4efe6", roughness: 0.9 }), X + 0.008, 0.03, 0));
+    return g;
+  }
+  const box40 = (x2, h = 40) => box3(0.32, h * S3, 0.44, M.wood, (x2 - 100) * S3, h * S3 / 2, 0);
+  function bench(x2) { // mueble bajo bajo el que se sujetan los pies
+    const X = (x2 - 100) * S3, g = new THREE.Group();
+    g.add(box3(0.5, 0.04, 0.6, M.woodD, X, 0.3, 0));
+    g.add(leg3(X - 0.22, -0.27, 0.28), leg3(X + 0.22, -0.27, 0.28), leg3(X - 0.22, 0.27, 0.28), leg3(X + 0.22, 0.27, 0.28));
+    return g;
+  }
+  const PROP3 = { chair: chairSide, chairFront: chairSide, chairSide: chairBeside, chairRev, chairFar, chairBehind, stool, book, box: box40, bench, wall: wall3 };
 
   /* ---------- Flechas ---------- */
   function arrow(curve) {
@@ -279,10 +330,9 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     if (cache.has(ex.id)) return cache.get(ex.id);
     const g = new THREE.Group();
     for (const p of ex.props || []) {
-      const [name, x] = Array.isArray(p) ? p : [p];
-      if (PROP3[name]) g.add(PROP3[name](x));
+      const [name, ...a] = Array.isArray(p) ? p : [p];
+      if (PROP3[name]) g.add(PROP3[name](...a));
     }
-    if (ex.id === "giro") g.add(chairBehind());
     const view = ex.frames[0].pose.view || "side";
     const zc = view === "side" ? 0.32 : 0.3;
     if (ex.cuePaths) ex.cuePaths.forEach((d) => parsePath(d, zc).forEach((c) => g.add(arrow(c))));
@@ -297,7 +347,30 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     const focus = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), M.focus);
     focus.renderOrder = 10;
     g.add(focus);
-    const data = { group: g, focus, view, peakJ: F.solve(ex.frames[ex.peak ?? Math.min(1, ex.frames.length - 1)].pose) };
+    let stick = null;
+    if (ex.stick) {
+      stick = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 1, 12), new THREE.MeshStandardMaterial({ color: "#8a5a35", roughness: 0.6 }));
+      stick.castShadow = true; g.add(stick);
+    }
+    // encuadre automático: caja que contiene todos los fotogramas clave
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    for (const f of ex.frames) {
+      const J = F.solve(f.pose);
+      for (const k in J) {
+        const v = J[k];
+        if (Array.isArray(v) && v.length === 2 && typeof v[0] === "number") {
+          x0 = Math.min(x0, v[0]); x1 = Math.max(x1, v[0]); y0 = Math.min(y0, v[1]); y1 = Math.max(y1, v[1]);
+        }
+      }
+      y0 = Math.min(y0, J.HC[1] - 13); x0 = Math.min(x0, J.HC[0] - 12); x1 = Math.max(x1, J.HC[0] + 12);
+    }
+    y1 = 188;
+    const P0 = ex.frames[0].pose.P;
+    const frame = {
+      cx: ((x0 + x1) / 2 - 100) * S3, cy: (188 - (y0 + y1) / 2) * S3,
+      ext: Math.max((x1 - x0 + 24) * S3, (y1 - y0 + 10) * S3), floor: P0[1] > 160
+    };
+    const data = { group: g, focus, view, stick, frame, peakJ: F.solve(ex.frames[ex.peak ?? Math.min(1, ex.frames.length - 1)].pose) };
     g.visible = false;
     scene.add(g);
     cache.set(ex.id, data);
@@ -326,12 +399,18 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
       }
       X.focus.visible = true; X.focus.position.copy(p3); X.focus.scale.setScalar((ex.focus.r || 14) * S3 * 0.85);
     } else X.focus.visible = false;
-    // cámara
-    const seated = J.P[1] > 120;
-    const baseAz = ex.az ?? (X.view === "side" ? 30 : -16);
-    const az = (baseAz + b.az) * Math.PI / 180, el = (seated ? 10 : 12) * Math.PI / 180;
-    const target = new THREE.Vector3(X.view === "side" ? (ex.tx ?? 0.06) : 0.04, seated ? (X.view === "side" ? 0.72 : 0.8) : 0.88, 0);
-    const r = b.big ? 3.15 : 3.35;
+    if (X.stick) {
+      const a = pts.HdL, c = pts.HdR, d = new THREE.Vector3().subVectors(c, a), l = d.length() || 1e-3;
+      X.stick.position.copy(a).addScaledVector(d, 0.5);
+      X.stick.quaternion.setFromUnitVectors(Y, d.divideScalar(l));
+      X.stick.scale.set(1, l + 0.3, 1);
+    }
+    // cámara (encuadre automático; cada ejercicio puede ajustar con ex.cam)
+    const fr = X.frame, cam = ex.cam || {};
+    const baseAz = cam.az ?? ex.az ?? (X.view === "side" ? 30 : -16);
+    const az = (baseAz + b.az) * Math.PI / 180, el = (cam.el ?? (fr.floor ? 22 : 11)) * Math.PI / 180;
+    const target = new THREE.Vector3(cam.tx ?? ex.tx ?? (X.view === "side" ? fr.cx : 0.02), cam.ty ?? Math.max(0.42, fr.cy), 0);
+    const r = (cam.r ?? Math.min(4.6, Math.max(3.1, fr.ext * (fr.floor ? 1.5 : 1.9) + (fr.floor ? 0.45 : 0))));
     camera.position.set(target.x + r * Math.sin(az) * Math.cos(el), target.y + r * Math.sin(el), target.z + r * Math.cos(az) * Math.cos(el));
     camera.lookAt(target);
     renderer.render(scene, camera);
@@ -381,6 +460,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
   }
   requestAnimationFrame(loop);
 
-  window.Figura3D = { mount, unmount };
+  function snap(el, ms) { const b = boxes.find((x) => x.el === el); if (b) { b.visible = false; renderBox(b, ms); } }
+  window.Figura3D = { mount, unmount, snap };
   window.dispatchEvent(new Event("figura3d-ready"));
 })();

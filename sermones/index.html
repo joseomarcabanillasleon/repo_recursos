@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sermones con IA · Recursos Adventistas</title>
+  <meta name="description" content="Prepara sermones, historias bíblicas para niños, devocionales y estudios con inteligencia artificial gratuita, basados en el texto bíblico y con verificación automática de las citas.">
+  <meta property="og:title" content="Sermones con IA · para niños y adultos">
+  <meta property="og:description" content="Elige el pasaje, el público y la duración. La IA prepara un borrador basado en el texto bíblico real, con palabras del hebreo y del griego, y comprueba cada cita.">
+  <meta property="og:image" content="https://recursosadventistas.es/assets/img/sermones-cover.webp">
+  <link rel="canonical" href="https://recursosadventistas.es/sermones/">
+  <meta name="theme-color" content="#243247">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Literata:opsz,wght@7..72,400;7..72,600&family=Noto+Serif+Hebrew&family=Gentium+Book+Plus&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="sermones.css">
+</head>
+<body>
+  <a class="skip" href="#taller">Ir al generador</a>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="../" aria-label="Recursos Adventistas, inicio">
+        <img class="brand__logo" src="../assets/img/logo.svg" alt="">
+        <span class="brand__name">Recursos<small>Adventistas</small></span>
+      </a>
+      <nav class="topnav" aria-label="Principal">
+        <a href="../biblia/">Biblia</a>
+        <a href="#taller">Generador</a>
+        <a href="#guardados">Guardados</a>
+        <a href="#como">Cómo funciona</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="shero">
+      <div class="wrap shero__grid">
+        <div>
+          <nav class="crumbs" aria-label="Migas de pan"><a href="../">Inicio</a> <span aria-hidden="true">›</span> <a href="../biblia/">Biblia</a> <span aria-hidden="true">›</span> Sermones con IA</nav>
+          <p class="eyebrow">Taller de predicación con IA</p>
+          <h1>Del pasaje al sermón, <em>para niños y adultos</em></h1>
+          <p class="shero__lead">Elige el texto, el público y el tiempo. La IA prepara un borrador basado en el pasaje real y en sus palabras del hebreo o del griego, y después comprobamos cada cita bíblica.</p>
+          <ul class="shero__pts">
+            <li>✅ Gratis: con tu clave de Google Gemini o copiando el prompt en ChatGPT, Claude o Gemini</li>
+            <li>📖 El texto bíblico se toma de la <a href="../biblia/">Biblia de estudio</a>, no de la memoria de la IA</li>
+            <li>🔎 Verificador de citas: cada referencia se comprueba con la RV1909</li>
+          </ul>
+        </div>
+        <div class="shero__card" aria-hidden="true">
+          <p class="shero__k">Ejemplo de encargo</p>
+          <p><b>Lucas 15:11-32</b> · Niños de 6 a 9 años · 10 minutos · Historia con objeto y actividad</p>
+          <p class="shero__arrow">↓</p>
+          <p class="shero__out">«El hijo que volvió a casa». Inicio con una mochila vacía, la historia contada en tres escenas, preguntas, versículo para memorizar y manualidad…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GENERADOR -->
+    <section class="wrap taller" id="taller" aria-labelledby="t-t">
+      <div class="taller__grid">
+        <form class="sform" id="form" autocomplete="off">
+          <h2 id="t-t">1 · ¿Qué vas a preparar?</h2>
+          <fieldset class="seg" id="aud">
+            <legend>Público</legend>
+            <label><input type="radio" name="aud" value="ninos-peq"><span>👶 Niños 3–5</span></label>
+            <label><input type="radio" name="aud" value="ninos" checked><span>🧒 Niños 6–9</span></label>
+            <label><input type="radio" name="aud" value="ninos-may"><span>🧑 Niños 10–12</span></label>
+            <label><input type="radio" name="aud" value="adolescentes"><span>🎧 Adolescentes</span></label>
+            <label><input type="radio" name="aud" value="jovenes"><span>🔥 Jóvenes</span></label>
+            <label><input type="radio" name="aud" value="adultos"><span>👪 Adultos</span></label>
+          </fieldset>
+          <fieldset class="seg" id="tipo">
+            <legend>Formato</legend>
+            <label><input type="radio" name="tipo" value="sermon" checked><span>🎤 Sermón</span></label>
+            <label><input type="radio" name="tipo" value="historia"><span>📚 Historia bíblica</span></label>
+            <label><input type="radio" name="tipo" value="devocional"><span>☀️ Devocional</span></label>
+            <label><input type="radio" name="tipo" value="estudio"><span>🔍 Estudio bíblico</span></label>
+            <label><input type="radio" name="tipo" value="culto"><span>🏠 Culto familiar</span></label>
+          </fieldset>
+
+          <h2>2 · El texto bíblico</h2>
+          <div class="row">
+            <label class="f f--grow"><span>Pasaje principal</span>
+              <input id="ref" placeholder="Ej.: Lucas 15:11-32 · Sal 23 · Juan 3:16" required spellcheck="false"></label>
+            <label class="f"><span>Versión</span><select id="ver"></select></label>
+          </div>
+          <div class="refbox" id="refbox" hidden></div>
+          <label class="f"><span>Tema o idea central <small>(opcional)</small></span>
+            <input id="tema" placeholder="Ej.: Dios siempre nos espera con los brazos abiertos"></label>
+
+          <h2>3 · Detalles</h2>
+          <div class="row">
+            <label class="f"><span>Duración</span><select id="dur">
+              <option value="5">5 minutos</option><option value="10" selected>10 minutos</option><option value="15">15 minutos</option>
+              <option value="20">20 minutos</option><option value="30">30 minutos</option><option value="40">40 minutos</option></select></label>
+            <label class="f"><span>Estilo</span><select id="estilo">
+              <option value="narrativo">Narrativo (cuenta la historia)</option><option value="expositivo">Expositivo (versículo a versículo)</option>
+              <option value="tematico">Temático</option><option value="dialogo">Participativo (preguntas y respuestas)</option></select></label>
+            <label class="f"><span>Ocasión</span><select id="ocasion">
+              <option value="culto de sábado">Culto de sábado</option><option value="Escuela Sabática">Escuela Sabática</option><option value="culto infantil">Culto infantil</option>
+              <option value="sociedad de jóvenes">Sociedad de jóvenes / JA</option><option value="culto de oración">Culto de oración (miércoles)</option>
+              <option value="campaña de evangelismo">Evangelismo</option><option value="campamento">Campamento</option><option value="culto familiar en casa">Culto familiar en casa</option>
+              <option value="funeral">Funeral</option><option value="boda">Boda</option><option value="bautismo">Bautismo</option><option value="Santa Cena">Santa Cena</option></select></label>
+          </div>
+          <fieldset class="checks">
+            <legend>Incluir</legend>
+            <label><input type="checkbox" id="i-ilus" checked> Ilustraciones de la vida real</label>
+            <label><input type="checkbox" id="i-orig" checked> Palabras del hebreo o griego</label>
+            <label><input type="checkbox" id="i-preg" checked> Preguntas para pensar o conversar</label>
+            <label><input type="checkbox" id="i-llam" checked> Llamado o compromiso final</label>
+            <label><input type="checkbox" id="i-act" checked> Actividad, objeto o manualidad <small>(niños)</small></label>
+            <label><input type="checkbox" id="i-mem" checked> Versículo para memorizar</label>
+            <label><input type="checkbox" id="i-egw"> Lecturas sugeridas de Elena G. de White</label>
+          </fieldset>
+          <div class="row">
+            <label class="f"><span>Perspectiva</span><select id="persp">
+              <option value="adventista">Adventista del séptimo día</option><option value="cristiana">Cristiana general</option></select></label>
+            <label class="f f--grow"><span>Instrucciones extra <small>(opcional)</small></span>
+              <input id="extra" placeholder="Ej.: la mayoría son nuevos creyentes · usar un ejemplo del campo"></label>
+          </div>
+
+          <h2>4 · Generar</h2>
+          <div class="ai-state" id="ai-state"></div>
+          <div class="go">
+            <button type="submit" class="btn btn--primary btn--big" id="go">✨ Generar con IA</button>
+            <button type="button" class="btn btn--ghost" id="cfg-open">⚙ Conectar IA gratuita</button>
+          </div>
+          <details class="alt">
+            <summary>Sin clave: copiar el encargo y usarlo en otra IA</summary>
+            <p>Copiamos el encargo completo, con el texto bíblico y las palabras del original, y abrimos la IA que prefieras. Pégalo allí y, cuando tengas la respuesta, puedes traerla aquí para verificar las citas.</p>
+            <div class="alt__btns">
+              <button type="button" class="btn btn--ghost" data-ext="chatgpt">ChatGPT</button>
+              <button type="button" class="btn btn--ghost" data-ext="claude">Claude</button>
+              <button type="button" class="btn btn--ghost" data-ext="gemini">Gemini</button>
+              <button type="button" class="btn btn--ghost" data-ext="copy">Solo copiar</button>
+            </div>
+            <label class="f"><span>¿Ya tienes la respuesta? Pégala aquí para verificar las citas</span>
+              <textarea id="paste" rows="4" placeholder="Pega el texto que te dio la IA…"></textarea></label>
+            <button type="button" class="btn btn--ghost" id="paste-go">Revisar este texto</button>
+          </details>
+        </form>
+
+        <section class="out" id="out" aria-live="polite" aria-label="Resultado">
+          <div class="out__empty" id="out-empty">
+            <span aria-hidden="true">📝</span>
+            <h3>Aquí aparecerá tu borrador</h3>
+            <p>Es un punto de partida, no un sermón terminado. Ora, estudia el pasaje y hazlo tuyo antes de predicarlo.</p>
+          </div>
+          <div class="out__bar" id="out-bar" hidden>
+            <button type="button" class="btn btn--ghost" id="o-copy">Copiar</button>
+            <button type="button" class="btn btn--ghost" id="o-print">🖨 Imprimir / PDF</button>
+            <button type="button" class="btn btn--ghost" id="o-save">💾 Guardar</button>
+            <button type="button" class="btn btn--ghost" id="o-stop" hidden>■ Parar</button>
+          </div>
+          <article class="doc" id="doc"></article>
+          <aside class="verify" id="verify" hidden></aside>
+        </section>
+      </div>
+    </section>
+
+    <!-- GUARDADOS -->
+    <section class="band-peach" id="guardados" aria-labelledby="g-t">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Tus borradores</p>
+          <h2 id="g-t">Guardados en este dispositivo</h2>
+          <p>Se guardan solo en tu navegador. Nadie más los ve.</p>
+        </div>
+        <div class="saved" id="saved"></div>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="wrap como" id="como" aria-labelledby="c-t">
+      <div class="section-head">
+        <p class="eyebrow">Cómo funciona</p>
+        <h2 id="c-t">IA al servicio del texto, no al revés</h2>
+      </div>
+      <div class="como__grid">
+        <div class="como__card"><b>1. El texto manda</b><p>Cargamos el pasaje real de la versión que elijas y se lo damos a la IA. Le pedimos que distinga lo que dice el texto de la aplicación.</p></div>
+        <div class="como__card"><b>2. Datos del original</b><p>Añadimos las palabras clave del pasaje en hebreo o griego, con su significado según el léxico de Strong, para que no improvise.</p></div>
+        <div class="como__card"><b>3. Citas comprobadas</b><p>Al terminar, buscamos cada referencia bíblica del borrador y mostramos el versículo real de la RV1909. Así ves enseguida si alguna no encaja.</p></div>
+        <div class="como__card"><b>4. Tú decides</b><p>La IA no conoce a tu congregación ni ha orado por ella. Úsala para empezar, no para terminar.</p></div>
+      </div>
+      <div class="key-help" id="key-help">
+        <h3>Cómo conseguir tu clave gratuita de Google Gemini (2 minutos)</h3>
+        <ol>
+          <li>Entra en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> con tu cuenta de Google.</li>
+          <li>Pulsa <b>«Create API key»</b> (Crear clave de API) y cópiala.</li>
+          <li>Aquí, pulsa <b>⚙ Conectar IA gratuita</b>, pégala y pulsa <b>Probar y guardar</b>.</li>
+        </ol>
+        <p class="muted">La clave se guarda solo en tu navegador y se envía únicamente a Google. En el plan gratuito, Google puede usar lo que envías para mejorar sus productos: no incluyas datos personales de nadie. El plan gratuito tiene un límite diario de uso; si se agota, espera o usa la opción «copiar el encargo».</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- AJUSTES DE IA -->
+  <dialog class="cfg" id="cfg" aria-labelledby="cfg-t">
+    <form method="dialog" class="cfg__in" id="cfg-form">
+      <h2 id="cfg-t">Conectar IA gratuita</h2>
+      <p class="muted">Usamos <b>Google Gemini</b>, que tiene un plan gratuito. <a href="#key-help">¿Cómo consigo la clave?</a></p>
+      <label class="f"><span>Tu clave de API de Gemini</span><input id="cfg-key" type="password" placeholder="AIza…" autocomplete="off" spellcheck="false"></label>
+      <label class="f"><span>Modelo</span><select id="cfg-model"><option value="">(se elige al probar la clave)</option></select></label>
+      <p class="cfg__msg" id="cfg-msg" aria-live="polite"></p>
+      <div class="cfg__btns">
+        <button type="button" class="btn btn--primary btn--plain" id="cfg-test">Probar y guardar</button>
+        <button type="button" class="btn btn--ghost" id="cfg-del">Borrar clave</button>
+        <button value="cancel" class="btn btn--ghost">Cerrar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <strong>Recursos Adventistas</strong> · por Jose Omar
+        <p>Sitio personal, sin relación oficial con la Iglesia Adventista del Séptimo Día. Los borradores generados por IA deben revisarse antes de usarse.</p>
+      </div>
+      <a class="btn btn--outline-light btn--plain" href="../">← Todos los recursos</a>
+    </div>
+  </footer>
+
+  <script src="../biblia/morfo.js"></script>
+  <script src="sermones.js"></script>
+  <script src="../assets/js/stats.js" defer></script>
+</body>
+</html>

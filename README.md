@@ -68,6 +68,14 @@ Lector con versiones en paralelo, interlineal hebreo/griego, comparación de un 
 - Versiones: RV1909, BES, BLM, KJV y WEB (dominio público), PDPT (CC BY 4.0) y VBL (CC BY-SA 4.0). Originales: WLC con morfología OSHB (CC BY 4.0), Textus Receptus (DP) y Nestle 1904 con morfología CC0. Strong: Open Scriptures (CC BY-SA).
 - Para añadir una versión: descarga su USFM de eBible.org, añádela a `VERSIONS` en el script y vuelve a generarlo.
 
+## Sermones con IA (`/sermones/`)
+
+Generador de sermones, historias para niños, devocionales, estudios y cultos familiares.
+- IA gratuita con la clave de Google Gemini de cada usuario (se guarda solo en su navegador y se envía solo a Google); sin clave, copia el encargo y abre ChatGPT, Claude o Gemini.
+- El encargo incluye el texto bíblico real (datos de `/biblia/`) y palabras clave del hebreo o griego con datos del léxico.
+- Verificador de citas: comprueba que cada referencia existe y que las citas textuales coinciden con alguna versión.
+- Código: `sermones/sermones.js` (prompts en `AUD`, `FORMAT` y `systemPrompt`).
+
 ## Vida sana (`/vida-sana/`)
 
 Centro con ocho áreas. Disponibles: **Movimiento** (`/gym/`), **Alimentación** (`/alimentacion/`), **Descanso** (`/descanso/`) **Agua, aire y sol** (`/agua-aire-sol/`, tres áreas en una guía) y **Equilibrio** (`/equilibrio/`).

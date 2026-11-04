@@ -36,6 +36,21 @@ window.CATEGORIAS = {
 
 window.RECURSOS = [
   {
+    id: "sermones-con-ia",
+    titulo: "Sermones con IA para niños y adultos",
+    descripcion: "Prepara sermones, historias bíblicas para niños, devocionales, estudios y cultos familiares con IA gratuita. El borrador se basa en el texto bíblico real y en palabras del hebreo o griego, y cada cita se comprueba automáticamente.",
+    categoria: "ia",
+    formato: "Enlace",
+    tipo: "gratis",
+    destacado: true,
+    peso: "",
+    detalles: "Gemini gratis · verificador de citas",
+    etiquetas: ["sermón", "predicación", "niños", "ia", "inteligencia artificial", "devocional", "estudio bíblico", "culto familiar"],
+    portada: "assets/img/sermones-cover.webp",
+    archivo: "sermones/",
+    fecha: "2026-11-04"
+  },
+  {
     id: "biblia-de-estudio",
     titulo: "Biblia de estudio: versiones en paralelo, hebreo y griego",
     descripcion: "Compara siete versiones y llega al original: hebreo y griego palabra por palabra con análisis gramatical en español, ficha de cada palabra con su significado, frecuencia y concordancia, y diferencias entre el Textus Receptus y el Nestle 1904.",

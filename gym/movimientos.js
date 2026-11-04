@@ -75,7 +75,7 @@
     peak: 1, cue: { j: "HdF", off: [10, 0], bow: -24 }, focus: { j: "S", off: [8, 12], r: 16 }
   };
 
-  /* 2 · Giro de cintura con barra */
+  /* 2 · Giro de cintura con palo */
   {
     const b = { aF: [90, 90], aB: [90, 90], lB: { to: [97, 183], ft: 90 }, lF: { to: [104, 183], ft: 90 }, z: { WF: 0.2, WB: -0.2, EF: 0.18, EB: -0.18, KF: 0.1, KB: -0.1, AF: 0.12, AB: -0.12 } };
     M.e2 = {
@@ -132,7 +132,7 @@
     };
   }
 
-  /* 6 · Elevación de talones en un step de gimnasio */
+  /* 6 · Elevación de talones en un escalón */
   M.e6 = {
     frames: [
       { pose: stand(102, { P: [103, 96], lB: { toe: [118, 172], ft: 106 }, lF: { toe: [122, 172], ft: 106 } }), t: 1000, hold: 300 },
@@ -162,7 +162,7 @@
     };
   }
 
-  /* 9 · Inclinación lateral con barra, brazos arriba */
+  /* 9 · Inclinación lateral con palo, brazos arriba */
   {
     const a = { aL: [170, 176], aR: [170, 176], PT: 180 };
     M.e9 = {
@@ -593,7 +593,7 @@
     };
   }
 
-  /* 42 · Barra por encima de la cabeza, sentado en un taburete */
+  /* 42 · Palo por encima de la cabeza, sentado en un taburete */
   {
     const S = Sof([80, 140]), zg = { EF: 0.25, EB: -0.25, WF: 0.28, WB: -0.28 };
     const g = (E, W) => stool({ aF: { E, W }, aB: { E, W }, z: zg });

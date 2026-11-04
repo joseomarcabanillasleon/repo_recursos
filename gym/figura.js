@@ -202,8 +202,7 @@
       <rect x="${x - 19}" y="148" width="5" height="39" rx="2"/><rect x="${x + 14}" y="148" width="5" height="39" rx="2"/></g>`,
     stool: (x = 80) => `<g fill="${C.prop}"><rect x="${x - 20}" y="142" width="40" height="7" rx="3" fill="${C.propD}"/>
       <rect x="${x - 17}" y="148" width="5" height="39" rx="2"/><rect x="${x + 12}" y="148" width="5" height="39" rx="2"/></g>`,
-    step: (x = 128) => `<rect x="${x - 15}" y="176" width="30" height="4" rx="1.5" fill="#2f3640"/><rect x="${x - 15}" y="179" width="30" height="7" rx="1" fill="#c9ced6"/>
-      <rect x="${x - 13}" y="185" width="6" height="3" fill="#2a9d8f"/><rect x="${x + 7}" y="185" width="6" height="3" fill="#2a9d8f"/>`,
+    step: (x = 128) => `<rect x="${x - 16}" y="176" width="36" height="3" rx="1" fill="#b8875a"/><rect x="${x - 15}" y="178" width="34" height="10" fill="#e3d6c3"/>`,
     box: (x = 172, h = 40) => `<rect x="${x - 16}" y="${188 - h}" width="32" height="${h}" rx="3" fill="${C.prop}"/>`,
     bench: (x = 172) => `<g fill="${C.propD}"><rect x="${x - 22}" y="156" width="44" height="5" rx="2"/><rect x="${x - 20}" y="160" width="4" height="27"/><rect x="${x + 16}" y="160" width="4" height="27"/></g>`,
     wall: (x = 176) => `<rect x="${x}" y="14" width="20" height="173" fill="${C.wall}"/><rect x="${x}" y="14" width="3" height="173" fill="#d9cdbb"/>`
@@ -272,7 +271,7 @@
       const pose = typeof ms === "number" ? poseAt(frames, ms) : (ms && ms.P ? ms : peak);
       const J = solve(pose);
       gBody.innerHTML = body(J, false) + (ex.stick ? (() => { const a = J.HdB || J.HdL, b = J.HdF || J.HdR, v = unit(sub(b, a));
-        return `<path d="M${pt(add(a, v, -14))} L${pt(add(b, v, 14))}" stroke="#3a4150" stroke-width="3" stroke-linecap="round"/>`; })() : "");
+        return `<path d="M${pt(add(a, v, -14))} L${pt(add(b, v, 14))}" stroke="#c08a55" stroke-width="2.6" stroke-linecap="round"/>`; })() : "");
       if (ex.focus) {
         const c = add(J[ex.focus.j], ex.focus.off || [0, 0]);
         gFocus.innerHTML = circ(c, ex.focus.r || 14, `url(#${id}-fo)`);

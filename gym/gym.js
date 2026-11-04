@@ -24,8 +24,8 @@
     { id: "e1", t: "Brazos arriba por delante", zona: "Respiración y tórax", cat: "resp", pos: "pie", nivel: "suave", dosis: "10–15 veces",
       como: "De pie y erguido, con los brazos pegados al cuerpo. Súbelos por delante hasta que queden verticales y bájalos por los lados hasta la posición de partida.",
       resp: "Toma aire al subir los brazos y suéltalo al bajarlos.", trabaja: "Respiración, hombros y pecho." },
-    { id: "e2", t: "Giro de cintura con barra", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Barra ligera de gimnasio (o un palo)", dosis: "10 por lado",
-      como: "Erguido, con los brazos estirados al frente sujetando una barra ligera de gimnasio (body bar) para mantenerlos paralelos. Gira el tronco a un lado y al otro sin mover caderas ni piernas: solo se mueve de la cintura hacia arriba.",
+    { id: "e2", t: "Giro de cintura con palo", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Palo de escoba o cuerda", gym: "barra ligera (body bar)", dosis: "10 por lado",
+      como: "Erguido, con los brazos estirados al frente sujetando un palo de escoba para mantenerlos paralelos. Gira el tronco a un lado y al otro sin mover caderas ni piernas: solo se mueve de la cintura hacia arriba.",
       resp: "Toma aire al girar hacia un lado y suéltalo hacia el otro.", trabaja: "Músculos de la cintura y del tronco." },
     { id: "e3", t: "Flexión de piernas de puntillas", zona: "Espalda y piernas", cat: "piernas", pos: "pie", nivel: "medio", dosis: "5–10 veces",
       como: "De pie con las piernas juntas y las puntas de los pies un poco abiertas. Lleva las manos a la nuca y flexiona las piernas quedándote de puntillas. Vuelve a subir.",
@@ -36,8 +36,8 @@
     { id: "e5", t: "Patada a la mano contraria", zona: "Piernas y caderas", cat: "piernas", pos: "pie", nivel: "medio", dosis: "5–10 por pierna",
       como: "Erguido, con los brazos al frente. Sube una pierna estirada intentando tocar con la punta del pie la mano contraria: pie derecho con mano izquierda y pie izquierdo con mano derecha. Alterna.",
       resp: "Toma aire al subir la pierna y suéltalo al bajarla.", trabaja: "Piernas, caderas y equilibrio.", prec: "Sube la pierna solo hasta donde llegues sin forzar. Si te desequilibras, hazlo junto a una pared." },
-    { id: "e6", t: "Talones arriba en un step", zona: "Pies", cat: "piernas", pos: "pie", nivel: "suave", mat: "Step de gimnasio (o un escalón)", dosis: "10–15 veces",
-      como: "Apoya la parte delantera de los pies en el borde de un step de gimnasio, con los talones en el aire (el libro original propone un libro grueso; el step es más estable). Sube de puntillas todo lo que puedas y baja los talones por debajo del borde. Complemento: camina de puntillas, camina sobre los talones y corre en el sitio de puntillas.",
+    { id: "e6", t: "Talones arriba en un escalón", zona: "Pies", cat: "piernas", pos: "pie", nivel: "suave", mat: "Un escalón", gym: "un step", dosis: "10–15 veces",
+      como: "Apoya la parte delantera de los pies en el borde de un escalón, con los talones en el aire y una mano en la barandilla o la pared (el libro original propone un libro grueso; el escalón es más estable). Sube de puntillas todo lo que puedas y baja los talones por debajo del borde. Complemento: camina de puntillas, camina sobre los talones y corre en el sitio de puntillas.",
       resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Pies, pantorrillas y equilibrio." },
     { id: "e7", t: "Codos atrás para abrir el pecho", zona: "Respiración y tórax", cat: "resp", pos: "pie", nivel: "suave", dosis: "10–15 veces",
       como: "Erguido, con los brazos doblados a la altura de los hombros y las manos delante del pecho. Estira los brazos con energía hacia atrás para abrir el pecho y vuelve a doblarlos.",
@@ -45,8 +45,8 @@
     { id: "e8", t: "Bicicleta con las piernas arriba", zona: "Cintura y piernas", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "15–20 vueltas",
       como: "Tumbado boca arriba, sube las piernas hasta la vertical sosteniendo la espalda con las manos y los codos en el suelo. Mueve las piernas como si pedalearas.",
       resp: "Respira con normalidad, sin aguantar el aire.", trabaja: "Piernas y abdomen.", prec: "El peso va sobre los hombros, nunca sobre el cuello. Evítalo si tienes problemas de cuello, espalda o tensión alta." },
-    { id: "e9", t: "Inclinación lateral con barra", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Barra ligera de gimnasio (o un palo)", dosis: "10–15 veces",
-      como: "Erguido, con los brazos arriba algo separados sujetando una barra ligera. Inclínate a la derecha y a la izquierda sin mover caderas ni piernas.",
+    { id: "e9", t: "Inclinación lateral con palo", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Palo de escoba o cuerda", gym: "barra ligera (body bar)", dosis: "10–15 veces",
+      como: "Erguido, con los brazos arriba algo separados sujetando un palo de escoba. Inclínate a la derecha y a la izquierda sin mover caderas ni piernas.",
       resp: "Toma aire hacia un lado y suéltalo hacia el otro.", trabaja: "Músculos laterales de la cintura." },
     { id: "e10", t: "Puños al cuello", zona: "Bíceps y hombros", cat: "brazos", pos: "pie", nivel: "suave", dosis: "15 veces",
       como: "Erguido, con los brazos en cruz y los puños cerrados. Dobla los codos con energía hasta acercar los puños al cuello, por encima de los hombros, y vuelve a estirar.",
@@ -66,7 +66,7 @@
     { id: "e15", t: "Brazos cruzados que se abren", zona: "Respiración y pecho", cat: "resp", pos: "pie", nivel: "suave", dosis: "10 veces",
       como: "Erguido, con los brazos cruzados por delante del cuerpo y una muñeca sobre la otra. Sube los brazos y ábrelos hasta formar una cruz, estirándolos todo lo posible.",
       resp: "Toma aire al abrir los brazos y suéltalo al cerrarlos.", trabaja: "Pecho, hombros y respiración." },
-    { id: "e16", t: "Flexiones apoyado en una silla", zona: "Brazos y hombros", cat: "brazos", pos: "pie", nivel: "medio", mat: "Silla firme", dosis: "10 veces",
+    { id: "e16", t: "Flexiones apoyado en una silla", zona: "Brazos y hombros", cat: "brazos", pos: "pie", nivel: "medio", mat: "Silla firme", gym: "un banco plano", dosis: "10 veces",
       como: "Con el cuerpo recto y las piernas juntas, inclínate hacia delante y apoya las manos en el borde de una silla. Dobla los brazos hasta acercar el pecho al borde y vuelve a empujar.",
       resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Brazos, hombros y pecho.", prec: "Apoya la silla contra la pared para que no se mueva." },
     { id: "e17", t: "Mano a la rodilla contraria", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "medio", dosis: "10 por lado",
@@ -75,7 +75,7 @@
     { id: "e18", t: "Salida de velocista", zona: "Piernas y caderas", cat: "piernas", pos: "suelo", nivel: "exigente", dosis: "15 cambios",
       como: "Colócate como en la salida de una carrera: manos en el suelo, una pierna doblada bajo el pecho y la otra estirada atrás. Cambia la posición de las piernas sin moverte del sitio, cargando el peso en los brazos.",
       resp: "Toma aire al estirar la pierna derecha y suéltalo al encogerla.", trabaja: "Muslos, caderas y hombros.", prec: "Exige mucho al corazón y a las muñecas. Empieza despacio y con pocos cambios." },
-    { id: "e19", t: "Molinos con los brazos", zona: "Cintura y brazos", cat: "brazos", pos: "sentado", nivel: "suave", mat: "Taburete", dosis: "15 vueltas",
+    { id: "e19", t: "Molinos con los brazos", zona: "Cintura y brazos", cat: "brazos", pos: "sentado", nivel: "suave", mat: "Taburete", gym: "un banco plano", dosis: "15 vueltas",
       como: "Sentado en un taburete, dibuja grandes círculos con los brazos como las aspas de un molino. Los brazos van siempre en direcciones opuestas.",
       resp: "Toma aire al subir el brazo derecho y suéltalo al subir el izquierdo.", trabaja: "Hombros, brazos y tronco." },
     { id: "e20", t: "Piernas alternas sentado en el suelo", zona: "Piernas y abdomen", cat: "abd", pos: "suelo", nivel: "medio", dosis: "2 series de 10",
@@ -93,7 +93,7 @@
     { id: "e24", t: "Flexiones con las rodillas apoyadas", zona: "Brazos y tórax", cat: "brazos", pos: "suelo", nivel: "medio", dosis: "10 veces",
       como: "Boca abajo, con las manos a la altura de las axilas y las rodillas en el suelo. Sube el cuerpo recto de la cabeza a las rodillas y baja hasta rozar el suelo con el pecho, sin apoyarlo.",
       resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Brazos, muñecas y pecho." },
-    { id: "e25", t: "Balanceo de pierna", zona: "Piernas y cintura", cat: "piernas", pos: "pie", nivel: "medio", mat: "Silla (opcional)", dosis: "10 por pierna",
+    { id: "e25", t: "Balanceo de pierna", zona: "Piernas y cintura", cat: "piernas", pos: "pie", nivel: "medio", mat: "Silla (opcional)", gym: "la espaldera o una barra fija", dosis: "10 por pierna",
       como: "Erguido, con las manos en la cintura. Balancea una pierna hacia delante y hacia atrás todo lo que puedas y luego cambia. Si te cuesta el equilibrio, apóyate con una mano en una silla o en la pared.",
       resp: "Toma aire al llevar la pierna adelante y suéltalo al llevarla atrás.", trabaja: "Piernas, cadera y equilibrio." },
     { id: "e26", t: "Piernas por encima de la cabeza", zona: "Abdomen y espalda", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "10 veces",
@@ -108,13 +108,13 @@
     { id: "e29", t: "Tocar el suelo con las piernas rectas", zona: "Espalda y abdomen", cat: "cintura", pos: "pie", nivel: "exigente", dosis: "10 veces",
       como: "Erguido, con los brazos arriba y las piernas juntas. Inclínate hacia delante hasta tocar el suelo delante de los pies con la punta de los dedos, sin doblar las rodillas. Con el tiempo podrás apoyar la palma.",
       resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Espalda, parte posterior de las piernas y abdomen.", prec: "Sin rebotes. Si no llegas, dobla un poco las rodillas. Sube despacio para evitar mareos." },
-    { id: "e30", t: "Incorporarse con los pies en alto", zona: "Cintura y abdomen", cat: "abd", pos: "suelo", nivel: "exigente", mat: "Silla baja o caja de unos 40 cm", dosis: "5–10 veces",
+    { id: "e30", t: "Incorporarse con los pies en alto", zona: "Cintura y abdomen", cat: "abd", pos: "suelo", nivel: "exigente", mat: "Silla baja o caja de unos 40 cm", gym: "un banco plano o un step alto", dosis: "5–10 veces",
       como: "Tumbado boca arriba, con los brazos por detrás de la cabeza y los pies sobre una silla baja de unos 40 cm. Levanta el tronco y estírate hasta tocar los pies con la punta de los dedos.",
       resp: "Toma aire al estirarte y suéltalo al doblarte.", trabaja: "Abdomen, cintura y piernas.", prec: "Sube sin tirones. Si no llegas, toca las rodillas." },
-    { id: "e31", t: "Inclinación lateral sentado", zona: "Cintura y columna", cat: "cintura", pos: "sentado", nivel: "suave", mat: "Taburete", dosis: "10 por lado",
+    { id: "e31", t: "Inclinación lateral sentado", zona: "Cintura y columna", cat: "cintura", pos: "sentado", nivel: "suave", mat: "Taburete", gym: "un banco plano", dosis: "10 por lado",
       como: "Sentado en un taburete o un asiento sin respaldo, con las manos en la nuca. Inclínate a la derecha y a la izquierda manteniendo la espalda recta.",
       resp: "Toma aire hacia un lado y suéltalo hacia el otro.", trabaja: "Cintura y espalda." },
-    { id: "e32", t: "Abdominal completo con los pies sujetos", zona: "Abdomen y columna", cat: "abd", pos: "suelo", nivel: "exigente", mat: "Un mueble bajo para sujetar los pies", dosis: "5–10 veces",
+    { id: "e32", t: "Abdominal completo con los pies sujetos", zona: "Abdomen y columna", cat: "abd", pos: "suelo", nivel: "exigente", mat: "Un mueble bajo para sujetar los pies", gym: "un banco de abdominales o la espaldera", dosis: "5–10 veces",
       como: "Tumbado boca arriba, con las piernas juntas y estiradas y las manos en la nuca. Levanta el tronco e inclínate hasta acercar los codos a las rodillas. Al principio necesitarás que alguien te sujete los pies, o meterlos bajo un mueble.",
       resp: "Suelta el aire al subir y tómalo al bajar.", trabaja: "Abdomen y espalda.", prec: "El libro lo llama «muy duro». No tires de la cabeza con las manos y sube despacio. Si notas molestias lumbares, cambia al ejercicio 21." },
     { id: "e33", t: "Saltitos con las piernas flexionadas", zona: "Abdomen y piernas", cat: "piernas", pos: "pie", nivel: "exigente", dosis: "10 saltitos",
@@ -129,13 +129,13 @@
     { id: "e36", t: "Cadera arriba sentado en el suelo", zona: "Brazos y abdomen", cat: "brazos", pos: "suelo", nivel: "medio", dosis: "10 veces",
       como: "Sentado en el suelo, con las rodillas dobladas y las manos apoyadas detrás. Levanta la cadera todo lo que puedas, sosteniéndote en las manos y los pies, y baja.",
       resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Brazos, glúteos y abdomen." },
-    { id: "e37", t: "Fondos en una silla", zona: "Brazos y hombros", cat: "brazos", pos: "sentado", nivel: "exigente", mat: "Silla firme", dosis: "10 veces",
+    { id: "e37", t: "Fondos en una silla", zona: "Brazos y hombros", cat: "brazos", pos: "sentado", nivel: "exigente", mat: "Silla firme", gym: "un banco plano", dosis: "10 veces",
       como: "De espaldas a una silla, apoya las manos en el borde del asiento con las piernas juntas y estiradas. Dobla los brazos bajando el cuerpo hasta quedar casi sentado en el suelo y vuelve a subir.",
       resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Brazos y hombros.", prec: "La silla debe estar apoyada contra la pared. Evítalo si te duelen los hombros. Para que cueste menos, dobla las rodillas." },
     { id: "e38", t: "Giro sentado hasta el pie", zona: "Cintura y columna", cat: "cintura", pos: "suelo", nivel: "medio", dosis: "10 veces",
       como: "Sentado en el suelo, con las piernas bien separadas y los brazos en cruz. Gira e inclínate hasta tocar el pie izquierdo con la mano derecha. Vuelve y repite hacia el otro lado.",
       resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Espalda y cintura.", prec: "Si no llegas al pie, toca la rodilla o la espinilla." },
-    { id: "e39", t: "Sentadilla a una pierna con apoyo", zona: "Piernas", cat: "piernas", pos: "pie", nivel: "exigente", mat: "Silla firme", dosis: "5–10 por pierna",
+    { id: "e39", t: "Sentadilla a una pierna con apoyo", zona: "Piernas", cat: "piernas", pos: "pie", nivel: "exigente", mat: "Silla firme", gym: "la espaldera o una barra fija", dosis: "5–10 por pierna",
       como: "De pie, apoya una mano en el respaldo de una silla. Flexiona la pierna del mismo lado mientras mantienes la otra estirada al frente. Sube y cambia de lado.",
       resp: "Toma aire al subir y suéltalo al bajar.", trabaja: "Piernas y equilibrio.", prec: "Muy exigente para las rodillas. Baja solo un poco al principio y apóyate bien en la silla." },
     { id: "e40", t: "Cabeza a la rodilla sentado", zona: "Columna y cintura", cat: "cintura", pos: "suelo", nivel: "exigente", dosis: "5 por lado",
@@ -144,9 +144,9 @@
     { id: "e41", t: "Caminar a cuatro patas", zona: "Piernas, brazos y muñecas", cat: "brazos", pos: "suelo", nivel: "exigente", dosis: "Hasta notar cansancio",
       como: "Con las manos en el suelo y las piernas y los brazos rectos, camina con energía apoyándote en manos y pies.",
       resp: "Respira por la nariz.", trabaja: "Piernas, brazos, hombros y muñecas.", prec: "Exige mucho a las muñecas y la cabeza queda baja. Para si te mareas." },
-    { id: "e42", t: "Barra por encima de la cabeza", zona: "Espalda y hombros", cat: "brazos", pos: "sentado", nivel: "suave", mat: "Taburete y barra ligera de gimnasio (o un palo)", dosis: "10 veces",
-      como: "Sentado en un taburete, sujeta una barra ligera por delante, cerca del pecho. Pásalo por encima de la cabeza y bájalo por detrás todo lo que puedas sin forzar. Vuelve adelante.",
-      resp: "Toma aire al llevarlo atrás y suéltalo al traerlo adelante.", trabaja: "Espalda y hombros.", prec: "Agarra la barra con las manos bien separadas y usa una ligera (1–3 kg o un palo). Si notas molestias en el hombro, quédate encima de la cabeza." }
+    { id: "e42", t: "Palo por encima de la cabeza", zona: "Espalda y hombros", cat: "brazos", pos: "sentado", nivel: "suave", mat: "Taburete y palo de escoba", gym: "un banco plano y una barra ligera", dosis: "10 veces",
+      como: "Sentado en un taburete, sujeta un palo de escoba por delante, cerca del pecho. Pásalo por encima de la cabeza y bájalo por detrás todo lo que puedas sin forzar. Vuelve adelante.",
+      resp: "Toma aire al llevarlo atrás y suéltalo al traerlo adelante.", trabaja: "Espalda y hombros.", prec: "Agarra el palo con las manos bien separadas. Si usas barra, que sea ligera (1–3 kg). Si notas molestias en el hombro, quédate encima de la cabeza." }
   ];
   EJ.forEach((e, i) => { e.n = i + 1; });
   const ACT = { id: "act", t: "Activación" };
@@ -205,7 +205,8 @@
       <div class="ex__fig"><span class="ex__n">${e.n}</span></div>
       <div class="ex__body">
         <div class="ex__tags"><span class="tag tag--${e.nivel}">${NIV[e.nivel]}</span>
-          <span class="tag tag--pos">${POS[e.pos]}</span>${e.mat ? `<span class="tag tag--mat">🧰 ${esc(e.mat)}</span>` : ""}</div>
+          <span class="tag tag--pos">${POS[e.pos]}</span>${e.mat ? `<span class="tag tag--mat">🏠 ${esc(e.mat)}</span>` : ""}</div>
+        ${e.gym ? `<p class="ex__gym">🏋️ En el gimnasio: ${esc(e.gym)}</p>` : ""}
         <p class="ex__zona">${esc(e.zona)}</p>
         <h3>${esc(e.t)}</h3>
         <p class="ex__dose">⏱ ${esc(e.dosis)}</p>

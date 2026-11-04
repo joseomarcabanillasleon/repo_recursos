@@ -287,14 +287,12 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     for (const [dx, dz] of [[-0.13, -0.13], [0.13, -0.13], [-0.13, 0.13], [0.13, 0.13]]) g.add(leg3(X + dx, dz, 0.38));
     return g;
   }
-  function step(x2) { // step de gimnasio: plataforma de 12 cm con superficie antideslizante
+  function step(x2) { // escalón de casa de 12 cm (en el gimnasio sirve un step)
     const g = new THREE.Group(), X = (x2 - 100) * S3;
-    const body = new THREE.MeshStandardMaterial({ color: "#c9ced6", roughness: 0.55 });
-    const top = new THREE.MeshStandardMaterial({ color: "#2f3640", roughness: 0.95 });
-    const foot = new THREE.MeshStandardMaterial({ color: "#2a9d8f", roughness: 0.6 });
-    g.add(box3(0.3, 0.07, 0.8, body, X, 0.065, 0));
-    g.add(box3(0.31, 0.02, 0.81, top, X, 0.11, 0));
-    for (const dz of [-0.3, 0.3]) g.add(box3(0.3, 0.03, 0.14, foot, X, 0.015, dz));
+    const body = new THREE.MeshStandardMaterial({ color: "#e3d6c3", roughness: 0.85 });
+    const top = new THREE.MeshStandardMaterial({ color: "#b8875a", roughness: 0.6 });
+    g.add(box3(0.34, 0.1, 0.9, body, X + 0.02, 0.05, 0));
+    g.add(box3(0.36, 0.025, 0.92, top, X + 0.01, 0.112, 0));
     return g;
   }
   const box40 = (x2, h = 40) => box3(0.32, h * S3, 0.44, M.wood, (x2 - 100) * S3, h * S3 / 2, 0);
@@ -352,12 +350,12 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     focus.renderOrder = 10;
     g.add(focus);
     let stick = null;
-    if (ex.stick) { // barra ligera de gimnasio: tubo con empuñadura y topes de color
+    if (ex.stick) { // palo de escoba de madera con topes discretos
       stick = new THREE.Group();
-      const bar = cyl(0.016, 0.016, new THREE.MeshStandardMaterial({ color: "#3a4150", roughness: 0.35, metalness: 0.4 }));
+      const bar = cyl(0.013, 0.013, new THREE.MeshStandardMaterial({ color: "#c08a55", roughness: 0.6 }));
       stick.add(bar);
       for (const y of [-0.5, 0.5]) {
-        const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, 0.05, 16), new THREE.MeshStandardMaterial({ color: "#f3793b", roughness: 0.5 }));
+        const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.03, 12), new THREE.MeshStandardMaterial({ color: "#8a5a35", roughness: 0.6 }));
         cap.position.y = y; cap.castShadow = true; stick.add(cap);
       }
       g.add(stick);

@@ -270,3 +270,4 @@ body.no-scroll { overflow: hidden; }
 .chip--exigente[aria-pressed="true"] { background: #b23a1d; border-color: #b23a1d; color: #fff; }
 .presets .chip--suave[aria-pressed="true"], .presets .chip--medio[aria-pressed="true"], .presets .chip--exigente[aria-pressed="true"] { color: #fff; }
 .duo--one { grid-template-columns: minmax(0, 640px); justify-content: center; }
+.ex__gym { margin: -2px 0 0; font-size: 13px; color: var(--muted, #6b7280); }

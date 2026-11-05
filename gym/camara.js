@@ -51,7 +51,8 @@
   // ángulo medio de los codos, solo con los brazos cuya mano se ve bien dentro de la imagen
   const inFrame = (p) => (p.visibility ?? 1) > 0.7 && p.x > 0.03 && p.x < 0.97 && p.y > 0.03 && p.y < 0.97;
   const elbows = (L) => {
-    const a = [[P.lSh, P.lEl, P.lWr], [P.rSh, P.rEl, P.rWr]].filter(([sh, e, w]) => inFrame(L[e]) && inFrame(L[w]) && dist(L[e], L[w]) > 0.5 * dist(L[sh], L[e])) // antebrazo «escondido» o cortado: no se evalúa.map(([sh, e, w]) => ang(L[sh], L[e], L[w]));
+    const a = [[P.lSh, P.lEl, P.lWr], [P.rSh, P.rEl, P.rWr]].filter(([sh, e, w]) => inFrame(L[e]) && inFrame(L[w]) && dist(L[e], L[w]) > 0.5 * dist(L[sh], L[e]))
+      .map(([sh, e, w]) => ang(L[sh], L[e], L[w])); // si el antebrazo se ve «escondido» o cortado, ese brazo no se evalúa
     return a.length ? a.reduce((x, y) => x + y, 0) / a.length : 180;
   };
   const knees = (L) => avg(legSides(L).map((d) => ang(L[d.hip], L[d.kn], L[d.an])));
@@ -59,7 +60,7 @@
 
   const RULES = {
     1: { need: ARMS, sig: meanAbd, dir: "up", hi: 140, lo: 40,
-      peak: (m) => m < 160 && "Sube los brazos hasta arriba, bien verticales.",
+      peak: (m) => m < 150 && "Sube los brazos hasta arriba, bien verticales.",
       form: (L, s) => s > 120 && elbows(L) < 140 && "Estira bien los codos." },
     22: { need: ARMS, sig: meanAbd, dir: "up", hi: 70, lo: 30,
       peak: (m) => (m < 78 && "Sube hasta la altura de los hombros.") || (m > 120 && "Para a la altura de los hombros, en cruz."),
@@ -79,12 +80,12 @@
     35: { need: LEGS, sig: knees, dir: "down", hi: 160, lo: 120,
       peak: (m) => m > 110 && "Flexiona del todo las piernas al bajar.",
       form: (L, s) => s > 155 && ARMS(L) && meanAbd(L) < 140 && "Arriba, sube los brazos hasta juntar las manos." },
-    13: { need: LEGS, sig: (L) => -kneeLift(L), dir: "up", hi: -0.45, lo: -0.7,
-      peak: (m) => m < -0.3 && "Sube la rodilla un poco más hacia el pecho." },
-    9: { need: [P.lSh, P.rSh, P.lHip, P.rHip], sig: tilt, dir: "side", hi: 12, lo: -12,
-      peak: (m) => m < 15 && "Inclínate un poco más hacia los lados." },
-    31: { need: [P.lSh, P.rSh, P.lHip, P.rHip], sig: tilt, dir: "side", hi: 10, lo: -10,
-      peak: (m) => m < 13 && "Inclínate un poco más, con la espalda recta." },
+    13: { need: LEGS, sig: (L) => -kneeLift(L), dir: "up", hi: -0.2, lo: -0.55,
+      peak: (m) => m < 0 && "Sube la rodilla un poco más hacia el pecho." },
+    9: { need: [P.lSh, P.rSh, P.lHip, P.rHip], sig: tilt, dir: "side", hi: 9, lo: -9,
+      peak: (m) => m < 11 && "Inclínate un poco más hacia los lados." },
+    31: { need: [P.lSh, P.rSh, P.lHip, P.rHip], sig: tilt, dir: "side", hi: 9, lo: -9,
+      peak: (m) => m < 11 && "Inclínate un poco más, con la espalda recta." },
   };
   const tieneReglas = (n) => !!RULES[n];
 

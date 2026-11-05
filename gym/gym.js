@@ -308,6 +308,17 @@
     if (vozSel.value === "no") vozSel.value = "f";
     store.set("gym-voz", vozSel.value); coach.stop(); coach.say("hola"); beep(660);
   });
+  // Voz del navegador: español (mejor de España) y, si se puede, del mismo género que la elegida
+  const F_NOMBRES = /monica|mónica|paulina|helena|laura|elvira|lucia|lucía|marisol|esperanza|sabina|female|mujer|ximena|dalia|paloma|elena|conchita|carmen|isabel|google español$/i;
+  const M_NOMBRES = /jorge|pablo|diego|juan|alvaro|álvaro|enrique|raul|raúl|carlos|male|hombre|andrés|andres|gonzalo|antonio|miguel/i;
+  function vozNav(v) {
+    let vs = []; try { vs = speechSynthesis.getVoices().filter((x) => /^es/i.test(x.lang)); } catch { return null; }
+    if (!vs.length) return null;
+    const re = v === "m" ? M_NOMBRES : F_NOMBRES;
+    const score = (x) => (re.test(x.name) ? 4 : 0) + (/es[-_]ES/i.test(x.lang) ? 2 : 0) + (/natural|neural|premium|enhanced|google/i.test(x.name) ? 1 : 0);
+    return vs.sort((a, b) => score(b) - score(a))[0];
+  }
+  try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); } catch { /* nada */ }
   const coach = {
     el: new Audio(), q: [], busy: false, warned: false,
     voz() { return vozSel ? vozSel.value : "no"; },
@@ -338,7 +349,8 @@
     tts(key, done) {
       const t = VOZ_TXT[key];
       if (!t || !("speechSynthesis" in window)) return done();
-      const u = new SpeechSynthesisUtterance(t); u.lang = "es-ES"; u.rate = 1.05;
+      const u = new SpeechSynthesisUtterance(t); u.lang = "es-ES"; u.rate = 1.02;
+      const vv = vozNav(this.voz()); if (vv) { u.voice = vv; u.lang = vv.lang; }
       u.onend = u.onerror = done; speechSynthesis.speak(u);
     },
     stop() { this.q = []; this.busy = false; try { this.el.pause(); } catch { /* nada */ } this.el.onended = this.el.onerror = null; try { speechSynthesis.cancel(); } catch { /* nada */ } }

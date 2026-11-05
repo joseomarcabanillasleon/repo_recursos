@@ -47,14 +47,14 @@
     if (o.key) {
       const r = await fetch(`${API}/${o.model || "models/gemini-2.5-flash"}:streamGenerateContent?alt=sse`, {
         method: "POST", signal, headers: { "Content-Type": "application/json", "x-goog-api-key": o.key },
-        body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, maxOutputTokens: maxTokens } })
+        body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, maxOutputTokens: Math.min(maxTokens + 8192, 32768) } })
       });
       if (!r.ok) {
         if (r.status === 429) throw new Error("Se ha agotado el uso gratuito de tu clave por ahora. Espera unos minutos o usa «copiar el encargo».");
         throw new Error(`La IA respondió con un error (${r.status}). ${(await r.text()).slice(0, 180)}`);
       }
       await readSSE(r, (d) => {
-        const t = d.candidates?.[0]?.content?.parts?.map((p) => p.text || "").join("") || "";
+        const t = d.candidates?.[0]?.content?.parts?.filter((p) => !p.thought).map((p) => p.text || "").join("") || "";
         if (t) { text += t; onText(text); }
         if (d.candidates?.[0]?.finishReason === "SAFETY") err = "La IA ha bloqueado la respuesta por sus filtros. Prueba a reformular.";
       });

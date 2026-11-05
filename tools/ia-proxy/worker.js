@@ -121,16 +121,21 @@ async function modelList(key, cfg) {
   return cache.list;
 }
 
+/* Los modelos recientes «piensan» antes de responder y ese razonamiento gasta del mismo cupo
+   de tokens: se pide poco razonamiento, se deja margen y nunca se envía el texto de «pensamiento». */
 async function geminiStream(key, model, system, prompt, maxTokens, send) {
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`, {
+  const call = (thinking) => fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-goog-api-key": key },
     body: JSON.stringify({
       systemInstruction: system ? { parts: [{ text: system }] } : undefined,
       contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.7, maxOutputTokens: maxTokens },
+      generationConfig: { temperature: 0.7, maxOutputTokens: Math.min(maxTokens + 8192, 32768), ...(thinking ? { thinkingConfig: thinking } : {}) },
     }),
   });
+  let r = await call({ thinkingLevel: "low" });
+  if (r.status === 400) r = await call({ thinkingBudget: 512 });
+  if (r.status === 400) r = await call(null);
   if (!r.ok) return { ok: false, error: `${r.status} ${(await r.text()).slice(0, 300)}` };
   const reader = r.body.getReader(), dec = new TextDecoder();
   let buf = "", started = false;
@@ -144,8 +149,10 @@ async function geminiStream(key, model, system, prompt, maxTokens, send) {
       if (!line.startsWith("data:")) continue;
       try {
         const d = JSON.parse(line.slice(5));
-        const t = d.candidates?.[0]?.content?.parts?.map((p) => p.text || "").join("") || "";
+        const c = d.candidates?.[0];
+        const t = c?.content?.parts?.filter((p) => !p.thought).map((p) => p.text || "").join("") || "";
         if (t) { started = true; await send({ t }); }
+        if (c?.finishReason && c.finishReason !== "STOP") await send({ finish: c.finishReason });
       } catch { /* línea incompleta */ }
     }
   }

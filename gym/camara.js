@@ -121,7 +121,7 @@
     if (!tipAt) tipAt = performance.now(); // desde la primera vez que te ve
     if (!okSaid && performance.now() - tipAt > 4000) { okSaid = true; showMsg("¡Te veo bien! 👍"); }
     if (!api.working()) return;
-    const raw = rule.sig(L);
+    const raw = rule.sig(L); if (window.GYMCAM_DEBUG) console.log("dbg " + raw.toFixed(2) + " elb " + elbows(L).toFixed(0));
     st.ema = st.ema == null ? raw : st.ema * 0.6 + raw * 0.4;
     const v = st.ema;
     if (rule.form) { const f = rule.form(L, v); if (f) cue(f); }

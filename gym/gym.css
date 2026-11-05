@@ -328,3 +328,18 @@ body.no-scroll { overflow: hidden; }
   .session__info #s-text { order: 5; } .session__info .session__easy { order: 6; }
 }
 .btn--sm { padding: 6px 12px; font-size: 14px; min-height: 0; }
+
+/* ---- Modo cámara ---- */
+.session__fig .cam { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #0d141f; border-radius: 20px; overflow: hidden; }
+.cam video, .cam canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transform: scaleX(-1); }
+.cam-reps { position: absolute; left: 12px; top: 12px; background: rgba(13,20,31,.78); color: #fff; border-radius: 16px; padding: 8px 14px; display: grid; text-align: center; line-height: 1; }
+.cam-reps b { font-size: 34px; font-weight: 800; }
+.cam-reps small { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; opacity: .8; margin-top: 4px; }
+.cam-msg { position: absolute; left: 50%; bottom: 12px; transform: translate(-50%, 8px); width: max-content; max-width: calc(100% - 24px); margin: 0 !important; background: rgba(243,121,59,.95); color: #241406 !important; font-weight: 800; font-size: 15px !important; padding: 8px 14px; border-radius: 12px; text-align: center; opacity: 0; transition: opacity .3s, transform .3s; }
+.cam-msg.is-on { opacity: 1; transform: translate(-50%, 0); }
+.cam-load { position: absolute; inset: 0; display: grid; place-items: center; color: #fff !important; font-weight: 700; text-align: center; padding: 20px; margin: 0 !important; }
+.session__fig { position: relative; }
+.cam-ref { position: absolute; right: 18px; top: 18px; width: 30%; max-width: 220px; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.cam-ref .fig-img { border-radius: 12px; }
+.cam-ref .fig-play, .cam-ref .fig-lbl { display: none; }
+#s-cam[aria-pressed="true"] { background: rgba(124,196,164,.25); }

@@ -353,6 +353,7 @@
       const vv = vozNav(this.voz()); if (vv) { u.voice = vv; u.lang = vv.lang; }
       u.onend = u.onerror = done; speechSynthesis.speak(u);
     },
+    sayText(t, opt = { ifFree: true }) { const k = "x:" + t; VOZ_TXT[k] = t; this.say(k, opt); },
     stop() { this.q = []; this.busy = false; try { this.el.pause(); } catch { /* nada */ } this.el.onended = this.el.onerror = null; try { speechSynthesis.cancel(); } catch { /* nada */ } }
   };
 
@@ -383,7 +384,9 @@
     const nx = steps[idx + 1];
     $("#s-next").textContent = nx ? `Siguiente: ${nx.title}` : "Último paso";
     const box = $("#s-fig"); box.innerHTML = "";
-    sFig = figure(s.ex, true, true); box.appendChild(sFig);
+    if (window.GymCam?.activo()) { GymCam.move(box, s.ex.n || 0); refThumb(s); }
+    else { sFig = figure(s.ex, true, true); box.appendChild(sFig); }
+    updCamBtn();
     $("#s-prev").disabled = idx === 0;
     $("#s-skip").textContent = nx ? "Siguiente ⏭" : "Terminar ✓";
     paused = false;
@@ -466,6 +469,7 @@
   }
   function stopSession(focusBack = true, keepVoice = false) {
     clearInterval(tick); tick = null;
+    window.GymCam?.stop();
     if (!keepVoice) coach.stop();
     ov.hidden = true; document.body.classList.remove("no-scroll");
     try { wake?.release(); } catch { /* nada */ } wake = null;
@@ -475,6 +479,37 @@
   $("#s-close").addEventListener("click", () => stopSession());
   $("#s-pause").addEventListener("click", togglePause);
   $("#s-skip").addEventListener("click", () => { coach.stop(); next(); });
+
+  /* ---- Modo cámara (camara.js): espejo con esqueleto, repeticiones y avisos ---- */
+  function refThumb(s) {
+    const r = document.createElement("div"); r.className = "cam-ref";
+    r.appendChild(figure(s.ex, false, true)); $("#s-fig").appendChild(r);
+  }
+  function updCamBtn() {
+    const b = $("#s-cam"); if (!b) return;
+    const on = !!window.GymCam?.activo();
+    b.textContent = on ? "🖼 Ver foto" : "📷 Cámara";
+    b.setAttribute("aria-pressed", String(on));
+  }
+  $("#s-cam")?.addEventListener("click", async () => {
+    const s = steps[idx], box = $("#s-fig");
+    if (!window.GymCam) return;
+    if (GymCam.activo()) { GymCam.stop(); box.innerHTML = ""; sFig = figure(s.ex, true, true); box.appendChild(sFig); updCamBtn(); return; }
+    $("#s-cam").disabled = true;
+    try {
+      await GymCam.start(box, s.ex.n || 0, {
+        say: (t) => coach.sayText(t),
+        beep: () => beep(1046, 0.07),
+        working: () => phase === "work" && !paused,
+      });
+      refThumb(s);
+      window.track?.("gym/camara", "Modo cámara activado");
+    } catch {
+      toast("No se pudo abrir la cámara: revisa el permiso del navegador");
+      box.innerHTML = ""; sFig = figure(s.ex, true, true); box.appendChild(sFig);
+    }
+    $("#s-cam").disabled = false; updCamBtn();
+  });
   $("#s-prev").addEventListener("click", () => { if (idx > 0) { coach.stop(); idx--; renderStep(); } });
   $("#s-plus").addEventListener("click", () => { left += 15; const s = steps[idx]; if (phase === "prep") s.prep = Math.max(s.prep, left); else s.dur = Math.max(s.dur, left); updTimer(); });
   document.addEventListener("keydown", (e) => {

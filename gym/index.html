@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gimnasia para todos · Recursos Adventistas</title>
-  <meta name="description" content="Guía interactiva y gratuita con los 42 ejercicios de gimnasia de «La Reforma Pro-Salud» (Tomo I): fotos de inicio y final, tres niveles, sesión guiada y cartel para invitar a tu comunidad.">
+  <meta name="description" content="Guía interactiva y gratuita con los 42 ejercicios de gimnasia de «La Reforma Pro-Salud» (Tomo I): fotos animadas, tres niveles, sesión guiada con voz de entrenador y cartel para invitar a tu comunidad.">
   <meta property="og:title" content="Gimnasia para todos · los 42 ejercicios de «La Reforma Pro-Salud»">
-  <meta property="og:description" content="42 ejercicios con fotos de inicio y final, niveles suave, medio y exigente, sesión guiada con temporizador y cartel de invitación.">
+  <meta property="og:description" content="42 ejercicios con fotos animadas, niveles suave, medio y exigente, sesión guiada con voz y cartel de invitación.">
   <meta property="og:image" content="https://recursosadventistas.es/assets/img/gym-cover.webp">
   <link rel="canonical" href="https://recursosadventistas.es/gym/">
   <meta name="theme-color" content="#243247">
@@ -44,7 +44,7 @@
           <nav class="crumbs" aria-label="Migas de pan"><a href="../">Inicio</a> <span aria-hidden="true">›</span> <a href="../vida-sana/">Vida sana</a> <span aria-hidden="true">›</span> Gimnasia para todos</nav>
           <p class="eyebrow">Los 42 ejercicios de «La Reforma Pro-Salud»</p>
           <h1>Gimnasia <em>para todos</em></h1>
-          <p class="hero__lead">Respiración, brazos, cintura, abdomen y piernas. Cada ejercicio con fotos de la posición inicial y final, su nivel y cómo respirar.</p>
+          <p class="hero__lead">Respiración, brazos, cintura, abdomen y piernas. Cada ejercicio con fotos animadas del movimiento, su nivel, su tiempo y cómo respirar. Y una sesión guiada con entrenador o entrenadora por voz.</p>
           <div class="hero__actions">
             <a class="btn btn--primary" href="#sesion">Empezar la sesión</a>
             <a class="btn btn--outline-light btn--plain" href="#ejercicios">Ver los 42 ejercicios ↓</a>
@@ -162,7 +162,16 @@
             <button type="button" class="chip chip--exigente" data-preset="exigente" aria-pressed="false">🔴 Exigente</button>
           </div>
           <p class="sel-count" id="sel-count" aria-live="polite"></p>
-          <label class="snd"><input type="checkbox" id="snd" checked> Avisos con sonido</label>
+          <div class="snd-row">
+            <label class="snd"><input type="checkbox" id="snd" checked> Pitidos</label>
+            <label class="snd">🎙 Entrenador/a:
+              <select id="voz" aria-label="Voz del entrenador">
+                <option value="f">Mujer</option>
+                <option value="m">Hombre</option>
+                <option value="no">Sin voz</option>
+              </select>
+            </label>
+          </div>
           <button type="button" class="btn btn--primary btn--big" id="start">▶ Empezar sesión</button>
         </div>
       </div>
@@ -265,7 +274,7 @@
         <p class="session__easy" id="s-easy"></p>
         <div class="timer">
           <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" class="timer__bg"/><circle cx="60" cy="60" r="54" class="timer__fg" id="s-ring"/></svg>
-          <span id="s-time" aria-live="off"></span>
+          <span class="timer__in"><b id="s-time" aria-live="off"></b><small id="s-phase"></small></span>
         </div>
         <p class="session__next" id="s-next"></p>
       </div>

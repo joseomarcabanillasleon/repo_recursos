@@ -1,6 +1,7 @@
 /* =====================================================================
    Gimnasia para todos · guía interactiva
-   - 42 ejercicios de «La Reforma Pro-Salud», Tomo I, con personas en 3D
+   - 42 ejercicios de «La Reforma Pro-Salud», Tomo I, con fotos animadas (inicio ↔ final)
+   - Sesión guiada con tiempos por ejercicio y entrenador/a por voz
    - Filtros por zona, posición y nivel; sesión guiada con temporizador
    - Mi semana y cartel de invitación
    ===================================================================== */
@@ -18,7 +19,6 @@
   /* ------------------------------------------------------------------
      EJERCICIOS · «La Reforma Pro-Salud», Tomo I, ejercicios 1–42
      Textos redactados con nuestras palabras; sin promesas de salud.
-     Los movimientos de cada figura están en movimientos.js
      ------------------------------------------------------------------ */
   const EJ = [
     { id: "e1", t: "Brazos arriba por delante", zona: "Respiración y tórax", cat: "resp", pos: "pie", nivel: "suave", dosis: "10–15 veces",
@@ -149,6 +149,13 @@
       resp: "Toma aire al llevarlo atrás y suéltalo al traerlo adelante.", trabaja: "Espalda y hombros.", prec: "Agarra el palo con las manos bien separadas. Si usas barra, que sea ligera (1–3 kg). Si notas molestias en el hombro, quédate encima de la cabeza." }
   ];
   EJ.forEach((e, i) => { e.n = i + 1; });
+  /* Tiempo de trabajo por ejercicio (segundos), calculado a partir de las repeticiones que indica el libro
+     y un ritmo pausado de unos 3–4 s por repetición (incluye el cambio de lado cuando lo hay). */
+  const DUR = [60, 60, 40, 60, 60, 45, 40, 40, 45, 40, 60, 60, 60, 60, 30, 30, 60, 30, 45, 60, 40,
+    30, 60, 30, 40, 50, 40, 60, 40, 40, 60, 40, 20, 45, 50, 30, 30, 40, 80, 50, 45, 40];
+  const PREP = 12; // segundos para colocarse antes de cada ejercicio
+  const LADO = new Set([2, 5, 11, 13, 14, 17, 23, 25, 31, 39, 40]); // aviso «cambia de lado» a mitad
+  EJ.forEach((e) => { e.dur = DUR[e.n - 1]; e.lado = LADO.has(e.n); });
   const ACT = { id: "act", t: "Activación" };
   const CALMA = { id: "calma", t: "Vuelta a la calma" };
   const BYID = Object.fromEntries(EJ.map((e) => [e.id, e]));
@@ -159,15 +166,25 @@
      Fotografías generadas con IA a partir de un personaje de referencia y revisadas una a una. */
   const SINGLE = new Set([18, 20, 34]); // una sola postura (el texto explica el cambio de pierna)
   const IMG_OF = { act: 6, calma: 1 };
-  function figure(ex, big) {
-    const n = ex.n || IMG_OF[ex.id] || 1;
+  // Punto de apoyo (pies) de cada postura dentro de su mitad, para que inicio y final coincidan al fundirse
+  const ANC = {1:[0.577,0.283],2:[0.577,0.376],3:[0.555,0.377],4:[0.503,0.515],5:[0.363,0.305],6:[0.587,0.398],7:[0.55,0.355],8:[0.465,0.484],9:[0.525,0.333],10:[0.578,0.477],11:[0.6,0.46],12:[0.524,0.491],13:[0.547,0.375],14:[0.58,0.418],15:[0.493,0.312],16:[0.507,0.439],17:[0.59,0.457],19:[0.611,0.519],21:[0.522,0.502],22:[0.489,0.334],23:[0.575,0.493],24:[0.48,0.492],25:[0.397,0.583],26:[0.509,0.508],27:[0.556,0.355],28:[0.487,0.49],29:[0.574,0.32],30:[0.515,0.499],31:[0.588,0.437],32:[0.537,0.528],33:[0.627,0.405],35:[0.508,0.39],36:[0.48,0.486],37:[0.532,0.67],38:[0.528,0.505],39:[0.402,0.484],40:[0.523,0.488],41:[0.487,0.489],42:[0.653,0.528]};
+  // anim: alterna inicio y final en el mismo recuadro (fundido), como si se viera el movimiento.
+  function figure(ex, big, anim = false) {
+    const n = ex.n || IMG_OF[ex.id] || 1, one = SINGLE.has(n), src = `img/e${n}.webp`;
     const box = document.createElement("div");
-    box.className = "fig-box fig-img" + (big ? " fig-box--big" : "") + (SINGLE.has(n) ? " fig-img--one" : "");
-    box.innerHTML = `<img src="img/e${n}.webp" alt="${esc(ex.t || "")}: ${SINGLE.has(n) ? "postura del ejercicio" : "posición inicial a la izquierda y final a la derecha"}" loading="lazy" decoding="async">` +
-      (SINGLE.has(n) ? "" : `<span class="fig-lbl fig-lbl--a">Inicio</span><span class="fig-lbl fig-lbl--b">Final</span><span class="fig-arrow" aria-hidden="true">→</span>`);
+    box.className = "fig-box fig-img" + (big ? " fig-box--big" : "") + (one ? " fig-img--one" : "");
+    box.innerHTML = `<img src="${src}" alt="${esc(ex.t || "")}: ${one ? "postura del ejercicio" : "posición inicial y final"}" loading="lazy" decoding="async">` +
+      (one ? "" : `<div class="fig-anim" aria-hidden="true"><span class="pose pose--a" style="background-image:url('${src}');--f:${(ANC[n] || [.5])[0]}"></span><span class="pose pose--b" style="background-image:url('${src}');--f:${(ANC[n] || [.5, .5])[1]}"></span></div>
+        <span class="fig-lbl fig-lbl--a">Inicio</span><span class="fig-lbl fig-lbl--b">Final</span><span class="fig-arrow" aria-hidden="true">→</span>
+        <button type="button" class="fig-play" aria-pressed="false">▶ Ver movimiento</button>`);
+    if (!one) {
+      const btn = $(".fig-play", box);
+      const set = (on) => { box.classList.toggle("is-anim", on); btn.setAttribute("aria-pressed", String(on)); btn.textContent = on ? "◫ Inicio y final" : "▶ Ver movimiento"; };
+      btn.addEventListener("click", (e) => { e.preventDefault(); set(!box.classList.contains("is-anim")); });
+      set(anim && !reduceMotion);
+    }
     return box;
   }
-  function dropFigure() { /* sin animaciones que limpiar */ }
 
   /* ------------------------------------------------------------------
      TARJETAS DE EJERCICIOS
@@ -186,6 +203,7 @@
     card.dataset.cat = e.cat;
     card.dataset.pos = e.pos;
     card.dataset.niv = e.nivel;
+    const mins = e.dur >= 60 ? `${Math.round(e.dur / 60 * 10) / 10} min`.replace(".", ",") : `${e.dur} s`;
     card.innerHTML = `
       <div class="ex__fig"><span class="ex__n">${e.n}</span></div>
       <div class="ex__body">
@@ -194,7 +212,7 @@
         ${e.gym ? `<p class="ex__gym">🏋️ En el gimnasio: ${esc(e.gym)}</p>` : ""}
         <p class="ex__zona">${esc(e.zona)}</p>
         <h3>${esc(e.t)}</h3>
-        <p class="ex__dose">⏱ ${esc(e.dosis)}</p>
+        <p class="ex__dose">⏱ ${esc(e.dosis)} <span class="ex__time">· ≈ ${mins}${e.lado ? " (los dos lados)" : ""}</span></p>
         <p>${esc(e.como)}</p>
         ${e.prec ? `<p class="ex__prec">⚠️ ${esc(e.prec)}</p>` : ""}
         <details><summary>Respiración y qué trabaja</summary>
@@ -230,7 +248,8 @@
   function syncSel() {
     store.set("gym-sel42", [...sel]);
     $$(".pick input", grid).forEach((i) => { i.checked = sel.has(i.value); i.closest(".ex").classList.toggle("is-picked", i.checked); });
-    const n = sel.size, min = Math.round(3 + n * 1.5 + 3);
+    const n = sel.size, secs = EJ.filter((e) => sel.has(e.id)).reduce((a, e) => a + e.dur + PREP, 0);
+    const min = Math.round((180 + secs + 150) / 60);
     $("#sel-count").textContent = n ? `${n} ejercicio${n === 1 ? "" : "s"} · unos ${min} minutos` : "Elige al menos un ejercicio";
     $("#start").disabled = !n;
     $$("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", "false"));
@@ -249,13 +268,59 @@
      SESIÓN GUIADA
      ------------------------------------------------------------------ */
   const ov = $("#session");
-  let steps = [], idx = 0, left = 0, paused = false, tick = null, wake = null, sFig = null;
+  let steps = [], idx = 0, left = 0, phase = "work", paused = false, tick = null, wake = null, sFig = null;
   function buildSteps() {
     const chosen = EJ.filter((e) => sel.has(e.id));
-    steps = [{ ex: ACT, title: "Activación", text: "Camina de puntillas, camina sobre los talones y corre suave en el sitio de puntillas (complemento del ejercicio 6). Ve a tu ritmo.", dose: "3 minutos", dur: 180, warm: true }]
-      .concat(chosen.map((e) => ({ ex: e, title: `${e.n}. ${e.t}`, text: e.como, dose: e.dosis, easy: e.prec ? "⚠️ " + e.prec : "🌬 " + e.resp, dur: 90 })))
-      .concat([{ ex: CALMA, title: "Vuelta a la calma", text: "Repite el ejercicio 1 muy despacio: sube los brazos tomando aire y bájalos soltándolo. Deja que el pulso se calme.", dose: "3 minutos", dur: 180 }]);
+    steps = [{ ex: ACT, key: "activacion", title: "Activación", text: "Camina de puntillas, camina sobre los talones y corre suave en el sitio de puntillas (complemento del ejercicio 6). Ve a tu ritmo.", dose: "3 minutos", dur: 180, warm: true }]
+      .concat(chosen.map((e) => ({ ex: e, key: e.id, title: `${e.n}. ${e.t}`, text: e.como, dose: `${e.dosis} · unos ${e.dur} s${e.lado ? " (cambia de lado a mitad)" : ""}`, easy: e.prec ? "⚠️ " + e.prec : "🌬 " + e.resp, dur: e.dur, prep: PREP, lado: e.lado })))
+      .concat([{ ex: CALMA, key: "calma", title: "Vuelta a la calma", text: "Repite el ejercicio 1 muy despacio: sube los brazos tomando aire y bájalos soltándolo. Deja que el pulso se calme.", dose: "2 minutos y medio", dur: 150 }]);
   }
+
+  /* ---- Entrenador/a por voz: clips grabados (audio/f|m/clave.mp3); si falta alguno, voz del navegador ---- */
+  const VOZ_TXT = {
+    hola: "¡Hola! Hoy nos movemos juntos, cada uno a su ritmo. ¡Vamos allá!",
+    activacion: "Empezamos con la activación. Camina de puntillas, luego sobre los talones, y después corre suave en el sitio.",
+    lado: "¡Cambia de lado!", mitad: "¡Vas por la mitad! Sigue así.", ultimos: "¡Últimos diez segundos! ¡Tú puedes!",
+    bien: "¡Muy bien! Respira y descansa un momento.", respira: "Recuerda: no aguantes el aire. Respira con calma.",
+    calma: "Vuelta a la calma. Sube los brazos despacio tomando aire, y bájalos soltándolo.",
+    fin: "¡Sesión completada! Lo has hecho genial. Bebe agua.", animo1: "¡Eso es! Buena técnica.",
+    animo2: "¡Sigue, sigue! Cada repetición cuenta.", pausa: "Pausa. Cuando quieras, seguimos.", ya: "Tres, dos, uno, ¡ya!",
+    prepara: "Prepárate para el siguiente ejercicio."
+  };
+  EJ.forEach((e) => { VOZ_TXT[e.id] = `Ejercicio ${e.n}: ${e.t}. ${e.dosis.replace("–", " a ")}. ¡Vamos!`; });
+  const vozSel = $("#voz");
+  if (vozSel) {
+    vozSel.value = store.get("gym-voz", "f");
+    vozSel.addEventListener("change", () => { store.set("gym-voz", vozSel.value); coach.stop(); if (vozSel.value !== "no") coach.say("animo1"); });
+  }
+  const coach = {
+    el: new Audio(), q: [], busy: false,
+    voz() { return vozSel ? vozSel.value : "no"; },
+    say(key, { now = false, ifFree = false } = {}) {
+      if (this.voz() === "no" || !key) return;
+      if (ifFree && (this.busy || this.q.length)) return;
+      if (now) this.stop();
+      this.q.push(key); if (this.q.length > 3) this.q.splice(0, this.q.length - 3);
+      if (!this.busy) this.play();
+    },
+    play() {
+      const key = this.q.shift(); if (!key) { this.busy = false; return; }
+      this.busy = true;
+      const done = () => { this.busy = false; this.play(); };
+      this.el.onended = done;
+      this.el.onerror = () => this.tts(key, done);
+      this.el.src = `audio/${this.voz()}/${key}.mp3`;
+      this.el.play().catch(() => this.tts(key, done));
+    },
+    tts(key, done) {
+      const t = VOZ_TXT[key];
+      if (!t || !("speechSynthesis" in window)) return done();
+      const u = new SpeechSynthesisUtterance(t); u.lang = "es-ES"; u.rate = 1.05;
+      u.onend = u.onerror = done; speechSynthesis.speak(u);
+    },
+    stop() { this.q = []; this.busy = false; try { this.el.pause(); } catch { /* nada */ } this.el.onended = this.el.onerror = null; try { speechSynthesis.cancel(); } catch { /* nada */ } }
+  };
+
   let actx = null;
   function beep(f = 880, d = 0.18) {
     if (!$("#snd").checked) return;
@@ -270,7 +335,7 @@
     } catch { /* sin audio */ }
   }
   const mmss = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-  function renderStep() {
+  function renderStep(voice = true) {
     const s = steps[idx];
     $("#s-count").textContent = `Paso ${idx + 1} de ${steps.length}`;
     $("#s-bar").style.width = `${(idx / (steps.length - 1)) * 100}%`;
@@ -282,39 +347,75 @@
     const nx = steps[idx + 1];
     $("#s-next").textContent = nx ? `Siguiente: ${nx.title}` : "Último paso";
     const box = $("#s-fig"); box.innerHTML = "";
-    dropFigure(sFig);
-    sFig = figure(s.ex, true); box.appendChild(sFig);
+    sFig = figure(s.ex, true, true); box.appendChild(sFig);
     $("#s-prev").disabled = idx === 0;
     $("#s-skip").textContent = nx ? "Siguiente ⏭" : "Terminar ✓";
-    left = s.dur; paused = false; updTimer();
+    paused = false;
+    s.cues = {};
+    if (s.prep) { phase = "prep"; left = s.prep; } else { phase = "work"; left = s.dur; }
+    if (voice) coach.say(s.key);
+    updTimer();
   }
   function updTimer() {
-    const s = steps[idx], frac = s ? left / s.dur : 0;
+    const s = steps[idx]; if (!s) return;
+    const tot = phase === "prep" ? s.prep : s.dur, frac = left / tot;
     $("#s-time").textContent = mmss(left);
+    $("#s-phase").textContent = phase === "prep" ? "Prepárate" : s.warm ? "Activación" : s.ex === CALMA ? "Calma" : "¡A trabajar!";
+    ov.classList.toggle("is-prep", phase === "prep");
     $("#s-ring").style.strokeDashoffset = String(339.3 * (1 - frac));
     $("#s-pause").textContent = paused ? "▶ Seguir" : "⏸ Pausa";
   }
+  // Avisos durante el trabajo: mitad o cambio de lado, ánimo, respiración y últimos 10 s
+  function cues(s) {
+    if (phase !== "work" || !s.ex.n) return;
+    const done = s.dur - left, c = s.cues;
+    const once = (k, cond, key, opt) => { if (cond && !c[k]) { c[k] = 1; coach.say(key, opt); } };
+    once("half", s.dur >= 30 && done === Math.floor(s.dur / 2), s.lado ? "lado" : "mitad", s.lado ? { now: true } : { ifFree: true });
+    if (s.lado && done === Math.floor(s.dur / 2)) beep(740, 0.25);
+    once("an", s.dur >= 45 && done === Math.round(s.dur * 0.25), Math.random() < 0.5 ? "animo1" : "animo2", { ifFree: true });
+    once("re", s.dur >= 60 && !s.lado && done === Math.round(s.dur * 0.72), "respira", { ifFree: true });
+    once("ult", s.dur >= 30 && left === 10, "ultimos", { ifFree: true });
+  }
   function next() {
-    if (idx < steps.length - 1) { idx++; beep(988); renderStep(); }
-    else finish();
+    if (idx < steps.length - 1) {
+      const wasEx = !!steps[idx].ex.n && phase === "work" && left === 0;
+      idx++; beep(988);
+      if (wasEx && steps[idx].prep) coach.say("bien");
+      renderStep();
+    } else finish();
   }
   function finish() {
     beep(1175, 0.3);
-    stopSession(false);
+    coach.say("fin", { now: true });
+    stopSession(false, true);
     markToday();
     $("#done").hidden = false;
     $("#done").scrollIntoView({ behavior: "smooth", block: "center" });
     window.track?.("gym/sesion-completada", "Sesión de gimnasia completada");
   }
+  function togglePause() {
+    paused = !paused; updTimer();
+    if (paused) coach.say("pausa", { now: true }); else beep(660);
+  }
   async function startSession() {
     buildSteps(); idx = 0;
     ov.hidden = false; document.body.classList.add("no-scroll");
+    coach.stop(); coach.say("hola");
     renderStep(); beep(660);
     clearInterval(tick);
     tick = setInterval(() => {
       if (paused) return;
+      const s = steps[idx];
+      // Si el entrenador aún está explicando, espera (máx. 15 s) antes de la cuenta atrás final
+      if (phase === "prep" && left === 4 && coach.busy && (s.wait = (s.wait || 0) + 1) < 15) return;
       left = Math.max(0, left - 1);
+      if (phase === "prep") {
+        if (left === 3 && !coach.busy) coach.say("ya"); else if (left <= 3 && left > 0 && !coach.busy) beep(520, 0.08);
+        if (left === 0) { phase = "work"; left = s.dur; beep(880, 0.3); }
+        updTimer(); return;
+      }
       if (left <= 3 && left > 0) beep(520, 0.08);
+      cues(s);
       updTimer();
       if (left === 0) next();
     }, 1000);
@@ -322,24 +423,25 @@
     $("#s-close").focus();
     window.track?.("gym/sesion-iniciada", "Sesión de gimnasia iniciada");
   }
-  function stopSession(focusBack = true) {
+  function stopSession(focusBack = true, keepVoice = false) {
     clearInterval(tick); tick = null;
+    if (!keepVoice) coach.stop();
     ov.hidden = true; document.body.classList.remove("no-scroll");
     try { wake?.release(); } catch { /* nada */ } wake = null;
     if (focusBack) $("#start").focus();
   }
   $("#start").addEventListener("click", startSession);
   $("#s-close").addEventListener("click", () => stopSession());
-  $("#s-pause").addEventListener("click", () => { paused = !paused; updTimer(); });
-  $("#s-skip").addEventListener("click", next);
-  $("#s-prev").addEventListener("click", () => { if (idx > 0) { idx--; renderStep(); } });
-  $("#s-plus").addEventListener("click", () => { left += 15; steps[idx].dur = Math.max(steps[idx].dur, left); updTimer(); });
+  $("#s-pause").addEventListener("click", togglePause);
+  $("#s-skip").addEventListener("click", () => { coach.stop(); next(); });
+  $("#s-prev").addEventListener("click", () => { if (idx > 0) { coach.stop(); idx--; renderStep(); } });
+  $("#s-plus").addEventListener("click", () => { left += 15; const s = steps[idx]; if (phase === "prep") s.prep = Math.max(s.prep, left); else s.dur = Math.max(s.dur, left); updTimer(); });
   document.addEventListener("keydown", (e) => {
     if (ov.hidden) return;
     if (e.key === "Escape") stopSession();
-    if (e.key === " ") { e.preventDefault(); paused = !paused; updTimer(); }
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft" && idx > 0) { idx--; renderStep(); }
+    if (e.key === " ") { e.preventDefault(); togglePause(); }
+    if (e.key === "ArrowRight") { coach.stop(); next(); }
+    if (e.key === "ArrowLeft" && idx > 0) { coach.stop(); idx--; renderStep(); }
   });
 
   /* ------------------------------------------------------------------

@@ -43,7 +43,7 @@
       como: "Erguido, con los brazos doblados a la altura de los hombros y las manos delante del pecho. Estira los brazos con energía hacia atrás para abrir el pecho y vuelve a doblarlos.",
       resp: "Toma aire al abrir los brazos y suéltalo al doblarlos.", trabaja: "Pecho, hombros y respiración." },
     { id: "e8", t: "Bicicleta con las piernas arriba", zona: "Cintura y piernas", cat: "abd", pos: "suelo", nivel: "exigente", dosis: "15–20 vueltas",
-      como: "Tumbado boca arriba, sube las piernas hasta la vertical sosteniendo la espalda con las manos y los codos en el suelo. Mueve las piernas como si pedalearas.",
+      como: "Tumbado boca arriba, levanta la cadera y sujeta la zona lumbar con las manos, con los codos en el suelo. Sube las piernas hasta la vertical y pedalea en el aire: una rodilla se dobla hacia el pecho mientras la otra pierna se estira hacia arriba, y después cambian.",
       resp: "Respira con normalidad, sin aguantar el aire.", trabaja: "Piernas y abdomen.", prec: "El peso va sobre los hombros, nunca sobre el cuello. Evítalo si tienes problemas de cuello, espalda o tensión alta." },
     { id: "e9", t: "Inclinación lateral con palo", zona: "Cintura", cat: "cintura", pos: "pie", nivel: "suave", mat: "Palo de escoba o cuerda", gym: "barra ligera (body bar)", dosis: "10–15 veces",
       como: "Erguido, con los brazos arriba algo separados sujetando un palo de escoba. Inclínate a la derecha y a la izquierda sin mover caderas ni piernas.",

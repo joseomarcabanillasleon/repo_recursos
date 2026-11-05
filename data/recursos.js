@@ -128,7 +128,7 @@ window.RECURSOS = [
   {
     id: "gimnasia-para-todos",
     titulo: "Gimnasia para todos: los 42 ejercicios de «La Reforma Pro-Salud»",
-    descripcion: "Los 42 ejercicios de gimnasia del Tomo I, con personas en 3D que se pueden girar, niveles suave, medio y exigente, precauciones, sesión guiada con temporizador y cartel para invitar a tu comunidad.",
+    descripcion: "Los 42 ejercicios de gimnasia del Tomo I, con fotos de la posición inicial y final, niveles suave, medio y exigente, precauciones, sesión guiada con temporizador y cartel para invitar a tu comunidad.",
     categoria: "salud",
     formato: "Enlace",
     tipo: "gratis",

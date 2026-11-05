@@ -155,34 +155,19 @@
   const POS = { pie: "De pie", sentado: "Sentado", suelo: "En el suelo" };
   const NIV = { suave: "Suave", medio: "Medio", exigente: "Exigente" };
 
-  /* Figura animada realista (figura.js + movimientos.js) */
-  /* Primero se dibuja la ilustración SVG; cuando el motor 3D está listo,
-     se sustituye por la persona en 3D (figura3d.js). */
-  const pending3d = [];
+  /* Imagen del ejercicio: posición inicial (izquierda) y final (derecha).
+     Fotografías generadas con IA a partir de un personaje de referencia y revisadas una a una. */
+  const SINGLE = new Set([18, 20, 34]); // una sola postura (el texto explica el cambio de pierna)
+  const IMG_OF = { act: 6, calma: 1 };
   function figure(ex, big) {
-    const data = Object.assign({}, window.MOV[ex.id], { t: ex.t, id: ex.id });
+    const n = ex.n || IMG_OF[ex.id] || 1;
     const box = document.createElement("div");
-    box.className = "fig-box" + (big ? " fig-box--big" : "");
-    box._data = data; box._big = !!big;
-    box.appendChild(window.Figura.mount(data, { big }));
-    pending3d.push(box); upgrade3d();
+    box.className = "fig-box fig-img" + (big ? " fig-box--big" : "") + (SINGLE.has(n) ? " fig-img--one" : "");
+    box.innerHTML = `<img src="img/e${n}.webp" alt="${esc(ex.t || "")}: ${SINGLE.has(n) ? "postura del ejercicio" : "posición inicial a la izquierda y final a la derecha"}" loading="lazy" decoding="async">` +
+      (SINGLE.has(n) ? "" : `<span class="fig-lbl fig-lbl--a">Inicio</span><span class="fig-lbl fig-lbl--b">Final</span><span class="fig-arrow" aria-hidden="true">→</span>`);
     return box;
   }
-  function upgrade3d() {
-    if (!window.Figura3D) return;
-    while (pending3d.length) {
-      const box = pending3d.shift(), svg = box.querySelector("svg");
-      if (svg) window.Figura.unmount(svg);
-      window.Figura3D.mount(box, box._data, { big: box._big });
-    }
-  }
-  window.addEventListener("figura3d-ready", upgrade3d);
-  function dropFigure(box) {
-    if (!box) return;
-    window.Figura3D?.unmount(box);
-    const svg = box.querySelector("svg"); if (svg) window.Figura.unmount(svg);
-    const i = pending3d.indexOf(box); if (i >= 0) pending3d.splice(i, 1);
-  }
+  function dropFigure() { /* sin animaciones que limpiar */ }
 
   /* ------------------------------------------------------------------
      TARJETAS DE EJERCICIOS

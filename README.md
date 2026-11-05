@@ -55,7 +55,7 @@ Haz commit y push: GitHub Pages actualiza la web en ~1 minuto.
 ## Gimnasia para todos (`/gym/`)
 
 Guía interactiva con los **42 ejercicios de «La Reforma Pro-Salud», Tomo I**. Textos redactados de nuevo, sin afirmaciones de salud sin respaldo.
-- Textos, niveles y precauciones: `gym/gym.js` (lista `EJ`). Movimientos 3D: `gym/movimientos.js` (`e1`…`e42`, `act`, `calma`).
+- Textos, niveles y precauciones: `gym/gym.js` (lista `EJ`). Imágenes: `gym/img/e1.webp`…`e42.webp` (inicio a la izquierda, final a la derecha), generadas con IA a partir de un personaje de referencia y revisadas una a una.
 - Filtros por zona, posición (de pie, sentado, suelo) y nivel (suave, medio, exigente); sesiones prediseñadas por nivel.
 - Sesión guiada a pantalla completa: activación (complemento del ej. 6), los ejercicios elegidos y vuelta a la calma (ej. 1 lento).
 - «Mi semana» (se guarda solo en el navegador) y cartel de invitación imprimible / WhatsApp.

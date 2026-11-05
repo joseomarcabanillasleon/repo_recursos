@@ -271,3 +271,20 @@ body.no-scroll { overflow: hidden; }
 .presets .chip--suave[aria-pressed="true"], .presets .chip--medio[aria-pressed="true"], .presets .chip--exigente[aria-pressed="true"] { color: #fff; }
 .duo--one { grid-template-columns: minmax(0, 640px); justify-content: center; }
 .ex__gym { margin: -2px 0 0; font-size: 13px; color: var(--muted, #6b7280); }
+
+/* ---------- Imágenes de los ejercicios ---------- */
+.fig-img { position: relative; width: 100%; background: #fbf4ec; border-radius: 16px; overflow: hidden; aspect-ratio: 3 / 2; }
+.fig-img img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.fig-lbl { position: absolute; top: 8px; font: 800 11px var(--font); letter-spacing: .06em; text-transform: uppercase; color: #fff; background: rgba(36,50,71,.78); padding: 3px 8px; border-radius: 99px; }
+.fig-lbl--a { left: 8px; } .fig-lbl--b { left: calc(50% + 8px); }
+.fig-arrow { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 50%; background: #f3793b; color: #fff; display: grid; place-items: center; font: 800 18px var(--font); box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+.ex__fig { padding: 10px 14px 0; }
+.ex__fig .fig-img { border-radius: 14px; max-width: none; margin: 0 0 4px; }
+.session__fig .fig-box.fig-img { height: auto; }
+.session__fig { aspect-ratio: auto; width: min(100%, 900px); padding: 8px; }
+.session__fig .fig-img { border-radius: 20px; }
+.hero-fig { padding: 6px; }
+.hero-fig .fig-img { border-radius: 16px; }
+.poster__fig { width: 100%; max-width: 340px; }
+@media (max-width: 900px) { .session__fig { width: 100%; } }
+.ex__fig .fig-lbl { top: auto; bottom: 8px; }

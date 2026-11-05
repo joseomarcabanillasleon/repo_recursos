@@ -6,7 +6,7 @@ compatibility_date = "2025-06-01"
 
 [vars]
 ALLOWED_ORIGINS = "https://recursosadventistas.es,https://www.recursosadventistas.es,http://localhost:8765"
-GEMINI_MODELS = "gemini-2.5-flash,gemini-2.5-flash-lite"
+GEMINI_MODELS = "gemini-3-flash,gemini-2.5-flash,gemini-2.5-flash-lite"
 PER_HOUR = "20"
 
 # IA de respaldo de Cloudflare (gratis hasta su cupo diario)

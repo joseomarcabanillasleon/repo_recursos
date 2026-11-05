@@ -38,7 +38,7 @@ Haz commit y push. Comprueba que funciona abriendo `https://ia-recursos.TU-USUAR
 | Variable | Por defecto | Para qué |
 |---|---|---|
 | `ALLOWED_ORIGINS` | tu dominio y `localhost:8765` | Webs que pueden usar el Worker |
-| `GEMINI_MODELS` | `gemini-2.5-flash,gemini-2.5-flash-lite` | Modelos en orden de preferencia (si uno falla, se prueba el siguiente) |
+| `GEMINI_MODELS` | `gemini-3-flash,gemini-2.5-flash,gemini-2.5-flash-lite` | Modelos en orden de preferencia (si uno falla, se prueba el siguiente) |
 | `CF_MODEL` | `@cf/meta/llama-3.3-70b-instruct-fp8-fast` | Modelo de respaldo de Workers AI |
 | `PER_HOUR` | `20` | Consultas por persona y hora |
 

@@ -10,7 +10,7 @@
 
 const DEFAULTS = {
   ALLOWED_ORIGINS: "https://recursosadventistas.es,https://www.recursosadventistas.es,http://localhost:8765",
-  GEMINI_MODELS: "gemini-2.5-flash,gemini-2.5-flash-lite",
+  GEMINI_MODELS: "gemini-3-flash,gemini-2.5-flash,gemini-2.5-flash-lite",
   CF_MODEL: "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
   PER_HOUR: "20",            // peticiones por persona y hora
   MAX_INPUT: "40000",        // caracteres máximos del encargo

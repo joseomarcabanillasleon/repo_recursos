@@ -59,7 +59,7 @@
         if (d.candidates?.[0]?.finishReason === "SAFETY") err = "La IA ha bloqueado la respuesta por sus filtros. Prueba a reformular.";
       });
     } else if (proxy()) {
-      const r = await fetch(proxy() + "/chat", { method: "POST", signal, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ system, prompt, maxTokens }) });
+      const r = await fetch(proxy() + "/chat", { method: "POST", signal, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ system, prompt, maxTokens: 8192 }) }); // margen para el «razonamiento» del modelo
       if (!r.ok) { let m = ""; try { m = (await r.json()).error; } catch { /* nada */ } throw new Error(m || `La IA del sitio no responde (${r.status}).`); }
       await readSSE(r, (d) => {
         if (d.t) { text += d.t; onText(text); }

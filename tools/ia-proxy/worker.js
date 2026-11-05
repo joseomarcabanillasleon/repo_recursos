@@ -34,7 +34,8 @@ export default {
     const url = new URL(req.url);
 
     if (req.method === "GET" && url.pathname.endsWith("/health")) {
-      return json({ ok: true, gemini: !!env.GEMINI_KEY, workersAI: !!env.AI }, 200, cors);
+      const models = env.GEMINI_KEY ? await modelList(env.GEMINI_KEY, cfg).catch((e) => ["error: " + String(e).slice(0, 120)]) : [];
+      return json({ ok: true, gemini: !!env.GEMINI_KEY, workersAI: !!env.AI, models }, 200, cors);
     }
     if (req.method !== "POST" || !url.pathname.endsWith("/chat")) return json({ error: "Ruta no válida" }, 404, cors);
     if (!okOrigin) return json({ error: "Origen no permitido" }, 403, cors);
@@ -67,7 +68,7 @@ export default {
       let errors = [];
       try {
         if (env.GEMINI_KEY) {
-          for (const model of cfg.GEMINI_MODELS.split(",").map((s) => s.trim()).filter(Boolean)) {
+          for (const model of await modelList(env.GEMINI_KEY, cfg)) {
             const r = await geminiStream(env.GEMINI_KEY, model, system, prompt, maxTokens, send);
             if (r.ok) { await send({ done: true, via: "gemini", model }); return; }
             errors.push(`${model}: ${r.error}`);
@@ -91,6 +92,35 @@ export default {
   },
 };
 
+/* Modelos a probar: los de GEMINI_MODELS que existan para esta clave y, si no hay ninguno,
+   los «flash» disponibles (descubiertos con ListModels). Así sigue funcionando cuando Google
+   retira o renombra modelos. Se guarda en memoria 6 horas. */
+let cache = { at: 0, list: null };
+async function modelList(key, cfg) {
+  if (cache.list && Date.now() - cache.at < 6 * 3600e3) return cache.list;
+  const wanted = cfg.GEMINI_MODELS.split(",").map((s) => s.trim()).filter(Boolean);
+  let avail = [];
+  try {
+    let page = "";
+    for (let i = 0; i < 5; i++) {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?pageSize=200${page ? "&pageToken=" + page : ""}`, { headers: { "x-goog-api-key": key } });
+      if (!r.ok) break;
+      const j = await r.json();
+      for (const m of j.models || []) if ((m.supportedGenerationMethods || []).includes("generateContent")) avail.push(m.name.replace(/^models\//, ""));
+      if (!j.nextPageToken) break; page = j.nextPageToken;
+    }
+  } catch { /* sin lista: se usan los configurados */ }
+  if (!avail.length) return wanted;
+  const ok = wanted.filter((m) => avail.includes(m));
+  const ver = (n) => parseFloat((n.match(/gemini-(\d+(?:\.\d+)?)/) || [0, 0])[1]);
+  const flash = avail
+    .filter((n) => /^gemini-[\d.]+-flash/.test(n) && !/image|tts|audio|live|embed|thinking|exp/.test(n))
+    .sort((a, b) => (/preview/.test(a) - /preview/.test(b)) || (ver(b) - ver(a)) || (/lite/.test(a) - /lite/.test(b)) || (a.length - b.length));
+  const list = [...new Set([...ok, ...flash])].slice(0, 6);
+  cache = { at: Date.now(), list: list.length ? list : wanted };
+  return cache.list;
+}
+
 async function geminiStream(key, model, system, prompt, maxTokens, send) {
   const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`, {
     method: "POST",
@@ -101,7 +131,7 @@ async function geminiStream(key, model, system, prompt, maxTokens, send) {
       generationConfig: { temperature: 0.7, maxOutputTokens: maxTokens },
     }),
   });
-  if (!r.ok) return { ok: false, error: `${r.status} ${(await r.text()).slice(0, 160)}` };
+  if (!r.ok) return { ok: false, error: `${r.status} ${(await r.text()).slice(0, 300)}` };
   const reader = r.body.getReader(), dec = new TextDecoder();
   let buf = "", started = false;
   for (;;) {

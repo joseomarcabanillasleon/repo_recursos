@@ -343,3 +343,4 @@ body.no-scroll { overflow: hidden; }
 .cam-ref .fig-img { border-radius: 12px; }
 .cam-ref .fig-play, .cam-ref .fig-lbl { display: none; }
 #s-cam[aria-pressed="true"] { background: rgba(124,196,164,.25); }
+.cam-note { position: absolute; right: 10px; bottom: 6px; margin: 0 !important; font-size: 10px !important; color: rgba(255,255,255,.75) !important; background: rgba(13,20,31,.55); padding: 2px 6px; border-radius: 6px; }

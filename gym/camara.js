@@ -59,8 +59,8 @@
   const kneeLift = (L) => { const t = torso(L); return Math.min(...legSides(L).map((d) => L[d.kn].y - L[d.hip].y)) / t; };
 
   const RULES = {
-    1: { need: ARMS, sig: meanAbd, dir: "up", hi: 140, lo: 40,
-      peak: (m) => m < 150 && "Sube los brazos hasta arriba, bien verticales.",
+    1: { need: ARMS, sig: meanAbd, dir: "up", hi: 130, lo: 40,
+      peak: (m) => m < 140 && "Sube los brazos hasta arriba, bien verticales.",
       form: (L, s) => s > 120 && elbows(L) < 140 && "Estira bien los codos." },
     22: { need: ARMS, sig: meanAbd, dir: "up", hi: 70, lo: 30,
       peak: (m) => (m < 78 && "Sube hasta la altura de los hombros.") || (m > 120 && "Para a la altura de los hombros, en cruz."),
@@ -122,7 +122,7 @@
     if (!tipAt) tipAt = performance.now(); // desde la primera vez que te ve
     if (!okSaid && performance.now() - tipAt > 4000) { okSaid = true; showMsg("¡Te veo bien! 👍"); }
     if (!api.working()) return;
-    const raw = rule.sig(L); if (window.GYMCAM_DEBUG) console.log("dbg " + raw.toFixed(2) + " elb " + elbows(L).toFixed(0));
+    const raw = rule.sig(L);
     st.ema = st.ema == null ? raw : st.ema * 0.6 + raw * 0.4;
     const v = st.ema;
     if (rule.form) { const f = rule.form(L, v); if (f) cue(f); }
@@ -187,6 +187,7 @@
       box.innerHTML = `<video playsinline muted></video><canvas></canvas>
         <div class="cam-reps"><b>—</b><small></small></div>
         <p class="cam-msg" role="status" aria-live="polite"></p>
+        <p class="cam-note">Beta · orientativo · la imagen no sale de tu dispositivo</p>
         <p class="cam-load">Cargando la cámara y el detector de postura…</p>`;
       container.innerHTML = ""; container.appendChild(box);
       video = box.querySelector("video"); canvas = box.querySelector("canvas"); ctx2 = canvas.getContext("2d");

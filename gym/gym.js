@@ -288,13 +288,19 @@
     prepara: "Prepárate para el siguiente ejercicio."
   };
   EJ.forEach((e) => { VOZ_TXT[e.id] = `Ejercicio ${e.n}: ${e.t}. ${e.dosis.replace("–", " a ")}. ¡Vamos!`; });
+  // iPhone/iPad: que el sonido se oiga aunque el interruptor de silencio esté activado (Safari 16.4+)
+  try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch { /* nada */ }
   const vozSel = $("#voz");
   if (vozSel) {
     vozSel.value = store.get("gym-voz", "f");
-    vozSel.addEventListener("change", () => { store.set("gym-voz", vozSel.value); coach.stop(); if (vozSel.value !== "no") coach.say("animo1"); });
+    vozSel.addEventListener("change", () => { store.set("gym-voz", vozSel.value); coach.stop(); if (vozSel.value !== "no") coach.say("hola"); });
   }
+  $("#voz-test")?.addEventListener("click", () => {
+    if (vozSel.value === "no") vozSel.value = "f";
+    store.set("gym-voz", vozSel.value); coach.stop(); coach.say("hola"); beep(660);
+  });
   const coach = {
-    el: new Audio(), q: [], busy: false,
+    el: new Audio(), q: [], busy: false, warned: false,
     voz() { return vozSel ? vozSel.value : "no"; },
     say(key, { now = false, ifFree = false } = {}) {
       if (this.voz() === "no" || !key) return;
@@ -309,8 +315,15 @@
       const done = () => { this.busy = false; this.play(); };
       this.el.onended = done;
       this.el.onerror = () => this.tts(key, done);
-      this.el.src = `audio/${this.voz()}/${key}.mp3`;
-      this.el.play().catch(() => this.tts(key, done));
+      this.el.src = `audio/${this.voz()}/${key}.mp3?v=2`;
+      this.el.volume = 1;
+      this.el.play().catch((err) => {
+        if (err && err.name === "NotAllowedError" && !this.warned) {
+          this.warned = true;
+          toast("El navegador bloqueó el sonido: toca «🔊 Probar voz» y sube el volumen");
+        }
+        this.tts(key, done);
+      });
     },
     tts(key, done) {
       const t = VOZ_TXT[key];
@@ -326,6 +339,7 @@
     if (!$("#snd").checked) return;
     try {
       actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === "suspended") actx.resume();
       const o = actx.createOscillator(), g = actx.createGain();
       o.frequency.value = f; o.connect(g); g.connect(actx.destination);
       g.gain.setValueAtTime(0.0001, actx.currentTime);

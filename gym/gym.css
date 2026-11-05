@@ -327,3 +327,4 @@ body.no-scroll { overflow: hidden; }
   .session__info .session__next { order: 4; grid-column: 2; margin: 0 0 8px; }
   .session__info #s-text { order: 5; } .session__info .session__easy { order: 6; }
 }
+.btn--sm { padding: 6px 12px; font-size: 14px; min-height: 0; }

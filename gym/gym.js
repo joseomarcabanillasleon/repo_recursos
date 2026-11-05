@@ -287,7 +287,16 @@
     animo2: "¡Sigue, sigue! Cada repetición cuenta.", pausa: "Pausa. Cuando quieras, seguimos.", ya: "Tres, dos, uno, ¡ya!",
     prepara: "Prepárate para el siguiente ejercicio."
   };
-  EJ.forEach((e) => { VOZ_TXT[e.id] = `Ejercicio ${e.n}: ${e.t}. ${e.dosis.replace("–", " a ")}. ¡Vamos!`; });
+  // Por ejercicio: e# = presentación (nombre, repeticiones, respiración); c# = cómo se hace; t# = todo junto (voz del navegador)
+  EJ.forEach((e) => {
+    VOZ_TXT[e.id] = `Ejercicio ${e.n}: ${e.t}. ${e.dosis.replace("–", " a ")}. ${e.resp}`;
+    VOZ_TXT["c" + e.n] = `${e.como} ¡Vamos!`;
+    VOZ_TXT["t" + e.n] = `${VOZ_TXT[e.id]} ${VOZ_TXT["c" + e.n]}`;
+  });
+  // Clips grabados disponibles (audio/index.json); lo que falte lo lee la voz del navegador
+  let GRAB = { f: [], m: [] };
+  fetch("audio/index.json", { cache: "no-cache" }).then((r) => r.json()).then((j) => { GRAB = j; }).catch(() => {});
+  const grabado = (v, k) => (GRAB[v] || []).includes(k);
   // iPhone/iPad: que el sonido se oiga aunque el interruptor de silencio esté activado (Safari 16.4+)
   try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch { /* nada */ }
   const vozSel = $("#voz");
@@ -306,7 +315,7 @@
       if (this.voz() === "no" || !key) return;
       if (ifFree && (this.busy || this.q.length)) return;
       if (now) this.stop();
-      this.q.push(key); if (this.q.length > 3) this.q.splice(0, this.q.length - 3);
+      this.q.push(key); if (this.q.length > 4) this.q.splice(0, this.q.length - 4);
       if (!this.busy) this.play();
     },
     play() {
@@ -314,6 +323,7 @@
       this.busy = true;
       const done = () => { this.busy = false; this.play(); };
       this.el.onended = done;
+      if (!grabado(this.voz(), key)) return this.tts(key, done);
       this.el.onerror = () => this.tts(key, done);
       this.el.src = `audio/${this.voz()}/${key}.mp3?v=2`;
       this.el.volume = 1;
@@ -367,7 +377,12 @@
     paused = false;
     s.cues = {};
     if (s.prep) { phase = "prep"; left = s.prep; } else { phase = "work"; left = s.dur; }
-    if (voice) coach.say(s.key);
+    if (voice) {
+      const v = coach.voz(), n = s.ex.n;
+      if (!n) coach.say(s.key);
+      else if (grabado(v, "e" + n) && grabado(v, "c" + n)) { coach.say("e" + n); coach.say("c" + n); }
+      else coach.say("t" + n);
+    }
     updTimer();
   }
   function updTimer() {
@@ -420,8 +435,8 @@
     tick = setInterval(() => {
       if (paused) return;
       const s = steps[idx];
-      // Si el entrenador aún está explicando, espera (máx. 15 s) antes de la cuenta atrás final
-      if (phase === "prep" && left === 4 && coach.busy && (s.wait = (s.wait || 0) + 1) < 15) return;
+      // Si el entrenador aún está explicando cómo se hace, espera (máx. 45 s) antes de la cuenta atrás final
+      if (phase === "prep" && left === 4 && coach.busy && (s.wait = (s.wait || 0) + 1) < 45) return;
       left = Math.max(0, left - 1);
       if (phase === "prep") {
         if (left === 3 && !coach.busy) coach.say("ya"); else if (left <= 3 && left > 0 && !coach.busy) beep(520, 0.08);

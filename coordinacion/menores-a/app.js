@@ -382,7 +382,6 @@
       ops: [["concurso", "Concurso de preguntas bíblicas", "❓"], ["tesoro", "Búsqueda del tesoro con pistas", "🗺️"], ["construir", "Construir una maqueta o un objeto", "🧱"],
         ["memoria", "Reto de memoria (versículos)", "🧠"], ["relevos", "Relevos y juegos con movimiento", "🏃"], ["teatro", "Representar una historia", "🎭"], ["servicio", "Reto de ayudar a otros", "💛"]] },
     { id: "agrupa", t: "¿Cómo te gusta más trabajar?", tipo: "una", ops: [["solo", "Solo", "🙋"], ["pareja", "En pareja", "👫"], ["equipo", "En equipo pequeño", "👨‍👩‍👧‍👦"], ["todos", "Todos juntos", "🫶"]] },
-    { id: "mision", t: "¿Qué misión te gustaría hacer?", sub: "Puedes elegir varias", tipo: "varias", ops: ROLES.map((r) => [r.id, r.n, r.i]) },
     { id: "cuesta", t: "¿Hay algo que te cueste un poco?", sub: "Puedes elegir varias. ¡No pasa nada!", tipo: "varias",
       ops: [["leer", "Leer en voz alta", "🗣️"], ["hablar", "Hablar delante de todos", "😳"], ["buscar", "Encontrar los textos en la Biblia", "🔎"], ["memorizar", "Memorizar el versículo", "🧠"], ["nada", "Nada, todo bien", "👍"]] },
     { id: "ayuda", t: "¿Qué te ayudaría a estar más a gusto?", sub: "Puedes elegir varias", tipo: "varias",
@@ -409,8 +408,8 @@
       return `<div class="card"><h3>${esc(q.t)}</h3><p class="small muted">${quien} de ${n} respondieron${q.tipo === "varias" ? " (podían elegir varias)" : ""}</p>
         ${q.ops.map(([v, l, i]) => `<div class="encbar"><span>${i} ${esc(l)}</span><div class="bar"><span style="width:${quien ? (cnt[v] / quien) * 100 : 0}%"></span></div><b>${cnt[v]}</b></div>`).join("")}</div>`;
     }).join("");
-    return `<div class="row between"><h1>Encuesta de los niños</h1><button class="btn btn--pri" id="enc-start">▶ Empezar en este dispositivo</button></div>
-      <p class="muted small">Anónima: los niños responden por turnos en tu móvil o tableta, sin poner su nombre. Aquí solo ves los totales. Dura unos 3 minutos por niño.</p>
+    return `<div class="row between"><h1>Encuesta de los niños</h1><div class="row"><a class="btn" href="encuesta-imprimir.html" target="_blank" rel="noopener">🖨 Versión para imprimir</a><button class="btn btn--pri" id="enc-start">▶ Empezar en este dispositivo</button></div></div>
+      <p class="muted small">En el dispositivo es anónima: los niños responden por turnos sin poner su nombre y aquí solo ves los totales. Si la haces en papel, puedes pasar aquí cada hoja con «Empezar» para obtener las ideas para trabajar.</p>
       <div class="card"><div class="row between"><div><h3>${esc(r.nombre)}</h3><p class="small muted">Desde ${esc(fmt(r.fecha, { day: "numeric", month: "long", year: "numeric" }))} · <b>${n}</b> respuesta${n === 1 ? "" : "s"}${total ? ` de ${total} niños` : ""}</p>
         ${total ? `<div class="bar" style="max-width:260px"><span style="width:${Math.min(100, (n / total) * 100)}%"></span></div>` : ""}</div>
         <div class="row"><button class="btn btn--sm" id="enc-csv" ${n ? "" : "disabled"}>⬇ CSV</button><button class="btn btn--sm" id="enc-new">＋ Nueva ronda</button><button class="btn btn--sm" id="enc-del" ${n ? "" : "disabled"}>🗑 Vaciar</button></div></div>

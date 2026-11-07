@@ -382,6 +382,8 @@
       ops: [["concurso", "Concurso de preguntas bíblicas", "❓"], ["tesoro", "Búsqueda del tesoro con pistas", "🗺️"], ["construir", "Construir una maqueta o un objeto", "🧱"],
         ["memoria", "Reto de memoria (versículos)", "🧠"], ["relevos", "Relevos y juegos con movimiento", "🏃"], ["teatro", "Representar una historia", "🎭"], ["servicio", "Reto de ayudar a otros", "💛"]] },
     { id: "agrupa", t: "¿Cómo te gusta más trabajar?", tipo: "una", ops: [["solo", "Solo", "🙋"], ["pareja", "En pareja", "👫"], ["equipo", "En equipo pequeño", "👨‍👩‍👧‍👦"], ["todos", "Todos juntos", "🫶"]] },
+    { id: "culto", t: "En tu casa, ¿hacéis el culto en familia?", sub: "No hay respuestas buenas ni malas", tipo: "una",
+      ops: [["diario", "Sí, todos los días", "🌅"], ["casi", "Casi todos los días", "📅"], ["algunos", "Algunos días", "🗓️"], ["sabado", "Solo el sábado", "⛪"], ["no", "No solemos hacerlo", "🤷"]] },
     { id: "cuesta", t: "¿Hay algo que te cueste un poco?", sub: "Puedes elegir varias. ¡No pasa nada!", tipo: "varias",
       ops: [["leer", "Leer en voz alta", "🗣️"], ["hablar", "Hablar delante de todos", "😳"], ["buscar", "Encontrar los textos en la Biblia", "🔎"], ["memorizar", "Memorizar el versículo", "🧠"], ["nada", "Nada, todo bien", "👍"]] },
     { id: "ayuda", t: "¿Qué te ayudaría a estar más a gusto?", sub: "Puedes elegir varias", tipo: "varias",
@@ -454,6 +456,9 @@
       memorizar: "Memorizar: usa gestos, canto o tarjetas, y reconoce el esfuerzo aunque no lo digan perfecto." };
     const apoyos = cu.filter((x) => x.v !== "nada" && x.k > 0);
     if (apoyos.length) out.push(`<div class="card"><h3>🤲 Apoyos que necesitan</h3><ul class="small">${apoyos.map((x) => `<li><b>${x.k}</b> · ${esc(AP[x.v])}</li>`).join("")}</ul></div>`);
+    const cul = cuenta(r, "culto"), culTot = cul.reduce((a, x) => a + x.k, 0), culPoco = cul.filter((x) => ["algunos", "sabado", "no"].includes(x.v)).reduce((a, x) => a + x.k, 0);
+    if (culTot) out.push(`<div class="card"><h3>🏠 Culto en familia</h3><p class="small">${culTot - culPoco} de ${culTot} lo hacen todos o casi todos los días.</p>
+      ${culPoco ? `<p class="small">Idea: enviar cada semana a las familias un <b>culto de 5 minutos</b> basado en la lección (versículo, pregunta y oración), y proponer un reto voluntario de «culto en casa». Sin puntos ni comparaciones: depende de cada familia.</p>` : `<p class="small">¡Muy bien! Puedes animarlos a compartir en clase lo que aprenden en el culto.</p>`}</div>`);
     const sie = cuenta(r, "siento"), mal = sie.filter((x) => +x.v <= 2).reduce((a, x) => a + x.k, 0);
     const pu = cuenta(r, "puntos"), poco = pu.filter((x) => +x.v <= 2).reduce((a, x) => a + x.k, 0);
     const avisos = [];

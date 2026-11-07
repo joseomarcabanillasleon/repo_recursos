@@ -394,9 +394,7 @@
     { id: "puntos", t: "Las pegatinas, los puntos y la subasta… ¿te animan a participar?", tipo: "una", ops: [["4", "¡Mucho!", "🤩"], ["3", "Un poco", "🙂"], ["2", "Me da igual", "😐"], ["1", "No me gustan", "🙁"]] },
     { id: "premios", t: "En la subasta, ¿qué premios te gustarían?", sub: "Puedes elegir varias", tipo: "varias",
       ops: [["sorpresa", "Regalo sorpresa", "🎁"], ["medalla", "Medalla", "🏅"], ["pin", "Pin o chapa", "📌"], ["libro", "Libro", "📚"],
-        ["sellos", "Pegatinas especiales", "⭐"], ["diploma", "Diploma o marcapáginas", "📜"], ["dinamica", "Elegir el juego o la dinámica", "🎯"],
-        ["cancion", "Elegir una canción", "🎵"], ["ayudante", "Ser ayudante del maestro un sábado", "🧑‍🏫"],
-        ["juegoextra", "Un rato extra de juego para todos", "🎲", 1], ["salida", "Una actividad especial del grupo", "🚌", 1]] },
+        ["sellos", "Pegatinas especiales", "⭐"], ["diploma", "Diploma o marcapáginas", "📜"], ["salida", "Una actividad especial del grupo", "🚌", 1]] },
     { id: "idea", t: "¿Qué cambiarías o añadirías a la clase?", sub: "Opcional. No escribas nombres.", tipo: "texto" },
   ];
   const enc = () => (S.encuesta = S.encuesta || { rondas: [] });

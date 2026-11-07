@@ -100,3 +100,13 @@ dialog::backdrop { background: rgba(0,0,0,.4); }
   body { background: #fff; color: #000; }
   .card { border-color: #ccc; break-inside: avoid; }
 }
+
+/* bloqueo con PIN */
+.lock { max-width: 360px; margin: 8vh auto; text-align: center; padding: 28px 22px; }
+.lock__ico { font-size: 48px; line-height: 1; }
+.lock__pin { font-size: 28px !important; letter-spacing: .4em; text-align: center; }
+.lockbtn { background: rgba(255,255,255,.14); border: 0; color: #fff; border-radius: 99px; width: 38px; height: 38px; cursor: pointer; font-size: 16px; }
+.nav[hidden], .lockbtn[hidden] { display: none; }
+.toast[hidden] { display: none; }
+.lock form > * { min-width: 0; width: 100%; }
+.lock__pin { letter-spacing: .25em; }

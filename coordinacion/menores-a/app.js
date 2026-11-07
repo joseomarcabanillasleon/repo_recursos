@@ -54,6 +54,29 @@
   try { S = JSON.parse(localStorage.getItem(KEY)) || blank(); } catch { S = blank(); }
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch { toast("⚠️ No se pudo guardar en este navegador"); } };
 
+  /* ---------------- bloqueo con PIN ----------------
+     Cortina frente a miradas indiscretas en el propio dispositivo: el PIN se guarda
+     como huella SHA-256 con sal (nunca en claro). No cifra los datos. */
+  const PINKEY = "menoresA.pin", AUTOLOCK_MIN = 10, HIDDEN_MIN = 2;
+  const pinInfo = () => { try { return JSON.parse(localStorage.getItem(PINKEY)); } catch { return null; } };
+  let locked = !!pinInfo(), lastAct = Date.now(), hiddenAt = 0, fails = 0, waitUntil = 0;
+  async function hashPin(pin, salt) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(salt + ":" + pin));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  async function setPin(pin) {
+    const salt = [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, "0")).join("");
+    localStorage.setItem(PINKEY, JSON.stringify({ salt, hash: await hashPin(pin, salt) }));
+  }
+  async function checkPin(pin) { const p = pinInfo(); return !!p && (await hashPin(pin, p.salt)) === p.hash; }
+  function lockNow() { if (!pinInfo()) return; locked = true; $("#dlg").open && $("#dlg").close(); render(); }
+  ["click", "keydown", "touchstart", "input"].forEach((e) => document.addEventListener(e, () => (lastAct = Date.now()), { passive: true }));
+  setInterval(() => { if (!locked && pinInfo() && Date.now() - lastAct > AUTOLOCK_MIN * 6e4) lockNow(); }, 30e3);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) hiddenAt = Date.now();
+    else if (hiddenAt && Date.now() - hiddenAt > HIDDEN_MIN * 6e4) lockNow();
+  });
+
   /* ---------------- fechas ---------------- */
   const iso = (d) => d.toISOString().slice(0, 10);
   const D = (s) => new Date(s + "T12:00:00");
@@ -345,9 +368,25 @@
       <h2>Lo que hice</h2>${rs.length ? `<ul class="timeline">${rs.map((r) => `<li><b>${esc(fmt(r.fecha))}</b> · ${op(r.op).i} ${esc(op(r.op).n)}${r.com ? ` — ${esc(r.com)}` : ""}</li>`).join("")}</ul>` : `<p class="muted">Todavía no hay reconocimientos este trimestre.</p>`}`;
   };
 
+  /* ---- Pantalla de bloqueo ---- */
+  V.lock = () => `<div class="card lock"><div class="lock__ico">🔒</div><h1>Menores A</h1>
+      <p class="muted">Introduce el PIN para ver los datos de la clase.</p>
+      <form id="lock-form" class="grid"><input type="password" name="pin" inputmode="numeric" autocomplete="current-password" pattern="[0-9]*"
+        maxlength="8" placeholder="PIN" aria-label="PIN" required autofocus class="lock__pin">
+        <button class="btn btn--pri">Desbloquear</button></form>
+      <p class="small muted" id="lock-msg" role="status" aria-live="polite"></p>
+      <button type="button" class="btn btn--ghost btn--sm" id="lock-forgot">¿Olvidaste el PIN?</button></div>`;
+
   /* ---- Ajustes ---- */
   V.ajustes = () => `<h1>Ajustes</h1>
     <div class="grid g2">
+      <div class="card"><h3>🔒 Bloqueo con PIN</h3>
+        ${pinInfo() ? `<p class="small">Activado. Se bloquea al pulsar 🔒 arriba, tras ${AUTOLOCK_MIN} min sin usarla o al volver después de ${HIDDEN_MIN} min en otra app.</p>
+          <div class="row"><button class="btn" id="pin-change">Cambiar PIN</button><button class="btn" id="pin-off">Quitar PIN</button><button class="btn" id="pin-lock">🔒 Bloquear ahora</button></div>`
+        : `<p class="small">Protege la app en este dispositivo frente a miradas indiscretas. Es una cortina, no un cifrado: si pierdes el PIN, la única salida es borrar los datos (exporta copias).</p>
+          <form id="pin-set" class="grid"><label class="f">Nuevo PIN (4 a 8 cifras)<input type="password" name="a" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8" required autocomplete="new-password"></label>
+          <label class="f">Repite el PIN<input type="password" name="b" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8" required autocomplete="new-password"></label>
+          <button class="btn btn--pri">Activar PIN</button></form>`}</div>
       <div class="card"><h3>Niños</h3><p class="small muted">Solo nombre o alias. Nada de apellidos, salud ni datos familiares.</p>
         <ul class="small">${todos().map((n) => `<li class="row between"><span>${esc(n.alias)} ${n.activo ? "" : `<span class="pill">inactivo</span>`}</span>
           <span><button class="btn btn--sm" data-n-ren="${n.id}">Renombrar</button> <button class="btn btn--sm" data-n-act="${n.id}">${n.activo ? "Desactivar" : "Activar"}</button></span></li>`).join("") || "<li class='muted'>Sin niños</li>"}</ul>
@@ -487,7 +526,25 @@
       if (r?.n) { if (o) Object.assign(o, r); else S.oport.push({ id: uid(), activo: true, ...r }); save(); render(); } return; }
     if (t.id === "exp") { const b = new Blob([JSON.stringify(S, null, 1)], { type: "application/json" }); const a = document.createElement("a");
       a.href = URL.createObjectURL(b); a.download = `menoresA-copia-${todayIso()}.json`; a.click(); URL.revokeObjectURL(a.href); return; }
-    if (t.id === "wipe") { if (confirm("¿Borrar TODOS los datos de este navegador? Exporta antes una copia si la necesitas.")) { localStorage.removeItem(KEY); S = blank(); render(); toast("Datos borrados"); } return; }
+    if (t.id === "wipe") { if (confirm("¿Borrar TODOS los datos de este navegador (y el PIN)? Exporta antes una copia si la necesitas.")) { localStorage.removeItem(KEY); localStorage.removeItem(PINKEY); S = blank(); locked = false; render(); toast("Datos borrados"); } return; }
+    if (t.id === "lock-btn" || t.id === "pin-lock") return lockNow();
+    if (t.id === "pin-off") { if (confirm("¿Quitar el PIN? La app quedará abierta en este dispositivo.")) { localStorage.removeItem(PINKEY); render(); toast("PIN quitado"); } return; }
+    if (t.id === "pin-change") {
+      const r = await ask("Cambiar PIN", `<label class="f">PIN actual<input type="password" name="old" inputmode="numeric" maxlength="8" required></label>
+        <label class="f">Nuevo PIN (4 a 8 cifras)<input type="password" name="a" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8" required></label>
+        <label class="f">Repite el nuevo PIN<input type="password" name="b" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8" required></label>`);
+      if (!r) return;
+      if (!(await checkPin(r.old))) return toast("El PIN actual no es correcto");
+      if (!/^\d{4,8}$/.test(r.a) || r.a !== r.b) return toast("El nuevo PIN debe tener 4 a 8 cifras y coincidir");
+      await setPin(r.a); toast("PIN cambiado"); return;
+    }
+    if (t.id === "lock-forgot") {
+      if (confirm("Sin el PIN no se puede entrar. La única opción es BORRAR todos los datos de este dispositivo (luego puedes importar una copia). ¿Continuar?")
+        && confirm("¿Seguro? Se borrarán niños, puntos y eventos de este navegador.")) {
+        localStorage.removeItem(KEY); localStorage.removeItem(PINKEY); S = blank(); locked = false; render(); toast("Datos y PIN borrados");
+      }
+      return;
+    }
   });
 
   document.addEventListener("change", (ev) => {
@@ -502,8 +559,23 @@
     if (t.id === "imp" && t.files[0]) { const fr = new FileReader(); fr.onload = () => { try { const j = JSON.parse(fr.result); if (!j.ninos || !j.rec) throw 0;
       if (confirm("¿Sustituir los datos actuales por los de la copia?")) { S = j; save(); render(); toast("Copia importada"); } } catch { toast("El archivo no es una copia válida"); } }; fr.readAsText(t.files[0]); }
   });
-  document.addEventListener("submit", (ev) => {
+  document.addEventListener("submit", async (ev) => {
     const f = ev.target;
+    if (f.id === "lock-form") {
+      ev.preventDefault();
+      const msg = $("#lock-msg");
+      if (Date.now() < waitUntil) { msg.textContent = `Demasiados intentos. Espera ${Math.ceil((waitUntil - Date.now()) / 1000)} s.`; return; }
+      if (await checkPin(f.pin.value)) { locked = false; fails = 0; lastAct = Date.now(); render(); return; }
+      fails++; f.pin.value = "";
+      if (fails >= 5) { waitUntil = Date.now() + 30e3; fails = 0; msg.textContent = "PIN incorrecto. Espera 30 s antes de volver a intentarlo."; }
+      else msg.textContent = `PIN incorrecto (${fails} de 5).`;
+      return;
+    }
+    if (f.id === "pin-set") {
+      ev.preventDefault();
+      if (!/^\d{4,8}$/.test(f.a.value) || f.a.value !== f.b.value) return toast("El PIN debe tener 4 a 8 cifras y coincidir");
+      await setPin(f.a.value); render(); toast("🔒 PIN activado"); return;
+    }
     if (f.id === "n-add") { ev.preventDefault(); const a = f.alias.value.trim(); if (a) { S.ninos.push({ id: uid(), alias: a, activo: true }); save(); render(); } }
     if (f.id === "aj") { ev.preventDefault(); const r = Object.fromEntries(new FormData(f)); if (r.fin < r.inicio) return toast("El último sábado debe ser posterior al primero");
       Object.assign(S.ajustes, { inicio: r.inicio, fin: r.fin, saldoInicial: +r.saldoInicial, metaGrupo: +r.metaGrupo, maxSabado: +r.maxSabado }); save(); toast("Guardado"); render(); }
@@ -511,6 +583,9 @@
 
   /* ---------------- enrutado ---------------- */
   function render() {
+    const lb = $("#lock-btn"); if (lb) lb.hidden = !pinInfo() || locked;
+    $(".nav").hidden = locked;
+    if (locked) { app.innerHTML = V.lock(); $(".lock__pin")?.focus(); return; }
     const [r, arg] = (location.hash.slice(1) || "panel").split("/");
     const view = V[r] || V.panel;
     app.innerHTML = view(arg);

@@ -378,6 +378,10 @@
     { id: "gusta", t: "¿Qué partes de la clase te gustan más?", sub: "Puedes elegir varias", tipo: "varias",
       ops: [["historia", "Historia bíblica", "📖"], ["misionero", "Historia misionera", "🌍"], ["musica", "Música y canto", "🎵"], ["juegos", "Juegos con movimiento", "🏃"],
         ["equipos", "Retos por equipos", "🏆"], ["manual", "Manualidades", "✂️"], ["oracion", "Oración", "🙏"], ["versiculo", "Aprender el versículo", "🧠"]] },
+    { id: "retos", t: "¿Qué tipo de retos te gustan más?", sub: "Puedes elegir varias", tipo: "varias",
+      ops: [["concurso", "Concurso de preguntas bíblicas", "❓"], ["tesoro", "Búsqueda del tesoro con pistas", "🗺️"], ["construir", "Construir una maqueta o un objeto", "🧱"],
+        ["memoria", "Reto de memoria (versículos)", "🧠"], ["relevos", "Relevos y juegos con movimiento", "🏃"], ["teatro", "Representar una historia", "🎭"], ["servicio", "Reto de ayudar a otros", "💛"]] },
+    { id: "agrupa", t: "¿Cómo te gusta más trabajar?", tipo: "una", ops: [["solo", "Solo", "🙋"], ["pareja", "En pareja", "👫"], ["equipo", "En equipo pequeño", "👨‍👩‍👧‍👦"], ["todos", "Todos juntos", "🫶"]] },
     { id: "mision", t: "¿Qué misión te gustaría hacer?", sub: "Puedes elegir varias", tipo: "varias", ops: ROLES.map((r) => [r.id, r.n, r.i]) },
     { id: "cuesta", t: "¿Hay algo que te cueste un poco?", sub: "Puedes elegir varias. ¡No pasa nada!", tipo: "varias",
       ops: [["leer", "Leer en voz alta", "🗣️"], ["hablar", "Hablar delante de todos", "😳"], ["buscar", "Encontrar los textos en la Biblia", "🔎"], ["memorizar", "Memorizar el versículo", "🧠"], ["nada", "Nada, todo bien", "👍"]] },
@@ -385,6 +389,10 @@
       ops: [["equipo", "Trabajar en equipo", "🤝"], ["juegos", "Más juegos", "🎲"], ["opinion", "Que me pregunten mi opinión", "💬"], ["companero", "Tener un compañero que me ayude", "🧑‍🤝‍🧑"],
         ["preguntas", "Más tiempo para preguntas", "❓"], ["tranquilo", "Un rato más tranquilo", "😌"]] },
     { id: "puntos", t: "Los sellos, los puntos y la subasta… ¿te animan a participar?", tipo: "una", ops: [["4", "¡Mucho!", "🤩"], ["3", "Un poco", "🙂"], ["2", "Me da igual", "😐"], ["1", "No me gustan", "🙁"]] },
+    { id: "premios", t: "En la subasta, ¿qué premios te gustarían?", sub: "Puedes elegir varias", tipo: "varias",
+      ops: [["dinamica", "Elegir el juego o la dinámica", "🎯"], ["cancion", "Elegir una canción", "🎵"], ["ayudante", "Ser ayudante del maestro un sábado", "🧑‍🏫"],
+        ["nombre", "Poner nombre a un reto o misión", "🏷️"], ["sitio", "Elegir dónde sentarme", "🪑"], ["sellos", "Pegatinas o sellos especiales", "⭐"],
+        ["diploma", "Diploma o marcapáginas", "📜"], ["juegoextra", "Un rato extra de juego para todos", "🎲", 1], ["salida", "Una actividad especial del grupo", "🚌", 1]] },
     { id: "idea", t: "¿Qué cambiarías o añadirías a la clase?", sub: "Opcional. No escribas nombres.", tipo: "texto" },
   ];
   const enc = () => (S.encuesta = S.encuesta || { rondas: [] });
@@ -392,7 +400,7 @@
   let kiosk = null; // { i: pregunta actual, a: respuestas en curso } o null
 
   V.encuesta = () => {
-    const e = enc(), r = rondaActual(), n = r.resp.length;
+    const e = enc(), r = rondaActual(), n = r.resp.length, total = activos().length;
     const res = ENC_Q.map((q) => {
       if (q.tipo === "texto") { const xs = r.resp.map((x) => x.a[q.id]).filter(Boolean);
         return `<div class="card"><h3>${esc(q.t)}</h3>${xs.length ? `<ul class="small">${xs.map((x) => `<li>«${esc(x)}»</li>`).join("")}</ul>` : `<p class="small muted">Sin respuestas.</p>`}</div>`; }
@@ -403,12 +411,58 @@
     }).join("");
     return `<div class="row between"><h1>Encuesta de los niños</h1><button class="btn btn--pri" id="enc-start">▶ Empezar en este dispositivo</button></div>
       <p class="muted small">Anónima: los niños responden por turnos en tu móvil o tableta, sin poner su nombre. Aquí solo ves los totales. Dura unos 3 minutos por niño.</p>
-      <div class="card"><div class="row between"><div><h3>${esc(r.nombre)}</h3><p class="small muted">Desde ${esc(fmt(r.fecha, { day: "numeric", month: "long", year: "numeric" }))} · <b>${n}</b> respuesta${n === 1 ? "" : "s"}</p></div>
+      <div class="card"><div class="row between"><div><h3>${esc(r.nombre)}</h3><p class="small muted">Desde ${esc(fmt(r.fecha, { day: "numeric", month: "long", year: "numeric" }))} · <b>${n}</b> respuesta${n === 1 ? "" : "s"}${total ? ` de ${total} niños` : ""}</p>
+        ${total ? `<div class="bar" style="max-width:260px"><span style="width:${Math.min(100, (n / total) * 100)}%"></span></div>` : ""}</div>
         <div class="row"><button class="btn btn--sm" id="enc-csv" ${n ? "" : "disabled"}>⬇ CSV</button><button class="btn btn--sm" id="enc-new">＋ Nueva ronda</button><button class="btn btn--sm" id="enc-del" ${n ? "" : "disabled"}>🗑 Vaciar</button></div></div>
         ${e.rondas.length > 1 ? `<p class="small muted">Rondas anteriores: ${e.rondas.slice(0, -1).map((x) => `${esc(x.nombre)} (${x.resp.length})`).join(" · ")}</p>` : ""}</div>
-      ${n ? `<p class="small muted" style="margin-top:10px">Con tan pocos niños, no intentes adivinar quién respondió qué: úsalo para ver tendencias y hablar con el grupo.</p><div class="grid g2" style="margin-top:6px">${res}</div>`
+      ${n ? planEncuesta(r) : ""}
+      ${n ? `<h2>Resultados por pregunta</h2><p class="small muted">Con tan pocos niños, no intentes adivinar quién respondió qué: úsalo para ver tendencias y hablar con el grupo.</p><div class="grid g2" style="margin-top:6px">${res}</div>`
         : `<div class="card" style="margin-top:12px"><p>Aún no hay respuestas. Pulsa <b>Empezar</b> y pasa el dispositivo a cada niño.</p></div>`}`;
   };
+
+  /* ---- De la encuesta a la acción: regalos, actividades, retos y apoyos ---- */
+  function cuenta(r, qid) {
+    const q = ENC_Q.find((x) => x.id === qid); if (!q || !q.ops) return [];
+    const c = Object.fromEntries(q.ops.map(([v]) => [v, 0]));
+    r.resp.forEach((x) => [].concat(x.a[qid] ?? []).forEach((v) => { if (v in c) c[v]++; }));
+    return q.ops.map(([v, l, i, col]) => ({ v, l, i, col: !!col, k: c[v] })).sort((a, b) => b.k - a.k);
+  }
+  const top = (arr, n = 3) => arr.filter((x) => x.k > 0).slice(0, n);
+  const proxSubasta = () => S.eventos.filter((e) => e.tipo === "subasta" && e.estado !== "resuelto" && e.fecha >= todayIso()).sort((a, b) => a.fecha.localeCompare(b.fecha))[0];
+  function planEncuesta(r) {
+    const n = r.resp.length, out = [];
+    const prem = top(cuenta(r, "premios"), 5), sub = proxSubasta();
+    if (prem.length) out.push(`<div class="card"><h3>🎁 Regalos para la subasta</h3><p class="small muted">Los más pedidos. Añádelos como lotes ${sub ? `a «${esc(sub.nombre)}» (${esc(fmt(sub.fecha))})` : "(se creará una subasta nueva)"}.</p>
+      <ul class="plan">${prem.map((x) => `<li><span>${x.i} ${esc(x.l)} <b>${x.k}</b>${x.col ? ` <span class="pill">colectivo</span>` : ""}</span>
+        ${sub && (sub.lotes || []).some((l) => l.nombre === x.l) ? `<span class="pill pill--ok">ya añadido</span>` : `<button class="btn btn--sm" data-plan-lote="${esc(x.v)}">＋ Lote</button>`}</li>`).join("")}</ul></div>`);
+    const act = cuenta(r, "gusta"), ta = top(act), menos = act.filter((x) => x.k === 0);
+    if (ta.length) out.push(`<div class="card"><h3>🎨 Actividades</h3><p class="small">Dedica más tiempo a: <b>${ta.map((x) => x.i + " " + esc(x.l)).join(", ")}</b>.</p>
+      ${menos.length ? `<p class="small muted">Nadie las eligió: ${menos.map((x) => esc(x.l)).join(", ")}. No hace falta quitarlas; prueba a presentarlas de otra forma (más cortas, con movimiento o en equipo).</p>` : ""}</div>`);
+    const re = top(cuenta(r, "retos"));
+    if (re.length) out.push(`<div class="card"><h3>🏆 Retos</h3><p class="small muted">Crea un reto por equipos con el formato preferido:</p>
+      <ul class="plan">${re.map((x) => `<li><span>${x.i} ${esc(x.l)} <b>${x.k}</b></span><button class="btn btn--sm" data-plan-reto="${esc(x.v)}">＋ Crear reto</button></li>`).join("")}</ul></div>`);
+    const ag = cuenta(r, "agrupa")[0];
+    const AGR = { solo: "Deja momentos de trabajo individual (fichas, reflexión) dentro de cada sesión.", pareja: "Usa parejas para leer, buscar textos o preparar su misión: da seguridad antes de hablar en grupo.",
+      equipo: "Organiza dinámicas en 2 equipos de 4 y cambia los equipos en cada reto.", todos: "Refuerza las actividades de todo el grupo: canto, círculo de diálogo, juegos colectivos." };
+    if (ag && ag.k) out.push(`<div class="card"><h3>👥 Cómo agruparlos</h3><p class="small">La mayoría prefiere <b>${esc(ag.l.toLowerCase())}</b> (${ag.k} de ${n}). ${AGR[ag.v]}</p></div>`);
+    const mi = cuenta(r, "mision"), tm = top(mi), nadie = mi.filter((x) => x.k === 0);
+    if (tm.length) out.push(`<div class="card"><h3>🎯 Misiones (roles)</h3><p class="small">Las más deseadas: <b>${tm.map((x) => x.i + " " + esc(x.l)).join(", ")}</b>. Mantén la rotación para que todos las prueben; avisa con antelación cuándo le toca a cada uno.</p>
+      ${nadie.length ? `<p class="small muted">Nadie eligió: ${nadie.map((x) => esc(x.l)).join(", ")}. Hazlas más atractivas: hazlas en pareja o con una tarjeta de ayuda.</p>` : ""}</div>`);
+    const cu = cuenta(r, "cuesta"), AP = {
+      hablar: "Hablar en público: deja preparar la intervención la semana anterior, empieza en pareja y nunca obligues a hablar sin aviso.",
+      leer: "Leer en voz alta: avisa del texto con antelación y permite leer a dos voces.",
+      buscar: "Buscar textos: haz un mini reto de 5 minutos para encontrar libros de la Biblia y ten marcapáginas con el índice.",
+      memorizar: "Memorizar: usa gestos, canto o tarjetas, y reconoce el esfuerzo aunque no lo digan perfecto." };
+    const apoyos = cu.filter((x) => x.v !== "nada" && x.k > 0);
+    if (apoyos.length) out.push(`<div class="card"><h3>🤲 Apoyos que necesitan</h3><ul class="small">${apoyos.map((x) => `<li><b>${x.k}</b> · ${esc(AP[x.v])}</li>`).join("")}</ul></div>`);
+    const sie = cuenta(r, "siento"), mal = sie.filter((x) => +x.v <= 2).reduce((a, x) => a + x.k, 0);
+    const pu = cuenta(r, "puntos"), poco = pu.filter((x) => +x.v <= 2).reduce((a, x) => a + x.k, 0);
+    const avisos = [];
+    if (mal) avisos.push(`<b>${mal}</b> ${mal === 1 ? "niño no se siente" : "niños no se sienten"} del todo bien en clase. Sin intentar averiguar quién, busca un momento de conversación cercana con cada uno y revisa el clima del grupo.`);
+    if (poco * 2 >= n) avisos.push(`A la mitad o más no les animan los puntos o la subasta: refuerza los lotes colectivos y el reconocimiento verbal, y pregúntales qué les motivaría.`);
+    if (avisos.length) out.push(`<div class="card"><h3>💛 Para cuidar</h3>${avisos.map((a) => `<p class="small alert">${a}</p>`).join("")}</div>`);
+    return `<h2>Ideas para trabajar</h2><p class="small muted">Sugerencias a partir de las respuestas. Tú decides cuáles aplicar.</p><div class="grid g2">${out.join("")}</div>`;
+  }
 
   function vistaKiosk() {
     const k = kiosk;
@@ -608,6 +662,21 @@
         if (!r) return; if (!(await checkPin(r.pin))) return toast("PIN incorrecto");
       } else if (!confirm(fin ? "¿Salir de la encuesta?" : "¿Salir? Las respuestas a medias de este niño no se guardarán.")) return;
       kiosk = null; location.hash = "#encuesta"; render(); return;
+    }
+    if (d.planLote) {
+      const q = ENC_Q.find((x) => x.id === "premios"), o = q.ops.find((x) => x[0] === d.planLote); if (!o) return;
+      let e = proxSubasta();
+      if (!e) { const f = sabados().filter((x) => x >= todayIso()).find((x, i, a) => quarter(x) !== quarter(a[i + 1] || "2100-01-01")) || proximoSabado();
+        e = { id: uid(), nombre: "Subasta de fin de trimestre", fecha: f, tipo: "subasta", modo: "sobre", estado: "abierto", notas: "Creada desde la encuesta.", lotes: [], pujas: [], resultado: [], aportes: [], equipos: [], ptsEquipo: [] };
+        S.eventos.push(e); }
+      e.lotes.push({ id: uid(), nombre: o[1], precio: o[3] ? 20 : 3, uds: o[3] ? 1 : 2, colectivo: !!o[3] });
+      save(); render(); toast(`Lote añadido a «${e.nombre}». Ajusta precio y unidades en Eventos.`); return;
+    }
+    if (d.planReto) {
+      const q = ENC_Q.find((x) => x.id === "retos"), o = q.ops.find((x) => x[0] === d.planReto); if (!o) return;
+      const ocupados = new Set(S.eventos.map((x) => x.fecha)), f = sabados().find((x) => x >= todayIso() && !ocupados.has(x)) || proximoSabado();
+      const ev = { id: uid(), nombre: "Reto: " + o[1], fecha: f, tipo: "reto", estado: "abierto", notas: "Creado desde la encuesta.", lotes: [], pujas: [], resultado: [], aportes: [], equipos: [], ptsEquipo: [] };
+      S.eventos.push(ev); save(); toast(`Reto creado para el ${fmt(f)}. Puedes cambiar la fecha.`); location.hash = "#evento/" + ev.id; return;
     }
     if (t.id === "enc-new") { const r = await ask("Nueva ronda de encuesta", `<label class="f">Nombre<input type="text" name="nombre" maxlength="60" required value="Encuesta ${esc(fmt(todayIso(), { month: "long", year: "numeric" }))}"></label>
       <p class="small muted">Las respuestas anteriores se conservan como otra ronda.</p>`, "Crear");

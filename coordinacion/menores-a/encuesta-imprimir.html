@@ -6,11 +6,11 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Encuesta Menores A · para imprimir</title>
 <style>
-  @page { size: A4; margin: 10mm; }
+  @page { size: A4; margin: 8mm 10mm; }
   :root { --ink: #22303f; --muted: #6b7686; --o: #f3793b; --o2: #fde6d6; --b: #3d8bd4; --b2: #dcecfa; --g: #2f9e66; --g2: #dcf3e6; --p: #8a5cd1; --p2: #ece3fa; --y: #e8a512; --y2: #fdf1cf; }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: "Inter", "Segoe UI", Arial, sans-serif; color: var(--ink); background: #e9e6e0; }
-  .sheet { width: 190mm; min-height: 277mm; margin: 10mm auto; background: #fff; padding: 0; position: relative; }
+  .sheet { width: 190mm; min-height: 281mm; margin: 10mm auto; background: #fff; padding: 0; position: relative; }
   .sheet + .sheet { break-before: page; }
   @media print { body { background: #fff; } .sheet { margin: 0; } .noprint { display: none !important; } }
   @media screen and (max-width: 800px) { .sheet { width: auto; min-height: 0; margin: 12px; padding: 4px; } }
@@ -59,155 +59,92 @@
   .thanks { text-align: center; margin-top: 8px; font-weight: 900; font-size: 17px; color: var(--o); }
   .thanks small { display: block; font-weight: 600; font-size: 11px; color: var(--muted); }
   .pg { position: absolute; right: 2px; bottom: 0; font-size: 10px; color: var(--muted); }
+  .tabla { width: 100%; border-collapse: separate; border-spacing: 4px; font-size: 12.5px; }
+  .tabla th { font-size: 11.5px; font-weight: 700; color: var(--ink); text-align: center; padding: 2px; }
+  .tabla th .e { display: block; font-size: 18px; }
+  .tabla td { background: #fff; border: 1.5px solid rgba(0,0,0,.12); border-radius: 10px; text-align: center; padding: 6px 4px; }
+  .tabla td.lbl { text-align: left; font-weight: 700; font-size: 13px; padding-left: 8px; white-space: nowrap; }
+  .tabla td.lbl .e { font-size: 20px; vertical-align: -3px; margin-right: 4px; }
+  .otroline { display: flex; gap: 6px; align-items: center; font-size: 12.5px; font-weight: 600; margin: 4px 4px 0; }
+  .otroline .ln { flex: 1; border-bottom: 2px dotted #9aa3ae; height: 14px; }
+  /* versión de 1 página: más compacta */
+  .op { min-height: 29px; padding: 3px 6px; }
+  .op .e { font-size: 19px; }
+  .face { padding: 3px 4px 4px; } .face .e { font-size: 26px; }
+  .q { padding: 6px 10px 7px; margin-bottom: 6px; }
+  .q h2 { font-size: 15px; margin-bottom: 4px; }
+  .tip { margin: -2px 0 4px 32px; }
+  .ops { gap: 4px; }
+  header { padding: 9px 16px 10px; } header h1 { font-size: 23px; } header .stars { font-size: 32px; }
+  .who { margin: 6px 0 5px; } .field { min-height: 10mm; }
+  .how { padding: 4px 12px; margin-bottom: 6px; }
+  .tabla { border-spacing: 3px; }
+  .tabla th .e { display: inline; font-size: 15px; margin-right: 2px; }
+  .tabla td { padding: 3px 4px; }
+  .idea .row { margin-top: 6px; } .idea { padding: 2px 10px 6px; }
+  .thanks { margin-top: 4px; font-size: 15px; }
 </style>
+
 </head>
 <body>
-<div class="noprint">Encuesta para los niños de Menores A · <button onclick="print()">🖨 Imprimir</button> <span style="color:#6b7686">(A4, 2 páginas · activa «Gráficos de fondo» para los colores)</span></div>
-
-<!-- ===================== PÁGINA 1 ===================== -->
+<div class="noprint">Encuesta para los niños de Menores A · <button onclick="print()">🖨 Imprimir</button> <span style="color:#6b7686">(A4, 1 página · activa «Gráficos de fondo» para los colores)</span></div>
 <section class="sheet">
   <header>
     <span class="stars" aria-hidden="true">⭐</span>
     <h1>¡Tu opinión cuenta!</h1>
     <p>Menores A · Escuela Sabática · Queremos que la clase sea genial para ti</p>
   </header>
-
   <div class="who">
     <div class="field">✏️ Mi nombre:<span class="ln"></span></div>
     <div class="field">📅 Fecha:<span class="ln"></span></div>
   </div>
-
   <div class="how">
-    <span><b>¿Cómo se rellena?</b></span>
     <span><span class="circle"></span> = marca <b>solo una</b></span>
     <span><span class="box"></span> = marca <b>todas las que quieras</b></span>
     <span>✍️ Si no está tu respuesta, escríbela en <b>Otro</b>.</span>
   </div>
 
-  <div class="q o"><h2><span class="num">1</span>¿Cómo te sientes en la clase de Menores A?</h2><p class="tip">Marca solo una</p>
+  <div class="q o"><h2><span class="num">1</span>¿Cómo te sientes en la clase de Menores A?</h2>
     <div class="ops c5">
       <div class="op face"><span class="e">😀</span><span class="t">¡Muy bien!</span><span class="circle"></span></div>
       <div class="op face"><span class="e">🙂</span><span class="t">Bien</span><span class="circle"></span></div>
       <div class="op face"><span class="e">😐</span><span class="t">Regular</span><span class="circle"></span></div>
       <div class="op face"><span class="e">🙁</span><span class="t">No muy bien</span><span class="circle"></span></div>
-      <div class="op face"><span class="e">✍️</span><span class="t">Otro:</span><span class="otro-ln" style="border-bottom:2px dotted #9aa3ae;width:90%;height:12px"></span></div>
+      <div class="op face"><span class="e">✍️</span><span class="t">Otro:</span><span style="border-bottom:2px dotted #9aa3ae;width:90%;height:12px"></span></div>
     </div></div>
 
-  <div class="q b"><h2><span class="num">2</span>Cuando hablas en clase, ¿sientes que te escuchan?</h2><p class="tip">Marca solo una</p>
+  <div class="q g"><h2><span class="num">2</span>¿Qué partes de la clase te gustan más?</h2>
     <div class="ops">
-      <div class="op"><span class="e">👂</span><span class="t">Siempre</span><span class="circle"></span></div>
-      <div class="op"><span class="e">🤔</span><span class="t">A veces</span><span class="circle"></span></div>
-      <div class="op"><span class="e">😶</span><span class="t">Casi nunca</span><span class="circle"></span></div>
-      <div class="op"><span class="e">✍️</span><span class="t">Otro:</span><span class="ln" style="flex:2;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
+      <div class="op"><span class="e">📖</span><span class="t">Historia bíblica</span><span class="box"></span></div><div class="op"><span class="e">🌍</span><span class="t">Historia misionera</span><span class="box"></span></div><div class="op"><span class="e">🎵</span><span class="t">Música y canto</span><span class="box"></span></div><div class="op"><span class="e">🏃</span><span class="t">Juegos con movimiento</span><span class="box"></span></div>
+      <div class="op"><span class="e">✂️</span><span class="t">Manualidades</span><span class="box"></span></div><div class="op"><span class="e">🙏</span><span class="t">Oración</span><span class="box"></span></div><div class="op"><span class="e">🧠</span><span class="t">Aprender el versículo</span><span class="box"></span></div><div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
     </div></div>
 
-  <div class="q g"><h2><span class="num">3</span>¿Qué partes de la clase te gustan más?</h2><p class="tip">Marca todas las que quieras</p>
+  <div class="q p"><h2><span class="num">3</span>¿Qué retos te gustan más?</h2>
     <div class="ops">
-      <div class="op"><span class="e">📖</span><span class="t">Historia bíblica</span><span class="box"></span></div>
-      <div class="op"><span class="e">🌍</span><span class="t">Historia misionera</span><span class="box"></span></div>
-      <div class="op"><span class="e">🎵</span><span class="t">Música y canto</span><span class="box"></span></div>
-      <div class="op"><span class="e">🏃</span><span class="t">Juegos con movimiento</span><span class="box"></span></div>
-      <div class="op"><span class="e">🏆</span><span class="t">Retos por equipos</span><span class="box"></span></div>
-      <div class="op"><span class="e">✂️</span><span class="t">Manualidades</span><span class="box"></span></div>
-      <div class="op"><span class="e">🙏</span><span class="t">Oración</span><span class="box"></span></div>
-      <div class="op"><span class="e">🧠</span><span class="t">Aprender el versículo</span><span class="box"></span></div>
-      <div class="op otro" style="grid-column:span 4"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln"></span></div>
+      <div class="op"><span class="e">❓</span><span class="t">Concurso de preguntas</span><span class="box"></span></div><div class="op"><span class="e">🗺️</span><span class="t">Búsqueda del tesoro</span><span class="box"></span></div><div class="op"><span class="e">🧱</span><span class="t">Construir una maqueta</span><span class="box"></span></div><div class="op"><span class="e">🧠</span><span class="t">Reto de memoria</span><span class="box"></span></div>
+      <div class="op"><span class="e">🏃</span><span class="t">Relevos</span><span class="box"></span></div><div class="op"><span class="e">🎭</span><span class="t">Representar una historia</span><span class="box"></span></div><div class="op"><span class="e">💛</span><span class="t">Ayudar a otros</span><span class="box"></span></div><div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
     </div></div>
 
-  <div class="q p"><h2><span class="num">4</span>¿Qué tipo de retos te gustan más?</h2><p class="tip">Marca todas las que quieras</p>
+  <div class="q y"><h2><span class="num">4</span>Durante la semana, ¿cuántos días…? <small style="font-weight:600;color:#6b7686;font-size:11.5px">Una en cada fila · No hay respuestas buenas ni malas</small></h2>
+    <table class="tabla"><tr><th></th><th><span class="e">🌅</span>Todos los días</th><th><span class="e">📅</span>Casi todos</th><th><span class="e">🗓️</span>Algunos días</th><th><span class="e">⛪</span>Solo el sábado</th><th><span class="e">🙈</span>Casi nunca</th></tr><tr><td class="lbl"><span class="e">🙏</span>Culto en familia</td><td><span class="circle"></span></td><td><span class="circle"></span></td><td><span class="circle"></span></td><td><span class="circle"></span></td><td><span class="circle"></span></td></tr><tr><td class="lbl"><span class="e">📘</span>Estudio mi lección</td><td><span class="circle"></span></td><td><span class="circle"></span></td><td><span class="circle"></span></td><td><span class="circle"></span></td><td><span class="circle"></span></td></tr></table>
+    <div class="otroline">✍️ Otro:<span class="ln"></span></div></div>
+
+  <div class="q b"><h2><span class="num">5</span>¿Hay algo que te cueste un poco? <small style="font-weight:600;color:#6b7686;font-size:11.5px">¡A todos nos cuesta algo!</small></h2>
     <div class="ops">
-      <div class="op"><span class="e">❓</span><span class="t">Concurso de preguntas bíblicas</span><span class="box"></span></div>
-      <div class="op"><span class="e">🗺️</span><span class="t">Búsqueda del tesoro con pistas</span><span class="box"></span></div>
-      <div class="op"><span class="e">🧱</span><span class="t">Construir una maqueta</span><span class="box"></span></div>
-      <div class="op"><span class="e">🧠</span><span class="t">Reto de memoria</span><span class="box"></span></div>
-      <div class="op"><span class="e">🏃</span><span class="t">Relevos y juegos de moverse</span><span class="box"></span></div>
-      <div class="op"><span class="e">🎭</span><span class="t">Representar una historia</span><span class="box"></span></div>
-      <div class="op"><span class="e">💛</span><span class="t">Reto de ayudar a otros</span><span class="box"></span></div>
-      <div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
+      <div class="op"><span class="e">🗣️</span><span class="t">Leer en voz alta</span><span class="box"></span></div><div class="op"><span class="e">😳</span><span class="t">Hablar delante de todos</span><span class="box"></span></div><div class="op"><span class="e">🔎</span><span class="t">Buscar textos en la Biblia</span><span class="box"></span></div><div class="op"><span class="e">🧠</span><span class="t">Memorizar el versículo</span><span class="box"></span></div>
+      <div class="op"><span class="e">👍</span><span class="t">Nada, todo bien</span><span class="box"></span></div><div class="op otro" style="grid-column:span 3"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln"></span></div>
     </div></div>
 
-  <div class="q y"><h2><span class="num">5</span>¿Cómo te gusta más trabajar?</h2><p class="tip">Marca solo una</p>
-    <div class="ops c5">
-      <div class="op"><span class="e">🙋</span><span class="t">Solo</span><span class="circle"></span></div>
-      <div class="op"><span class="e">👫</span><span class="t">En pareja</span><span class="circle"></span></div>
-      <div class="op"><span class="e">👨‍👩‍👧‍👦</span><span class="t">En equipo pequeño</span><span class="circle"></span></div>
-      <div class="op"><span class="e">🫶</span><span class="t">Todos juntos</span><span class="circle"></span></div>
-      <div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
-    </div></div>
-  <div class="q g"><h2><span class="num">6</span>En tu casa, ¿hacéis el culto en familia?</h2><p class="tip">Marca solo una · No hay respuestas buenas ni malas</p>
-    <div class="ops c6">
-      <div class="op"><span class="e">🌅</span><span class="t">Todos los días</span><span class="circle"></span></div>
-      <div class="op"><span class="e">📅</span><span class="t">Casi todos</span><span class="circle"></span></div>
-      <div class="op"><span class="e">🗓️</span><span class="t">Algunos días</span><span class="circle"></span></div>
-      <div class="op"><span class="e">⛪</span><span class="t">Solo el sábado</span><span class="circle"></span></div>
-      <div class="op"><span class="e">🤷</span><span class="t">No solemos</span><span class="circle"></span></div>
-      <div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
-    </div></div>
-  <span class="pg">1 / 2 · ¡Sigue en la otra página! ➜</span>
-</section>
-
-<!-- ===================== PÁGINA 2 ===================== -->
-<section class="sheet">
-  <div class="q y"><h2><span class="num">7</span>¿Estudias tu lección todos los días?</h2><p class="tip">Marca solo una · No hay respuestas buenas ni malas</p>
-    <div class="ops c6">
-      <div class="op"><span class="e">📘</span><span class="t">Todos los días</span><span class="circle"></span></div>
-      <div class="op"><span class="e">📅</span><span class="t">Casi todos</span><span class="circle"></span></div>
-      <div class="op"><span class="e">🗓️</span><span class="t">Algunos días</span><span class="circle"></span></div>
-      <div class="op"><span class="e">⛪</span><span class="t">Solo en la clase</span><span class="circle"></span></div>
-      <div class="op"><span class="e">🙈</span><span class="t">Casi nunca</span><span class="circle"></span></div>
-      <div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
-    </div></div>
-
-  <div class="q o"><h2><span class="num">8</span>¿Hay algo que te cueste un poco?</h2><p class="tip">Marca todas las que quieras. ¡No pasa nada, a todos nos cuesta algo!</p>
+  <div class="q o"><h2><span class="num">6</span>En la subasta, ¿qué premios te gustarían?</h2>
     <div class="ops">
-      <div class="op"><span class="e">🗣️</span><span class="t">Leer en voz alta</span><span class="box"></span></div>
-      <div class="op"><span class="e">😳</span><span class="t">Hablar delante de todos</span><span class="box"></span></div>
-      <div class="op"><span class="e">🔎</span><span class="t">Encontrar los textos en la Biblia</span><span class="box"></span></div>
-      <div class="op"><span class="e">🧠</span><span class="t">Memorizar el versículo</span><span class="box"></span></div>
-      <div class="op"><span class="e">👍</span><span class="t">Nada, todo bien</span><span class="box"></span></div>
-      <div class="op otro" style="grid-column:span 3"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln"></span></div>
+      <div class="op"><span class="e">🎁</span><span class="t">Regalo sorpresa</span><span class="box"></span></div><div class="op"><span class="e">🏅</span><span class="t">Medalla</span><span class="box"></span></div><div class="op"><span class="e">📌</span><span class="t">Pin o chapa</span><span class="box"></span></div><div class="op"><span class="e">📚</span><span class="t">Libro</span><span class="box"></span></div>
+      <div class="op"><span class="e">⭐</span><span class="t">Pegatinas especiales</span><span class="box"></span></div><div class="op"><span class="e">📜</span><span class="t">Diploma o marcapáginas</span><span class="box"></span></div><div class="op"><span class="e">🚌</span><span class="t">Actividad del grupo</span><span class="box"></span></div><div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
     </div></div>
 
-  <div class="q b"><h2><span class="num">9</span>¿Qué te ayudaría a estar más a gusto en clase?</h2><p class="tip">Marca todas las que quieras</p>
-    <div class="ops">
-      <div class="op"><span class="e">🤝</span><span class="t">Trabajar en equipo</span><span class="box"></span></div>
-      <div class="op"><span class="e">🎲</span><span class="t">Más juegos</span><span class="box"></span></div>
-      <div class="op"><span class="e">💬</span><span class="t">Que me pregunten mi opinión</span><span class="box"></span></div>
-      <div class="op"><span class="e">🧑‍🤝‍🧑</span><span class="t">Un compañero que me ayude</span><span class="box"></span></div>
-      <div class="op"><span class="e">❓</span><span class="t">Más tiempo para preguntas</span><span class="box"></span></div>
-      <div class="op"><span class="e">😌</span><span class="t">Un rato más tranquilo</span><span class="box"></span></div>
-      <div class="op otro"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln"></span></div>
-    </div></div>
-
-  <div class="q g"><h2><span class="num">10</span>Las pegatinas, los puntos y la subasta… ¿te animan a participar?</h2><p class="tip">Marca solo una</p>
-    <div class="ops c5">
-      <div class="op"><span class="e">🤩</span><span class="t">¡Mucho!</span><span class="circle"></span></div>
-      <div class="op"><span class="e">🙂</span><span class="t">Un poco</span><span class="circle"></span></div>
-      <div class="op"><span class="e">😐</span><span class="t">Me da igual</span><span class="circle"></span></div>
-      <div class="op"><span class="e">🙁</span><span class="t">No me gustan</span><span class="circle"></span></div>
-      <div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
-    </div></div>
-
-  <div class="q p"><h2><span class="num">11</span>En la subasta, ¿qué premios te gustarían?</h2><p class="tip">Marca todas las que quieras</p>
-    <div class="ops">
-      <div class="op"><span class="e">🎁</span><span class="t">Regalo sorpresa</span><span class="box"></span></div>
-      <div class="op"><span class="e">🏅</span><span class="t">Medalla</span><span class="box"></span></div>
-      <div class="op"><span class="e">📌</span><span class="t">Pin o chapa</span><span class="box"></span></div>
-      <div class="op"><span class="e">📚</span><span class="t">Libro</span><span class="box"></span></div>
-      <div class="op"><span class="e">⭐</span><span class="t">Pegatinas especiales</span><span class="box"></span></div>
-      <div class="op"><span class="e">📜</span><span class="t">Diploma o marcapáginas</span><span class="box"></span></div>
-      <div class="op"><span class="e">🚌</span><span class="t">Actividad especial del grupo</span><span class="box"></span></div>
-      <div class="op"><span class="e">✍️</span><span class="t" style="flex:none">Otro:</span><span class="ln" style="flex:1;border-bottom:2px dotted #9aa3ae;height:15px"></span></div>
-    </div></div>
-
-  <div class="q y"><h2><span class="num">12</span>Si pudieras cambiar o añadir algo a la clase, ¿qué sería?</h2><p class="tip">Escribe lo que quieras</p>
+  <div class="q g"><h2><span class="num">7</span>Si pudieras cambiar o añadir algo a la clase, ¿qué sería?</h2>
     <div class="idea"><div class="row"><span class="ln"></span></div><div class="row"><span class="ln"></span></div></div></div>
 
-  <div class="draw"><span>🎨 Si quieres, dibuja aquí cómo sería tu clase ideal</span></div>
-
-  <p class="thanks">¡Muchas gracias! 💛 Nos ayudas a preparar retos, juegos y premios.
-    <small>Solo las leerán los maestros de Menores A.</small></p>
-  <span class="pg">2 / 2</span>
+  <p class="thanks">¡Muchas gracias! 💛 <small style="display:inline;font-size:11px">Solo las leerán los maestros de Menores A.</small></p>
 </section>
 </body>
 </html>

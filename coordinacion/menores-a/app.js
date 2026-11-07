@@ -374,10 +374,10 @@
   const CARAS = [["4", "¡Muy bien!", "😀"], ["3", "Bien", "🙂"], ["2", "Regular", "😐"], ["1", "No muy bien", "🙁"]];
   const ENC_Q = [
     { id: "siento", t: "¿Cómo te sientes en la clase de Menores A?", tipo: "una", ops: CARAS },
-    { id: "gusta", t: "¿Qué partes de la clase te gustan más?", sub: "Puedes elegir varias", tipo: "varias",
+    { id: "gusta", t: "¿Qué partes de la clase te gustan más?", sub: "Elige tus 2 favoritos", tipo: "varias", max: 2,
       ops: [["historia", "Historia bíblica", "📖"], ["misionero", "Historia misionera", "🌍"], ["musica", "Música y canto", "🎵"], ["juegos", "Juegos con movimiento", "🏃"],
         ["manual", "Manualidades", "✂️"], ["oracion", "Oración", "🙏"], ["versiculo", "Aprender el versículo", "🧠"]] },
-    { id: "retos", t: "¿Qué tipo de retos te gustan más?", sub: "Puedes elegir varias", tipo: "varias",
+    { id: "retos", t: "¿Qué tipo de retos te gustan más?", sub: "Elige tus 2 favoritos", tipo: "varias", max: 2,
       ops: [["concurso", "Concurso de preguntas bíblicas", "❓"], ["tesoro", "Búsqueda del tesoro con pistas", "🗺️"], ["construir", "Construir una maqueta o un objeto", "🧱"],
         ["memoria", "Reto de memoria (versículos)", "🧠"], ["relevos", "Relevos y juegos con movimiento", "🏃"], ["teatro", "Representar una historia", "🎭"], ["servicio", "Reto de ayudar a otros", "💛"]] },
     { id: "culto", t: "En tu casa, ¿hacéis el culto en familia?", sub: "No hay respuestas buenas ni malas", tipo: "una",
@@ -386,7 +386,7 @@
       ops: [["diario", "Todos los días", "📘"], ["casi", "Casi todos", "📅"], ["algunos", "Algunos días", "🗓️"], ["clase", "Solo en la clase", "⛪"], ["nunca", "Casi nunca", "🙈"]] },
     { id: "cuesta", t: "¿Hay algo que te cueste un poco?", sub: "Puedes elegir varias. ¡No pasa nada!", tipo: "varias",
       ops: [["leer", "Leer en voz alta", "🗣️"], ["hablar", "Hablar delante de todos", "😳"], ["buscar", "Encontrar los textos en la Biblia", "🔎"], ["memorizar", "Memorizar el versículo", "🧠"], ["nada", "Nada, todo bien", "👍"]] },
-    { id: "premios", t: "En la subasta, ¿qué premios te gustarían?", sub: "Puedes elegir varias", tipo: "varias",
+    { id: "premios", t: "En la subasta, ¿qué premios te gustarían?", sub: "Elige tus 2 favoritos", tipo: "varias", max: 2,
       ops: [["sorpresa", "Regalo sorpresa", "🎁"], ["medalla", "Medalla", "🏅"], ["pin", "Pin o chapa", "📌"], ["libro", "Libro", "📚"],
         ["sellos", "Pegatinas especiales", "⭐"], ["diploma", "Diploma o marcapáginas", "📜"], ["salida", "Una actividad especial del grupo", "🚌", 1]] },
     { id: "idea", t: "¿Qué cambiarías o añadirías a la clase?", sub: "Opcional. No escribas nombres.", tipo: "texto" },
@@ -653,7 +653,9 @@
     }
     if (d.kv != null && kiosk) {
       const q = ENC_Q[kiosk.i];
-      if (q.tipo === "varias") { const cur = new Set(kiosk.a[q.id] || []); cur.has(d.kv) ? cur.delete(d.kv) : cur.add(d.kv); kiosk.a[q.id] = [...cur]; render(); }
+      if (q.tipo === "varias") { const cur = new Set(kiosk.a[q.id] || []);
+        if (cur.has(d.kv)) cur.delete(d.kv); else if (q.max && cur.size >= q.max) { toast(`Solo ${q.max}: quita uno para elegir otro`); return; } else cur.add(d.kv);
+        kiosk.a[q.id] = [...cur]; render(); }
       else { kiosk.a[q.id] = d.kv; render(); setTimeout(() => { if (kiosk && ENC_Q[kiosk.i] === q) { kiosk.i++; if (kiosk.i >= ENC_Q.length) kioskGuardar(); render(); } }, 350); }
       return;
     }

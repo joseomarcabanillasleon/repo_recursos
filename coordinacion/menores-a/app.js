@@ -368,6 +368,70 @@
       <h2>Lo que hice</h2>${rs.length ? `<ul class="timeline">${rs.map((r) => `<li><b>${esc(fmt(r.fecha))}</b> · ${op(r.op).i} ${esc(op(r.op).n)}${r.com ? ` — ${esc(r.com)}` : ""}</li>`).join("")}</ul>` : `<p class="muted">Todavía no hay reconocimientos este trimestre.</p>`}`;
   };
 
+  /* ---- Encuesta anónima para los niños ----
+     Se responde en clase, por turnos, en el dispositivo del adulto. Sin nombres:
+     cada respuesta se guarda suelta y solo se muestran totales. */
+  const CARAS = [["4", "¡Muy bien!", "😀"], ["3", "Bien", "🙂"], ["2", "Regular", "😐"], ["1", "No muy bien", "🙁"]];
+  const ENC_Q = [
+    { id: "siento", t: "¿Cómo te sientes en la clase de Menores A?", tipo: "una", ops: CARAS },
+    { id: "escuchado", t: "Cuando hablas, ¿sientes que te escuchan?", tipo: "una", ops: [["3", "Siempre", "👂"], ["2", "A veces", "🤔"], ["1", "Casi nunca", "😶"]] },
+    { id: "gusta", t: "¿Qué partes de la clase te gustan más?", sub: "Puedes elegir varias", tipo: "varias",
+      ops: [["historia", "Historia bíblica", "📖"], ["misionero", "Historia misionera", "🌍"], ["musica", "Música y canto", "🎵"], ["juegos", "Juegos con movimiento", "🏃"],
+        ["equipos", "Retos por equipos", "🏆"], ["manual", "Manualidades", "✂️"], ["oracion", "Oración", "🙏"], ["versiculo", "Aprender el versículo", "🧠"]] },
+    { id: "mision", t: "¿Qué misión te gustaría hacer?", sub: "Puedes elegir varias", tipo: "varias", ops: ROLES.map((r) => [r.id, r.n, r.i]) },
+    { id: "cuesta", t: "¿Hay algo que te cueste un poco?", sub: "Puedes elegir varias. ¡No pasa nada!", tipo: "varias",
+      ops: [["leer", "Leer en voz alta", "🗣️"], ["hablar", "Hablar delante de todos", "😳"], ["buscar", "Encontrar los textos en la Biblia", "🔎"], ["memorizar", "Memorizar el versículo", "🧠"], ["nada", "Nada, todo bien", "👍"]] },
+    { id: "ayuda", t: "¿Qué te ayudaría a estar más a gusto?", sub: "Puedes elegir varias", tipo: "varias",
+      ops: [["equipo", "Trabajar en equipo", "🤝"], ["juegos", "Más juegos", "🎲"], ["opinion", "Que me pregunten mi opinión", "💬"], ["companero", "Tener un compañero que me ayude", "🧑‍🤝‍🧑"],
+        ["preguntas", "Más tiempo para preguntas", "❓"], ["tranquilo", "Un rato más tranquilo", "😌"]] },
+    { id: "puntos", t: "Los sellos, los puntos y la subasta… ¿te animan a participar?", tipo: "una", ops: [["4", "¡Mucho!", "🤩"], ["3", "Un poco", "🙂"], ["2", "Me da igual", "😐"], ["1", "No me gustan", "🙁"]] },
+    { id: "idea", t: "¿Qué cambiarías o añadirías a la clase?", sub: "Opcional. No escribas nombres.", tipo: "texto" },
+  ];
+  const enc = () => (S.encuesta = S.encuesta || { rondas: [] });
+  const rondaActual = () => { const e = enc(); if (!e.rondas.length) e.rondas.push({ id: uid(), nombre: "Encuesta " + fmt(todayIso(), { month: "long", year: "numeric" }), fecha: todayIso(), resp: [] }); return e.rondas[e.rondas.length - 1]; };
+  let kiosk = null; // { i: pregunta actual, a: respuestas en curso } o null
+
+  V.encuesta = () => {
+    const e = enc(), r = rondaActual(), n = r.resp.length;
+    const res = ENC_Q.map((q) => {
+      if (q.tipo === "texto") { const xs = r.resp.map((x) => x.a[q.id]).filter(Boolean);
+        return `<div class="card"><h3>${esc(q.t)}</h3>${xs.length ? `<ul class="small">${xs.map((x) => `<li>«${esc(x)}»</li>`).join("")}</ul>` : `<p class="small muted">Sin respuestas.</p>`}</div>`; }
+      const cnt = Object.fromEntries(q.ops.map(([v]) => [v, 0])), quien = r.resp.filter((x) => x.a[q.id] != null && (q.tipo === "una" || x.a[q.id].length)).length;
+      r.resp.forEach((x) => [].concat(x.a[q.id] ?? []).forEach((v) => { if (v in cnt) cnt[v]++; }));
+      return `<div class="card"><h3>${esc(q.t)}</h3><p class="small muted">${quien} de ${n} respondieron${q.tipo === "varias" ? " (podían elegir varias)" : ""}</p>
+        ${q.ops.map(([v, l, i]) => `<div class="encbar"><span>${i} ${esc(l)}</span><div class="bar"><span style="width:${quien ? (cnt[v] / quien) * 100 : 0}%"></span></div><b>${cnt[v]}</b></div>`).join("")}</div>`;
+    }).join("");
+    return `<div class="row between"><h1>Encuesta de los niños</h1><button class="btn btn--pri" id="enc-start">▶ Empezar en este dispositivo</button></div>
+      <p class="muted small">Anónima: los niños responden por turnos en tu móvil o tableta, sin poner su nombre. Aquí solo ves los totales. Dura unos 3 minutos por niño.</p>
+      <div class="card"><div class="row between"><div><h3>${esc(r.nombre)}</h3><p class="small muted">Desde ${esc(fmt(r.fecha, { day: "numeric", month: "long", year: "numeric" }))} · <b>${n}</b> respuesta${n === 1 ? "" : "s"}</p></div>
+        <div class="row"><button class="btn btn--sm" id="enc-csv" ${n ? "" : "disabled"}>⬇ CSV</button><button class="btn btn--sm" id="enc-new">＋ Nueva ronda</button><button class="btn btn--sm" id="enc-del" ${n ? "" : "disabled"}>🗑 Vaciar</button></div></div>
+        ${e.rondas.length > 1 ? `<p class="small muted">Rondas anteriores: ${e.rondas.slice(0, -1).map((x) => `${esc(x.nombre)} (${x.resp.length})`).join(" · ")}</p>` : ""}</div>
+      ${n ? `<p class="small muted" style="margin-top:10px">Con tan pocos niños, no intentes adivinar quién respondió qué: úsalo para ver tendencias y hablar con el grupo.</p><div class="grid g2" style="margin-top:6px">${res}</div>`
+        : `<div class="card" style="margin-top:12px"><p>Aún no hay respuestas. Pulsa <b>Empezar</b> y pasa el dispositivo a cada niño.</p></div>`}`;
+  };
+
+  function vistaKiosk() {
+    const k = kiosk;
+    if (k.i >= ENC_Q.length) return `<div class="kiosk"><div class="kiosk__end"><div style="font-size:72px">🎉</div><h1>¡Gracias!</h1><p>Tu opinión nos ayuda a que la clase sea mejor para todos.</p>
+      <p class="muted">Pasa el dispositivo al siguiente compañero.</p><button class="btn btn--pri kiosk__big" id="k-next-kid">Siguiente compañero ▶</button></div>
+      <button class="btn btn--ghost btn--sm kiosk__exit" id="k-exit">Salir (adulto)</button></div>`;
+    const q = ENC_Q[k.i], a = k.a[q.id];
+    const sel = (v) => (q.tipo === "varias" ? (a || []).includes(v) : a === v);
+    return `<div class="kiosk">
+      <div class="kiosk__top"><span class="small muted">Pregunta ${k.i + 1} de ${ENC_Q.length}</span><div class="bar"><span style="width:${(k.i / ENC_Q.length) * 100}%"></span></div></div>
+      <h1 class="kiosk__q">${esc(q.t)}</h1>${q.sub ? `<p class="muted">${esc(q.sub)}</p>` : ""}
+      ${q.tipo === "texto" ? `<textarea id="k-txt" rows="3" maxlength="140" placeholder="Escribe aquí…">${esc(a || "")}</textarea>`
+        : `<div class="kiosk__ops ${q.ops.length <= 4 ? "kiosk__ops--big" : ""}">${q.ops.map(([v, l, i]) => `<button type="button" class="kop" data-kv="${esc(v)}" aria-pressed="${sel(v)}"><span>${i}</span>${esc(l)}</button>`).join("")}</div>`}
+      <div class="row between kiosk__nav"><button class="btn" id="k-back" ${k.i ? "" : "disabled"}>◀ Atrás</button>
+        <button class="btn btn--pri kiosk__big" id="k-fwd">${k.i === ENC_Q.length - 1 ? "Terminar ✓" : q.tipo === "una" ? "Saltar ▶" : "Siguiente ▶"}</button></div>
+      <button class="btn btn--ghost btn--sm kiosk__exit" id="k-exit">Salir (adulto)</button></div>`;
+  }
+  function kioskGuardar() {
+    const a = kiosk.a, algo = Object.values(a).some((v) => (Array.isArray(v) ? v.length : v));
+    // sin hora y en posición aleatoria: así no se puede deducir quién respondió por el orden
+    if (algo) { const r = rondaActual(); r.resp.splice(Math.floor(Math.random() * (r.resp.length + 1)), 0, { a }); save(); }
+  }
+
   /* ---- Pantalla de bloqueo ---- */
   V.lock = () => `<div class="card lock"><div class="lock__ico">🔒</div><h1>Menores A</h1>
       <p class="muted">Introduce el PIN para ver los datos de la clase.</p>
@@ -524,6 +588,38 @@
         <label class="f">Qué hay que hacer<input type="text" name="d" maxlength="60" value="${esc(o?.d || "")}"></label>
         <label class="f">Criterio<select name="c">${opts(CRIT.map((c) => [c, c]), o?.c || CRIT[0])}</select></label>`);
       if (r?.n) { if (o) Object.assign(o, r); else S.oport.push({ id: uid(), activo: true, ...r }); save(); render(); } return; }
+    if (t.id === "enc-start") { kiosk = { i: 0, a: {} }; render(); window.scrollTo(0, 0); return; }
+    if (t.id === "k-next-kid") { kiosk = { i: 0, a: {} }; render(); return; }
+    if (t.id === "k-back" && kiosk) { kiosk.i = Math.max(0, kiosk.i - 1); render(); return; }
+    if (t.id === "k-fwd" && kiosk) {
+      const q = ENC_Q[kiosk.i]; if (q?.tipo === "texto") kiosk.a[q.id] = ($("#k-txt")?.value || "").trim().slice(0, 140);
+      kiosk.i++; if (kiosk.i >= ENC_Q.length) kioskGuardar(); render(); return;
+    }
+    if (d.kv != null && kiosk) {
+      const q = ENC_Q[kiosk.i];
+      if (q.tipo === "varias") { const cur = new Set(kiosk.a[q.id] || []); cur.has(d.kv) ? cur.delete(d.kv) : cur.add(d.kv); kiosk.a[q.id] = [...cur]; render(); }
+      else { kiosk.a[q.id] = d.kv; render(); setTimeout(() => { if (kiosk && ENC_Q[kiosk.i] === q) { kiosk.i++; if (kiosk.i >= ENC_Q.length) kioskGuardar(); render(); } }, 350); }
+      return;
+    }
+    if (t.id === "k-exit" && kiosk) {
+      const fin = kiosk.i >= ENC_Q.length;
+      if (pinInfo()) {
+        const r = await ask("Salir de la encuesta", `<p class="small">Solo para adultos.${fin ? "" : " Las respuestas a medias de este niño no se guardarán."}</p><label class="f">PIN<input type="password" name="pin" inputmode="numeric" maxlength="8" required></label>`, "Salir");
+        if (!r) return; if (!(await checkPin(r.pin))) return toast("PIN incorrecto");
+      } else if (!confirm(fin ? "¿Salir de la encuesta?" : "¿Salir? Las respuestas a medias de este niño no se guardarán.")) return;
+      kiosk = null; location.hash = "#encuesta"; render(); return;
+    }
+    if (t.id === "enc-new") { const r = await ask("Nueva ronda de encuesta", `<label class="f">Nombre<input type="text" name="nombre" maxlength="60" required value="Encuesta ${esc(fmt(todayIso(), { month: "long", year: "numeric" }))}"></label>
+      <p class="small muted">Las respuestas anteriores se conservan como otra ronda.</p>`, "Crear");
+      if (r?.nombre) { enc().rondas.push({ id: uid(), nombre: r.nombre, fecha: todayIso(), resp: [] }); save(); render(); } return; }
+    if (t.id === "enc-del") { if (confirm("¿Vaciar las respuestas de esta ronda?")) { rondaActual().resp = []; save(); render(); } return; }
+    if (t.id === "enc-csv") {
+      const r = rondaActual(), cols = ENC_Q.map((q) => q.id);
+      const lab = (q, v) => (q.ops ? (q.ops.find((o) => o[0] === v) || [v, v])[1] : v);
+      const rows = [ENC_Q.map((q) => q.t)].concat(r.resp.map((x) => ENC_Q.map((q) => [].concat(x.a[q.id] ?? []).map((v) => lab(q, v)).join(" | "))));
+      const csv = "\ufeff" + rows.map((row) => row.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(";")).join("\n");
+      const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = `encuesta-menoresA-${todayIso()}.csv`; a.click(); URL.revokeObjectURL(a.href); return;
+    }
     if (t.id === "exp") { const b = new Blob([JSON.stringify(S, null, 1)], { type: "application/json" }); const a = document.createElement("a");
       a.href = URL.createObjectURL(b); a.download = `menoresA-copia-${todayIso()}.json`; a.click(); URL.revokeObjectURL(a.href); return; }
     if (t.id === "wipe") { if (confirm("¿Borrar TODOS los datos de este navegador (y el PIN)? Exporta antes una copia si la necesitas.")) { localStorage.removeItem(KEY); localStorage.removeItem(PINKEY); S = blank(); locked = false; render(); toast("Datos borrados"); } return; }
@@ -586,12 +682,14 @@
     const lb = $("#lock-btn"); if (lb) lb.hidden = !pinInfo() || locked;
     $(".nav").hidden = locked;
     if (locked) { app.innerHTML = V.lock(); $(".lock__pin")?.focus(); return; }
+    document.body.classList.toggle("is-kiosk", !!kiosk);
+    if (kiosk) { if (lb) lb.hidden = true; $(".nav").hidden = true; app.innerHTML = vistaKiosk(); return; }
     const [r, arg] = (location.hash.slice(1) || "panel").split("/");
     const view = V[r] || V.panel;
     app.innerHTML = view(arg);
     const sec = r === "evento" ? "eventos" : r === "nino" ? "historial" : r;
     $$(".nav a").forEach((a) => (a.dataset.r === sec ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
   }
-  window.addEventListener("hashchange", () => { claseNino = null; render(); window.scrollTo(0, 0); });
+  window.addEventListener("hashchange", () => { claseNino = null; if (kiosk) return; render(); window.scrollTo(0, 0); });
   render();
 })();

@@ -110,3 +110,22 @@ dialog::backdrop { background: rgba(0,0,0,.4); }
 .toast[hidden] { display: none; }
 .lock form > * { min-width: 0; width: 100%; }
 .lock__pin { letter-spacing: .25em; }
+
+/* encuesta */
+.encbar { display: grid; grid-template-columns: minmax(120px, 1.2fr) 2fr 28px; gap: 8px; align-items: center; font-size: 14px; margin: 6px 0; }
+.encbar b { text-align: right; }
+.is-kiosk .foot, .is-kiosk .brand span { display: none; }
+.kiosk { max-width: 760px; margin: 0 auto; padding: 8px 0 60px; position: relative; min-height: 70vh; }
+.kiosk__top { display: grid; gap: 6px; margin-bottom: 14px; }
+.kiosk__q { font-size: clamp(26px, 5vw, 38px); }
+.kiosk__ops { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); margin: 18px 0; }
+.kiosk__ops--big { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.kop { border: 3px solid var(--line); background: var(--card); border-radius: 18px; padding: 16px 12px; font-size: 18px; font-weight: 700; cursor: pointer; text-align: center; }
+.kop span { display: block; font-size: 44px; line-height: 1.1; margin-bottom: 6px; }
+.kiosk__ops--big .kop span { font-size: 60px; }
+.kop[aria-pressed="true"] { border-color: var(--orange); background: var(--orange-soft); }
+.kiosk textarea { font-size: 20px; margin: 18px 0; }
+.kiosk__nav { margin-top: 10px; }
+.kiosk__big { font-size: 20px; padding: 12px 22px; }
+.kiosk__exit { position: absolute; right: 0; bottom: 0; opacity: .7; }
+.kiosk__end { text-align: center; padding: 8vh 0; }

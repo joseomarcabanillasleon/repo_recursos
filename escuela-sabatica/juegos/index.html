@@ -42,6 +42,7 @@ h1{font-family:var(--type);font-weight:400;margin:0;font-size:46px;line-height:1
 .game .t{font-family:var(--type);font-size:27px;text-align:center;line-height:1.1}
 .game .s{font-family:var(--hand);font-size:29px;color:var(--sepia);text-align:center;line-height:1}
 .go{margin-top:4px;font-family:var(--type);font-size:22px;background:var(--red);color:#fff;padding:12px 26px;border-radius:8px;box-shadow:0 4px 0 var(--red-d)}
+.simple{max-width:900px;margin:18px auto 0;padding:12px 16px;background:#fff8e6;border:2px dashed #9E7B4F;border-radius:10px;color:var(--ink);font-size:18px;text-align:center}.simple a{color:var(--red);font-weight:700}
 #list{position:absolute;right:34px;top:96px;bottom:24px;width:420px;overflow-y:auto;overscroll-behavior:contain;padding:4px 10px 4px 4px}
 .wk{font-family:var(--type);font-size:16px;letter-spacing:1px;color:var(--sepia);margin:12px 0 6px}
 .wk.now{color:var(--red)}
@@ -89,6 +90,8 @@ const cur=dates.find(d=>d>=t)||dates[dates.length-1];
 const icon=g=>`${g.id}/icon-192.png`;
 $("#weekTitle").textContent=(cur===t?"Hoy, sábado ":"Este sábado, ")+fdate(cur);
 $("#feat").innerHTML=GAMES.filter(g=>g.date===cur).map(g=>`<a class="game" href="${g.id}/">${g.caseNo?`<span class="cno">CASO Nº ${g.caseNo}</span>`:""}<span class="seal">CASO<br>ABIERTO</span><span class="kind" style="background:${g.color}">${esc(g.kind.toUpperCase())}</span><img src="${icon(g)}" alt=""><div class="t">${esc(g.cardTitle)}</div><div class="s">${esc(g.cardSub)}</div><span class="go">Jugar ▶</span></a>`).join("");
+const SIMPLE=["leccion-6","mision-kompas"];/* juegos con versión sencilla (sencillo/?caso=id) */
+{const s=GAMES.filter(g=>g.date===cur&&SIMPLE.includes(g.id));if(s.length)$("#feat").insertAdjacentHTML("afterend",`<div class="simple"><b>⚡ Versión sencilla del reto</b> · una pregunta clara por pantalla, por equipos, unos 15 min:${s.map(g=>` <a href="sencillo/?caso=${g.id}">${esc(g.cardTitle)}</a>`).join(" ·")}</div>`);}
 $("#list").innerHTML=dates.map(d=>`<div class="wk ${d===cur?"now":""}">${d===cur?"★ ":""}SÁBADO ${esc(fdate(d).toUpperCase())}</div>`+GAMES.filter(g=>g.date===d).map(g=>`<a class="row ${d<cur?"past":""}" href="${g.id}/"><img src="${icon(g)}" alt=""><div>${g.caseNo?`<div class="n">CASO Nº ${g.caseNo}</div>`:""}<div class="t">${esc(g.cardTitle)}</div><div class="s">${esc(g.kind)}</div></div></a>`).join("")).join("");
 requestAnimationFrame(()=>{const n=document.querySelector(".wk.now");if(n)$("#list").scrollTop=n.offsetTop-110;});
 let rotDismissed=false;

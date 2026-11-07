@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reto sencillo · Escuela Sabática</title>
+<meta name="description" content="Versión sencilla del reto: una pregunta clara por pantalla, por equipos, con la Biblia abierta.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #14223a; --ink: #1d2a3a; --card: #fffaf0; --muted: #6b7686; --ok: #2f9e66; --bad: #d14b3b; --gold: #f5b82e;
+    --a: #3d8bd4; --b: #e8742c; --c: #8a5cd1; --d: #2f9e66; --acc: #2F6F8F; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font-family: "Baloo 2", system-ui, sans-serif; background: radial-gradient(120% 90% at 80% 0%, color-mix(in srgb, var(--acc) 70%, #000) 0%, var(--bg) 70%); color: #fff; overflow: hidden; }
+  #app { position: fixed; inset: 0; display: flex; flex-direction: column; padding: clamp(10px, 2.2vw, 24px); gap: clamp(8px, 1.6vw, 16px); }
+  .top { display: flex; align-items: center; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
+  .tag { background: rgba(255,255,255,.12); border-radius: 99px; padding: 4px 14px; font-weight: 700; font-size: clamp(13px, 1.6vw, 18px); }
+  .scores { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sc { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,.1); border-radius: 99px; padding: 3px 12px 3px 4px; font-weight: 800; font-size: clamp(14px, 1.8vw, 20px); border: 3px solid transparent; }
+  .sc.turn { border-color: var(--gold); background: rgba(245,184,46,.18); }
+  .sc i { font-style: normal; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 18px; }
+  .stage { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: clamp(10px, 2vw, 22px); min-height: 0; }
+  h1 { margin: 0; font-size: clamp(30px, 5.6vw, 72px); line-height: 1.02; text-shadow: 0 3px 0 rgba(0,0,0,.25); }
+  .q { font-size: clamp(24px, 4vw, 52px); font-weight: 800; line-height: 1.12; max-width: 1100px; }
+  .sub { font-size: clamp(16px, 2.2vw, 26px); opacity: .9; max-width: 900px; }
+  .ref { display: inline-flex; gap: 8px; align-items: center; background: var(--card); color: var(--ink); border-radius: 99px; padding: 4px 16px; font-weight: 800; font-size: clamp(15px, 2vw, 24px); }
+  .who { font-size: clamp(18px, 2.4vw, 28px); font-weight: 800; color: var(--gold); }
+  .ops { display: grid; gap: clamp(8px, 1.4vw, 16px); width: min(1100px, 100%); grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .ops.n3 { grid-template-columns: repeat(3, 1fr); } .ops.n2 { grid-template-columns: repeat(2, 1fr); } .ops.n4 { grid-template-columns: repeat(2, 1fr); } }
+  .op { border: 0; border-radius: 20px; padding: clamp(12px, 2vw, 22px) clamp(12px, 1.6vw, 20px); font: inherit; font-weight: 800; font-size: clamp(19px, 2.6vw, 32px); color: #fff; cursor: pointer; display: flex; gap: 12px; align-items: center; text-align: left; line-height: 1.1;
+    box-shadow: 0 6px 0 rgba(0,0,0,.25); transition: transform .12s, opacity .2s; min-height: clamp(64px, 11vh, 120px); }
+  .op:active { transform: translateY(3px); box-shadow: 0 3px 0 rgba(0,0,0,.25); }
+  .op b { flex: none; width: clamp(36px, 4vw, 52px); height: clamp(36px, 4vw, 52px); border-radius: 50%; background: rgba(255,255,255,.25); display: grid; place-items: center; font-size: .9em; }
+  .op:nth-child(1) { background: var(--a); } .op:nth-child(2) { background: var(--b); } .op:nth-child(3) { background: var(--c); } .op:nth-child(4) { background: var(--d); }
+  .op.dim { opacity: .3; } .op.right { background: var(--ok) !important; outline: 5px solid #fff; } .op.wrong { background: var(--bad) !important; }
+  .fb { font-size: clamp(22px, 3.4vw, 42px); font-weight: 800; }
+  .fb.ok { color: #7ff0b4; } .fb.bad { color: #ffb3a8; }
+  .exp { background: var(--card); color: var(--ink); border-radius: 18px; padding: 10px 18px; font-size: clamp(17px, 2.3vw, 28px); max-width: 1000px; font-weight: 600; }
+  .emoji { font-size: clamp(56px, 10vw, 120px); line-height: 1; }
+  .bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .btn { border: 0; border-radius: 16px; padding: 10px 22px; font: inherit; font-weight: 800; font-size: clamp(17px, 2.2vw, 26px); cursor: pointer; background: var(--gold); color: #2b1d00; box-shadow: 0 5px 0 rgba(0,0,0,.25); }
+  .btn.ghost { background: rgba(255,255,255,.14); color: #fff; box-shadow: none; }
+  .btn:disabled { opacity: .35; cursor: default; }
+  .prog { flex: 1; height: 10px; border-radius: 99px; background: rgba(255,255,255,.15); overflow: hidden; max-width: 500px; }
+  .prog span { display: block; height: 100%; background: var(--gold); }
+  .teams { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .pick { border: 3px solid rgba(255,255,255,.3); background: rgba(255,255,255,.08); color: #fff; border-radius: 14px; padding: 8px 18px; font: inherit; font-weight: 800; font-size: clamp(18px, 2.4vw, 28px); cursor: pointer; }
+  .pick[aria-pressed="true"] { border-color: var(--gold); background: rgba(245,184,46,.2); }
+  .verse { background: var(--card); color: var(--ink); border-radius: 22px; padding: clamp(14px, 2.4vw, 28px); font-size: clamp(22px, 3.6vw, 46px); font-weight: 800; line-height: 1.25; max-width: 1100px; }
+  .verse .w { display: inline-block; margin: 0 .12em; transition: all .3s; }
+  .verse .w.hid { color: transparent; background: #e8dfc9; border-radius: 8px; }
+  .podium { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .podium .sc { font-size: clamp(20px, 3vw, 34px); padding: 6px 18px 6px 6px; }
+  .stage.answered .emoji, .stage.answered .ref { display: none; }
+  .stage.answered { gap: clamp(6px, 1.2vw, 12px); }
+  .stage.answered .q { font-size: clamp(20px, 3vw, 38px); }
+  .stage.answered .op { min-height: 0; padding: 8px 14px; font-size: clamp(16px, 2vw, 24px); }
+  .stage.answered .op b { width: 32px; height: 32px; }
+  .help { font-size: clamp(13px, 1.5vw, 16px); opacity: .7; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ================== CONTENIDO DE CADA CASO ==================
+   tipo "q": pregunta con opciones (ok = índice correcto); "todos": pregunta para toda la clase (sin puntos);
+   "accion": momento de moverse; "verso": versículo para memorizar (se van tapando palabras). */
+const CASOS = {
+  "leccion-6": {
+    titulo: "La bitácora del Egeo", sub: "Lección 6 · De vuelta a Jerusalén · Hechos 20 y 21", color: "#2F6F8F",
+    intro: "Viajamos con Pablo y Lucas de Filipos a Jerusalén. ¡Tened la Biblia abierta en Hechos 20!",
+    pasos: [
+      { t: "q", e: "📦", q: "¿Qué llevaba Pablo a Jerusalén?", ops: ["Una ofrenda para los hermanos pobres", "Regalos para el emperador", "Espadas para defenderse"], ok: 0, ref: "Romanos 15:26", exp: "Las iglesias de Macedonia y Grecia enviaban ayuda a los hermanos pobres de Jerusalén." },
+      { t: "q", e: "⛵", q: "¿Cuál de estos amigos NO viajaba con Pablo esta vez?", ops: ["Timoteo", "Aristarco", "Bernabé"], ok: 2, ref: "Hechos 20:4", exp: "Bernabé fue con Pablo en el primer viaje. Esta vez iban Timoteo, Aristarco y otros cinco." },
+      { t: "q", e: "🪔", q: "En Troas, ¿hasta qué hora habló Pablo?", ops: ["Hasta la hora de comer", "Hasta la medianoche", "Solo cinco minutos"], ok: 1, ref: "Hechos 20:7", exp: "Era una cena de despedida y Pablo alargó el discurso hasta la medianoche." },
+      { t: "accion", e: "😴", q: "¡Todos de pie!", sub: "Estiraos y bostezad como si tuvierais muchísimo sueño… y ahora sentaos despacio." },
+      { t: "q", e: "🪟", q: "¿Qué le pasó a Eutico?", ops: ["Se durmió y se cayó desde el tercer piso", "Se perdió en el mercado", "Se fue en otro barco"], ok: 0, ref: "Hechos 20:9", exp: "Se quedó dormido en la ventana y cayó. ¡Estaba muerto!" },
+      { t: "todos", e: "❤️", q: "Pablo bajó y lo abrazó. ¿Qué dijo? ¡Decidlo todos!", resp: "«No os alarméis, pues está vivo.» Dios le devolvió la vida.", ref: "Hechos 20:10" },
+      { t: "q", e: "🥾", q: "Los demás fueron en barco. ¿Cómo fue Pablo hasta Asón?", ops: ["A caballo", "En barco", "Caminando, unos 55 km"], ok: 2, ref: "Hechos 20:13", exp: "Caminó solo: tiempo para orar y hablar con Dios." },
+      { t: "q", e: "🗺️", q: "Mientras caminaba, ¿con qué país soñaba Pablo?", ops: ["España", "China", "Egipto"], ok: 0, ref: "Romanos 15:24", exp: "«Cuando vaya a España, iré a vosotros.» ¡El evangelio llegó hasta aquí!" },
+      { t: "q", e: "📜", q: "En Mileto, ¿quién había dicho: «Más bienaventurado es dar que recibir»?", ops: ["Moisés", "Jesús", "Pedro"], ok: 1, ref: "Hechos 20:35", exp: "Pablo recordó estas palabras del Señor Jesús." },
+      { t: "accion", e: "👈", q: "¡Todos de pie!", sub: "Navegando a Siria, Chipre quedó a la IZQUIERDA del barco (Hechos 21:3). Señalad con el brazo izquierdo." },
+      { t: "q", e: "🏖️", q: "En Tiro, ¿quién fue a despedir a Pablo a la playa?", ops: ["Nadie", "Toda la iglesia, ¡hasta los niños!", "Solo los soldados"], ok: 1, ref: "Hechos 21:5", exp: "Todos, con mujeres y niños, oraron de rodillas en la playa." },
+      { t: "q", e: "🪢", q: "En Cesarea, ¿qué hizo el profeta Ágabo?", ops: ["Le regaló un barco", "Se ató manos y pies con el cinto de Pablo", "Le cantó una canción"], ok: 1, ref: "Hechos 21:11", exp: "Era un aviso: en Jerusalén atarían a Pablo." },
+      { t: "q", e: "🔎", q: "Caso final: ¿por qué siguió Pablo hacia Jerusalén?", ops: ["No sabía lo que le esperaba", "Confiaba en Dios, pasara lo que pasara", "Era cabezota y no escuchaba"], ok: 1, ref: "Hechos 21:13-14", exp: "Le avisaron muchas veces. Lo pensó bien… y confió en Dios." },
+      { t: "todos", e: "💬", q: "Y tú: ¿qué cosa difícil tienes esta semana? ¿Cómo te ayuda saber que Dios va contigo?", resp: "Compartid en parejas durante un minuto." },
+      { t: "verso", ref: "Salmos 46:1", v: "Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones." },
+    ],
+  },
+  "mision-kompas": {
+    titulo: "Cinco años orando", sub: "Misión · Polonia · La historia real de Filip", color: "#DC143C",
+    intro: "Filip es un niño real de Polonia. ¿Os acordáis de su historia?",
+    pasos: [
+      { t: "q", e: "🌍", q: "¿En qué país vive Filip?", ops: ["Croacia", "Polonia", "Finlandia"], ok: 1, exp: "En Polonia. Su capital es Varsovia." },
+      { t: "q", e: "😔", q: "Sus padres ya no vivían juntos. Filip estaba triste y confundido. ¿Qué hacía?", ops: ["Se escondía", "Dejó de ir a la iglesia", "Hablaba con Dios: oraba"], ok: 2, exp: "«Yo oraba.» Y seguía yendo a la Escuela Sabática." },
+      { t: "q", e: "👩", q: "¿Quién le había enseñado que Dios escucha las oraciones?", ops: ["Su mamá", "Su maestro", "Un amigo"], ok: 0, exp: "Su mamá. Y Filip lo creyó." },
+      { t: "q", e: "🌳", q: "¿Cuánto tiempo siguió orando Filip?", ops: ["Una semana", "Un mes", "Cinco años"], ok: 2, exp: "¡Cinco años! Primavera, verano, otoño, invierno… cinco veces." },
+      { t: "accion", e: "🙏", q: "¡Todos!", sub: "Juntad las manos como Filip y contad en voz alta los cinco años: 1, 2, 3, 4, 5." },
+      { t: "q", e: "🏫", q: "Filip hizo otra oración: quería estudiar en Kompas. ¿Cuánto tiempo oró por eso?", ops: ["Un año", "Un día", "Diez años"], ok: 0, exp: "Su papá no estaba convencido. Filip oró un año… y su papá aceptó." },
+      { t: "q", e: "🚗", q: "Viven a 35 km de la escuela. ¿Qué hace su papá mientras Filip está en clase?", ops: ["Se vuelve a casa a dormir", "Espera trabajando con su computadora", "Juega al fútbol"], ok: 1, exp: "Requiere tiempo, esfuerzo y sacrificio. ¡Para Filip vale la pena!" },
+      { t: "q", e: "📖", q: "¿Qué hace la clase de Filip cada mañana?", ops: ["Estudian la Biblia sentados en círculo", "Ven la televisión", "Hacen un examen"], ok: 0, exp: "Para Filip, aprender de Dios forma parte de cada día." },
+      { t: "q", e: "🙌", q: "¿Qué notó su mamá en las oraciones de Filip?", ops: ["Que eran más cortas", "Que se volvieron más maduras", "Que dejó de orar"], ok: 1, exp: "Empezó a orar por cosas por las que nunca había orado." },
+      { t: "q", e: "🔎", q: "Caso final: ¿cuál es la clave de la historia de Filip?", ops: ["Tuvo mucha suerte", "Lo resolvió él solo", "Oró y siguió orando, aunque tardara"], ok: 2, exp: "Dios escucha siempre. Y si no responde como esperamos, sabe qué es lo mejor." },
+      { t: "todos", e: "🏗️", q: "Parte de la ofrenda de este trimestre ampliará las aulas de Kompas. ¿Por qué cosa nueva podemos orar nosotros esta semana?", resp: "Compartid ideas y anotadlas para la oración de la clase." },
+      { t: "verso", ref: "1 Tesalonicenses 5:17", v: "Orad sin cesar." , sus: true },
+    ],
+  },
+};
+const EQUIPOS = [{ n: "Delfines", i: "🐬", c: "#3d8bd4" }, { n: "Gaviotas", i: "🕊️", c: "#e8742c" }, { n: "Pulpos", i: "🐙", c: "#8a5cd1" }, { n: "Tortugas", i: "🐢", c: "#2f9e66" }];
+
+/* ================== MOTOR ================== */
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const id = new URLSearchParams(location.search).get("caso") || "leccion-6";
+const C = CASOS[id];
+const app = $("#app");
+let nT = 2, teams = [], turn = 0, i = -1, state = null, hidden = 0;
+if (C) document.documentElement.style.setProperty("--acc", C.color);
+document.title = C ? `${C.titulo} · Reto sencillo` : "Reto sencillo";
+
+function beep(ok) { try { const a = beep.a || (beep.a = new (window.AudioContext || window.webkitAudioContext)()); const o = a.createOscillator(), g = a.createGain(); o.connect(g); g.connect(a.destination);
+  o.frequency.value = ok ? 880 : 220; g.gain.setValueAtTime(.0001, a.currentTime); g.gain.exponentialRampToValueAtTime(.2, a.currentTime + .02); g.gain.exponentialRampToValueAtTime(.0001, a.currentTime + (ok ? .35 : .5)); o.start(); o.stop(a.currentTime + .6); } catch {} }
+const scores = () => `<div class="scores">${teams.map((t, k) => `<span class="sc ${k === turn && state === "q" ? "turn" : ""}"><i style="background:${t.c}">${t.i}</i>${esc(t.n)} ${t.p}</span>`).join("")}</div>`;
+const topBar = () => `<div class="top"><span class="tag">⭐ ${esc(C.titulo)}</span>${teams.length ? scores() : ""}</div>`;
+const bar = (next = "Siguiente ▶", dis = false) => `<div class="bar"><a class="btn ghost" href="../${id}/">↩ Juego completo</a>
+  <div class="prog"><span style="width:${Math.max(0, (i + 1) / C.pasos.length) * 100}%"></span></div><button class="btn" id="next" ${dis ? "disabled" : ""}>${next}</button></div>`;
+
+function cover() {
+  state = "cover";
+  app.innerHTML = `${topBar()}<div class="stage"><div class="tag">Versión sencilla del reto · unos 15 minutos</div><h1>${esc(C.titulo)}</h1><div class="sub">${esc(C.sub)}</div>
+    <div class="sub">${esc(C.intro)}</div>
+    <div><div class="sub" style="margin-bottom:8px">¿Cuántos equipos?</div><div class="teams">${[2, 3, 4].map((n) => `<button class="pick" data-n="${n}" aria-pressed="${n === nT}">${n} equipos</button>`).join("")}</div></div>
+    <button class="btn" id="go" style="font-size:clamp(22px,3vw,34px);padding:14px 34px">▶ Empezar</button>
+    <div class="help">Una pregunta por pantalla. Responde el equipo que tiene el turno; si falla, puede contestar el siguiente. Teclas: 1–3 para responder, Enter para seguir.</div></div>`;
+}
+function step() {
+  const p = C.pasos[i];
+  if (!p) return fin();
+  if (p.t === "q") {
+    state = "q"; const t = teams[turn];
+    app.innerHTML = `${topBar()}<div class="stage"><div class="emoji">${p.e || "❓"}</div><div class="who">Turno: ${t.i} ${esc(t.n)}</div>
+      <div class="q">${esc(p.q)}</div>${p.ref ? `<span class="ref">📖 ${esc(p.ref)}</span>` : ""}
+      <div class="ops n${p.ops.length}">${p.ops.map((o, k) => `<button class="op" data-k="${k}"><b>${"ABCD"[k]}</b>${esc(o)}</button>`).join("")}</div>
+      <div id="fb" style="min-height:1em"></div></div>${bar("Siguiente ▶", true)}`;
+    p._tries = 0;
+  } else if (p.t === "todos") {
+    state = "todos";
+    app.innerHTML = `${topBar()}<div class="stage"><div class="emoji">${p.e || "💬"}</div><div class="who">Para toda la clase</div><div class="q">${esc(p.q)}</div>
+      ${p.ref ? `<span class="ref">📖 ${esc(p.ref)}</span>` : ""}<div id="fb"><button class="btn ghost" id="show">👀 Ver respuesta</button></div></div>${bar()}`;
+  } else if (p.t === "accion") {
+    state = "accion";
+    app.innerHTML = `${topBar()}<div class="stage"><div class="emoji">${p.e || "🙌"}</div><h1>${esc(p.q)}</h1><div class="q" style="font-weight:700">${esc(p.sub)}</div></div>${bar("¡Hecho! ▶")}`;
+  } else if (p.t === "verso") {
+    state = "verso"; hidden = 0;
+    app.innerHTML = `${topBar()}<div class="stage"><div class="who">📖 Versículo para memorizar · ${esc(p.ref)}</div>
+      <div class="verse" id="verse">${p.v.split(" ").map((w) => `<span class="w">${esc(w)}</span>`).join(" ")}</div>
+      <div class="sub" id="vtip">${p.sus ? "Leedlo juntos: primero en un susurro, luego normal… ¡y luego bien fuerte!" : "Leedlo todos juntos en voz alta."}</div>
+      <button class="btn ghost" id="hide">🙈 Tapar palabras</button></div>${bar()}`;
+  }
+}
+function answer(k) {
+  const p = C.pasos[i]; if (state !== "q" || p._done) return;
+  const btn = document.querySelector(`.op[data-k="${k}"]`); if (!btn || btn.classList.contains("wrong")) return;
+  const t = teams[turn];
+  if (k === p.ok) {
+    p._done = true; const pts = p._tries ? 1 : 2; t.p += pts; beep(true); app.querySelector(".stage").classList.add("answered");
+    document.querySelectorAll(".op").forEach((b) => { b.classList.toggle("right", +b.dataset.k === p.ok); if (+b.dataset.k !== p.ok) b.classList.add("dim"); });
+    $("#fb").innerHTML = `<div class="fb ok">¡Correcto! +${pts} para ${t.i} ${esc(t.n)}</div>${p.exp ? `<div class="exp">${esc(p.exp)}</div>` : ""}`;
+    $("#next").disabled = false; turn = (turn + 1) % teams.length; app.querySelector(".scores").outerHTML = scores();
+  } else {
+    beep(false); btn.classList.add("wrong"); p._tries++;
+    const left = p.ops.length - 1 - p._tries;
+    if (left <= 0 || p._tries >= teams.length) {
+      p._done = true; app.querySelector(".stage").classList.add("answered"); document.querySelectorAll(".op").forEach((b) => { if (+b.dataset.k === p.ok) b.classList.add("right"); else b.classList.add("dim"); });
+      $("#fb").innerHTML = `<div class="fb bad">La respuesta era la ${"ABCD"[p.ok]}.</div>${p.exp ? `<div class="exp">${esc(p.exp)}</div>` : ""}`;
+      $("#next").disabled = false; turn = (turn + 1) % teams.length; app.querySelector(".scores").outerHTML = scores();
+    } else {
+      turn = (turn + 1) % teams.length; const nt = teams[turn];
+      $("#fb").innerHTML = `<div class="fb bad">¡Casi! ${p.ref ? `Mirad ${esc(p.ref)}. ` : ""}Rebote para ${nt.i} ${esc(nt.n)} (+1)</div>`;
+      app.querySelector(".who").textContent = `Turno: ${nt.i} ${nt.n}`; app.querySelector(".scores").outerHTML = scores();
+    }
+  }
+}
+function fin() {
+  state = "fin";
+  const max = Math.max(...teams.map((t) => t.p)), total = teams.reduce((a, t) => a + t.p, 0);
+  app.innerHTML = `${topBar()}<div class="stage"><div class="emoji">🎉</div><h1>¡Caso resuelto!</h1>
+    <div class="podium">${teams.map((t) => `<span class="sc ${t.p === max ? "turn" : ""}"><i style="background:${t.c}">${t.i}</i>${esc(t.n)} ${t.p}</span>`).join("")}</div>
+    <div class="sub">Entre todos habéis sumado <b>${total}</b> puntos para la meta del grupo. ¡Gran trabajo en equipo!</div>
+    <div class="row"><button class="btn" id="again">↻ Jugar otra vez</button></div></div>${bar("Fin", true)}`;
+}
+function next() {
+  if (state === "cover") return start();
+  if (state === "q" && !C.pasos[i]._done) return;
+  i++; step();
+}
+function start() { teams = EQUIPOS.slice(0, nT).map((t) => ({ ...t, p: 0 })); turn = 0; i = 0; C.pasos.forEach((p) => { delete p._done; }); step(); }
+
+app.addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.n) { nT = +b.dataset.n; document.querySelectorAll(".pick").forEach((x) => x.setAttribute("aria-pressed", String(+x.dataset.n === nT))); return; }
+  if (b.id === "go") return start();
+  if (b.dataset.k != null) return answer(+b.dataset.k);
+  if (b.id === "next") return next();
+  if (b.id === "show") { const p = C.pasos[i]; $("#fb").innerHTML = `<div class="exp">${esc(p.resp)}</div>`; return; }
+  if (b.id === "hide") {
+    const ws = [...document.querySelectorAll("#verse .w")]; const vis = ws.filter((w) => !w.classList.contains("hid"));
+    const n = Math.max(1, Math.ceil(ws.length / 3)); vis.sort(() => Math.random() - .5).slice(0, n).forEach((w) => w.classList.add("hid"));
+    $("#vtip").textContent = vis.length - n <= 0 ? "¡Todas tapadas! ¿Quién lo dice entero de memoria?" : "¿Lo decís de memoria? Pulsad otra vez para tapar más.";
+    if (vis.length - n <= 0) b.disabled = true; return;
+  }
+  if (b.id === "again") { i = -1; cover(); }
+});
+addEventListener("keydown", (e) => {
+  if (["1", "2", "3", "4"].includes(e.key)) answer(+e.key - 1);
+  if (e.key === "Enter" || e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); const b = $("#next"); if (state === "cover") start(); else if (b && !b.disabled) next(); }
+});
+
+if (!C) app.innerHTML = `<div class="stage"><h1>Reto no encontrado</h1><p><a href="../">Volver al archivo de casos</a></p></div>`;
+else cover();
+</script>
+</body>
+</html>

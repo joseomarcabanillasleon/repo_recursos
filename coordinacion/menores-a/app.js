@@ -384,6 +384,8 @@
     { id: "agrupa", t: "¿Cómo te gusta más trabajar?", tipo: "una", ops: [["solo", "Solo", "🙋"], ["pareja", "En pareja", "👫"], ["equipo", "En equipo pequeño", "👨‍👩‍👧‍👦"], ["todos", "Todos juntos", "🫶"]] },
     { id: "culto", t: "En tu casa, ¿hacéis el culto en familia?", sub: "No hay respuestas buenas ni malas", tipo: "una",
       ops: [["diario", "Sí, todos los días", "🌅"], ["casi", "Casi todos los días", "📅"], ["algunos", "Algunos días", "🗓️"], ["sabado", "Solo el sábado", "⛪"], ["no", "No solemos hacerlo", "🤷"]] },
+    { id: "leccion", t: "¿Estudias tu lección todos los días?", sub: "No hay respuestas buenas ni malas", tipo: "una",
+      ops: [["diario", "Todos los días", "📘"], ["casi", "Casi todos", "📅"], ["algunos", "Algunos días", "🗓️"], ["clase", "Solo en la clase", "⛪"], ["nunca", "Casi nunca", "🙈"]] },
     { id: "cuesta", t: "¿Hay algo que te cueste un poco?", sub: "Puedes elegir varias. ¡No pasa nada!", tipo: "varias",
       ops: [["leer", "Leer en voz alta", "🗣️"], ["hablar", "Hablar delante de todos", "😳"], ["buscar", "Encontrar los textos en la Biblia", "🔎"], ["memorizar", "Memorizar el versículo", "🧠"], ["nada", "Nada, todo bien", "👍"]] },
     { id: "ayuda", t: "¿Qué te ayudaría a estar más a gusto?", sub: "Puedes elegir varias", tipo: "varias",
@@ -459,6 +461,9 @@
     const cul = cuenta(r, "culto"), culTot = cul.reduce((a, x) => a + x.k, 0), culPoco = cul.filter((x) => ["algunos", "sabado", "no"].includes(x.v)).reduce((a, x) => a + x.k, 0);
     if (culTot) out.push(`<div class="card"><h3>🏠 Culto en familia</h3><p class="small">${culTot - culPoco} de ${culTot} lo hacen todos o casi todos los días.</p>
       ${culPoco ? `<p class="small">Idea: enviar cada semana a las familias un <b>culto de 5 minutos</b> basado en la lección (versículo, pregunta y oración), y proponer un reto voluntario de «culto en casa». Sin puntos ni comparaciones: depende de cada familia.</p>` : `<p class="small">¡Muy bien! Puedes animarlos a compartir en clase lo que aprenden en el culto.</p>`}</div>`);
+    const lec = cuenta(r, "leccion"), lecTot = lec.reduce((a, x) => a + x.k, 0), lecPoco = lec.filter((x) => ["algunos", "clase", "nunca"].includes(x.v)).reduce((a, x) => a + x.k, 0);
+    if (lecTot) out.push(`<div class="card"><h3>📘 Estudio de la lección</h3><p class="small">${lecTot - lecPoco} de ${lecTot} la estudian todos o casi todos los días.</p>
+      ${lecPoco ? `<p class="small">Ideas: dedica 3 minutos al empezar la clase a repasar la lección juntos; da una <b>tarjeta semanal</b> con un mini plan de 5 minutos al día (leer, buscar el texto, una pregunta); y únelo al culto en familia. Que nadie se quede atrás en clase por no haberla estudiado: ten ejemplares de reserva.</p>` : `<p class="small">¡Genial! Puedes darles más protagonismo para dirigir partes de la lección.</p>`}</div>`);
     const sie = cuenta(r, "siento"), mal = sie.filter((x) => +x.v <= 2).reduce((a, x) => a + x.k, 0);
     const pu = cuenta(r, "puntos"), poco = pu.filter((x) => +x.v <= 2).reduce((a, x) => a + x.k, 0);
     const avisos = [];
